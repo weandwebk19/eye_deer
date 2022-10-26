@@ -1,30 +1,38 @@
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
+import { useState } from "react";
 
-const RegisterCard = () => {
+import {
+  Paper,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActionArea,
+  Typography,
+} from "@mui/material";
+
+const RegisterCard = ({ role }) => {
+  const [userRole, setUserRole] = useState(role);
+
   return (
-    <Card sx={{ maxWidth: 200 }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image="/static/images/cards/contemplative-reptile.jpg"
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Lizard
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+    <Paper elevation={6}>
+      <Card
+        sx={{ maxWidth: 200 }}
+        className={`role-card--${role === 0 ? "teacher" : "student"}`}
+      >
+        <CardActionArea>
+          <div className="role-card__header">
+            <Typography variant="h5">{`${
+              role === 0 ? "teacher" : "student"
+            }`}</Typography>
+          </div>
+          <div className="role-card__content">
+            <CardContent>
+              Nửa chỗ này có hình!
+              <br /> Đợi xíu đang design...
+            </CardContent>
+          </div>
+        </CardActionArea>
+      </Card>
+    </Paper>
   );
 };
 
