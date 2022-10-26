@@ -1,0 +1,11 @@
+@import "../../../sassStyles/global";
+
+.role__card {
+  &--teacher {
+    background-color: red !important;
+  }
+
+  &--student {
+    background-color: blue !important;
+  }
+}
