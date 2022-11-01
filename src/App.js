@@ -11,9 +11,7 @@ import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 
 import Register from "./pages/Auth/register";
-import RegisterHome from "./pages/Auth/register/RegisterHome";
-import RegisterBirthdayPage from "./pages/Auth/register/RegisterBirthdayPage";
-import RegisterForm from "./pages/Auth/register/RegisterForm";
+import Login from "./pages/Auth/login";
 
 import Home from "./pages/Home";
 
@@ -26,15 +24,8 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="register/">
-            <Route index={true} element={<RegisterHome />} />
-            <Route
-              index={false}
-              path="birthday"
-              element={<RegisterBirthdayPage />}
-            />
-            <Route index={false} path="form" element={<RegisterForm />} />
-          </Route>
+          <Route path="/register/*" element={<Register/>} />
+          <Route path="/login/*" element={<Login/>} />
         </Routes>
       </Router>
       {/* <Container maxWidth="lg">

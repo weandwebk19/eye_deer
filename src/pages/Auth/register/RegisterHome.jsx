@@ -67,11 +67,11 @@ const RegisterHome = () => {
               <Grid item xs={12} sm={6} md={2.5} key={i}>
                 <Link
                   to={`${
-                    role.id === 1 ? "/register/form" : "/register/birthday"
+                    role.id === 1 ? "/register/user-type" : "/register/birthday"
                   }`}
                   state={{ role: role.id }}
                 >
-                  <RegisterCard role={role.id} />
+                  <RegisterCard cardItem={role} />
                 </Link>
               </Grid>
             );
