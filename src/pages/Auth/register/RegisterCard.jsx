@@ -8,14 +8,14 @@ import {
   Typography,
 } from "@mui/material";
 
-const RegisterCard = ({ role }) => {
+const RegisterCard = ({ cardItem }) => {
   return (
     <Paper elevation={6}>
-      <Card className={`role-card--${role === 1 ? "teacher" : "student"}`}>
+      <Card className={`role-card--${cardItem.name}`}>
         <CardActionArea>
           <div className="role-card__header">
             <Typography variant="h5">{`${
-              role === 1 ? "teacher" : "student"
+              cardItem.name
             }`}</Typography>
           </div>
           <div className="role-card__content">
