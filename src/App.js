@@ -5,6 +5,7 @@ import {
   Link,
   useNavigate,
 } from "react-router-dom";
+import { QueryClient,useQueryClient, QueryClientProvider, useQuery } from "react-query";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
@@ -18,7 +19,10 @@ import Home from "./pages/Home";
 import "./App.scss";
 
 const App = () => {
+  const queryClient = new QueryClient();
+  
   return (
+    <QueryClientProvider client={queryClient}>
     <div className="App">
       <CssBaseline />
       <Router>
@@ -32,6 +36,7 @@ const App = () => {
         <Register />
       </Container> */}
     </div>
+    </QueryClientProvider>
   );
 };
 

@@ -4,8 +4,8 @@ import { useForm } from "react-hook-form";
 
 import axios from "axios";
 
-import RegisterCard from "./RegisterCard";
-import RegisterInstantMessage from "./RegisterInstantMessage";
+// import RegisterCard from "./RegisterCard";
+import InstantMessage from "../../../components/InstantMessage";
 
 import {
   Avatar,
@@ -198,9 +198,9 @@ const RegisterForm = () => {
         </Box>
       </Container>
       {isError === false ? (
-        <RegisterInstantMessage variant={"success"} message={message} />
+        <InstantMessage variant={"success"} message={message} />
       ) : isError === true ? (
-        <RegisterInstantMessage variant={"error"} message={message} />
+        <InstantMessage variant={"error"} message={message} />
       ) : (
         ""
       )}
