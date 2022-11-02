@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { QueryClient,useQueryClient, QueryClientProvider, useQuery } from "react-query";
 import axios from "axios";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 
@@ -13,15 +14,27 @@ const RegisterUserType = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  useEffect(() => {
-    axios
-      .get(
-        `${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/workplace/workplaces`
-      )
-      .then((response) => {
-        setWorkplaces(response.data);
-      });
-  }, []);
+  // const queryClient = new QueryClient();
+  const useWorkplaces = ()=>{
+    return useQuery(["workplace"], async()=>{
+      const {data} = await axios.get(`${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/workplace/workplaces`);
+      return data
+    })
+  }
+  const { isLoading, error, data, isFetching } = useWorkplaces();
+
+  if (isLoading) return "Loading...";
+  if (error) return "An error has occurred: " + error.message;
+
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/workplace/workplaces`
+  //     )
+  //     .then((response) => {
+  //       setWorkplaces(response.data);
+  //     });
+  // }, []);
 
   const handleNavigate = () => {
     const path = "/register/form";
@@ -29,7 +42,6 @@ const RegisterUserType = () => {
   };
 
   return (
-    <>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Box className="register-container" sx={{ flexGrow: 1 }}>
           <main>
@@ -55,25 +67,25 @@ const RegisterUserType = () => {
             justifyContent="center"
             alignItems="center"
           >
-            {workplaces.map((workplace, i) => {
-              return (
-                <Grid item xs={12} sm={6} md={2.5} key={i}>
-                  <Link
-                  to="/register/form"
-                  state={{ workplace: workplace.id }}
-                  >
-                    <RegisterCard cardItem={workplace} />
-                  </Link>
-                </Grid>
-              );
-            })}
+              {data.map((workplace, i) => {
+                return (
+                  <Grid item xs={12} sm={6} md={2.5} key={i}>
+                    <Link
+                    to="/register/form"
+                    state={{ workplace: workplace.id }}
+                    >
+                      <RegisterCard cardItem={workplace} />
+                    </Link>
+                  </Grid>
+                );
+              })}
+              <div>{isFetching ? "Updating..." : ""}</div>
           </Grid>
           <Button variant="contained" onClick={handleNavigate}>
             Other
           </Button>
         </Box>
       </LocalizationProvider>
-    </>
   );
 };
 
