@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+// import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { Box, FormControl, Select, InputLabel, MenuItem, Typography, Button, Grid } from "@mui/material";
 
 const months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov","Dec"];
@@ -19,7 +19,6 @@ const years = Array(100).fill(1923).map((n, i) => {
 });
 
 const RegisterBirthdayPage = () => {
-  //const [birthday, setBirthday] = useState(new Date());
   const [day, setDay] = useState("01");
   const [month, setMonth] = useState("Jan");
   const [year, setYear] = useState("2001");
@@ -32,15 +31,12 @@ const RegisterBirthdayPage = () => {
   };
 
   const handleChangeDay = (e) => {
-    //console.log("Day", e.target.value);
     setDay(e.target.value);
   };
   const handleChangeMonth = (e) => {
-    //console.log("Month", e.target.value);
     setMonth(e.target.value);
   };
   const handleChangeYear = (e) => {
-    //console.log("Year", e.target.value);
     setYear(e.target.value);
   };
   return (
@@ -85,11 +81,11 @@ const RegisterBirthdayPage = () => {
                   labelId="month-select-input-label"
                   id="month-select"
                   label="Month"
-                  value={month?? "Jan"}
-                  onChange={(e) => handleChangeMonth(e)}
+                  value={month}
+                  onChange={handleChangeMonth}
                 >
                   {months.map((element, i) => {
-                    return <MenuItem key={i} value={element??" "}>{element}</MenuItem>
+                    return <MenuItem key={i} value={element}>{element}</MenuItem>
                   })}
                 </Select>
               </FormControl>
@@ -102,11 +98,11 @@ const RegisterBirthdayPage = () => {
                   labelId="day-select-input-label"
                   id="day-select"
                   label="Day"
-                  value={day??"01"}
-                  onChange={(e) => handleChangeDay(e)}
+                  value={day}
+                  onChange={handleChangeDay}
                 >
                   {days.map((element, i) => {
-                    return <MenuItem key={i} value={element?element:"01"}>{element}</MenuItem>
+                    return <MenuItem key={i} value={element}>{element}</MenuItem>
                   })}
                 </Select>
               </FormControl>
@@ -120,10 +116,10 @@ const RegisterBirthdayPage = () => {
                   id="year-select"
                   label="Year"
                   value={year??"2001"}
-                  onChange={(e) => handleChangeYear(e)}
+                  onChange={handleChangeYear}
                 >
                   {years.map((element, i) => {
-                    return <MenuItem key={i} value={element?element:"2001"}>{element}</MenuItem>
+                    return <MenuItem key={i} value={element}>{element}</MenuItem>
                   })}
                 </Select>
               </FormControl>
