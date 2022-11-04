@@ -142,6 +142,11 @@ const LoginForm = () => {
                 </Link>
               </Grid>
             </Grid>
+            <Link
+              href="/auth/google"
+            >
+              Login with Google
+            </Link>
           </Box>
         </Box>
       </Container>
