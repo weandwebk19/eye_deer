@@ -1,15 +1,11 @@
 import {
   BrowserRouter as Router,
   Routes,
-  Route,
-  Link,
-  useNavigate,
+  Route
 } from "react-router-dom";
-import { QueryClient,useQueryClient, QueryClientProvider, useQuery } from "react-query";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 import CssBaseline from "@mui/material/CssBaseline";
-import Grid from "@mui/material/Grid";
-import Container from "@mui/material/Container";
 
 import Register from "./pages/Auth/register";
 import Login from "./pages/Auth/login";

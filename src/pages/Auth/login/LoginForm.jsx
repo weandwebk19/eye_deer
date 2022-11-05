@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../../redux/apiRequest";
 
 import InstantMessage from "../../../components/InstantMessage";
+import GoogleAuthButton from "./GoogleAuthButton";
 
 import {
   Avatar,
@@ -26,33 +27,21 @@ const LoginForm = () => {
   const [isError, setIsError] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    axios
-      .post(
-        `${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/auth/login`,
-        data
-      )
-      .then((response) => {
-        console.log(data);
-        console.log(response);
-        if (response.status === 200) {
-          console.log("success");
-          setMessage("Successfully login! 🤗");
-          setIsError(false);
-          setTimeout(() => {
-            navigate("/");
-          }, 3000);
-        } else {
-          console.log("error");
-          setMessage("Oops! Something went wrong! 😅");
-          setIsError(true);
-        }
-      });
+  const onSubmit = async (data) => {
+    const res = await loginUser(data, dispatch, navigate);
+    if (res) {
+      setMessage("Successfully login! 🤗");
+      setIsError(false);
+    } else {
+      setMessage("Oops! Something went wrong! 😅");
+      setIsError(true);
+    }
   };
 
   useEffect(() => {
@@ -62,6 +51,11 @@ const LoginForm = () => {
       }, 3000);
     }
   }, [isError]);
+
+  // const loginWithGoogle = () => {
+  //   window.open(`${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/auth/google`,
+  //   '_blank', 'toolbar=0,location=0,menubar=0');
+  // }
 
   return (
     <ThemeProvider theme={theme}>
@@ -142,11 +136,7 @@ const LoginForm = () => {
                 </Link>
               </Grid>
             </Grid>
-            <Link
-              href="/auth/google"
-            >
-              Login with Google
-            </Link>
+            <GoogleAuthButton />
           </Box>
         </Box>
       </Container>
