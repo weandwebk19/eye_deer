@@ -1,10 +1,9 @@
 import {
   BrowserRouter as Router,
   Routes,
-  Route,
-  Link,
-  useNavigate,
+  Route
 } from "react-router-dom";
+<<<<<<< HEAD
 import {
   QueryClient,
   useQueryClient,
@@ -13,6 +12,11 @@ import {
 } from "react-query";
 
 import { CssBaseline, ThemeProvider } from "@mui/material";
+=======
+import { QueryClient, QueryClientProvider } from "react-query";
+
+import CssBaseline from "@mui/material/CssBaseline";
+>>>>>>> master
 
 import Register from "./pages/Auth/register";
 import Login from "./pages/Auth/login";

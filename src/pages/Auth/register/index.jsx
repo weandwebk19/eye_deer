@@ -4,6 +4,13 @@ import RegisterHome from "./RegisterHome";
 import RegisterBirthdayPage from "./RegisterBirthdayPage";
 import RegisterForm from "./RegisterForm";
 import RegisterUserType from "./RegisterUserType";
+<<<<<<< HEAD
+=======
+import {
+  Routes,
+  Route
+} from "react-router-dom";
+>>>>>>> master
 
 import "./styles.scss";
 

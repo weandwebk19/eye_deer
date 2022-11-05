@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+<<<<<<< HEAD
 import { useLocation } from "react-router-dom";
 
 import axios from "axios";
@@ -6,6 +7,14 @@ import { useForm } from "react-hook-form";
 
 // import RegisterCard from "./RegisterCard";
 import InstantMessage from "../../../components/Popup/InstantMessage";
+=======
+import { useLocation, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../../redux/apiRequest";
+
+import InstantMessage from "../../../components/InstantMessage";
+>>>>>>> master
 
 import {
   Avatar,
@@ -27,33 +36,33 @@ const RegisterForm = () => {
   const [isError, setIsError] = useState("");
   const [message, setMessage] = useState("");
   const { state } = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     // data.birthday = state.birthday? `${state.birthday.$y}-${state.birthday.$M + 1}-${state.birthday.$D}`: null;
     data.birthday = state.birthday;
     data.roleId = state.role;
-    axios
-      .post(
-        `${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/auth/register`,
-        data
-      )
-      .then((response) => {
-        console.log(data);
-        console.log(response);
-        if (response.status === 201) {
-          console.log("success");
-          setMessage("Successfully register! 🤗");
-          setIsError(false);
-        } else {
-          console.log("error");
-          setMessage("Oops! Something went wrong! 😅");
-          setIsError(true);
-        }
-      });
+    data.workplaceId = state.workplace;
+    const res = await registerUser(data, dispatch, navigate);
+    if(res) {
+      if(res.success === true) {
+        setMessage(res.message);
+        setIsError(false);
+      }
+      else {
+        setMessage(res.message);
+        setIsError(true);
+      }
+    }
+    else {
+      setMessage("Oops! Something went wrong! 😅");
+      setIsError(true);
+    }
   };
 
   useEffect(() => {

@@ -1,9 +1,13 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { useQuery } from "react-query";
 =======
 import { useState, useEffect } from "react";
 import { QueryClient,useQueryClient, QueryClientProvider, useQuery } from "react-query";
 >>>>>>> parent of d1d360f (cleaning some comments)
+=======
+import { useQuery } from "react-query";
+>>>>>>> master
 import axios from "axios";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 
@@ -14,14 +18,18 @@ import { Box, Grid, Typography, Button } from "@mui/material";
 import RegisterCard from "./RegisterCard";
 
 const RegisterUserType = () => {
+<<<<<<< HEAD
+=======
+  //const [workplaces, setWorkplaces] = useState([]);
+>>>>>>> master
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  // const queryClient = new QueryClient();
   const useWorkplaces = ()=>{
     return useQuery(["workplace"], async()=>{
       const {data} = await axios.get(`${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/workplace/workplaces`);
-      return data
+      //setWorkplaces(data);
+      return data;
     })
   }
   const { isLoading, error, data, isFetching } = useWorkplaces();
@@ -29,19 +37,9 @@ const RegisterUserType = () => {
   if (isLoading) return "Loading...";
   if (error) return "An error has occurred: " + error.message;
 
-  // useEffect(() => {
-  //   axios
-  //     .get(
-  //       `${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/workplace/workplaces`
-  //     )
-  //     .then((response) => {
-  //       setWorkplaces(response.data);
-  //     });
-  // }, []);
-
   const handleNavigate = () => {
     const path = "/register/form";
-    navigate(path, { state: { workplace: null, role: state.role } });
+    navigate(path, { state: { workplace: data, role: state.role } });
   };
 
   return (
