@@ -1,10 +1,4 @@
-import { useState, useEffect } from "react";
-import {
-  QueryClient,
-  useQueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "react-query";
+import { useQuery } from "react-query";
 import axios from "axios";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 
@@ -15,7 +9,6 @@ import { Box, Grid, Typography, Button } from "@mui/material";
 import RegisterCard from "./RegisterCard";
 
 const RegisterUserType = () => {
-  const [workplaces, setWorkplaces] = useState([]);
   const navigate = useNavigate();
   const { state } = useLocation();
 

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useForm } from "react-hook-form";
 
 import axios from "axios";
+import { useForm } from "react-hook-form";
 
 // import RegisterCard from "./RegisterCard";
-import InstantMessage from "../../../components/InstantMessage";
+import InstantMessage from "../../../components/Popup/InstantMessage";
 
 import {
   Avatar,

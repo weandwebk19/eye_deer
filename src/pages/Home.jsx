@@ -1,5 +1,7 @@
+import StyledNavigationBar from "../components/Navigation/NavigationBar";
+
 const Home = () => {
-  return <p>Home</p>;
+  return <StyledNavigationBar />;
 };
 
 export default Home;
