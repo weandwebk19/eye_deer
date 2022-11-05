@@ -1,14 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-<<<<<<< HEAD
-=======
-import {
-  Link,
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import RegisterCard from "./RegisterCard";
->>>>>>> master
 
 import { Box, Grid, Typography } from "@mui/material";
 

@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-<<<<<<< HEAD
-=======
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../redux/apiRequest";
 
 import InstantMessage from "../../../components/InstantMessage";
 import GoogleAuthButton from "./GoogleAuthButton";
->>>>>>> master
 
 import {
   Avatar,
@@ -143,11 +140,7 @@ const LoginForm = () => {
                 </Link>
               </Grid>
             </Grid>
-<<<<<<< HEAD
-            <Link href="/auth/google">Login with Google</Link>
-=======
             <GoogleAuthButton />
->>>>>>> master
           </Box>
         </Box>
       </Container>

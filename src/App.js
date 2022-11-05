@@ -1,22 +1,7 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route
-} from "react-router-dom";
-<<<<<<< HEAD
-import {
-  QueryClient,
-  useQueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "react-query";
-
-import { CssBaseline, ThemeProvider } from "@mui/material";
-=======
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import CssBaseline from "@mui/material/CssBaseline";
->>>>>>> master
 
 import Register from "./pages/Auth/register";
 import Login from "./pages/Auth/login";

@@ -1,20 +1,10 @@
 import { useEffect, useState } from "react";
-<<<<<<< HEAD
-import { useLocation } from "react-router-dom";
-
-import axios from "axios";
-import { useForm } from "react-hook-form";
-
-// import RegisterCard from "./RegisterCard";
-import InstantMessage from "../../../components/Popup/InstantMessage";
-=======
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../../redux/apiRequest";
 
 import InstantMessage from "../../../components/InstantMessage";
->>>>>>> master
 
 import {
   Avatar,
@@ -49,17 +39,15 @@ const RegisterForm = () => {
     data.roleId = state.role;
     data.workplaceId = state.workplace;
     const res = await registerUser(data, dispatch, navigate);
-    if(res) {
-      if(res.success === true) {
+    if (res) {
+      if (res.success === true) {
         setMessage(res.message);
         setIsError(false);
-      }
-      else {
+      } else {
         setMessage(res.message);
         setIsError(true);
       }
-    }
-    else {
+    } else {
       setMessage("Oops! Something went wrong! 😅");
       setIsError(true);
     }
