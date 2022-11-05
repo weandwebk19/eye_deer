@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-
-import axios from "axios";
-
-import InstantMessage from "../../../components/InstantMessage";
 
 import {
   Avatar,
@@ -19,6 +15,10 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+import axios from "axios";
+
+import InstantMessage from "../../../components/Popup/InstantMessage";
 
 const theme = createTheme();
 
@@ -97,7 +97,7 @@ const LoginForm = () => {
                   name="username"
                   autoComplete="username"
                   {...register("username", {
-                    required: "Required"
+                    required: "Required",
                   })}
                 />
                 {errors.username && errors.username.message}
@@ -112,7 +112,7 @@ const LoginForm = () => {
                   id="password"
                   autoComplete="new-password"
                   {...register("password", {
-                    required: "Required"
+                    required: "Required",
                   })}
                 />
                 {errors.password && errors.password.message}
@@ -142,11 +142,7 @@ const LoginForm = () => {
                 </Link>
               </Grid>
             </Grid>
-            <Link
-              href="/auth/google"
-            >
-              Login with Google
-            </Link>
+            <Link href="/auth/google">Login with Google</Link>
           </Box>
         </Box>
       </Container>

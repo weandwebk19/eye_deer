@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import {
   Paper,
   Card,
@@ -14,9 +12,7 @@ const RegisterCard = ({ cardItem }) => {
       <Card className={`role-card--${cardItem.name}`}>
         <CardActionArea>
           <div className="role-card__header">
-            <Typography variant="h5">{`${
-              cardItem.name
-            }`}</Typography>
+            <Typography variant="h5">{`${cardItem.name}`}</Typography>
           </div>
           <div className="role-card__content">
             <CardContent>
