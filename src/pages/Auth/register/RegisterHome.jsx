@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
 
 import RegisterCard from "./RegisterCard";
 
 import { Box, Grid, Typography } from "@mui/material";
-
-import RegisterCard from "./RegisterCard";
 
 const RegisterHome = () => {
   const [roles, setRoles] = useState([]);
