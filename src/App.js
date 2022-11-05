@@ -1,8 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,26 +8,29 @@ import Login from "./pages/Auth/login";
 
 import Home from "./pages/Home";
 
+import { appTheme } from "./themes/theme";
 import "./App.scss";
 
 const App = () => {
   const queryClient = new QueryClient();
-  
+
   return (
     <QueryClientProvider client={queryClient}>
-    <div className="App">
-      <CssBaseline />
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register/*" element={<Register/>} />
-          <Route path="/login/*" element={<Login/>} />
-        </Routes>
-      </Router>
-      {/* <Container maxWidth="lg">
+      <ThemeProvider theme={appTheme}>
+        <div className="App">
+          <CssBaseline />
+          <Router>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/register/*" element={<Register />} />
+              <Route path="/login/*" element={<Login />} />
+            </Routes>
+          </Router>
+          {/* <Container maxWidth="lg">
         <Register />
       </Container> */}
-    </div>
+        </div>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 };

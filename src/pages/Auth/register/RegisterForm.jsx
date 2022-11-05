@@ -39,17 +39,15 @@ const RegisterForm = () => {
     data.roleId = state.role;
     data.workplaceId = state.workplace;
     const res = await registerUser(data, dispatch, navigate);
-    if(res) {
-      if(res.success === true) {
+    if (res) {
+      if (res.success === true) {
         setMessage(res.message);
         setIsError(false);
-      }
-      else {
+      } else {
         setMessage(res.message);
         setIsError(true);
       }
-    }
-    else {
+    } else {
       setMessage("Oops! Something went wrong! 😅");
       setIsError(true);
     }

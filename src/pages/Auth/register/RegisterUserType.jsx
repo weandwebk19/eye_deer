@@ -13,13 +13,15 @@ const RegisterUserType = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  const useWorkplaces = ()=>{
-    return useQuery(["workplace"], async()=>{
-      const {data} = await axios.get(`${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/workplace/workplaces`);
+  const useWorkplaces = () => {
+    return useQuery(["workplace"], async () => {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/workplace/workplaces`
+      );
       //setWorkplaces(data);
       return data;
-    })
-  }
+    });
+  };
   const { isLoading, error, data, isFetching } = useWorkplaces();
 
   if (isLoading) return "Loading...";
@@ -31,50 +33,47 @@ const RegisterUserType = () => {
   };
 
   return (
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Box className="register-container" sx={{ flexGrow: 1 }}>
-          <main>
-            {/* Hero unit */}
-            <div>
-              <Typography
-                component="h1"
-                variant="h2"
-                align="center"
-                color="textPrimary"
-                gutterBottom
-              >
-                Describe your workplace
-              </Typography>
-            </div>
-            {/* End hero unit */}
-          </main>
-          <Grid
-            container
-            spacing={{ xs: 2, md: 3 }}
-            columns={{ xs: 4, sm: 8, md: 12 }}
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-          >
-              {data.map((workplace, i) => {
-                return (
-                  <Grid item xs={12} sm={6} md={2.5} key={i}>
-                    <Link
-                    to="/register/form"
-                    state={{ workplace: workplace.id }}
-                    >
-                      <RegisterCard cardItem={workplace} />
-                    </Link>
-                  </Grid>
-                );
-              })}
-              <div>{isFetching ? "Updating..." : ""}</div>
-          </Grid>
-          <Button variant="contained" onClick={handleNavigate}>
-            Other
-          </Button>
-        </Box>
-      </LocalizationProvider>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Box className="register-container" sx={{ flexGrow: 1 }}>
+        <main>
+          {/* Hero unit */}
+          <div>
+            <Typography
+              component="h1"
+              variant="h2"
+              align="center"
+              color="textPrimary"
+              gutterBottom
+            >
+              Describe your workplace
+            </Typography>
+          </div>
+          {/* End hero unit */}
+        </main>
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          columns={{ xs: 4, sm: 8, md: 12 }}
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          {data.map((workplace, i) => {
+            return (
+              <Grid item xs={12} sm={6} md={2.5} key={i}>
+                <Link to="/register/form" state={{ workplace: workplace.id }}>
+                  <RegisterCard cardItem={workplace} />
+                </Link>
+              </Grid>
+            );
+          })}
+          <div>{isFetching ? "Updating..." : ""}</div>
+        </Grid>
+        <Button variant="contained" onClick={handleNavigate}>
+          Other
+        </Button>
+      </Box>
+    </LocalizationProvider>
   );
 };
 
