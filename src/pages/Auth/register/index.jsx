@@ -1,5 +1,3 @@
-import { Routes, Route } from "react-router-dom";
-
 import RegisterHome from "./RegisterHome";
 import RegisterBirthdayPage from "./RegisterBirthdayPage";
 import RegisterForm from "./RegisterForm";

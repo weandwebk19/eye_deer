@@ -1,5 +1,7 @@
+import { useNavigate, useLocation, Link } from "react-router-dom";
+
 import { styled } from "@mui/system";
-import { Box, AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { Box, AppBar, Toolbar, Button } from "@mui/material";
 
 import "./style.scss";
 
@@ -13,20 +15,35 @@ const StyledToolbar = styled(Toolbar)(() => ({
   flexDirection: "row-reverse",
 }));
 
-export default function NavigationBar() {
+const NavigationBar = () => {
+  const navigate = useNavigate();
   return (
     <Box>
       <StyledNavigationBar elevation={0} position="static">
         <StyledToolbar>
-          <Button color="inherit" sx={{ textTransform: "lowercase" }}>
+          <Button
+            color="inherit"
+            sx={{ textTransform: "lowercase" }}
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
             log in
           </Button>
           <span>/</span>
-          <Button color="inherit" sx={{ textTransform: "lowercase" }}>
+          <Button
+            color="inherit"
+            sx={{ textTransform: "lowercase" }}
+            onClick={() => {
+              navigate("/register");
+            }}
+          >
             <b>sign up</b>
           </Button>
         </StyledToolbar>
       </StyledNavigationBar>
     </Box>
   );
-}
+};
+
+export default NavigationBar;
