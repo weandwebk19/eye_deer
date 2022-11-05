@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-import CssBaseline from "@mui/material/CssBaseline";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 
 import Register from "./pages/Auth/register";
 import Login from "./pages/Auth/login";
@@ -26,9 +26,6 @@ const App = () => {
               <Route path="/login/*" element={<Login />} />
             </Routes>
           </Router>
-          {/* <Container maxWidth="lg">
-        <Register />
-      </Container> */}
         </div>
       </ThemeProvider>
     </QueryClientProvider>

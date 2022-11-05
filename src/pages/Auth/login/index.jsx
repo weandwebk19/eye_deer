@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
 import LoginForm from "./LoginForm";
-import { Routes, Route } from "react-router-dom";
 
 import "./styles.scss";
 

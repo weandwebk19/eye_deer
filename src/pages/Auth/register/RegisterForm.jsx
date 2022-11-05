@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../../redux/apiRequest";
 
-import InstantMessage from "../../../components/InstantMessage";
+import InstantMessage from "../../../components/Popup/InstantMessage";
 
 import {
   Avatar,
@@ -60,32 +60,6 @@ const RegisterForm = () => {
       }, 3000);
     }
   }, [isError]);
-
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   const formData = {
-  //     email: data.get("email"),
-  //     username: data.get("username"),
-  //     password: data.get("password"),
-  //   };
-  //   axios
-  //     .post(
-  //       `${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/auth/register`,
-  //       formData
-  //     )
-  //     .then((response) => {
-  //       if (response.status === 201) {
-  //         console.log("success");
-  //         setMessage("Successfully register! 🤗");
-  //         setIsError(false);
-  //       } else {
-  //         console.log("error");
-  //         setMessage("Oops! Something went wrong! 😅");
-  //         setIsError(true);
-  //       }
-  //     });
-  // };
 
   return (
     <ThemeProvider theme={theme}>

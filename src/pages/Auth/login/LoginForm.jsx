@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../redux/apiRequest";
 
-import InstantMessage from "../../../components/InstantMessage";
+import InstantMessage from "../../../components/Popup/InstantMessage";
 import GoogleAuthButton from "./GoogleAuthButton";
 
 import {
@@ -20,10 +20,6 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-import axios from "axios";
-
-import InstantMessage from "../../../components/Popup/InstantMessage";
 
 const theme = createTheme();
 
