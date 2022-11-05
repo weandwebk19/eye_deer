@@ -3,11 +3,8 @@ import RegisterBirthdayPage from "./RegisterBirthdayPage";
 import RegisterForm from "./RegisterForm";
 import RegisterUserType from "./RegisterUserType";
 import {
-  BrowserRouter as Router,
   Routes,
-  Route,
-  Link,
-  useNavigate,
+  Route
 } from "react-router-dom";
 
 import "./styles.scss";

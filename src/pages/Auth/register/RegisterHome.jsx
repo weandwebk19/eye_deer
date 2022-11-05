@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
   Link,
-  useNavigate,
-  Outlet,
 } from "react-router-dom";
 
 import RegisterCard from "./RegisterCard";
