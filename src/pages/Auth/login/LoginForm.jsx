@@ -5,6 +5,14 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "../../../redux/apiRequest";
 
 import InstantMessage from "../../../components/Popup/InstantMessage";
+import StyledPaper from "../../../components/Paper/StyledPaper";
+import { StyleHeadingTypography } from "../../../components/Typography/StyledTypography";
+import StyledPrimaryButton from "../../../components/Button/StyledPrimaryButton";
+import {
+  StyledInputField,
+  customTheme,
+} from "../../../components/Textbox/StyledInputField";
+
 import GoogleAuthButton from "./GoogleAuthButton";
 
 import {
@@ -20,8 +28,6 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-const theme = createTheme();
 
 const LoginForm = () => {
   const [isError, setIsError] = useState("");
@@ -58,23 +64,19 @@ const LoginForm = () => {
   // }
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-        <Box
+        <StyledPaper
           sx={{
             marginTop: 8,
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
+          <StyleHeadingTypography variant="h3" gutterBottom>
+            log in.
+          </StyleHeadingTypography>
           <Box
             component="form"
             noValidate
@@ -83,7 +85,8 @@ const LoginForm = () => {
           >
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <TextField
+                <StyledInputField
+                  className="textfield"
                   required
                   fullWidth
                   id="username"
@@ -97,18 +100,21 @@ const LoginForm = () => {
                 {errors.username && errors.username.message}
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  {...register("password", {
-                    required: "Required",
-                  })}
-                />
+                <ThemeProvider theme={customTheme}>
+                  <StyledInputField
+                    className="textfield"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="new-password"
+                    {...register("password", {
+                      required: "Required",
+                    })}
+                  />
+                </ThemeProvider>
                 {errors.password && errors.password.message}
               </Grid>
 
@@ -132,13 +138,13 @@ const LoginForm = () => {
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="#" variant="body2">
-                  Don't have an account? Sign up
+                  don't have an account? <b>sign up</b>
                 </Link>
               </Grid>
             </Grid>
             <GoogleAuthButton />
           </Box>
-        </Box>
+        </StyledPaper>
       </Container>
       {isError === false ? (
         <InstantMessage variant={"success"} message={message} />
@@ -147,7 +153,7 @@ const LoginForm = () => {
       ) : (
         ""
       )}
-    </ThemeProvider>
+    </>
   );
 };
 
