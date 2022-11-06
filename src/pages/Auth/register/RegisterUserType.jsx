@@ -61,7 +61,7 @@ const RegisterUserType = () => {
           {data.map((workplace, i) => {
             return (
               <Grid item xs={12} sm={6} md={2.5} key={i}>
-                <Link to="/register/form" state={{ workplace: workplace.id }}>
+                <Link to="/register/form" state={{ workplace: workplace.id, role: state.role }}>
                   <RegisterCard cardItem={workplace} />
                 </Link>
               </Grid>

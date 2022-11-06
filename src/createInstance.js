@@ -3,10 +3,11 @@ import jwt_decode from "jwt-decode";
 
 const refreshToken = async () => {
   try {
-    const res = await axios.post(`${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/auth/refresh`,
-    {
+    const instance = axios.create({
       withCredentials: true,
-    });
+      baseURL: `${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}`
+    })
+    const res = instance.post("/auth/refresh");
     return res.data;
   } catch (err) {
     console.log(err);
