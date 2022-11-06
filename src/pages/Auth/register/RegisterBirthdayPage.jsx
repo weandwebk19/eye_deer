@@ -4,19 +4,44 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 // import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { Box, FormControl, Select, InputLabel, MenuItem, Typography, Button, Grid } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  Select,
+  InputLabel,
+  MenuItem,
+  Typography,
+  Button,
+  Grid,
+} from "@mui/material";
 
-const months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov","Dec"];
-const days = Array(31).fill(1).map((n, i) => { 
-  if(n + i < 10) {
-    return `0${n + i}`;
-  }
-  else return `${n + i}`;
-});
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+const days = Array(31)
+  .fill(1)
+  .map((n, i) => {
+    if (n + i < 10) {
+      return `0${n + i}`;
+    } else return `${n + i}`;
+  });
 
-const years = Array(100).fill(1923).map((n, i) => { 
-  return `${n + i}`
-});
+const years = Array(100)
+  .fill(1923)
+  .map((n, i) => {
+    return `${n + i}`;
+  });
 
 const RegisterBirthdayPage = () => {
   const [day, setDay] = useState("01");
@@ -27,7 +52,12 @@ const RegisterBirthdayPage = () => {
 
   const handleNavigate = () => {
     const path = "/register/form";
-    navigate(path, { state: { birthday: new Date(`${month}-${day}-${year}`), role: state.role } });
+    navigate(path, {
+      state: {
+        birthday: new Date(`${month}-${day}-${year}`),
+        role: state.role,
+      },
+    });
   };
 
   const handleChangeDay = (e) => {
@@ -85,7 +115,11 @@ const RegisterBirthdayPage = () => {
                   onChange={handleChangeMonth}
                 >
                   {months.map((element, i) => {
-                    return <MenuItem key={i} value={element}>{element}</MenuItem>
+                    return (
+                      <MenuItem key={i} value={element}>
+                        {element}
+                      </MenuItem>
+                    );
                   })}
                 </Select>
               </FormControl>
@@ -102,7 +136,11 @@ const RegisterBirthdayPage = () => {
                   onChange={handleChangeDay}
                 >
                   {days.map((element, i) => {
-                    return <MenuItem key={i} value={element}>{element}</MenuItem>
+                    return (
+                      <MenuItem key={i} value={element}>
+                        {element}
+                      </MenuItem>
+                    );
                   })}
                 </Select>
               </FormControl>
@@ -115,11 +153,15 @@ const RegisterBirthdayPage = () => {
                   labelId="year-select-input-label"
                   id="year-select"
                   label="Year"
-                  value={year??"2001"}
+                  value={year ?? "2001"}
                   onChange={handleChangeYear}
                 >
                   {years.map((element, i) => {
-                    return <MenuItem key={i} value={element}>{element}</MenuItem>
+                    return (
+                      <MenuItem key={i} value={element}>
+                        {element}
+                      </MenuItem>
+                    );
                   })}
                 </Select>
               </FormControl>

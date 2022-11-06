@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../../redux/apiRequest";
 
-import InstantMessage from "../../../components/InstantMessage";
+import InstantMessage from "../../../components/Popup/InstantMessage";
 
 import {
   Avatar,
@@ -28,28 +28,30 @@ const RegisterForm = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.login.currentUser);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    // data.birthday = state.birthday? `${state.birthday.$y}-${state.birthday.$M + 1}-${state.birthday.$D}`: null;
     data.birthday = state.birthday;
     data.roleId = state.role;
     data.workplaceId = state.workplace;
+    data.email = user?.email;
+    data.picture = user?.picture;
+    data.firstName = user?.given_name;
+    data.lastName = user?.family_name;
     const res = await registerUser(data, dispatch, navigate);
-    if(res) {
-      if(res.success === true) {
+    if (res) {
+      if (res.success === true) {
         setMessage(res.message);
         setIsError(false);
-      }
-      else {
+      } else {
         setMessage(res.message);
         setIsError(true);
       }
-    }
-    else {
+    } else {
       setMessage("Oops! Something went wrong! 😅");
       setIsError(true);
     }
@@ -62,32 +64,6 @@ const RegisterForm = () => {
       }, 3000);
     }
   }, [isError]);
-
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   const formData = {
-  //     email: data.get("email"),
-  //     username: data.get("username"),
-  //     password: data.get("password"),
-  //   };
-  //   axios
-  //     .post(
-  //       `${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/auth/register`,
-  //       formData
-  //     )
-  //     .then((response) => {
-  //       if (response.status === 201) {
-  //         console.log("success");
-  //         setMessage("Successfully register! 🤗");
-  //         setIsError(false);
-  //       } else {
-  //         console.log("error");
-  //         setMessage("Oops! Something went wrong! 😅");
-  //         setIsError(true);
-  //       }
-  //     });
-  // };
 
   return (
     <ThemeProvider theme={theme}>
@@ -128,24 +104,26 @@ const RegisterForm = () => {
                 />
                 {errors.username && errors.username.message}
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  {...register("email", {
-                    required: "Required",
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: "invalid email address",
-                    },
-                  })}
-                />
-                {errors.email && errors.email.message}
-              </Grid>
+              {user.email === undefined ?
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    {...register("email", {
+                      required: "Required",
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: "invalid email address",
+                      },
+                    })}
+                  />
+                  {errors.email && errors.email.message}
+                </Grid>
+              :null}
               <Grid item xs={12}>
                 <TextField
                   required

@@ -1,5 +1,7 @@
+@import "./variables";
+
 body {
-  background-image: url(../assets/imgs/gradient-and-grains.png);
+  background-color: $white !important;
   min-height: 100vh;
   &::-webkit-scrollbar {
     display: none;

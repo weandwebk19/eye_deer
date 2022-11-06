@@ -1,6 +1,9 @@
 //External imports
 import { useEffect, useRef } from 'react';
 import jwt_decode from 'jwt-decode';
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { oAuthLogin } from '../../../redux/apiRequest';
 
 const loadScript = (src) =>
     new Promise((resolve, reject) => {
@@ -13,8 +16,9 @@ const loadScript = (src) =>
 })
 
 const GoogleAuthButton = () => {
-
   const googleButton = useRef(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const src = 'https://accounts.google.com/gsi/client';
@@ -22,7 +26,6 @@ const GoogleAuthButton = () => {
 
     loadScript(src)
       .then(() => {
-        console.log(id)
         /*global google*/
         google.accounts.id.initialize({
           client_id: id,
@@ -40,12 +43,11 @@ const GoogleAuthButton = () => {
       const scriptTag = document.querySelector(`script[src="${src}"]`)
       if (scriptTag) document.body.removeChild(scriptTag)
     }
-  }, [])
+  }, []);
 
   function handleCredentialResponse(response) {
-    console.log("Encoded JWT ID token: " + response.credential);
     const userObj = jwt_decode(response.credential);
-    console.log(userObj);
+    oAuthLogin(userObj, dispatch, navigate);
   }
 
   return (

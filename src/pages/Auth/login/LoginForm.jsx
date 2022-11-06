@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../redux/apiRequest";
 
-import InstantMessage from "../../../components/InstantMessage";
+import InstantMessage from "../../../components/Popup/InstantMessage";
 import GoogleAuthButton from "./GoogleAuthButton";
 
 import {
@@ -52,11 +52,6 @@ const LoginForm = () => {
     }
   }, [isError]);
 
-  // const loginWithGoogle = () => {
-  //   window.open(`${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/auth/google`,
-  //   '_blank', 'toolbar=0,location=0,menubar=0');
-  // }
-
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -73,7 +68,7 @@ const LoginForm = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Sign In
           </Typography>
           <Box
             component="form"
@@ -91,7 +86,7 @@ const LoginForm = () => {
                   name="username"
                   autoComplete="username"
                   {...register("username", {
-                    required: "Required"
+                    required: "Required",
                   })}
                 />
                 {errors.username && errors.username.message}
@@ -106,7 +101,7 @@ const LoginForm = () => {
                   id="password"
                   autoComplete="new-password"
                   {...register("password", {
-                    required: "Required"
+                    required: "Required",
                   })}
                 />
                 {errors.password && errors.password.message}
