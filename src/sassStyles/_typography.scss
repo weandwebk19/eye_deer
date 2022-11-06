@@ -14,248 +14,250 @@
  *
  */
 
-html {
-  font-size: $font-size-base-narrow-px;
-  -webkit-text-size-adjust: 100%;
+@import url("https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:wght@400;600;700&family=Poppins:wght@200;300;700&display=swap");
 
-  @include media(">mid") {
-    font-size: $font-size-base-px;
-  }
-}
+// html {
+//   font-size: $font-size-base-narrow-px;
+//   -webkit-text-size-adjust: 100%;
 
-body {
-  font-family: $font-family-base;
-  @include ko-font-size(base);
-  line-height: $leading-base;
-  color: $color-text;
+//   @include media(">mid") {
+//     font-size: $font-size-base-px;
+//   }
+// }
 
-  // Add ligatures
-  font-feature-settings: "liga", "dlig", "hist";
-  font-variant-ligatures: common-ligatures discretionary-ligatures
-    historical-ligatures;
+// body {
+//   font-family: $font-family-base;
+//   @include ko-font-size(base);
+//   line-height: $leading-base;
+//   color: $color-text;
 
-  // Two ways to smoothen type, they are disabled by default
-  // Enable only one of them if you need them
-  // 1.
-  // -webkit-font-smoothing: antialiased;
-  //    -moz-font-smoothing: antialiased;
-  // font-smooth:always;
+//   // Add ligatures
+//   font-feature-settings: "liga", "dlig", "hist";
+//   font-variant-ligatures: common-ligatures discretionary-ligatures
+//     historical-ligatures;
 
-  // 2.
-  // opacity: 0.99;
-}
+//   // Two ways to smoothen type, they are disabled by default
+//   // Enable only one of them if you need them
+//   // 1.
+//   // -webkit-font-smoothing: antialiased;
+//   //    -moz-font-smoothing: antialiased;
+//   // font-smooth:always;
 
-/**
- * Paragraphs
- */
-p {
-  font-family: $font-family-base;
-  @include ko-font-size(base);
-  margin-top: 0;
-  margin-bottom: $baseline;
+//   // 2.
+//   // opacity: 0.99;
+// }
 
-  // Measure - ideally about 65 chars per line
-  // max-width: #{type(base) * 30}px;
-}
+// /**
+//  * Paragraphs
+//  */
+// p {
+//   font-family: $font-family-base;
+//   @include ko-font-size(base);
+//   margin-top: 0;
+//   margin-bottom: $baseline;
 
-/**
- * Headings
- */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-  font-family: $font-family-headings;
-  font-weight: $font-weight-headings;
-  line-height: $line-height-headings;
-  text-rendering: optimizelegibility; // Fix the character spacing for headings
-  margin-top: 0;
-  margin-bottom: $baseline;
+//   // Measure - ideally about 65 chars per line
+//   // max-width: #{type(base) * 30}px;
+// }
 
-  small {
-    font-weight: normal;
-  }
-}
+// /**
+//  * Headings
+//  */
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6 {
+//   margin: 0;
+//   font-family: $font-family-headings;
+//   font-weight: $font-weight-headings;
+//   line-height: $line-height-headings;
+//   text-rendering: optimizelegibility; // Fix the character spacing for headings
+//   margin-top: 0;
+//   margin-bottom: $baseline;
 
-// Use the helper classes to emulate styles for another element
-// For example: h3.h1 or h3.alpha
-h1,
-.h1,
-.alpha {
-  @include ko-font-size(jumbo);
-  margin-bottom: $baseline * 2;
-}
+//   small {
+//     font-weight: normal;
+//   }
+// }
 
-h2,
-.h2,
-.beta {
-  @include ko-font-size(large);
-}
+// // Use the helper classes to emulate styles for another element
+// // For example: h3.h1 or h3.alpha
+// h1,
+// .h1,
+// .alpha {
+//   @include ko-font-size(jumbo);
+//   margin-bottom: $baseline * 2;
+// }
 
-h3,
-.h3,
-.gamma {
-  @include ko-font-size(mid);
-}
+// h2,
+// .h2,
+// .beta {
+//   @include ko-font-size(large);
+// }
 
-h4,
-.h4,
-.delta {
-  @include ko-font-size(base);
-}
+// h3,
+// .h3,
+// .gamma {
+//   @include ko-font-size(mid);
+// }
 
-h5,
-.h5,
-.epsilon,
-h6,
-.h6,
-.zeta {
-  @include ko-font-size(base);
-  margin-bottom: 0;
-}
+// h4,
+// .h4,
+// .delta {
+//   @include ko-font-size(base);
+// }
 
-// Only give these headings a margin-top if they are after other elements
-* + h1,
-* + .h1,
-* + .alpha,
-* + h2,
-* + .h2,
-* + .beta,
-* + h3,
-* + .h3,
-* + .gamma,
-* + h4,
-* + .h4,
-* + .delta {
-  margin-top: $baseline;
-}
+// h5,
+// .h5,
+// .epsilon,
+// h6,
+// .h6,
+// .zeta {
+//   @include ko-font-size(base);
+//   margin-bottom: 0;
+// }
 
-small {
-  font-size: 80%;
-}
+// // Only give these headings a margin-top if they are after other elements
+// * + h1,
+// * + .h1,
+// * + .alpha,
+// * + h2,
+// * + .h2,
+// * + .beta,
+// * + h3,
+// * + .h3,
+// * + .gamma,
+// * + h4,
+// * + .h4,
+// * + .delta {
+//   margin-top: $baseline;
+// }
 
-/**
- * Miscellaneous
- */
+// small {
+//   font-size: 80%;
+// }
 
-// Emphasis
-strong,
-b {
-  font-weight: $font-weight-bold;
-}
+// /**
+//  * Miscellaneous
+//  */
 
-em,
-i {
-  font-style: italic;
-}
+// // Emphasis
+// strong,
+// b {
+//   font-weight: $font-weight-bold;
+// }
 
-// Abbreviations and acronyms
-abbr[title] {
-  border-bottom: 1px dotted #ddd;
-  cursor: help;
-}
+// em,
+// i {
+//   font-style: italic;
+// }
 
-/**
- * Blockquotes
- */
-blockquote {
-  padding-left: 10px;
-  margin: $baseline;
-  border-left: 4px solid lighten(#000, 80%);
+// // Abbreviations and acronyms
+// abbr[title] {
+//   border-bottom: 1px dotted #ddd;
+//   cursor: help;
+// }
 
-  p {
-    margin-bottom: 0;
-    @include ko-font-size(base);
-    font-weight: 300;
-  }
+// /**
+//  * Blockquotes
+//  */
+// blockquote {
+//   padding-left: 10px;
+//   margin: $baseline;
+//   border-left: 4px solid lighten(#000, 80%);
 
-  small {
-    display: block;
-    color: lighten(#000, 70%);
+//   p {
+//     margin-bottom: 0;
+//     @include ko-font-size(base);
+//     font-weight: 300;
+//   }
 
-    &::before {
-      content: "\2014 \00A0";
-    }
-  }
-}
+//   small {
+//     display: block;
+//     color: lighten(#000, 70%);
 
-// Quotes
-q,
-blockquote {
-  &::before,
-  &::after {
-    content: "";
-  }
-}
+//     &::before {
+//       content: "\2014 \00A0";
+//     }
+//   }
+// }
 
-cite {
-  font-style: normal;
-}
+// // Quotes
+// q,
+// blockquote {
+//   &::before,
+//   &::after {
+//     content: "";
+//   }
+// }
 
-// Addresses styling not present in S5, Chrome
-dfn {
-  font-style: italic;
-}
+// cite {
+//   font-style: normal;
+// }
 
-// Addresses styling not present in IE6/7/8/9
-mark {
-  background: $yellow;
-  padding: 2px 4px;
-  border-radius: 3px;
-}
+// // Addresses styling not present in S5, Chrome
+// dfn {
+//   font-style: italic;
+// }
 
-// Prevents sub and sup affecting line-height in all browsers
-// gist.github.com/413930
-sub,
-sup {
-  font-size: 75%;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline;
-}
+// // Addresses styling not present in IE6/7/8/9
+// mark {
+//   background: $yellow;
+//   padding: 2px 4px;
+//   border-radius: 3px;
+// }
 
-sup {
-  top: -0.5em;
-}
-sub {
-  bottom: -0.25em;
-}
-samp {
-  font-family: $font-family-mono;
-}
+// // Prevents sub and sup affecting line-height in all browsers
+// // gist.github.com/413930
+// sub,
+// sup {
+//   font-size: 75%;
+//   line-height: 0;
+//   position: relative;
+//   vertical-align: baseline;
+// }
 
-/**
- * Utilities
- */
-.text-centre, // British or US English spellings..
-.text-center {
-  text-align: center;
-}
+// sup {
+//   top: -0.5em;
+// }
+// sub {
+//   bottom: -0.25em;
+// }
+// samp {
+//   font-family: $font-family-mono;
+// }
 
-.text-left {
-  text-align: left;
-}
+// /**
+//  * Utilities
+//  */
+// .text-centre, // British or US English spellings..
+// .text-center {
+//   text-align: center;
+// }
 
-.text-right {
-  text-align: right;
-}
+// .text-left {
+//   text-align: left;
+// }
 
-@include ko-text-selection($color-selection, $color-selection-bg);
+// .text-right {
+//   text-align: right;
+// }
 
-// Horizontal rules
-hr {
-  margin: ($baseline) 0;
-  border: 0;
-  height: 1px;
-  background-color: $hr-color;
-}
+// @include ko-text-selection($color-selection, $color-selection-bg);
 
-// https://justmarkup.com/log/2015/07/dealing-with-long-words-in-css/
-.hyphenate {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  hyphens: auto;
-}
+// // Horizontal rules
+// hr {
+//   margin: ($baseline) 0;
+//   border: 0;
+//   height: 1px;
+//   background-color: $hr-color;
+// }
+
+// // https://justmarkup.com/log/2015/07/dealing-with-long-words-in-css/
+// .hyphenate {
+//   overflow-wrap: break-word;
+//   word-wrap: break-word;
+//   hyphens: auto;
+// }
