@@ -107,77 +107,81 @@ const RegisterForm = () => {
             >
               <Grid container columns={{ xs: 4, sm: 8, md: 8 }} spacing={3}>
                 {/* Start: Lastname */}
-                <Grid item xs={8} sm={4} md={4}>
-                  <ThemeProvider theme={customTheme}>
-                    <StyledInputField
-                      variant="light"
-                      fullWidth
-                      id="lastname"
-                      label="last name"
-                      name="lastName"
-                      autoComplete="lastName"
-                      {...register("lastName", {
-                        required: false,
-                        pattern: {
-                          value: /^[a-zA-Z ]*$/i,
-                          message: "wrong format!",
-                        },
-                      })}
-                    />
-                  </ThemeProvider>
-                  {errors.lastName ? (
-                    <>
-                      {errors.lastName.type === "pattern" && (
-                        <div
-                          style={{
-                            color: "darkred",
-                            fontSize: "0.88rem",
-                            position: "absolute",
-                          }}
-                        >
-                          {errors.lastName.message}
-                        </div>
-                      )}
-                    </>
-                  ) : null}
-                </Grid>
+                {user?.family_name === undefined ? (
+                  <Grid item xs={8} sm={4} md={4}>
+                    <ThemeProvider theme={customTheme}>
+                      <StyledInputField
+                        variant="light"
+                        fullWidth
+                        id="lastname"
+                        label="last name"
+                        name="lastName"
+                        autoComplete="lastName"
+                        {...register("lastName", {
+                          required: false,
+                          pattern: {
+                            value: /^[a-zA-Z ]*$/i,
+                            message: "wrong format!",
+                          },
+                        })}
+                      />
+                    </ThemeProvider>
+                    {errors.lastName ? (
+                      <>
+                        {errors.lastName.type === "pattern" && (
+                          <div
+                            style={{
+                              color: "darkred",
+                              fontSize: "0.88rem",
+                              position: "absolute",
+                            }}
+                          >
+                            {errors.lastName.message}
+                          </div>
+                        )}
+                      </>
+                    ) : null}
+                  </Grid>
+                ) : null}
                 {/* End: lastname */}
 
                 {/* Start: firstname */}
-                <Grid item xs={8} sm={4} md={4}>
-                  <ThemeProvider theme={customTheme}>
-                    <StyledInputField
-                      variant="light"
-                      fullWidth
-                      id="firstname"
-                      label="first name"
-                      name="firstName"
-                      autoComplete="firstName"
-                      {...register("firstName", {
-                        required: false,
-                        pattern: {
-                          value: /^[a-zA-Z ]*$/i,
-                          message: "wrong format!",
-                        },
-                      })}
-                    />
-                  </ThemeProvider>
-                  {errors.firstName ? (
-                    <>
-                      {errors.firstName.type === "pattern" && (
-                        <div
-                          style={{
-                            color: "darkred",
-                            fontSize: "0.88rem",
-                            position: "absolute",
-                          }}
-                        >
-                          {errors.firstName.message}
-                        </div>
-                      )}
-                    </>
-                  ) : null}
-                </Grid>
+                {user?.given_name === undefined ? (
+                  <Grid item xs={8} sm={4} md={4}>
+                    <ThemeProvider theme={customTheme}>
+                      <StyledInputField
+                        variant="light"
+                        fullWidth
+                        id="firstname"
+                        label="first name"
+                        name="firstName"
+                        autoComplete="firstName"
+                        {...register("firstName", {
+                          required: false,
+                          pattern: {
+                            value: /^[a-zA-Z ]*$/i,
+                            message: "wrong format!",
+                          },
+                        })}
+                      />
+                    </ThemeProvider>
+                    {errors.firstName ? (
+                      <>
+                        {errors.firstName.type === "pattern" && (
+                          <div
+                            style={{
+                              color: "darkred",
+                              fontSize: "0.88rem",
+                              position: "absolute",
+                            }}
+                          >
+                            {errors.firstName.message}
+                          </div>
+                        )}
+                      </>
+                    ) : null}
+                  </Grid>
+                ) : null}
                 {/* End: firstname */}
 
                 {/* Start: username */}
@@ -227,53 +231,55 @@ const RegisterForm = () => {
                 {/* End: username */}
 
                 {/* Start: email */}
-                <Grid item xs={8} sm={8} md={8}>
-                  <ThemeProvider theme={customTheme}>
-                    <StyledInputField
-                      variant="light"
-                      required
-                      fullWidth
-                      id="email"
-                      label="email"
-                      type="email"
-                      name="email"
-                      autoComplete="email"
-                      {...register("email", {
-                        required: "required",
-                        pattern: {
-                          value: /^\S+@\S+$/i,
-                          message: "invalid email address",
-                        },
-                      })}
-                    />
-                  </ThemeProvider>
-                  {errors.email ? (
-                    <>
-                      {errors.email.type === "required" && (
-                        <div
-                          style={{
-                            color: "darkred",
-                            fontSize: "0.88rem",
-                            position: "absolute",
-                          }}
-                        >
-                          {errors.email.message}
-                        </div>
-                      )}
-                      {errors.email.type === "pattern" && (
-                        <div
-                          style={{
-                            color: "darkred",
-                            fontSize: "0.88rem",
-                            position: "absolute",
-                          }}
-                        >
-                          {errors.email.message}
-                        </div>
-                      )}
-                    </>
-                  ) : null}
-                </Grid>
+                {user?.email === undefined ? (
+                  <Grid item xs={8} sm={8} md={8}>
+                    <ThemeProvider theme={customTheme}>
+                      <StyledInputField
+                        variant="light"
+                        required
+                        fullWidth
+                        id="email"
+                        label="email"
+                        type="email"
+                        name="email"
+                        autoComplete="email"
+                        {...register("email", {
+                          required: "required",
+                          pattern: {
+                            value: /^\S+@\S+$/i,
+                            message: "invalid email address",
+                          },
+                        })}
+                      />
+                    </ThemeProvider>
+                    {errors.email ? (
+                      <>
+                        {errors.email.type === "required" && (
+                          <div
+                            style={{
+                              color: "darkred",
+                              fontSize: "0.88rem",
+                              position: "absolute",
+                            }}
+                          >
+                            {errors.email.message}
+                          </div>
+                        )}
+                        {errors.email.type === "pattern" && (
+                          <div
+                            style={{
+                              color: "darkred",
+                              fontSize: "0.88rem",
+                              position: "absolute",
+                            }}
+                          >
+                            {errors.email.message}
+                          </div>
+                        )}
+                      </>
+                    ) : null}
+                  </Grid>
+                ) : null}
                 {/* End: email */}
 
                 {/* Start: Password */}
