@@ -14,7 +14,6 @@ import StyledPrimaryButton from "../../../components/Button/StyledPrimaryButton"
 import Gradient1 from "../../../assets/imgs/gradient.png";
 
 const RegisterUserType = () => {
-  //const [workplaces, setWorkplaces] = useState([]);
   const navigate = useNavigate();
   const { state } = useLocation();
 
@@ -23,7 +22,6 @@ const RegisterUserType = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/workplace/workplaces`
       );
-      //setWorkplaces(data);
       return data;
     });
   };
@@ -83,7 +81,7 @@ const RegisterUserType = () => {
                     <Grid item xs={2} sm={4} md={3} key={i}>
                       <Link
                         to="/register/form"
-                        state={{ workplace: workplace.id }}
+                        state={{ workplace: workplace.id, role: state.role }}
                         key={i}
                       >
                         <RegisterCard cardItem={workplace} />

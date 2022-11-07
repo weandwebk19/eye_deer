@@ -4,10 +4,11 @@ import { Helmet } from "react-helmet";
 
 import { CssBaseline, ThemeProvider } from "@mui/material";
 
+import PrivateRoute from "./routes/PrivateRoute";
 import Register from "./pages/Auth/register";
 import Login from "./pages/Auth/login";
-
 import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 import { appTheme } from "./themes/theme";
 import "./App.scss";
@@ -28,6 +29,9 @@ const App = () => {
           <Router>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route exact path="/dashboard" element={<PrivateRoute />}>
+                <Route exact path="/dashboard" element={<Dashboard />} />
+              </Route>
               <Route path="/register/*" element={<Register />} />
               <Route path="/login/*" element={<Login />} />
             </Routes>
