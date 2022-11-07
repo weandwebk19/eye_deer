@@ -4,12 +4,16 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { Box, Grid, Typography, Button } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 
 import RegisterCard from "./RegisterCard";
 
+import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
+import StyledPrimaryButton from "../../../components/Button/StyledPrimaryButton";
+
+import Gradient1 from "../../../assets/imgs/gradient.png";
+
 const RegisterUserType = () => {
-  //const [workplaces, setWorkplaces] = useState([]);
   const navigate = useNavigate();
   const { state } = useLocation();
 
@@ -18,7 +22,6 @@ const RegisterUserType = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/workplace/workplaces`
       );
-      //setWorkplaces(data);
       return data;
     });
   };
@@ -34,44 +37,66 @@ const RegisterUserType = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Box className="register-container" sx={{ flexGrow: 1 }}>
-        <main>
-          {/* Hero unit */}
-          <div>
-            <Typography
+      <Box
+        sx={{
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <Container
+          component="main"
+          maxWidth="md"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "100vh",
+          }}
+        >
+          <Box className="register-container">
+            <StyledHeadingTypography
+              className="register-typo"
               component="h1"
-              variant="h2"
+              variant="h3"
               align="center"
               color="textPrimary"
               gutterBottom
             >
-              Describe your workplace
-            </Typography>
-          </div>
-          {/* End hero unit */}
-        </main>
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-        >
-          {data.map((workplace, i) => {
-            return (
-              <Grid item xs={12} sm={6} md={2.5} key={i}>
-                <Link to="/register/form" state={{ workplace: workplace.id }}>
-                  <RegisterCard cardItem={workplace} />
-                </Link>
+              describe your workplace.
+            </StyledHeadingTypography>
+            <img src={Gradient1} alt="deco gradient" className="deco-img-1" />
+            <Box sx={{ mt: 8 }}>
+              <Grid
+                container
+                columns={{ xs: 4, sm: 8, md: 12 }}
+                // spacing={{ xs: 2, sm: 2, md: 3 }}
+                mx="auto"
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+              >
+                {data.map((workplace, i) => {
+                  return (
+                    <Grid item xs={2} sm={4} md={3} key={i}>
+                      <Link
+                        to="/register/form"
+                        state={{ workplace: workplace.id, role: state.role }}
+                        key={i}
+                      >
+                        <RegisterCard cardItem={workplace} />
+                      </Link>
+                    </Grid>
+                  );
+                })}
+                <div>{isFetching ? "Updating..." : ""}</div>
               </Grid>
-            );
-          })}
-          <div>{isFetching ? "Updating..." : ""}</div>
-        </Grid>
-        <Button variant="contained" onClick={handleNavigate}>
-          Other
-        </Button>
+            </Box>
+          </Box>
+          <StyledPrimaryButton sx={{ width: "200px" }} onClick={handleNavigate}>
+            Other
+          </StyledPrimaryButton>
+        </Container>
       </Box>
     </LocalizationProvider>
   );
