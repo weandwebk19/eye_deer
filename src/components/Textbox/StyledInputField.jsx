@@ -3,27 +3,47 @@ import { TextField, createTheme, ThemeProvider } from "@mui/material";
 
 export const customTheme = createTheme({
   components: {
-    MyThemeComponent: {
-      styleOverrides: {
-        root: {
-          color: "#292929",
+    StyledInputField: {
+      variants: [
+        {
+          props: { variant: "light" },
+          style: {
+            background: "#fafafa",
+          },
         },
-        variants: [
-          {
-            props: { variant: "dashed", color: "primary" },
-            style: {
-              border: "1px dashed darkblue",
-            },
-          },
-          {
-            props: { variant: "dashed", color: "secondary" },
-            style: {
-              border: "1px dashed darkred",
-            },
-          },
-        ],
-      },
+      ],
+      // defaultProps: {
+      //   variant: "outlined",
+      //   fullWidth: true,
+      //   sx: { mb: 2 },
+      // },
+      // styleOverrides: {
+      //   root: {
+      //     "&.subvariant-hovered": {
+      //       "& fieldset": {
+      //         background: "#fafafa",
+      //       },
+      //     },
+      //   },
+      // },
     },
+  },
+  palette: {
+    primary: {
+      main: "#292929",
+      light: "#424242",
+      dark: "#101010",
+      contrastText: "#e6e6e6",
+    },
+    secondary: {
+      main: "#e6e6e6",
+      light: "#fafafa",
+      dark: "#bdbdbd",
+      contrastText: "#292929",
+    },
+  },
+  typography: {
+    fontFamily: "'Poppins', 'sans-serif'",
   },
 });
 
@@ -47,7 +67,6 @@ export const StyledInputField = styled(TextField, {
     & fieldset {
       border-color: ${theme.palette.primary.main};
       border-radius: 0;
-      transition: 0.2s;
     }
     &.Mui-focused fieldset {
       border-color: ${theme.palette.primary.light};

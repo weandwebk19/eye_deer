@@ -4,7 +4,11 @@ import axios from "axios";
 
 import RegisterCard from "./RegisterCard";
 
-import { Box, Grid, Typography } from "@mui/material";
+import { Container, Box, Grid, Link as MuiLink } from "@mui/material";
+
+import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
+
+import Gradient1 from "../../../assets/imgs/gradient.png";
 
 const RegisterHome = () => {
   const [roles, setRoles] = useState([]);
@@ -20,58 +24,87 @@ const RegisterHome = () => {
   }, []);
 
   return (
-    <>
-      <Box className="register-container" sx={{ flexGrow: 1 }}>
-        <main>
-          {/* Hero unit */}
-          <div>
-            <Typography
-              component="h1"
-              variant="h2"
-              align="center"
-              color="textPrimary"
-              gutterBottom
+    <Box className="register-background">
+      <Container
+        component="main"
+        maxWidth="md"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+        }}
+      >
+        <Box className="register-container">
+          {/* <Box sx={{ isolation: "isolate" }}> */}
+          <StyledHeadingTypography
+            className="register-typo"
+            component="h1"
+            variant="h3"
+            align="center"
+            color="textPrimary"
+            gutterBottom
+          >
+            choose your account type.
+          </StyledHeadingTypography>
+          <img src={Gradient1} alt="deco gradient" className="deco-img-1" />
+
+          {/* </Box> */}
+          <Box sx={{ mt: 8 }}>
+            <Grid
+              container
+              columns={{ xs: 4, sm: 8, md: 12 }}
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
             >
-              Choose your account type
-            </Typography>
-            <Typography
-              variant="h6"
-              align="center"
-              color="textSecondary"
-              component="p"
+              {roles.map((role, i) => {
+                return (
+                  <Grid
+                    item
+                    xs={2}
+                    sm={4}
+                    md={6}
+                    key={i}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Link
+                      to={`${
+                        role.id === 1
+                          ? "/register/user-type"
+                          : "/register/birthday"
+                      }`}
+                      state={{ role: role.id }}
+                    >
+                      <RegisterCard cardItem={role} />
+                    </Link>
+                  </Grid>
+                );
+              })}
+            </Grid>
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="flex-end"
+              sx={{ mt: 6 }}
             >
-              The Alpha Deer is Teacher
-              <br />
-              The Deer is Student
-            </Typography>
-          </div>
-          {/* End hero unit */}
-        </main>
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-        >
-          {roles.map((role, i) => {
-            return (
-              <Grid item xs={12} sm={6} md={2.5} key={i}>
-                <Link
-                  to={`${
-                    role.id === 1 ? "/register/user-type" : "/register/birthday"
-                  }`}
-                  state={{ role: role.id }}
+              <Grid item>
+                <MuiLink
+                  href="/login"
+                  variant="body2"
+                  sx={{ background: "#e6e6e6", padding: "0 2px" }}
                 >
-                  <RegisterCard cardItem={role} />
-                </Link>
+                  already have an account? <b>login</b>
+                </MuiLink>
               </Grid>
-            );
-          })}
-        </Grid>
-      </Box>
-    </>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+    </Box>
   );
 };
 

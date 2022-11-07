@@ -1,7 +1,40 @@
 @import "../../../sassStyles/global";
 @import "../../../sassStyles/variables";
+@import "../../../sassStyles/minixs";
+
+.workplace-card,
+.role-card {
+  @include desktop {
+    width: 180px;
+    height: 253px;
+  }
+  @include tablet {
+    width: 180px;
+    height: 253px;
+  }
+  @include mobile {
+    width: 160px !important;
+    height: 233px !important;
+  }
+}
+
+.workplace-card {
+  &--1 {
+    background-color: $primary-color !important;
+  }
+  &--2 {
+    background-color: $primary-color-dark1 !important;
+  }
+  &--3 {
+    background-color: $primary-color-dark2 !important;
+  }
+  &--4 {
+    background-color: $primary-color-dark3 !important;
+  }
+}
 
 .role-card {
+  margin: 12px;
   &--teacher {
     background-color: $primary-color !important;
   }
@@ -9,29 +42,71 @@
   &--student {
     background-color: $secondary-color !important;
   }
-
-  &__header {
-    background-color: white;
-    min-height: 4.75rem;
-    height: 3rem;
-    display: flex;
-    align-items: center;
-    padding: 0px 1.875rem;
-    margin: 0px auto;
-  }
+  // &__header {
+  //   min-height: 4.75rem;
+  //   height: 3rem;
+  //   display: flex;
+  //   align-items: center;
+  //   padding: 0px 1.875rem;
+  //   margin: 0px auto;
+  // }
 
   &__content {
     display: flex;
     flex-direction: column;
-    height: 12rem;
-    margin: 0px;
-    padding: 0px;
-    border: 0px;
-    font: inherit;
-    vertical-align: baseline;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
   }
 }
 
 * {
   text-decoration: none !important;
+}
+
+.deco-img-1 {
+  position: absolute;
+  z-index: -1;
+  @include desktop {
+    width: 1180px;
+    top: -40%;
+    right: -20%;
+  }
+  @include tablet {
+    top: 0%;
+    right: -20%;
+    width: 1000px;
+  }
+  @include mobile {
+    width: 350px;
+  }
+}
+// .register-container {
+//   position: absolute;
+//   width: 100vw;
+//   height: 100vh;
+//   top: 200px;
+//   z-index: -1;
+//   background-image: url("../../../assets/imgs/bg1.png");
+// }
+
+// .register-background {
+//   position: absolute;
+//   width: 100vw;
+//   height: 100vh;
+//   top: 200px;
+//   z-index: -1;
+//   background-image: url("../../../assets/imgs/bg1.png");
+// }
+
+// .register-deco {
+//   background-image: url("../../../assets/imgs/gradient.png");
+// }
+
+.register-typo {
+  font-size: 7rem;
+  color: $black;
+  text-align: center;
+  background-color: $white;
+  // mix-blend-mode: color-dodge;
 }
