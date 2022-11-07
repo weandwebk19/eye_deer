@@ -9,7 +9,6 @@ import { Box, Grid, Typography, Button } from "@mui/material";
 import RegisterCard from "./RegisterCard";
 
 const RegisterUserType = () => {
-  //const [workplaces, setWorkplaces] = useState([]);
   const navigate = useNavigate();
   const { state } = useLocation();
 
@@ -18,7 +17,6 @@ const RegisterUserType = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/workplace/workplaces`
       );
-      //setWorkplaces(data);
       return data;
     });
   };
@@ -61,7 +59,7 @@ const RegisterUserType = () => {
           {data.map((workplace, i) => {
             return (
               <Grid item xs={12} sm={6} md={2.5} key={i}>
-                <Link to="/register/form" state={{ workplace: workplace.id }}>
+                <Link to="/register/form" state={{ workplace: workplace.id, role: state.role }}>
                   <RegisterCard cardItem={workplace} />
                 </Link>
               </Grid>
