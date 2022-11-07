@@ -5,10 +5,11 @@ import { Typography } from "@mui/material";
 
 import "./styles.scss";
 
-export const StyleHeadingTypography = styled(Typography)(
-  ({ theme }) =>
+export const StyledHeadingTypography = styled(Typography)(
+  () =>
     `
     font-family: 'Ibarra Real Nova', serif;
     font-weight: bold;
+    
 `
 );

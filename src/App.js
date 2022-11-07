@@ -7,7 +7,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import Register from "./pages/Auth/register";
 import Login from "./pages/Auth/login";
 
-import Home from "./pages/Home/Home";
+import Home from "./pages/Home";
 
 import { appTheme } from "./themes/theme";
 import "./App.scss";
