@@ -7,7 +7,7 @@ const refreshToken = async () => {
       withCredentials: true,
       baseURL: `${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}`
     })
-    const res = instance.post("/auth/refresh");
+    const res = await instance.post("/auth/refresh");
     return res.data;
   } catch (err) {
     console.log(err);
@@ -15,7 +15,10 @@ const refreshToken = async () => {
 };
 
 export const createAxios = (user, dispatch, stateSuccess) => {
-  const newInstance = axios.create();
+  const newInstance = axios.create({
+    withCredentials: true,
+    baseURL: `${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}`
+  });
   newInstance.interceptors.request.use(
     async (config) => {
       let date = new Date();
@@ -26,7 +29,9 @@ export const createAxios = (user, dispatch, stateSuccess) => {
           ...user,
           accessToken: data.accessToken,
         };
-        dispatch(stateSuccess(refreshUser));
+        if(dispatch && stateSuccess) {
+          dispatch(stateSuccess(refreshUser));
+        }
         config.headers["token"] = "Bearer " + data.accessToken;
       }
       return config;

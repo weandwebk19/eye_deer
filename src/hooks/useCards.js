@@ -1,8 +1,5 @@
 import {
-    useQuery,
-    useQueryClient,
-    QueryClient,
-    QueryClientProvider,
+    useQuery
   } from "react-query";
 
 const useCard =()=>{

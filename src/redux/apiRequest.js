@@ -52,7 +52,7 @@ export const oAuthLogin = async (user, dispatch, navigate) => {
     return;
   })
   dispatch(loginSuccess(res.data));
-  navigate("/");
+  navigate("/dashboard");
 };
 
 export const registerUser = async (user, dispatch, navigate) => {
@@ -75,12 +75,9 @@ export const registerUser = async (user, dispatch, navigate) => {
 export const logOut = async (dispatch, id, navigate, accessToken, axiosJWT) => {
   dispatch(logOutStart());
   try {
-    await axiosJWT.post(
-      `${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/auth/logout`,
-      id,
-      {
-        headers: { token: `Bearer ${accessToken}` },
-      });
+    await axiosJWT.post("auth/logout", id, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
     dispatch(logOutSuccess());
     navigate("/login");
   } catch (err) {
