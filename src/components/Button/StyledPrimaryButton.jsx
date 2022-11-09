@@ -6,6 +6,7 @@ const StyledPrimaryButton = styled(Button)(
   color: ${theme.palette.primary.contrastText};
   background-color: ${theme.palette.primary.main};
   border-radius: 0;
+  border: 4px double ${theme.palette.secondary.dark};
   height: 56px;
   text-transform: lowercase;
   font-weight: bold;

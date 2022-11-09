@@ -4,27 +4,27 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../../redux/apiRequest";
 
+import { CssBaseline, Link, Grid, Box, Container } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
+
+// import { ThemeProvider } from "@mui/material/styles";
 import InstantMessage from "../../../components/Popup/InstantMessage";
-
+import StyledPaper from "../../../components/Paper/StyledPaper";
+import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
+import StyledPrimaryButton from "../../../components/Button/StyledPrimaryButton";
 import {
-  Avatar,
-  Button,
-  CssBaseline,
-  TextField,
-  Link,
-  Grid,
-  Box,
-  Typography,
-  Container,
-} from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+  StyledInputField,
+  customTheme,
+} from "../../../components/Textbox/StyledInputField";
 
-const theme = createTheme();
+// import GoogleAuthButton from "./GoogleAuthButton";
+
+import Gradient6 from "../../../assets/imgs/gradient-6.png";
 
 const RegisterForm = () => {
   const [isError, setIsError] = useState("");
   const [message, setMessage] = useState("");
+
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,7 +33,11 @@ const RegisterForm = () => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm();
+
+  const password = watch("password", "");
+
   const onSubmit = async (data) => {
     data.birthday = state.birthday;
     data.roleId = state.role;
@@ -43,6 +47,7 @@ const RegisterForm = () => {
     data.firstName = user?.given_name;
     data.lastName = user?.family_name;
     const res = await registerUser(data, dispatch, navigate);
+    console.log(res)
     if (res) {
       if (res.success === true) {
         setMessage(res.message);
@@ -52,7 +57,7 @@ const RegisterForm = () => {
         setIsError(true);
       }
     } else {
-      setMessage("Oops! Something went wrong! 😅");
+      setMessage("oops! Something went wrong! 😅");
       setIsError(true);
     }
   };
@@ -66,122 +71,328 @@ const RegisterForm = () => {
   }, [isError]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
+    <>
+      <Box
+        sx={{
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <Container
+          component="main"
+          maxWidth="sm"
           sx={{
-            marginTop: 8,
             display: "flex",
             flexDirection: "column",
+            justifyContent: "center",
             alignItems: "center",
+            minHeight: "100vh",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit(onSubmit)}
-            sx={{ mt: 3 }}
+          <CssBaseline />
+          <StyledPaper
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+            }}
           >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="username"
-                  label="Username"
-                  name="username"
-                  autoComplete="username"
-                  {...register("username", {
-                    validate: (value) => value !== "admin" || "Nice try!",
-                  })}
-                />
-                {errors.username && errors.username.message}
-              </Grid>
-              {user.email === undefined ?
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    {...register("email", {
-                      required: "Required",
-                      pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: "invalid email address",
-                      },
-                    })}
-                  />
-                  {errors.email && errors.email.message}
-                </Grid>
-              :null}
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  {...register("password", {
-                    required: "Required",
-                    pattern: {
-                      // Minimum eight and maximum 20 characters, at least one uppercase letter, one lowercase letter, one number and one special character
-                      value:
-                        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.]).{8,20}$/i,
-                      message:
-                        "password must contain at least 8 characters, at most 20 characters, at least one uppercase letter, one lowercase letter, one number and one special character",
-                    },
-                  })}
-                />
-                {errors.password && errors.password.message}
-              </Grid>
-
-              {/* <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid> */}
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+            <StyledHeadingTypography variant="h3" gutterBottom>
+              sign up.
+            </StyledHeadingTypography>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit(onSubmit)}
+              sx={{ mt: 3 }}
             >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
+              <Grid container columns={{ xs: 4, sm: 8, md: 8 }} spacing={3}>
+                {/* Start: Lastname */}
+                {user?.family_name === undefined ? (
+                  <Grid item xs={8} sm={4} md={4}>
+                    <ThemeProvider theme={customTheme}>
+                      <StyledInputField
+                        variant="light"
+                        fullWidth
+                        id="lastname"
+                        label="last name"
+                        name="lastName"
+                        autoComplete="lastName"
+                        {...register("lastName", {
+                          required: false,
+                          pattern: {
+                            value: /^[a-zA-Z ]*$/i,
+                            message: "wrong format!",
+                          },
+                        })}
+                      />
+                    </ThemeProvider>
+                    {errors.lastName ? (
+                      <>
+                        {errors.lastName.type === "pattern" && (
+                          <div
+                            style={{
+                              color: "darkred",
+                              fontSize: "0.88rem",
+                              position: "absolute",
+                            }}
+                          >
+                            {errors.lastName.message}
+                          </div>
+                        )}
+                      </>
+                    ) : null}
+                  </Grid>
+                ) : null}
+                {/* End: lastname */}
+
+                {/* Start: firstname */}
+                {user?.given_name === undefined ? (
+                  <Grid item xs={8} sm={4} md={4}>
+                    <ThemeProvider theme={customTheme}>
+                      <StyledInputField
+                        variant="light"
+                        fullWidth
+                        id="firstname"
+                        label="first name"
+                        name="firstName"
+                        autoComplete="firstName"
+                        {...register("firstName", {
+                          required: false,
+                          pattern: {
+                            value: /^[a-zA-Z ]*$/i,
+                            message: "wrong format!",
+                          },
+                        })}
+                      />
+                    </ThemeProvider>
+                    {errors.firstName ? (
+                      <>
+                        {errors.firstName.type === "pattern" && (
+                          <div
+                            style={{
+                              color: "darkred",
+                              fontSize: "0.88rem",
+                              position: "absolute",
+                            }}
+                          >
+                            {errors.firstName.message}
+                          </div>
+                        )}
+                      </>
+                    ) : null}
+                  </Grid>
+                ) : null}
+                {/* End: firstname */}
+
+                {/* Start: username */}
+                <Grid item xs={8} sm={8} md={8}>
+                  <ThemeProvider theme={customTheme}>
+                    <StyledInputField
+                      variant="light"
+                      required
+                      fullWidth
+                      id="username"
+                      label="username"
+                      name="username"
+                      autoComplete="username"
+                      {...register("username", {
+                        required: "required",
+                        // validate: (value) => value !== "admin" || "nice try!",
+                      })}
+                    />
+                  </ThemeProvider>
+                  {errors.username ? (
+                    <>
+                      {errors.username.type === "required" && (
+                        <div
+                          style={{
+                            color: "darkred",
+                            fontSize: "0.88rem",
+                            position: "absolute",
+                          }}
+                        >
+                          {errors.username.message}
+                        </div>
+                      )}
+                      {errors.username.type === "validate" && (
+                        <div
+                          style={{
+                            color: "darkred",
+                            fontSize: "0.88rem",
+                            position: "absolute",
+                          }}
+                        >
+                          {errors.username.message}
+                        </div>
+                      )}
+                    </>
+                  ) : null}
+                </Grid>
+                {/* End: username */}
+
+                {/* Start: email */}
+                {user?.email === undefined ? (
+                  <Grid item xs={8} sm={8} md={8}>
+                    <ThemeProvider theme={customTheme}>
+                      <StyledInputField
+                        variant="light"
+                        required
+                        fullWidth
+                        id="email"
+                        label="email"
+                        type="email"
+                        name="email"
+                        autoComplete="email"
+                        {...register("email", {
+                          required: "required",
+                          pattern: {
+                            value: /^\S+@\S+$/i,
+                            message: "invalid email address",
+                          },
+                        })}
+                      />
+                    </ThemeProvider>
+                    {errors.email ? (
+                      <>
+                        {errors.email.type === "required" && (
+                          <div
+                            style={{
+                              color: "darkred",
+                              fontSize: "0.88rem",
+                              position: "absolute",
+                            }}
+                          >
+                            {errors.email.message}
+                          </div>
+                        )}
+                        {errors.email.type === "pattern" && (
+                          <div
+                            style={{
+                              color: "darkred",
+                              fontSize: "0.88rem",
+                              position: "absolute",
+                            }}
+                          >
+                            {errors.email.message}
+                          </div>
+                        )}
+                      </>
+                    ) : null}
+                  </Grid>
+                ) : null}
+                {/* End: email */}
+
+                {/* Start: Password */}
+                <Grid item xs={8} sm={4} md={4}>
+                  <ThemeProvider theme={customTheme}>
+                    <StyledInputField
+                      variant="light"
+                      required
+                      fullWidth
+                      name="password"
+                      label="password"
+                      type="password"
+                      id="password"
+                      autoComplete="new-password"
+                      {...register("password", {
+                        required: "required",
+                        pattern: {
+                          value:
+                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/i,
+                          message: `password must be 8-16 characters, at least one uppercase letter, one lowercase letter, one number and one special character`,
+                        },
+                      })}
+                    />
+                  </ThemeProvider>
+                  <Grid item>
+                    {errors.password ? (
+                      <div
+                        style={{
+                          color: "darkred",
+                          fontSize: "0.88rem",
+                        }}
+                      >
+                        {errors.password.message}
+                      </div>
+                    ) : null}
+                  </Grid>
+                </Grid>
+                {/* End: Password */}
+
+                {/* Start: Confirm password */}
+                <Grid item xs={8} sm={4} md={4}>
+                  <ThemeProvider theme={customTheme}>
+                    <StyledInputField
+                      variant="light"
+                      required
+                      fullWidth
+                      name="confirmPassword"
+                      label="confirm password"
+                      type="password"
+                      id="confirm-password"
+                      autoComplete="confirm-password"
+                      {...register("confirmPassword", {
+                        required: true,
+                        validate: (value) => {
+                          if (watch("password") !== value) {
+                            return "passwords do no match";
+                          }
+                        },
+                      })}
+                    />
+                  </ThemeProvider>
+                  <Grid item>
+                    {errors.confirmPassword ? (
+                      <div
+                        style={{
+                          color: "darkred",
+                          fontSize: "0.88rem",
+                          position: "absolute",
+                        }}
+                      >
+                        {errors.confirmPassword.message}
+                      </div>
+                    ) : null}
+                  </Grid>
+                </Grid>
+                {/* End: Confirm password */}
               </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
-      {isError === false ? (
-        <InstantMessage variant={"success"} message={message} />
-      ) : isError === true ? (
-        <InstantMessage variant={"error"} message={message} />
-      ) : (
-        ""
-      )}
-    </ThemeProvider>
+              <StyledPrimaryButton
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 6 }}
+              >
+                sign up
+              </StyledPrimaryButton>
+
+              <Grid
+                container
+                justifyContent="flex-end"
+                alignItems="flex-end"
+                sx={{ mt: 6 }}
+              >
+                <Grid item>
+                  <Link href="/login" variant="body2">
+                    already have an account? <b>login</b>
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
+          </StyledPaper>
+          <img src={Gradient6} alt="deco gradient" className="deco-img-61" />
+          <img src={Gradient6} alt="deco gradient" className="deco-img-62" />
+        </Container>
+        {isError === false ? (
+          <InstantMessage variant={"success"} message={message} />
+        ) : isError === true ? (
+          <InstantMessage variant={"error"} message={message} />
+        ) : (
+          ""
+        )}
+      </Box>
+    </>
   );
   //   <Box sx={{ flexGrow: 1 }}>
   //     <Grid container>

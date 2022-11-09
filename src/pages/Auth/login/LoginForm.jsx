@@ -4,9 +4,19 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../redux/apiRequest";
 
+import {
+  CssBaseline,
+  Link,
+  Grid,
+  Box,
+  Typography,
+  Container,
+} from "@mui/material";
+
+import { ThemeProvider } from "@mui/material/styles";
 import InstantMessage from "../../../components/Popup/InstantMessage";
 import StyledPaper from "../../../components/Paper/StyledPaper";
-import { StyleHeadingTypography } from "../../../components/Typography/StyledTypography";
+import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
 import StyledPrimaryButton from "../../../components/Button/StyledPrimaryButton";
 import {
   StyledInputField,
@@ -15,19 +25,7 @@ import {
 
 import GoogleAuthButton from "./GoogleAuthButton";
 
-import {
-  Avatar,
-  Button,
-  CssBaseline,
-  TextField,
-  Link,
-  Grid,
-  Box,
-  Typography,
-  Container,
-} from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Gradient6 from "../../../assets/imgs/gradient-6.png";
 
 const LoginForm = () => {
   const [isError, setIsError] = useState("");
@@ -42,10 +40,10 @@ const LoginForm = () => {
   const onSubmit = async (data) => {
     const res = await loginUser(data, dispatch, navigate);
     if (res) {
-      setMessage("Successfully login! 🤗");
+      setMessage("successfully login! 🤗");
       setIsError(false);
     } else {
-      setMessage("Oops! Something went wrong! 😅");
+      setMessage("oops! Something went wrong! 😅");
       setIsError(true);
     }
   };
@@ -59,19 +57,33 @@ const LoginForm = () => {
   }, [isError]);
 
   return (
-    <>
-      <Container component="main" maxWidth="xs">
+    <Box
+      sx={{
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <Container
+        component="main"
+        maxWidth="xs"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+        }}
+      >
         <CssBaseline />
         <StyledPaper
           sx={{
-            marginTop: 8,
             display: "flex",
             flexDirection: "column",
           }}
         >
-          <StyleHeadingTypography variant="h3" gutterBottom>
+          <StyledHeadingTypography variant="h3" gutterBottom>
             log in.
-          </StyleHeadingTypography>
+          </StyledHeadingTypography>
           <Box
             component="form"
             noValidate
@@ -80,66 +92,120 @@ const LoginForm = () => {
           >
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <StyledInputField
-                  className="textfield"
-                  required
-                  fullWidth
-                  id="username"
-                  label="Username"
-                  name="username"
-                  autoComplete="username"
-                  {...register("username", {
-                    required: "Required",
-                  })}
-                />
-                {errors.username && errors.username.message}
+                <ThemeProvider theme={customTheme}>
+                  <StyledInputField
+                    variant="light"
+                    required
+                    fullWidth
+                    id="username"
+                    label="username"
+                    name="username"
+                    autoComplete="username"
+                    {...register("username", {
+                      required: "required",
+                      // validate: (value) => value !== "admin" || "nice try!",
+                    })}
+                  />
+                </ThemeProvider>
+                {errors.username ? (
+                  <>
+                    {errors.username.type === "required" && (
+                      <div
+                        style={{
+                          color: "darkred",
+                          fontSize: "0.88rem",
+                          position: "absolute",
+                        }}
+                      >
+                        {errors.username.message}
+                      </div>
+                    )}
+                    {/* {errors.username.type === "validate" && (
+                      <div
+                        style={{
+                          color: "darkred",
+                          fontSize: "0.88rem",
+                          position: "absolute",
+                        }}
+                      >
+                        {errors.username.message}
+                      </div>
+                    )} */}
+                  </>
+                ) : null}
               </Grid>
               <Grid item xs={12}>
                 <ThemeProvider theme={customTheme}>
                   <StyledInputField
-                    className="textfield"
+                    sx={{ mt: 2 }}
+                    variant="light"
                     required
                     fullWidth
                     name="password"
-                    label="Password"
+                    label="password"
                     type="password"
                     id="password"
                     autoComplete="new-password"
                     {...register("password", {
-                      required: "Required",
+                      required: "required",
                     })}
                   />
                 </ThemeProvider>
-                {errors.password && errors.password.message}
+                <Grid container justifyContent="space-between">
+                  <Grid item>
+                    {errors.password ? (
+                      <>
+                        {errors.password.type === "required" && (
+                          <div
+                            style={{
+                              color: "darkred",
+                              fontSize: "0.88rem",
+                              position: "absolute",
+                            }}
+                          >
+                            {errors.password.message}
+                          </div>
+                        )}
+                      </>
+                    ) : null}
+                  </Grid>
+                  <Grid item>
+                    <Link href="#" variant="body2">
+                      forgot password?
+                    </Link>
+                  </Grid>
+                </Grid>
               </Grid>
-
-              {/* <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid> */}
             </Grid>
-            <Button
+            <StyledPrimaryButton
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 6 }}
             >
               Log In
-            </Button>
-            <Grid container justifyContent="flex-end">
+            </StyledPrimaryButton>
+            <Typography sx={{ mt: 4, mb: 4, textAlign: "center" }}>
+              or
+            </Typography>
+
+            <GoogleAuthButton />
+            <Grid
+              container
+              justifyContent="flex-end"
+              alignItems="flex-end"
+              sx={{ mt: 6 }}
+            >
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/register" variant="body2">
                   don't have an account? <b>sign up</b>
                 </Link>
               </Grid>
             </Grid>
-            <GoogleAuthButton />
           </Box>
         </StyledPaper>
+        <img src={Gradient6} alt="deco gradient" className="deco-img-61" />
+        <img src={Gradient6} alt="deco gradient" className="deco-img-62" />
       </Container>
       {isError === false ? (
         <InstantMessage variant={"success"} message={message} />
@@ -148,7 +214,7 @@ const LoginForm = () => {
       ) : (
         ""
       )}
-    </>
+    </Box>
   );
 };
 

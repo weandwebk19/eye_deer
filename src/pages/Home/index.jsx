@@ -38,7 +38,7 @@ const Home = () => {
         </StyledPrimaryButton>
         <img
           src={MyDeco2Lines}
-          className="deco-img-1"
+          className="deco-lines"
           draggable={false}
           alt="deco lines"
         />
