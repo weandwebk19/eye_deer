@@ -3,3 +3,11 @@
 .MuiAppBar-root {
   border-bottom: 1px solid $black !important;
 }
+
+.dashboard-navbar {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  overflow: scroll;
+  height: 100%;
+}
