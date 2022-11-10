@@ -10,21 +10,23 @@ import { StyledHeadingTypography } from "../../../components/Typography/StyledTy
 
 import Gradient1 from "../../../assets/imgs/gradient.png";
 
+import config from "../../../config";
 const RegisterHome = () => {
   const [roles, setRoles] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(
-        `${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/role/roles`
-      )
-      .then((response) => {
-        setRoles(response.data);
-      });
+    axios.get(`${config.SERVER_URL}/role/roles`).then((response) => {
+      setRoles(response.data);
+    });
   }, []);
 
   return (
-    <Box className="register-background">
+    <Box
+      sx={{
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
       <Container
         component="main"
         maxWidth="md"
@@ -36,10 +38,10 @@ const RegisterHome = () => {
           minHeight: "100vh",
         }}
       >
-        <Box className="register-container">
+        <Box>
           {/* <Box sx={{ isolation: "isolate" }}> */}
           <StyledHeadingTypography
-            className="register-typo"
+            className="text-stroke"
             component="h1"
             variant="h3"
             align="center"
@@ -93,9 +95,10 @@ const RegisterHome = () => {
             >
               <Grid item>
                 <MuiLink
+                  className="text-stroke"
                   href="/login"
                   variant="body2"
-                  sx={{ background: "#e6e6e6", padding: "0 2px" }}
+                  sx={{ padding: "0 2px" }}
                 >
                   already have an account? <b>login</b>
                 </MuiLink>

@@ -43,7 +43,7 @@ const LoginForm = () => {
       setMessage("successfully login! 🤗");
       setIsError(false);
     } else {
-      setMessage("oops! Something went wrong! 😅");
+      setMessage("oops! something went wrong! 😅");
       setIsError(true);
     }
   };
@@ -188,7 +188,6 @@ const LoginForm = () => {
             <Typography sx={{ mt: 4, mb: 4, textAlign: "center" }}>
               or
             </Typography>
-
             <GoogleAuthButton />
             <Grid
               container

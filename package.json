@@ -13,6 +13,7 @@
     "@mui/material": "^5.10.12",
     "@mui/styled-engine-sc": "^5.10.6",
     "@mui/x-date-pickers": "^5.0.6",
+    "@react-hook/size": "^2.1.2",
     "@reduxjs/toolkit": "^1.9.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -62,6 +63,7 @@
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^3.4.0",
+    "dotenv-webpack": "^8.0.1",
     "eslint-plugin-simple-import-sort": "^8.0.0",
     "react-router-dom": "^6.4.2"
   }

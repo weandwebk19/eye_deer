@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import StyledNavigationBar from "../../components/Navigation/StyledNavigationBar";
+import { StyledNavigationBar } from "../../components/Navigation/StyledNavigationBar";
 import StyledPrimaryButton from "../../components/Button/StyledPrimaryButton";
 import { StyledInputField } from "../../components/Textbox/StyledInputField";
 

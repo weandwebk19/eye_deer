@@ -13,6 +13,8 @@ import StyledPrimaryButton from "../../../components/Button/StyledPrimaryButton"
 
 import Gradient1 from "../../../assets/imgs/gradient.png";
 
+import config from "../../../config";
+
 const RegisterUserType = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -20,7 +22,7 @@ const RegisterUserType = () => {
   const useWorkplaces = () => {
     return useQuery(["workplace"], async () => {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}/workplace/workplaces`
+        `${config.SERVER_URL}/workplace/workplaces`
       );
       return data;
     });
@@ -54,9 +56,9 @@ const RegisterUserType = () => {
             minHeight: "100vh",
           }}
         >
-          <Box className="register-container">
+          <Box>
             <StyledHeadingTypography
-              className="register-typo"
+              className="text-stroke"
               component="h1"
               variant="h3"
               align="center"
