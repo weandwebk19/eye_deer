@@ -11,46 +11,44 @@ import {
   registerSuccess,
 } from "./authSlice";
 
+import config from "../config";
+
 const instance = axios.create({
   withCredentials: true,
-  baseURL: `${process.env.REACT_APP_SERVERBASEURL}${process.env.REACT_APP_SERVERPORT}`
-})
+  baseURL: `${config.SERVER_URL}`,
+});
 
 export const loginUser = async (user, dispatch, navigate) => {
   dispatch(loginStart());
-  const res = await instance.post('auth/login', user)
-  .catch (err => {
+  const res = await instance.post("auth/login", user).catch((err) => {
     console.log(err);
     dispatch(loginFailed());
     return false;
   });
-  if(res.status === 200) {
+  if (res.status === 200) {
     dispatch(loginSuccess(res.data));
     setTimeout(() => {
       navigate("/dashboard");
     }, 1000);
     return true;
-  }
-  else {
+  } else {
     console.log(res);
     dispatch(loginFailed());
     return false;
   }
-}
+};
 
 export const oAuthLogin = async (user, dispatch, navigate) => {
   dispatch(loginStart());
   try {
-    const res = await instance.post('auth/oauth/login', user);
+    const res = await instance.post("auth/oauth/login", user);
     dispatch(loginSuccess(res.data));
     navigate("/dashboard");
-  }
-  catch(err) {
-    if(err.response.status === 403) {
+  } catch (err) {
+    if (err.response.status === 403) {
       dispatch(loginSuccess(user));
       navigate("/register");
-    }
-    else {
+    } else {
       dispatch(loginFailed());
     }
   }
@@ -59,7 +57,7 @@ export const oAuthLogin = async (user, dispatch, navigate) => {
 export const registerUser = async (user, dispatch, navigate) => {
   dispatch(registerStart());
   try {
-    const res = await instance.post('/auth/register', user);
+    const res = await instance.post("/auth/register", user);
     if (res.status === 201) {
       dispatch(registerSuccess());
       setTimeout(() => {
@@ -67,8 +65,7 @@ export const registerUser = async (user, dispatch, navigate) => {
       }, 1000);
     }
     return res.data;
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
     dispatch(registerFailed());
     return null;

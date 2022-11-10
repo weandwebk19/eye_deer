@@ -57,7 +57,7 @@ const RegisterForm = () => {
         setIsError(true);
       }
     } else {
-      setMessage("oops! Something went wrong! 😅");
+      setMessage("oops! something went wrong! 😅");
       setIsError(true);
     }
   };
@@ -128,22 +128,35 @@ const RegisterForm = () => {
                       />
                     </ThemeProvider>
                     {errors.lastName ? (
-                      <>
-                        {errors.lastName.type === "pattern" && (
-                          <div
-                            style={{
-                              color: "darkred",
-                              fontSize: "0.88rem",
-                              position: "absolute",
-                            }}
-                          >
-                            {errors.lastName.message}
-                          </div>
-                        )}
-                      </>
+                      <div
+                        style={{
+                          color: "darkred",
+                          fontSize: "0.88rem",
+                          position: "absolute",
+                        }}
+                      >
+                        {errors.lastName.message}
+                      </div>
                     ) : null}
                   </Grid>
-                ) : null}
+                ) : (
+                  <Grid item xs={8} sm={4} md={4}>
+                    <ThemeProvider theme={customTheme}>
+                      <StyledInputField
+                        variant="light"
+                        fullWidth
+                        id="lastname"
+                        label="last name"
+                        name="lastName"
+                        placeholder={user.family_name}
+                        autoComplete="lastName"
+                        {...register("lastName", {
+                          required: false,
+                        })}
+                      />
+                    </ThemeProvider>
+                  </Grid>
+                )}
                 {/* End: lastname */}
 
                 {/* Start: firstname */}
@@ -182,7 +195,24 @@ const RegisterForm = () => {
                       </>
                     ) : null}
                   </Grid>
-                ) : null}
+                ) : (
+                  <Grid item xs={8} sm={4} md={4}>
+                    <ThemeProvider theme={customTheme}>
+                      <StyledInputField
+                        variant="light"
+                        fullWidth
+                        id="firstname"
+                        label="first name"
+                        name="firstName"
+                        placeholder={user.given_name}
+                        autoComplete={user.given_name}
+                        {...register("firstName", {
+                          required: false,
+                        })}
+                      />
+                    </ThemeProvider>
+                  </Grid>
+                )}
                 {/* End: firstname */}
 
                 {/* Start: username */}

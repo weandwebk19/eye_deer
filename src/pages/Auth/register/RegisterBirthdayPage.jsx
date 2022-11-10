@@ -6,6 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 // import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import {
   Box,
+  Container,
   FormControl,
   Select,
   InputLabel,
@@ -14,6 +15,12 @@ import {
   Button,
   Grid,
 } from "@mui/material";
+
+import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
+import StyledPrimaryButton from "../../../components/Button/StyledPrimaryButton";
+import { StyledSelectField } from "../../../components/SelectBox/StyledSelectField";
+
+import Gradient1 from "../../../assets/imgs/gradient.png";
 
 const months = [
   "Jan",
@@ -70,109 +77,117 @@ const RegisterBirthdayPage = () => {
     setYear(e.target.value);
   };
   return (
-    <>
+    <Box
+      sx={{
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Box className="register-container" sx={{ flexGrow: 1 }}>
-          <main>
-            {/* Hero unit */}
+        <Container
+          component="main"
+          maxWidth="md"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "100vh",
+          }}
+        >
+          <Box sx={{ mb: 3 }}>
             <div>
-              <Typography
+              <StyledHeadingTypography
+                className="text-stroke"
                 component="h1"
-                variant="h2"
+                variant="h3"
                 align="center"
                 color="textPrimary"
                 gutterBottom
               >
                 Enter your date of birth
-              </Typography>
+              </StyledHeadingTypography>
+              <img src={Gradient1} alt="deco gradient" className="deco-img-1" />
             </div>
-            {/* End hero unit */}
-          </main>
-          {/* <DesktopDatePicker
-            label="Date desktop"
-            inputFormat="MM/DD/YYYY"
-            value={birthday}
-            onChange={handleChange}
-            renderInput={(params) => <TextField {...params} />}
-          /> */}
-          <Grid
-            container
-            spacing={{ xs: 2, md: 3 }}
-            columns={{ xs: 4, sm: 8, md: 12 }}
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Grid item xs={12} sm={6} md={2.5}>
-              <FormControl fullWidth>
-                <InputLabel id="month-select-label">Month</InputLabel>
-                <Select
-                  key={"month"}
-                  labelId="month-select-input-label"
-                  id="month-select"
-                  label="Month"
-                  value={month}
-                  onChange={handleChangeMonth}
-                >
-                  {months.map((element, i) => {
-                    return (
-                      <MenuItem key={i} value={element}>
-                        {element}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
+            <Grid
+              container
+              spacing={{ xs: 2, md: 3 }}
+              columns={{ xs: 4, sm: 9, md: 12 }}
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Grid item xs={4} sm={3} md={4}>
+                <FormControl fullWidth>
+                  <InputLabel id="month-select-label">Month</InputLabel>
+                  <StyledSelectField
+                    key={"month"}
+                    labelId="month-select-input-label"
+                    id="month-select"
+                    label="Month"
+                    value={month}
+                    onChange={handleChangeMonth}
+                  >
+                    {months.map((element, i) => {
+                      return (
+                        <MenuItem key={i} value={element}>
+                          {element}
+                        </MenuItem>
+                      );
+                    })}
+                  </StyledSelectField>
+                </FormControl>
+              </Grid>
+              <Grid item xs={4} sm={3} md={4}>
+                <FormControl fullWidth>
+                  <InputLabel id="day-select-label">Day</InputLabel>
+                  <StyledSelectField
+                    key={"day"}
+                    labelId="day-select-input-label"
+                    id="day-select"
+                    label="Day"
+                    value={day}
+                    onChange={handleChangeDay}
+                  >
+                    {days.map((element, i) => {
+                      return (
+                        <MenuItem key={i} value={element}>
+                          {element}
+                        </MenuItem>
+                      );
+                    })}
+                  </StyledSelectField>
+                </FormControl>
+              </Grid>
+              <Grid item xs={4} sm={3} md={4}>
+                <FormControl fullWidth>
+                  <InputLabel id="year-select-label">Year</InputLabel>
+                  <StyledSelectField
+                    key={"year"}
+                    labelId="year-select-input-label"
+                    id="year-select"
+                    label="Year"
+                    value={year ?? "2001"}
+                    onChange={handleChangeYear}
+                  >
+                    {years.map((element, i) => {
+                      return (
+                        <MenuItem key={i} value={element}>
+                          {element}
+                        </MenuItem>
+                      );
+                    })}
+                  </StyledSelectField>
+                </FormControl>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6} md={2.5}>
-              <FormControl fullWidth>
-                <InputLabel id="day-select-label">Day</InputLabel>
-                <Select
-                  key={"day"}
-                  labelId="day-select-input-label"
-                  id="day-select"
-                  label="Day"
-                  value={day}
-                  onChange={handleChangeDay}
-                >
-                  {days.map((element, i) => {
-                    return (
-                      <MenuItem key={i} value={element}>
-                        {element}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6} md={2.5}>
-              <FormControl fullWidth>
-                <InputLabel id="year-select-label">Year</InputLabel>
-                <Select
-                  key={"year"}
-                  labelId="year-select-input-label"
-                  id="year-select"
-                  label="Year"
-                  value={year ?? "2001"}
-                  onChange={handleChangeYear}
-                >
-                  {years.map((element, i) => {
-                    return (
-                      <MenuItem key={i} value={element}>
-                        {element}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
-          </Grid>
-          <Button variant="contained" onClick={handleNavigate}>
+          </Box>
+          <StyledPrimaryButton sx={{ width: "200px" }} onClick={handleNavigate}>
             Continue
-          </Button>
-        </Box>
+          </StyledPrimaryButton>
+        </Container>
       </LocalizationProvider>
-    </>
+    </Box>
   );
 };
 

@@ -1,0 +1,26 @@
+@import "../../sassStyles/variables";
+
+.dashboard-deco-middle {
+  background: url("../../assets/imgs/gradient-9.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+
+  &__typography {
+    color: $white;
+    position: absolute;
+    transform: rotate(90deg) translateY(-432%) translateX(5%);
+    top: 0;
+    left: 0;
+    transform-origin: top left;
+    font-size: xxx-large !important;
+    width: 100vh;
+  }
+}
+
+#dashboard-first-tab,
+#dashboard-last-tab {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
