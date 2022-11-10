@@ -47,6 +47,7 @@ const RegisterForm = () => {
     data.firstName = user?.given_name;
     data.lastName = user?.family_name;
     const res = await registerUser(data, dispatch, navigate);
+    console.log(res)
     if (res) {
       if (res.success === true) {
         setMessage(res.message);

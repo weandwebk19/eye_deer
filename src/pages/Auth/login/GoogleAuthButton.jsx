@@ -24,7 +24,7 @@ const GoogleAuthButton = () => {
 
   useEffect(() => {
     const src = "https://accounts.google.com/gsi/client";
-    const id = config.REACT_APP_GOOGLE_CLIENT_ID;
+    const id = config.GOOGLE_CLIENT_ID;
 
     loadScript(src)
       .then(() => {

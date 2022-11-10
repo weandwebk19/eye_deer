@@ -40,33 +40,36 @@ export const loginUser = async (user, dispatch, navigate) => {
 
 export const oAuthLogin = async (user, dispatch, navigate) => {
   dispatch(loginStart());
-  const res = await instance.post("auth/oauth/login", user).catch((err) => {
+  try {
+    const res = await instance.post("auth/oauth/login", user);
+    dispatch(loginSuccess(res.data));
+    navigate("/dashboard");
+  } catch (err) {
     if (err.response.status === 403) {
       dispatch(loginSuccess(user));
       navigate("/register");
     } else {
       dispatch(loginFailed());
     }
-    return;
-  });
-  dispatch(loginSuccess(res.data));
-  navigate("/dashboard");
+  }
 };
 
 export const registerUser = async (user, dispatch, navigate) => {
   dispatch(registerStart());
-  const res = instance.post("/auth/register", user).catch((err) => {
+  try {
+    const res = await instance.post("/auth/register", user);
+    if (res.status === 201) {
+      dispatch(registerSuccess());
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+    }
+    return res.data;
+  } catch (err) {
     console.log(err);
     dispatch(registerFailed());
     return null;
-  });
-  if (res.status === 201) {
-    dispatch(registerSuccess());
-    setTimeout(() => {
-      navigate("/login");
-    }, 1000);
   }
-  return res.data;
 };
 
 export const logOut = async (dispatch, id, navigate, accessToken, axiosJWT) => {
