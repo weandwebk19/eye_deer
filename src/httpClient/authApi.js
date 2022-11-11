@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   loginFailed,
   loginStart,
@@ -9,18 +8,14 @@ import {
   registerFailed,
   registerStart,
   registerSuccess,
-} from "./authSlice";
+} from "../redux/authSlice";
+import {createAxios, createAxiosJWT} from './createInstance';
 
-import config from "../config";
-
-const instance = axios.create({
-  withCredentials: true,
-  baseURL: `${config.SERVER_URL}`,
-});
+const axios = createAxios();
 
 export const loginUser = async (user, dispatch, navigate) => {
   dispatch(loginStart());
-  const res = await instance.post("auth/login", user).catch((err) => {
+  const res = await axios.post("auth/login", user).catch((err) => {
     console.log(err);
     dispatch(loginFailed());
     return false;
@@ -29,7 +24,7 @@ export const loginUser = async (user, dispatch, navigate) => {
     dispatch(loginSuccess(res.data));
     setTimeout(() => {
       navigate("/dashboard");
-    }, 1000);
+    }, 2000);
     return true;
   } else {
     console.log(res);
@@ -38,10 +33,10 @@ export const loginUser = async (user, dispatch, navigate) => {
   }
 };
 
-export const oAuthLogin = async (user, dispatch, navigate) => {
+export const oAuthLoginUser = async (user, dispatch, navigate) => {
   dispatch(loginStart());
   try {
-    const res = await instance.post("auth/oauth/login", user);
+    const res = await axios.post("auth/oauth/login", user);
     dispatch(loginSuccess(res.data));
     navigate("/dashboard");
   } catch (err) {
@@ -57,22 +52,24 @@ export const oAuthLogin = async (user, dispatch, navigate) => {
 export const registerUser = async (user, dispatch, navigate) => {
   dispatch(registerStart());
   try {
-    const res = await instance.post("/auth/register", user);
+    const res = await axios.post("/auth/register", user);
     if (res.status === 201) {
       dispatch(registerSuccess());
-      setTimeout(() => {
-        navigate("/login");
-      }, 1000);
+      loginUser(user, dispatch, navigate);
     }
     return res.data;
   } catch (err) {
     console.log(err);
     dispatch(registerFailed());
-    return null;
+    return err.response.data;
   }
 };
 
-export const logOut = async (dispatch, id, navigate, accessToken, axiosJWT) => {
+export const logoutUser = async (user, dispatch, navigate) => {
+  const axiosJWT = createAxiosJWT(user, dispatch, logOutSuccess);
+  const accessToken = user?.accessToken;
+  const id = user?.user.id;
+
   dispatch(logOutStart());
   try {
     await axiosJWT.post("auth/logout", id, {
@@ -84,3 +81,23 @@ export const logOut = async (dispatch, id, navigate, accessToken, axiosJWT) => {
     dispatch(logOutFailed());
   }
 };
+
+export const requireLogin = async (user, navigate) => {
+  const axiosJWT = createAxiosJWT(user);
+  const accessToken = user?.accessToken;
+  const id = user?.user.id;
+
+  try {
+  const res = await axiosJWT.post(
+      "auth",
+      id,
+      {
+          headers: { token: `Bearer ${accessToken}` },
+      });
+      if(res.status !== 200) {
+          navigate('/login');
+      };
+  } catch (err) {
+      navigate('/login');
+  }
+}

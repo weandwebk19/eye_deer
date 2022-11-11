@@ -1,5 +1,3 @@
-import { CardContent, CardActionArea, Typography } from "@mui/material";
-
 import {
   StyledCard,
   StyledCardActionArea,
@@ -9,10 +7,10 @@ import {
 import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
 
 const RegisterCard = ({ cardItem }) => {
-  console.log(cardItem);
   return (
     <StyledCard
       className={`role-card role-card--${cardItem.name} workplace-card workplace-card--${cardItem.id}`}
+      variant="default"
     >
       <StyledCardActionArea>
         <div className="role-card__content">
