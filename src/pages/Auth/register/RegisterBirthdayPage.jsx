@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 
 import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
-import StyledPrimaryButton from "../../../components/Button/StyledPrimaryButton";
+import { StyledPrimaryButton } from "../../../components/Button/StyledButton";
 import { StyledSelectField } from "../../../components/SelectBox/StyledSelectField";
 
 import Gradient1 from "../../../assets/imgs/gradient.png";

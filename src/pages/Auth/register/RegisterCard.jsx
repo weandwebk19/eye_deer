@@ -10,6 +10,7 @@ const RegisterCard = ({ cardItem }) => {
   return (
     <StyledCard
       className={`role-card role-card--${cardItem.name} workplace-card workplace-card--${cardItem.id}`}
+      variant="default"
     >
       <StyledCardActionArea>
         <div className="role-card__content">

@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { StyledNavigationBar } from "../../components/Navigation/StyledNavigationBar";
-import StyledPrimaryButton from "../../components/Button/StyledPrimaryButton";
+import { StyledPrimaryButton } from "../../components/Button/StyledButton";
 import { StyledInputField } from "../../components/Textbox/StyledInputField";
 
 import MyLogo1 from "../../assets/imgs/logo.svg";

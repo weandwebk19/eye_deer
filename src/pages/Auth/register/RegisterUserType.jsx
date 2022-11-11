@@ -9,7 +9,7 @@ import { Box, Container, Grid } from "@mui/material";
 import RegisterCard from "./RegisterCard";
 
 import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
-import StyledPrimaryButton from "../../../components/Button/StyledPrimaryButton";
+import { StyledPrimaryButton } from "../../../components/Button/StyledButton";
 
 import Gradient1 from "../../../assets/imgs/gradient.png";
 
