@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../../../redux/apiRequest";
+import { registerUser } from "../../../httpClient";
 
 import { CssBaseline, Link, Grid, Box, Container } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
@@ -42,22 +42,21 @@ const RegisterForm = () => {
     data.birthday = state.birthday;
     data.roleId = state.role;
     data.workplaceId = state.workplace;
-    data.email = user?.email;
+    data.email = data.email??user?.email;
     data.picture = user?.picture;
-    data.firstName = user?.given_name;
-    data.lastName = user?.family_name;
-    const res = await registerUser(data, dispatch, navigate);
-    console.log(res);
-    if (res) {
-      if (res.success === true) {
-        setMessage(res.message);
-        setIsError(false);
-      } else {
-        setMessage(res.message);
-        setIsError(true);
-      }
+    data.firstName = data.firstName??user?.given_name;
+    data.lastName = data.lastName??user?.family_name;
+    const res = await registerUser(data, dispatch, navigate)
+    .catch(err => {
+      setMessage(err.message);
+      setIsError(true);
+    });
+
+    if (res.success === true) {
+      setMessage(res.message);
+      setIsError(false);
     } else {
-      setMessage("oops! something went wrong! 😅");
+      setMessage(res.message);
       setIsError(true);
     }
   };
