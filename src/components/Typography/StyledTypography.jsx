@@ -10,7 +10,6 @@ export const StyledHeadingTypography = styled(Typography)(
     `
     font-family: 'Ibarra Real Nova', serif;
     font-weight: bold;
-    
 `
 );
 
@@ -18,6 +17,6 @@ export const StyledBigHeadingTypography = styled(Typography)(
   () => `
   font-family: 'IM Fell English', serif;
   font-size: 8rem !important;
-  line-height: 5.5rem !important;
+  line-height: 7rem !important;
 `
 );

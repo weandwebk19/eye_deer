@@ -21,6 +21,7 @@ import {
 } from "../../components/Button/StyledButton";
 
 import DashboardQuizSet from "./DashboardQuizSet";
+import DashboardFooter from "./DashboardFooter";
 
 import "./styles.scss";
 
@@ -35,6 +36,7 @@ const Dashboard = () => {
 
   return (
     <Box>
+      <CssBaseline />
       <Container
         component="main"
         maxWidth={false}
@@ -47,12 +49,12 @@ const Dashboard = () => {
         }}
       >
         <CssBaseline />
-        {/* Start: first */}
         <Grid
           container
           columns={{ xs: 4, sm: 8, md: 12, lg: 12 }}
           height="100vh"
         >
+          {/* Start: first */}
           <Grid
             item
             xs={4}
@@ -66,10 +68,24 @@ const Dashboard = () => {
             p={3}
             id="dashboard-first-tab"
           >
-            <StyledDashboardNavigationBar width1={width1} width2={width2} />
-            <Box sx={{ marginTop: "72px" }}>
+            <Box>
+              <StyledDashboardNavigationBar width1={width1} width2={width2} />
               <StyledDashboardBigTitleBar width1={width1} width2={width2} />
             </Box>
+            <Box
+              my={2}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-end",
+              }}
+            >
+              <StyledHeadingTypography variant={"h5"}>
+                my class(es).
+              </StyledHeadingTypography>
+              <StyledPrimaryButton>add new class</StyledPrimaryButton>
+            </Box>
+            <DashboardFooter width1={width1} width2={width2} />
           </Grid>
           {/* End: first */}
 
