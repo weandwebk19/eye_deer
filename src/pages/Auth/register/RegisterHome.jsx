@@ -1,24 +1,13 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-
 import RegisterCard from "./RegisterCard";
-
 import { Container, Box, Grid, Link as MuiLink } from "@mui/material";
-
 import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
-
 import Gradient1 from "../../../assets/imgs/gradient.png";
-
-import config from "../../../config";
+import { useGetRoles } from "../../../hooks";
 const RegisterHome = () => {
-  const [roles, setRoles] = useState([]);
-
-  useEffect(() => {
-    axios.get(`${config.SERVER_URL}/role/roles`).then((response) => {
-      setRoles(response.data);
-    });
-  }, []);
+  const { isLoading, error, data, isFetching } = useGetRoles();
+  if (isLoading) return "Loading...";
+  if (error) return "An error has occurred: " + error.message;
 
   return (
     <Box
@@ -61,7 +50,7 @@ const RegisterHome = () => {
               justifyContent="center"
               alignItems="center"
             >
-              {roles.map((role, i) => {
+              {data.map((role, i) => {
                 return (
                   <Grid
                     item
@@ -86,6 +75,7 @@ const RegisterHome = () => {
                   </Grid>
                 );
               })}
+              <div>{isFetching ? "Updating..." : ""}</div>
             </Grid>
             <Grid
               container
