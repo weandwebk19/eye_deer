@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import jwt_decode from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { oAuthLogin } from "../../../redux/apiRequest";
+import { oAuthLoginUser } from "../../../httpClient";
 
 import config from "../../../config";
 
@@ -50,7 +50,7 @@ const GoogleAuthButton = () => {
 
   function handleCredentialResponse(response) {
     const userObj = jwt_decode(response.credential);
-    oAuthLogin(userObj, dispatch, navigate);
+    oAuthLoginUser(userObj, dispatch, navigate);
   }
 
   return <div ref={googleButton}></div>;
