@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../../redux/apiRequest";
+import { loginUser } from "../../../httpClient";
 
 import {
   CssBaseline,
@@ -52,7 +52,7 @@ const LoginForm = () => {
     if (isError) {
       setTimeout(() => {
         setIsError("");
-      }, 3000);
+      }, 5000);
     }
   }, [isError]);
 

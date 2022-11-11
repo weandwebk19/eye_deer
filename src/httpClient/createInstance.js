@@ -1,7 +1,6 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-
-import config from "./config";
+import config from "../config";
 
 const refreshToken = async () => {
   try {
@@ -16,7 +15,7 @@ const refreshToken = async () => {
   }
 };
 
-export const createAxios = (user, dispatch, stateSuccess) => {
+export const createAxiosJWT = (user, dispatch, stateSuccess) => {
   const newInstance = axios.create({
     withCredentials: true,
     baseURL: `${config.SERVER_URL}`,
@@ -44,3 +43,19 @@ export const createAxios = (user, dispatch, stateSuccess) => {
   );
   return newInstance;
 };
+
+export const createAxios = () => {
+  const instance = axios.create({
+    withCredentials: true,
+    baseURL: `${config.SERVER_URL}`,
+  });
+  return instance;
+}
+
+export const createAxiosDefault = () => {
+  const instance = axios.create({
+    baseURL: `${config.SERVER_URL}`
+  });
+  return instance;
+}
+
