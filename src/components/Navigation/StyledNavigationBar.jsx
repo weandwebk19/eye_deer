@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../redux/apiRequest";
+import { createAxios } from "../../createInstance";
+import { logOutSuccess } from "../../redux/authSlice";
 
 import { styled } from "@mui/system";
 import {
@@ -68,11 +72,22 @@ const StyledNavigationBar = () => {
 };
 
 const StyledDashboardNavigationBar = ({ width1, width2 }) => {
-  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
+  const user = useSelector((state) => state.auth.login.currentUser);
+  const accessToken = user?.accessToken;
+  const id = user?.user.id;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  let axiosJWT = createAxios(user, dispatch, logOutSuccess);
+
+  const handleLogout = () => {
+    logOut(dispatch, id, navigate, accessToken, axiosJWT);
+  };
+
   const handleOpenNavMenu = (event) => {
+    console.log(event);
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
@@ -80,6 +95,20 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
   };
 
   const handleCloseNavMenu = () => {
+    console.log("close");
+    setAnchorElNav(null);
+  };
+
+  const handleClickNavMenu = (key) => {
+    switch (key) {
+      case "logout":
+        logOut(dispatch, id, navigate, accessToken, axiosJWT);
+        break;
+      default:
+        setAnchorElNav(null);
+        break;
+    }
+
     setAnchorElNav(null);
   };
 
@@ -97,24 +126,6 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
       >
         <Container maxWidth="xl">
           <StyledToolbar disableGutters>
-            {/* <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography> */}
-
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
@@ -145,7 +156,7 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
                 }}
               >
                 {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <MenuItem key={page} onClick={() => handleClickNavMenu(page)}>
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
                 ))}
@@ -183,7 +194,7 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
               {pages.map((page) => (
                 <Button
                   key={page}
-                  onClick={handleCloseNavMenu}
+                  onClick={() => handleClickNavMenu(page)}
                   sx={{
                     my: 2,
                     display: "block",

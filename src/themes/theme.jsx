@@ -22,6 +22,15 @@ export const appTheme = createTheme({
   },
   shadows: Array(25).fill("none"),
   typography: {
+    htmlFontSize: 16,
     fontFamily: "'Poppins', 'sans-serif'",
+    fontSize: 14,
+    fontWeightLight: 200,
+    fontWeightRegular: 300,
+    fontWeightBold: 700,
+    h6: {
+      fontWeight: 700,
+      fontSize: "1rem",
+    },
   },
 });

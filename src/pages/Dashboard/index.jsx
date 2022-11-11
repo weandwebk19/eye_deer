@@ -21,6 +21,12 @@ import {
   StyledDashboardBigTitleBar,
 } from "../../components/Navigation/StyledNavigationBar";
 import { StyledHeadingTypography } from "../../components/Typography/StyledTypography";
+import {
+  StyledPrimaryButton,
+  StyledSecondaryButton,
+} from "../../components/Button/StyledButton";
+
+import DashboardQuizSet from "./DashboardQuizSet";
 
 import "./styles.scss";
 
@@ -30,17 +36,16 @@ const Dashboard = () => {
   const [width1] = useSize(target1);
   const [width2] = useSize(target2);
 
-  console.log(width1, width2);
-  const user = useSelector((state) => state.auth.login.currentUser);
-  const accessToken = user?.accessToken;
-  const id = user?.user.id;
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  let axiosJWT = createAxios(user, dispatch, logOutSuccess);
+  // const user = useSelector((state) => state.auth.login.currentUser);
+  // const accessToken = user?.accessToken;
+  // const id = user?.user.id;
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
+  // let axiosJWT = createAxios(user, dispatch, logOutSuccess);
 
-  const handleLogout = () => {
-    logOut(dispatch, id, navigate, accessToken, axiosJWT);
-  };
+  // const handleLogout = () => {
+  //   logOut(dispatch, id, navigate, accessToken, axiosJWT);
+  // };
 
   return (
     <Box>
@@ -133,6 +138,40 @@ const Dashboard = () => {
                 join eyedeer. <br />- world’s largest free gamify learning
                 platform.
               </Typography>
+              <Box
+                component="img"
+                sx={{
+                  width: "100%",
+                  height: "200px",
+                  objectFit: "cover",
+                  mt: 2,
+                  mb: 2,
+                }}
+                src="https://source.unsplash.com/random/?deer,antelope,forest"
+              ></Box>
+              <Grid
+                container
+                columns={{ xs: 1, sm: 1, md: 2, lg: 2 }}
+                spacing={2}
+                mb={2}
+              >
+                <Grid item xs={1} sm={1} md={1} lg={1}>
+                  <StyledSecondaryButton sx={{ width: "100%" }}>
+                    join with eyedeer code
+                  </StyledSecondaryButton>
+                </Grid>
+                <Grid item xs={1} sm={1} md={1} lg={1}>
+                  <StyledPrimaryButton sx={{ width: "100%" }}>
+                    quick create eyedeer quizzes
+                  </StyledPrimaryButton>
+                </Grid>
+              </Grid>
+              <Typography variant="h6" gutterBottom>
+                my eyedeers
+              </Typography>
+              {Array.apply(null, Array(10)).map((_, i) => {
+                return <DashboardQuizSet key={i} />;
+              })}
             </Box>
           </Grid>
           {/* End: last */}
