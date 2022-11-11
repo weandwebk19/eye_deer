@@ -17,7 +17,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import InstantMessage from "../../../components/Popup/InstantMessage";
 import StyledPaper from "../../../components/Paper/StyledPaper";
 import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
-import StyledPrimaryButton from "../../../components/Button/StyledPrimaryButton";
+import { StyledPrimaryButton } from "../../../components/Button/StyledButton";
 import {
   StyledInputField,
   customTheme,
