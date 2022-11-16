@@ -31,8 +31,6 @@ const Dashboard = () => {
   const [width1] = useSize(target1);
   const [width2] = useSize(target2);
 
-  console.log(width1, width2);
-
   return (
     <Box>
       <CssBaseline />

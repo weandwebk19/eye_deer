@@ -88,7 +88,7 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogout = (e) => {
+  const handleLogout = () => {
     logoutUser(user, dispatch, navigate);
   };
 
@@ -108,7 +108,7 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
   const handleClickNavMenu = (key) => {
     switch (key) {
       case "logout":
-        logoutUser(user, dispatch, navigate);
+        handleLogout();
         break;
       default:
         setAnchorElNav(null);

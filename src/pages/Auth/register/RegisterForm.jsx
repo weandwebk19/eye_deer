@@ -17,8 +17,6 @@ import {
   customTheme,
 } from "../../../components/Textbox/StyledInputField";
 
-// import GoogleAuthButton from "./GoogleAuthButton";
-
 import Gradient6 from "../../../assets/imgs/gradient-6.png";
 
 const RegisterForm = () => {
@@ -42,11 +40,12 @@ const RegisterForm = () => {
     data.birthday = state.birthday;
     data.roleId = state.role;
     data.workplaceId = state.workplace;
-    data.email = data.email ?? user?.email;
+    data.email = data.email??user?.email;
     data.picture = user?.picture;
-    data.firstName = data.firstName ?? user?.given_name;
-    data.lastName = data.lastName ?? user?.family_name;
-    const res = await registerUser(data, dispatch, navigate).catch((err) => {
+    data.firstName = data.firstName??user?.given_name;
+    data.lastName = data.lastName??user?.family_name;
+    const res = await registerUser(data, dispatch, navigate)
+    .catch(err => {
       setMessage(err.message);
       setIsError(true);
     });
