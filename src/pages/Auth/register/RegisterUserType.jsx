@@ -1,33 +1,17 @@
-import { useQuery } from "react-query";
-import axios from "axios";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { Box, Container, Grid } from "@mui/material";
-
 import RegisterCard from "./RegisterCard";
-
 import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
 import { StyledPrimaryButton } from "../../../components/Button/StyledButton";
-
 import Gradient1 from "../../../assets/imgs/gradient.png";
-
-import config from "../../../config";
+import { useGetWorkplaces } from "../../../hooks";
 
 const RegisterUserType = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-
-  const useWorkplaces = () => {
-    return useQuery(["workplace"], async () => {
-      const { data } = await axios.get(
-        `${config.SERVER_URL}/workplace/workplaces`
-      );
-      return data;
-    });
-  };
-  const { isLoading, error, data, isFetching } = useWorkplaces();
+  const { isLoading, error, data, isFetching } = useGetWorkplaces();
 
   if (isLoading) return "Loading...";
   if (error) return "An error has occurred: " + error.message;

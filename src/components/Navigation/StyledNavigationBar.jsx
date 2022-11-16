@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logOut } from "../../redux/apiRequest";
-import { createAxios } from "../../createInstance";
-import { logOutSuccess } from "../../redux/authSlice";
+import { logoutUser } from "../../httpClient";
 
 import { styled } from "@mui/system";
 import {
@@ -76,14 +74,11 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
 
   const user = useSelector((state) => state.auth.login.currentUser);
-  const accessToken = user?.accessToken;
-  const id = user?.user.id;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  let axiosJWT = createAxios(user, dispatch, logOutSuccess);
 
   const handleLogout = () => {
-    logOut(dispatch, id, navigate, accessToken, axiosJWT);
+    logoutUser(user, dispatch, navigate);
   };
 
   const handleOpenNavMenu = (event) => {
@@ -102,7 +97,7 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
   const handleClickNavMenu = (key) => {
     switch (key) {
       case "logout":
-        logOut(dispatch, id, navigate, accessToken, axiosJWT);
+        handleLogout();
         break;
       default:
         setAnchorElNav(null);

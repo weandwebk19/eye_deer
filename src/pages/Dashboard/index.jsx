@@ -1,12 +1,6 @@
 import { useRef } from "react";
 import useSize from "@react-hook/size";
 
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { logOut } from "../../redux/apiRequest";
-import { createAxios } from "../../createInstance";
-import { logOutSuccess } from "../../redux/authSlice";
-
 import {
   Container,
   CssBaseline,
@@ -35,17 +29,6 @@ const Dashboard = () => {
   const target2 = useRef(null);
   const [width1] = useSize(target1);
   const [width2] = useSize(target2);
-
-  // const user = useSelector((state) => state.auth.login.currentUser);
-  // const accessToken = user?.accessToken;
-  // const id = user?.user.id;
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
-  // let axiosJWT = createAxios(user, dispatch, logOutSuccess);
-
-  // const handleLogout = () => {
-  //   logOut(dispatch, id, navigate, accessToken, axiosJWT);
-  // };
 
   return (
     <Box>
@@ -176,9 +159,6 @@ const Dashboard = () => {
           </Grid>
           {/* End: last */}
         </Grid>
-        {/* <Button className="navbar-logout" onClick={handleLogout}>
-        Log out
-      </Button> */}
       </Container>
     </Box>
   );
