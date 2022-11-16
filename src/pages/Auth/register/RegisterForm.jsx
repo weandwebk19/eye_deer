@@ -17,8 +17,6 @@ import {
   customTheme,
 } from "../../../components/Textbox/StyledInputField";
 
-// import GoogleAuthButton from "./GoogleAuthButton";
-
 import Gradient6 from "../../../assets/imgs/gradient-6.png";
 
 const RegisterForm = () => {

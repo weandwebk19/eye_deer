@@ -39,11 +39,11 @@ const LoginForm = () => {
   } = useForm();
   const onSubmit = async (data) => {
     const res = await loginUser(data, dispatch, navigate);
-    if (res) {
-      setMessage("successfully login! 🤗");
+
+    setMessage(res.message);
+    if (res && res.success === true) {
       setIsError(false);
     } else {
-      setMessage("oops! something went wrong! 😅");
       setIsError(true);
     }
   };
