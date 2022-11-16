@@ -4,10 +4,23 @@
   border-bottom: 1px solid $black !important;
 }
 
+.MuiBottomNavigation-root {
+  border-top: 1px solid $black !important;
+}
+
 .dashboard-navbar {
   position: sticky;
   position: -webkit-sticky;
   top: 0;
   overflow: scroll;
   height: 100%;
+}
+
+#dashboard-footer {
+  right: 0;
+  overflow: scroll;
+}
+
+.footer-toolbar {
+  min-height: 32px !important;
 }
