@@ -19,7 +19,7 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
 
-import { StyledBigHeadingTypography } from "../Typography/StyledTypography";
+import { StyledHeadingTypography, StyledMediumHeadingTypography, StyledBigHeadingTypography } from "../Typography/StyledTypography";
 
 import "./styles.scss";
 
@@ -249,7 +249,7 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
   );
 };
 
-const StyledDashboardBigTitleBar = ({ width1, width2 }) => {
+const StyledDashboardBigTitleBar = ({ width1, width2, size }) => {
   return (
     <nav id="dashboard-titlebar">
       <StyledAppBar
@@ -271,7 +271,14 @@ const StyledDashboardBigTitleBar = ({ width1, width2 }) => {
             <Box
               sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
             ></Box>
-            <StyledBigHeadingTypography> eyedeer.</StyledBigHeadingTypography>
+
+            {size==="sm" 
+              ? <StyledHeadingTypography> eyedeer.</StyledHeadingTypography>
+              : (size==="md"
+                  ? <StyledMediumHeadingTypography> eyedeer.</StyledMediumHeadingTypography>
+                  : <StyledBigHeadingTypography> eyedeer.</StyledBigHeadingTypography>
+              )
+            }
 
             <Box sx={{ flexGrow: 0 }}></Box>
           </StyledToolbar>
