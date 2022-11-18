@@ -95,6 +95,7 @@ const Profile = () => {
                 noValidate
                 onSubmit={handleSubmit(onSubmit)}
                 sx={{
+                    padding: "50px",
                     justifyContent: "center",
                     gap: "50px",
                 }}
@@ -111,6 +112,7 @@ const Profile = () => {
                             sx={{
                                 width: "100%",
                                 height: "auto",
+                                objectFit: "cover",
                                 marginTop: "50px"
                             }}
                         />
@@ -273,7 +275,7 @@ const Profile = () => {
                         {/* End: email */}
 
                         <Grid item xs={8}>
-                            <Divider textAlign="left">Change Password</Divider>
+                            <Divider textAlign="left">Provide password to verify</Divider>
                         </Grid>
 
                         {/* Start: current password */}
@@ -284,7 +286,7 @@ const Profile = () => {
                             required
                             fullWidth
                             name="currentPassword"
-                            label="current password"
+                            label="password"
                             type="password"
                             id="current-password"
                             autoComplete="current-password"
@@ -313,81 +315,6 @@ const Profile = () => {
                         </Grid>
                         {/* End: current password */}
                         
-                        {/* Start: Password */}
-                        <Grid item xs={8} sm={4} md={4}>
-                        <ThemeProvider theme={customTheme}>
-                            <StyledInputField
-                            variant="light"
-                            required
-                            fullWidth
-                            name="password"
-                            label="password"
-                            type="password"
-                            id="password"
-                            autoComplete="new-password"
-                            {...register("password", {
-                                required: false,
-                                pattern: {
-                                  value:
-                                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/i,
-                                  message: `password must be 8-16 characters, at least one uppercase letter, one lowercase letter, one number and one special character`,
-                                },
-                              })}
-                            />
-                        </ThemeProvider>
-                        <Grid item>
-                            {errors.password ? (
-                            <div
-                                style={{
-                                color: "darkred",
-                                fontSize: "0.88rem",
-                                }}
-                            >
-                                {errors.password.message}
-                            </div>
-                            ) : null}
-                        </Grid>
-                        </Grid>
-                        {/* End: Password */}
-
-                        {/* Start: Confirm password */}
-                        <Grid item xs={8} sm={4} md={4}>
-                        <ThemeProvider theme={customTheme}>
-                            <StyledInputField
-                            variant="light"
-                            required
-                            fullWidth
-                            name="confirmPassword"
-                            label="confirm password"
-                            type="password"
-                            id="confirm-password"
-                            autoComplete="confirm-password"
-                            {...register("confirmPassword", {
-                                required: false,
-                                validate: (value) => {
-                                  if (watch("password") !== value) {
-                                    return "passwords do no match";
-                                  }
-                                },
-                            })}
-                            />
-                        </ThemeProvider>
-                        <Grid item>
-                            {errors.confirmPassword ? (
-                            <div
-                                style={{
-                                color: "darkred",
-                                fontSize: "0.88rem",
-                                position: "absolute",
-                                }}
-                            >
-                                {errors.confirmPassword.message}
-                            </div>
-                            ) : null}
-                        </Grid>
-                        </Grid>
-                        {/* End: Confirm password */}
-
                         <Grid item xs={8}>
                             <StyledPrimaryButton type="submit" variant="contained" fullWidth>save changes</StyledPrimaryButton>
                         </Grid>
