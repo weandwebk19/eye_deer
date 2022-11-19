@@ -17,8 +17,6 @@ import {
   customTheme,
 } from "../../../components/Textbox/StyledInputField";
 
-// import GoogleAuthButton from "./GoogleAuthButton";
-
 import Gradient6 from "../../../assets/imgs/gradient-6.png";
 
 const RegisterForm = () => {
@@ -126,13 +124,7 @@ const RegisterForm = () => {
                       />
                     </ThemeProvider>
                     {errors.lastName ? (
-                      <div
-                        style={{
-                          color: "darkred",
-                          fontSize: "0.88rem",
-                          position: "absolute",
-                        }}
-                      >
+                      <div className="error-message-validate">
                         {errors.lastName.message}
                       </div>
                     ) : null}
@@ -146,7 +138,7 @@ const RegisterForm = () => {
                         id="lastname"
                         label="last name"
                         name="lastName"
-                        placeholder={user.family_name}
+                        defaultValue={user.family_name}
                         autoComplete="lastName"
                         {...register("lastName", {
                           required: false,
@@ -178,19 +170,9 @@ const RegisterForm = () => {
                       />
                     </ThemeProvider>
                     {errors.firstName ? (
-                      <>
-                        {errors.firstName.type === "pattern" && (
-                          <div
-                            style={{
-                              color: "darkred",
-                              fontSize: "0.88rem",
-                              position: "absolute",
-                            }}
-                          >
-                            {errors.firstName.message}
-                          </div>
-                        )}
-                      </>
+                      <div className="error-message-validate">
+                        {errors.firstName.message}
+                      </div>
                     ) : null}
                   </Grid>
                 ) : (
@@ -202,7 +184,7 @@ const RegisterForm = () => {
                         id="firstname"
                         label="first name"
                         name="firstName"
-                        placeholder={user.given_name}
+                        defaultValue={user.given_name}
                         autoComplete={user.given_name}
                         {...register("firstName", {
                           required: false,
@@ -231,30 +213,9 @@ const RegisterForm = () => {
                     />
                   </ThemeProvider>
                   {errors.username ? (
-                    <>
-                      {errors.username.type === "required" && (
-                        <div
-                          style={{
-                            color: "darkred",
-                            fontSize: "0.88rem",
-                            position: "absolute",
-                          }}
-                        >
-                          {errors.username.message}
-                        </div>
-                      )}
-                      {errors.username.type === "validate" && (
-                        <div
-                          style={{
-                            color: "darkred",
-                            fontSize: "0.88rem",
-                            position: "absolute",
-                          }}
-                        >
-                          {errors.username.message}
-                        </div>
-                      )}
-                    </>
+                    <div className="error-message-validate">
+                      {errors.username.message}
+                    </div>
                   ) : null}
                 </Grid>
                 {/* End: username */}
@@ -282,30 +243,9 @@ const RegisterForm = () => {
                       />
                     </ThemeProvider>
                     {errors.email ? (
-                      <>
-                        {errors.email.type === "required" && (
-                          <div
-                            style={{
-                              color: "darkred",
-                              fontSize: "0.88rem",
-                              position: "absolute",
-                            }}
-                          >
-                            {errors.email.message}
-                          </div>
-                        )}
-                        {errors.email.type === "pattern" && (
-                          <div
-                            style={{
-                              color: "darkred",
-                              fontSize: "0.88rem",
-                              position: "absolute",
-                            }}
-                          >
-                            {errors.email.message}
-                          </div>
-                        )}
-                      </>
+                      <div className="error-message-validate">
+                        {errors.email.message}
+                      </div>
                     ) : null}
                   </Grid>
                 ) : null}
@@ -372,13 +312,7 @@ const RegisterForm = () => {
                   </ThemeProvider>
                   <Grid item>
                     {errors.confirmPassword ? (
-                      <div
-                        style={{
-                          color: "darkred",
-                          fontSize: "0.88rem",
-                          position: "absolute",
-                        }}
-                      >
+                      <div className="error-message-validate">
                         {errors.confirmPassword.message}
                       </div>
                     ) : null}

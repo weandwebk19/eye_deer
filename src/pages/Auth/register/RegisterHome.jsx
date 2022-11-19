@@ -4,6 +4,7 @@ import { Container, Box, Grid, Link as MuiLink } from "@mui/material";
 import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
 import Gradient1 from "../../../assets/imgs/gradient.png";
 import { useGetRoles } from "../../../hooks";
+
 const RegisterHome = () => {
   const { isLoading, error, data, isFetching } = useGetRoles();
   if (isLoading) return "Loading...";
@@ -50,7 +51,7 @@ const RegisterHome = () => {
               justifyContent="center"
               alignItems="center"
             >
-              {data.map((role, i) => {
+              {data?.map((role, i) => {
                 return (
                   <Grid
                     item

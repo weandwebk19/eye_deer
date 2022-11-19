@@ -4,7 +4,6 @@ import { Card, CardActionArea, CardContent } from "@mui/material";
 // import "./style.scss";
 
 const StyledCard = styled(Card)(({ theme, variant }) => ({
-  width: "100%",
   boxShadow: "none !important",
   borderRadius: 0,
 
@@ -14,14 +13,20 @@ const StyledCard = styled(Card)(({ theme, variant }) => ({
     background: `${theme.palette.primary.main}`,
     color: `${theme.palette.secondary.light}`,
   }),
-  ...(variant === "wide" && {
+  ...(variant === "carpet" && {
+    width: "100%",
     height: "88px",
     padding: "16px",
     background: `${theme.palette.primary.main}`,
     color: `${theme.palette.secondary.light}`,
-    marginBottom: "12px",
   }),
-  ...(variant === "horizon" && {}),
+  ...(variant === "brick" && {
+    width: "100%",
+    height: "200px",
+    padding: "16px",
+    background: `${theme.palette.secondary.dark}`,
+    color: `${theme.palette.primary.main}`,
+  }),
 }));
 
 const StyledCardActionArea = styled(CardActionArea)(

@@ -16,20 +16,35 @@ const axios = createAxios();
 export const loginUser = async (user, dispatch, navigate) => {
   dispatch(loginStart());
   const res = await axios.post("auth/login", user).catch((err) => {
-    console.log(err);
     dispatch(loginFailed());
-    return false;
+    if(err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message
+      };
+    }
+    return {
+      success: false,
+      message: err.message
+    };
   });
   if (res.status === 200) {
     dispatch(loginSuccess(res.data));
     setTimeout(() => {
       navigate("/dashboard");
     }, 2000);
-    return true;
-  } else {
-    console.log(res);
+    return {
+      success: true,
+      message: "successfully login! 🤗"
+    };
+  } 
+  else {
     dispatch(loginFailed());
-    return false;
+    return {
+      success: false,
+      //message: "oops! something went wrong! 😅"
+      message: res.message
+    };
   }
 };
 
