@@ -10,6 +10,9 @@ import Login from "./pages/Auth/login";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 
+//preview page
+import Profile from "pages/User/Profile";
+
 import { appTheme } from "./themes/theme";
 import "./App.scss";
 
@@ -35,6 +38,9 @@ const App = () => {
                 </Route>
                 <Route path="/register/*" element={<Register />} />
                 <Route path="/login/*" element={<Login />} />
+
+                {/* Preview new page that has writed */}
+                <Route path="/previewpage" element={<Profile />} />
               </Routes>
             </Router>
           </div>
