@@ -58,20 +58,32 @@ const RegisterHome = () => {
               justifyContent="center"
               alignItems="center"
             >
-              {data.map((workplace, i) => {
-                  return (
-                    <Grid item xs={2} sm={4} md={3} key={i}>
-                      <Link
-                        to="/register/birthday"
-                        state={{ workplace: workplace.id }}
-                        key={workplace.id}
-                      >
-                        <RegisterCard cardItem={workplace} />
-                      </Link>
-                    </Grid>
-                  );
-                })}
-                <div>{isFetching ? "Updating..." : ""}</div>
+              {data?.map((role, i) => {
+                return (
+                  <Grid
+                    item
+                    xs={2}
+                    sm={4}
+                    md={6}
+                    key={i}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Link
+                      to={`${
+                        role.id === 1
+                          ? "/register/user-type"
+                          : "/register/birthday"
+                      }`}
+                      state={{ role: role.id }}
+                    >
+                      <RegisterCard cardItem={role} />
+                    </Link>
+                  </Grid>
+                );
+              })}
+              <div>{isFetching ? "Updating..." : ""}</div>
             </Grid>
             <StyledPrimaryButton sx={{ width: "200px" }} onClick={handleNavigate}>
               Other

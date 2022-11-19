@@ -13,10 +13,19 @@ export const StyledHeadingTypography = styled(Typography)(
 `
 );
 
+export const StyledMediumHeadingTypography = styled(Typography)(
+  () =>
+    `
+    font-family: 'IM Fell English', serif;
+    font-size: 4rem !important;
+    line-height: 3rem !important;
+`
+);
+
 export const StyledBigHeadingTypography = styled(Typography)(
   () => `
   font-family: 'IM Fell English', serif;
-  font-size: 8rem !important;
-  line-height: 7rem !important;
+  font-size: 5rem !important;
+  // line-height: 5rem !important;
 `
 );
