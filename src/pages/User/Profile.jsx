@@ -14,28 +14,36 @@ import defaultAvatar from "../../assets/imgs/avatar.jpg"
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-import { updateProfileUser } from "httpClient";
+import { getUserByUsername, updateProfileUser } from "httpClient";
+
+//mock username
 
 const Profile = () => {
     //preview avatar
     const [selectedFile, setSelectedFile] = useState()
     const [preview, setPreview] = useState()
+    const [isDeleteAvatar, setIsDeleteAvatar] = useState(false);
 
     //form
     const [isError, setIsError] = useState("");
     const [messageFromServer, setMessageFromServer] = useState("");
+
     const {
         register,
         handleSubmit,
         formState: { errors },
-        watch,
+        reset
     } = useForm();
 
     const onSubmit = async (userInfo) => {
-        userInfo.file = selectedFile
+        userInfo.avatarFile = selectedFile;
+        userInfo.isDeleteAvatar = isDeleteAvatar;
+
+        //mock username
+        const username = 'xxx';
         
         //call api here
-        const res = await updateProfileUser(userInfo)
+        const res = await updateProfileUser(username, userInfo)
         .catch(err => {
             setMessageFromServer(err.message);
             setIsError(true);
@@ -82,6 +90,25 @@ const Profile = () => {
         setSelectedFile(e.target.files[0])
     }
 
+    //get user info
+    useEffect(() => {
+        //mock username
+        const username = 'xxx';
+        getUserByUsername(username)
+            .then((userInfo) => {
+                setPreview(userInfo.picture);
+                reset({
+                    username: userInfo.username,
+                    lastName: userInfo.lastName,
+                    firstName: userInfo.firstName,
+                    email: userInfo.email,
+                });
+            })
+            .catch((error)=>{
+                console.log(error);
+            });
+    }, [])
+
     return (
         <>
             <Box sx={{display: {md: 'none'}}}>
@@ -123,7 +150,7 @@ const Profile = () => {
                             marginTop: "20px"
                         }}
                     >
-                        <StyledSecondaryButton>Delete Avatar</StyledSecondaryButton>
+                        <StyledSecondaryButton onClick={()=>{setSelectedFile(undefined); setIsDeleteAvatar(true);}}>Delete Avatar</StyledSecondaryButton>
                         <StyledPrimaryButton component="label">
                             Change Avatar
                             <input hidden accept="image/*" type="file" onChange={onSelectFile}/>    
@@ -148,9 +175,12 @@ const Profile = () => {
                                 variant="light"
                                 fullWidth
                                 id="lastname"
-                                label="last name"
+                                label="lastname"
                                 name="lastName"
                                 autoComplete="lastName"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
                                 {...register("lastName", {
                                     required: "required",
                                     pattern: {
@@ -183,7 +213,11 @@ const Profile = () => {
                                 id="firstname"
                                 label="first name"
                                 name="firstName"
-                                autoComplete="firstName"{...register("firstName", {
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                autoComplete="firstName"
+                                {...register("firstName", {
                                     required: "required",
                                     pattern: {
                                       value: /^[a-zA-Z ]*$/i,
@@ -219,6 +253,10 @@ const Profile = () => {
                             name="username"
                             autoComplete="username"
                             disabled
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            {...register("username")}
                             />
                         </ThemeProvider>
                         </Grid>
@@ -236,6 +274,9 @@ const Profile = () => {
                                 type="email"
                                 name="email"
                                 autoComplete="email"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
                                 {...register("email", {
                                     required: "required",
                                     pattern: {
