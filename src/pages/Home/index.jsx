@@ -20,6 +20,7 @@ const Home = () => {
           alignItems: "center",
           justifyContent: "center",
           margin: "auto",
+          overflow: "hidden !important",
         }}
       >
         <img src={MyLogo1} alt="eyedeer logo" draggable="false" />

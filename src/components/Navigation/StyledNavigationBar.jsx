@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,18 +15,34 @@ import {
   Toolbar,
   Button,
   BottomNavigation,
+  Drawer,
+  Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  BottomNavigationAction,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
-import AdbIcon from "@mui/icons-material/Adb";
+// import AdbIcon from "@mui/icons-material/Adb";
 
-import { StyledBigHeadingTypography } from "../Typography/StyledTypography";
+import {
+  StyledHeadingTypography,
+  StyledBigHeadingTypography,
+} from "../Typography/StyledTypography";
 
+import SmallLogo from "../../assets/imgs/small-logo.svg";
 import "./styles.scss";
+
+const MuiMenu = React.forwardRef((props, ref) => {
+  return <Menu ref={ref} {...props} />;
+});
 
 const pages = ["home", "about", "pricing", "logout"];
 const socialmedias = ["facebook", "instagram", "twitter", "linkedin"];
-const settings = ["profile", "logout"];
+// const settings = ["profile", "logout"];
+const drawerWidth = 240;
 
 const StyledAppBar = styled(AppBar)(
   ({ theme }) => `
@@ -36,7 +53,7 @@ const StyledAppBar = styled(AppBar)(
 `
 );
 
-const StyleBottomNavigation = styled(BottomNavigation)(
+const StyledBottomNavigation = styled(BottomNavigation)(
   ({ theme }) => `
   color: ${theme.palette.secondary.contrastText};
   background-color: ${theme.palette.secondary.main};
@@ -76,7 +93,6 @@ const StyledNavigationBar = () => {
           </Button>
         </StyledToolbar>
       </StyledAppBar>
-      <StyledToolbar />
     </>
   );
 };
@@ -88,22 +104,26 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogout = (e) => {
-    logoutUser(user, dispatch, navigate);
-  };
+  // const handleLogout = (e) => {
+  //   logoutUser(user, dispatch, navigate);
+  // };
 
-  const handleOpenNavMenu = (event) => {
-    console.log(event);
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  // const handleOpenNavMenu = (event) => {
+  //   console.log(event);
+  //   setAnchorElNav(event.currentTarget);
+  // };
+  // const handleOpenUserMenu = (event) => {
+  //   setAnchorElUser(event.currentTarget);
+  // };
 
-  const handleCloseNavMenu = () => {
-    console.log("close");
-    setAnchorElNav(null);
-  };
+  // const handleCloseNavMenu = () => {
+  //   console.log("close");
+  //   // setAnchorElNav(null);
+  // };
+
+  // const handleCloseUserMenu = () => {
+  //   setAnchorElUser(null);
+  // };
 
   const handleClickNavMenu = (key) => {
     switch (key) {
@@ -118,32 +138,59 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
+
+  const drawer = (
+    <Box onClick={handleDrawerToggle}>
+      <StyledHeadingTypography variant="h5" sx={{ textAlign: "center", my: 2 }}>
+        eyedeer.
+      </StyledHeadingTypography>
+      <Divider />
+      <List>
+        {pages.map((page) => (
+          <ListItem key={page} disablePadding>
+            <ListItemButton>
+              <ListItemText primary={page} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
+
   return (
     <nav id="dashboard-navbar">
       <StyledAppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${width1 + width2 + 24}px)` },
-          mr: { sm: `${width1 + width2 + 24}px` },
+          width: { md: `calc(100% - ${width1 + width2 + 24}px)` },
+          mr: { md: `${width1 + width2 + 24}px` },
         }}
       >
         <Container maxWidth="xl">
           <StyledToolbar disableGutters>
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: { xs: "flex", sm: "none", md: "none" },
+                justifyContent: "end",
+              }}
+            >
               <IconButton
                 size="large"
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
-                onClick={handleOpenNavMenu}
+                onClick={handleDrawerToggle}
                 color="inherit"
               >
                 <MenuIcon />
               </IconButton>
-              <Menu
+              {/* <MuiMenu
                 id="menu-appbar"
                 anchorEl={anchorElNav}
                 anchorOrigin={{
@@ -160,38 +207,26 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
                 sx={{
                   display: { xs: "block", md: "none" },
                 }}
+              > */}
+              <Box
+                sx={{
+                  display: { xs: "none", sm: "block", md: "block" },
+                }}
               >
                 {pages.map((page) => (
-                  <MenuItem key={page} onClick={() => handleClickNavMenu(page)}>
+                  <Box key={page} onClick={() => handleClickNavMenu(page)}>
                     <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
+                  </Box>
                 ))}
-              </Menu>
+              </Box>
+              {/* </MuiMenu> */}
             </Box>
-            <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              href=""
-              sx={{
-                mr: 2,
-                display: { xs: "flex", md: "none" },
-                flexGrow: 1,
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              LOGO
-            </Typography>
             <Box
               sx={{
                 flexGrow: 1,
                 display: {
                   xs: "none",
+                  sm: "flex",
                   md: "flex",
                   justifyContent: "space-between",
                 },
@@ -202,7 +237,6 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
                   key={page}
                   onClick={() => handleClickNavMenu(page)}
                   sx={{
-                    my: 2,
                     display: "block",
                     textTransform: "lowercase",
                   }}
@@ -211,40 +245,75 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
                 </Button>
               ))}
             </Box>
-
-            <Box sx={{ flexGrow: 0 }}>
-              {/* <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                </IconButton>
-              </Tooltip> */}
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
+            <StyledHeadingTypography
+              variant={"h5"}
+              noWrap
+              component="a"
+              sx={{
+                mr: 2,
+                display: { xs: "none", sm: "flex", md: "none" },
+                flexGrow: 1,
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              eyedeer.
+            </StyledHeadingTypography>
+            <Box
+              sx={{
+                display: { xs: "flex", sm: "none", md: "none" },
+                mr: 1,
+              }}
+            >
+              <img
+                src={SmallLogo}
+                alt="small logo"
+                draggable={false}
+                style={{
+                  maxWidth: "32px",
+                  maxHeight: "32px",
                 }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
+              />
             </Box>
+
+            <Box sx={{ flexGrow: 0 }}></Box>
           </StyledToolbar>
+
+          <StyledDashboardBigTitleBar width1={width1} width2={width2} />
         </Container>
       </StyledAppBar>
+
+      <Box component="nav">
+        <Drawer
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+      </Box>
+
       <StyledToolbar />
+      <Box
+        sx={{
+          display: { xs: "none", sm: "none", md: "block" },
+        }}
+      >
+        <StyledToolbar />
+        <StyledToolbar />
+      </Box>
     </nav>
   );
 };
@@ -259,6 +328,9 @@ const StyledDashboardBigTitleBar = ({ width1, width2 }) => {
           mr: { sm: `${width1 + width2 + 24}px` },
           top: "auto",
           textAlign: "left",
+          paddingLeft: "24px",
+          display: { xs: "none", sm: "none", md: "flex" },
+          flexDirection: "row",
         }}
       >
         <Container maxWidth="xl">
@@ -268,138 +340,81 @@ const StyledDashboardBigTitleBar = ({ width1, width2 }) => {
               flexDirection: "row",
             }}
           >
-            <Box
-              sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
-            ></Box>
             <StyledBigHeadingTypography> eyedeer.</StyledBigHeadingTypography>
-
-            <Box sx={{ flexGrow: 0 }}></Box>
           </StyledToolbar>
         </Container>
       </StyledAppBar>
-      <StyledToolbar />
-      <StyledToolbar />
+      <Box
+        sx={{
+          display: { xs: "none", sm: "none", md: "flex" },
+        }}
+      >
+        <StyledToolbar />
+      </Box>
     </nav>
   );
 };
 
 const StyledFooter = ({ width1, width2 }) => {
   return (
-    <StyleBottomNavigation
-      position="fixed"
-      sx={{
-        width: { sm: `calc(100% - ${width1 + width2 + 24}px)` },
-        mr: { sm: `${width1 + width2 + 24}px` },
-        right: 0,
-        bottom: 0,
-        height: "32px",
-      }}
-    >
-      <Container maxWidth="xl">
-        <StyledToolbar
-          className="footer-toolbar"
-          disableGutters
-          sx={{
-            flexDirection: "row",
-          }}
-        >
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
+    <Box>
+      <StyledBottomNavigation
+        showLabels={false}
+        position="fixed"
+        sx={{
+          width: { md: `calc(100% - ${width1 + width2 + 24}px)` },
+          mr: { md: `${width1 + width2 + 24}px` },
+          px: "48px",
+          right: 0,
+          bottom: 0,
+          height: "32px",
+          display: {
+            xs: "none",
+            sm: "flex",
+            md: "flex",
+          },
+          justifyContent: "space-between !important",
+        }}
+      >
+        {/* <Container maxWidth="xl">
+          <StyledToolbar
+            className="footer-toolbar"
+            disableGutters
+            sx={{
+              flexDirection: "row",
+            }}
+          >
+            <Box
               sx={{
-                display: { xs: "block", md: "none" },
+                flexGrow: 1,
+                display: {
+                  xs: "none",
+                  sm: "flex",
+                  md: "flex",
+                  justifyContent: "space-between",
+                },
               }}
-            >
-              {socialmedias.map((socialmedia) => (
-                <MenuItem key={socialmedia}>
-                  <Typography textAlign="center">{socialmedia}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
+            > */}
+        {socialmedias.map((socialmedia) => (
+          <BottomNavigationAction
+            label={socialmedia}
+            key={socialmedia}
+            showLabel={true}
             sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
+              display: "block",
+              textTransform: "lowercase",
+              flex: 0,
             }}
-          >
-            LOGO
-          </Typography>
-          <Box
-            sx={{
-              flexGrow: 1,
-              display: {
-                xs: "none",
-                md: "flex",
-                justifyContent: "space-between",
-              },
-            }}
-          >
-            {socialmedias.map((socialmedia) => (
-              <Button
-                key={socialmedia}
-                sx={{
-                  display: "block",
-                  textTransform: "lowercase",
-                }}
-              >
-                {socialmedia}
-              </Button>
-            ))}
-          </Box>
-          <Box sx={{ flexGrow: 0 }}>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-            >
-              {socialmedias.map((socialmedia) => (
-                <MenuItem key={socialmedia}>
-                  <Typography textAlign="center">{socialmedia}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-        </StyledToolbar>
-      </Container>
-    </StyleBottomNavigation>
+            className="bottom-navigation-socialmedia"
+          />
+          //   {socialmedia}
+          // </BottomNavigationAction>
+        ))}
+        {/* </Box>
+          </StyledToolbar>
+        </Container> */}
+      </StyledBottomNavigation>
+    </Box>
   );
 };
 
