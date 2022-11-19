@@ -1,6 +1,6 @@
 @import "../../../sassStyles/global";
 @import "../../../sassStyles/variables";
-@import "../../../sassStyles/minixs";
+@import "../../../sassStyles/mixins";
 
 .workplace-card,
 .role-card {
@@ -80,4 +80,10 @@
   @include mobile {
     width: 350px;
   }
+}
+
+.error-message-validate {
+  color: darkred;
+  font-size: 0.88rem;
+  position: absolute;
 }

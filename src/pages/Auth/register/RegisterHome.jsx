@@ -51,7 +51,7 @@ const RegisterHome = () => {
               justifyContent="center"
               alignItems="center"
             >
-              {data.map((role, i) => {
+              {data?.map((role, i) => {
                 return (
                   <Grid
                     item

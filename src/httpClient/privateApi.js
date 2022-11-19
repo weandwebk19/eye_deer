@@ -1,9 +1,10 @@
-import { createAxiosDefault } from "./createInstance";
-const axios = createAxiosDefault();
+import {createAxiosJWT, createAxiosDefault} from "./createInstance";
+const axios = createAxiosJWT();
 
 //get user info
 export const getUserByUsername = async(username) => {
     try{
+        const axios = createAxiosDefault();
         const res = await axios.get(`/user/profile/${username}`);
         if(res.status === 200){
             return res.data;
@@ -26,6 +27,7 @@ export const updateProfileUser = async (username, userInfo) => {
             formData.append(key, userInfo[key]);
         }
 
+        const axios = createAxiosDefault();
         const res = await axios({
             method: "post",
             url: `/user/profile/${username}`,
@@ -42,3 +44,13 @@ export const updateProfileUser = async (username, userInfo) => {
       return error.response.data;
     }
 }
+
+export const getMyGroup = async () => {
+  const res = await axios.get("https://dummyjson.com/products").catch((err) => {
+    console.log(err);
+    return [];
+  });
+  if (res.status === 200) {
+    return res.data;
+  } else return [];
+};

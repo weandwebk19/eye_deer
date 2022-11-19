@@ -111,12 +111,7 @@ const Profile = () => {
 
     return (
         <>
-            <Box sx={{display: {md: 'none'}}}>
-                <StyledDashboardBigTitleBar size="sm"/>
-            </Box>
-            <Box sx={{display: {xs: 'none', md: 'block'}}}>
-                <StyledDashboardBigTitleBar size="md"/>
-            </Box>
+            <StyledDashboardBigTitleBar width1={"50px"} width2={"50px"} />
             <Grid container
                 component="form"
                 noValidate
