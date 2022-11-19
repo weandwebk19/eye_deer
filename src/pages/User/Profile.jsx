@@ -13,12 +13,14 @@ import defaultAvatar from "../../assets/imgs/avatar.jpg"
 
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-
 import { getUserByUsername, updateProfileUser } from "httpClient";
-
-//mock username
+import { useDispatch, useSelector } from "react-redux";
 
 const Profile = () => {
+    const dispatch = useDispatch();
+    const currentUser = useSelector((state) => state.auth.login.currentUser);
+    const user = currentUser?.user;
+    const username = user.username;
     //preview avatar
     const [selectedFile, setSelectedFile] = useState()
     const [preview, setPreview] = useState()
@@ -38,12 +40,9 @@ const Profile = () => {
     const onSubmit = async (userInfo) => {
         userInfo.avatarFile = selectedFile;
         userInfo.isDeleteAvatar = isDeleteAvatar;
-
-        //mock username
-        const username = 'xxx';
         
         //call api here
-        const res = await updateProfileUser(username, userInfo)
+        const res = await updateProfileUser(currentUser, userInfo, dispatch)
         .catch(err => {
             setMessageFromServer(err.message);
             setIsError(true);
@@ -92,21 +91,20 @@ const Profile = () => {
 
     //get user info
     useEffect(() => {
-        //mock username
-        const username = 'xxx';
-        getUserByUsername(username)
-            .then((userInfo) => {
-                setPreview(userInfo.picture);
-                reset({
-                    username: userInfo.username,
-                    lastName: userInfo.lastName,
-                    firstName: userInfo.firstName,
-                    email: userInfo.email,
-                });
-            })
+        (async () => {
+            const userInfo = await getUserByUsername(currentUser, dispatch)
             .catch((error)=>{
                 console.log(error);
             });
+
+            setPreview(userInfo.picture);
+            reset({
+                username: userInfo.username,
+                lastName: userInfo.lastName,
+                firstName: userInfo.firstName,
+                email: userInfo.email,
+            });
+        })();
     }, [])
 
     return (
@@ -328,11 +326,11 @@ const Profile = () => {
                             autoComplete="current-password"
                             {...register("currentPassword", {
                                 required: "required",
-                                pattern: {
-                                  value:
-                                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/i,
-                                  message: `password must be 8-16 characters, at least one uppercase letter, one lowercase letter, one number and one special character`,
-                                },
+                                // pattern: {
+                                //   value:
+                                //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/i,
+                                //   message: `password must be 8-16 characters, at least one uppercase letter, one lowercase letter, one number and one special character`,
+                                // },
                               })}
                             />
                         </ThemeProvider>
