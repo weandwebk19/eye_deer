@@ -1,4 +1,4 @@
-import { useLoadPage } from '../hooks/useLoadPage';
+import { useLoadPage } from '../hooks';
 
 const PrivateRoute = () => {
     const { isLoading, error, data } = useLoadPage();
