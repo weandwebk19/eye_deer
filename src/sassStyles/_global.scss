@@ -1,9 +1,17 @@
+@import "./mixins";
 @import "./variables";
+@include scrollbars(0.5em);
+
+html {
+  // font-size: 62.5%;
+}
 
 body {
   background-color: $white !important;
-  min-height: 100vh;
-  &::-webkit-scrollbar {
+  // min-height: 100vh;
+  height: 100%;
+
+  Hide scrollbar &::-webkit-scrollbar {
     display: none;
   }
 }

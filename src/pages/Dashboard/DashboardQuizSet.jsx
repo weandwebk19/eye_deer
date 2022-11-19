@@ -9,7 +9,7 @@ import {
 const DashboardQuizSet = () => {
   return (
     <>
-      <StyledCard variant="wide">
+      <StyledCard variant="carpet">
         <Box
           sx={{
             display: "flex",

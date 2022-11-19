@@ -1,4 +1,6 @@
+@import "../../sassStyles/global";
 @import "../../sassStyles/variables";
+@import "../../sassStyles/mixins";
 
 .dashboard-deco-middle {
   background: url("../../assets/imgs/gradient-9.png");
@@ -9,12 +11,12 @@
   &__typography {
     color: $white;
     position: absolute;
-    transform: rotate(90deg) translateY(-432%) translateX(5%);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 2.5rem !important;
     top: 0;
-    left: 0;
-    transform-origin: top left;
-    font-size: xxx-large !important;
-    width: 100vh;
+    right: 0;
+    padding: 32px;
   }
 }
 
@@ -22,5 +24,88 @@
 #dashboard-last-tab {
   &::-webkit-scrollbar {
     display: none;
+  }
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#dashboard-first-tab {
+  @include tablet {
+    order: 2;
+  }
+  @include mobile {
+    order: 2;
+  }
+}
+
+#dashboard-last-tab {
+  @include tablet {
+    margin-top: 64px;
+    order: 1;
+    height: 700px;
+  }
+  @include mobile {
+    margin-top: 64px;
+    order: 1;
+    height: 100vh;
+  }
+}
+
+#dashboard-md-first-tab {
+  height: 100%;
+}
+
+#dashboard-wellcome {
+  @include tablet {
+    display: grid;
+    align-content: space-between;
+  }
+  @include mobile {
+    display: block;
+  }
+}
+
+#dashboard-quizzes-list,
+#dashboard-wellcome {
+  @include tablet {
+    height: 100%;
+  }
+  @include mobile {
+    height: 100%;
+  }
+}
+
+#dashboard-quizzes-list {
+  @include tablet {
+    overflow-y: scroll;
+  }
+  @include mobile {
+    overflow-y: scroll;
+  }
+}
+
+.dashboard-quiz {
+  @include desktop {
+    padding-top: 16px;
+  }
+  @include tablet {
+    padding-top: 16px;
+    padding-left: 16px;
+    margin-left: -16px !important;
+  }
+  @include mobile {
+    padding-top: 16px;
+    padding-left: 16px;
+    margin-left: -16px !important;
+  }
+}
+
+.add-group-button {
+  @include mobile {
+    width: 100%;
+    margin-top: 16px !important;
   }
 }

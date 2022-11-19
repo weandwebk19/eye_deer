@@ -4,8 +4,16 @@
   border-bottom: 1px solid $black !important;
 }
 
+#dashboard-titlebar > .MuiAppBar-root {
+  border-top: 1px solid $black !important;
+  border-bottom: 1px solid $black !important;
+}
+
 .MuiBottomNavigation-root {
   border-top: 1px solid $black !important;
+  width: 100%;
+  z-index: 999;
+  align-items: center;
 }
 
 .dashboard-navbar {
@@ -23,4 +31,17 @@
 
 .footer-toolbar {
   min-height: 32px !important;
+}
+
+.bottom-navigation-socialmedia {
+  display: flex;
+  span {
+    font-size: 0.875rem;
+    color: $black;
+  }
+}
+
+.MuiBottomNavigationAction-root {
+  height: 100%;
+  padding: 12px !important;
 }
