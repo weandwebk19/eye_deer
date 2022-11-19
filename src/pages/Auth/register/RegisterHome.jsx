@@ -1,14 +1,21 @@
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import RegisterCard from "./RegisterCard";
 import { Container, Box, Grid, Link as MuiLink } from "@mui/material";
 import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
+import { StyledPrimaryButton } from "../../../components/Button/StyledButton";
 import Gradient1 from "../../../assets/imgs/gradient.png";
-import { useGetRoles } from "../../../hooks";
+import { useGetWorkplaces } from "../../../hooks";
 
 const RegisterHome = () => {
-  const { isLoading, error, data, isFetching } = useGetRoles();
+  const navigate = useNavigate();
+  const { isLoading, error, data, isFetching } = useGetWorkplaces();
   if (isLoading) return "Loading...";
   if (error) return "An error has occurred: " + error.message;
+
+  const handleNavigate = () => {
+    const path = "/register/birthday";
+    navigate(path, { state: { workplace: null } });
+  };
 
   return (
     <Box
@@ -38,7 +45,7 @@ const RegisterHome = () => {
             color="textPrimary"
             gutterBottom
           >
-            choose your account type.
+            describe your workplace.
           </StyledHeadingTypography>
           <img src={Gradient1} alt="deco gradient" className="deco-img-1" />
 
@@ -51,33 +58,24 @@ const RegisterHome = () => {
               justifyContent="center"
               alignItems="center"
             >
-              {data.map((role, i) => {
-                return (
-                  <Grid
-                    item
-                    xs={2}
-                    sm={4}
-                    md={6}
-                    key={i}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <Link
-                      to={`${
-                        role.id === 1
-                          ? "/register/user-type"
-                          : "/register/birthday"
-                      }`}
-                      state={{ role: role.id }}
-                    >
-                      <RegisterCard cardItem={role} />
-                    </Link>
-                  </Grid>
-                );
-              })}
-              <div>{isFetching ? "Updating..." : ""}</div>
+              {data.map((workplace, i) => {
+                  return (
+                    <Grid item xs={2} sm={4} md={3} key={i}>
+                      <Link
+                        to="/register/birthday"
+                        state={{ workplace: workplace.id }}
+                        key={workplace.id}
+                      >
+                        <RegisterCard cardItem={workplace} />
+                      </Link>
+                    </Grid>
+                  );
+                })}
+                <div>{isFetching ? "Updating..." : ""}</div>
             </Grid>
+            <StyledPrimaryButton sx={{ width: "200px" }} onClick={handleNavigate}>
+              Other
+            </StyledPrimaryButton>
             <Grid
               container
               justifyContent="center"

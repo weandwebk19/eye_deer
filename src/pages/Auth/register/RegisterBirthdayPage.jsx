@@ -62,7 +62,7 @@ const RegisterBirthdayPage = () => {
     navigate(path, {
       state: {
         birthday: new Date(`${month}-${day}-${year}`),
-        role: state.role,
+        workplace: state.workplace,
       },
     });
   };
