@@ -30,9 +30,10 @@ export const createAxiosJWT = (user, dispatch, stateSuccess) => {
           ...user,
           accessToken: data.accessToken,
         };
-        if (dispatch && stateSuccess) {
-          dispatch(stateSuccess(refreshUser));
-        }
+        // if (dispatch && stateSuccess) {
+        //   dispatch(stateSuccess(refreshUser));
+        // }
+        dispatch(stateSuccess(refreshUser));
         config.headers["token"] = "Bearer " + data.accessToken;
       }
       return config;
