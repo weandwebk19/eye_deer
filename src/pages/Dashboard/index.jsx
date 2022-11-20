@@ -231,7 +231,7 @@ const Dashboard = () => {
                 xs={4}
                 sm={4}
                 md={4}
-                id="dashboard-wellcome"
+                id="dashboard-welcome"
                 sx={{
                   display: "grid",
                   alignContent: "space-between",
@@ -239,7 +239,7 @@ const Dashboard = () => {
               >
                 <Box>
                   <StyledHeadingTypography variant="h3">
-                    wellcome!
+                    welcome!
                   </StyledHeadingTypography>
                   <StyledHeadingTypography variant="h4" gutterBottom>
                     tho le

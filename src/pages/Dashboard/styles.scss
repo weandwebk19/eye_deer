@@ -58,7 +58,7 @@
   height: 100%;
 }
 
-#dashboard-wellcome {
+#dashboard-welcome {
   @include tablet {
     display: grid;
     align-content: space-between;
@@ -69,7 +69,7 @@
 }
 
 #dashboard-quizzes-list,
-#dashboard-wellcome {
+#dashboard-welcome {
   @include tablet {
     height: 100%;
   }
