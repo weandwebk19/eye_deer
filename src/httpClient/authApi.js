@@ -97,8 +97,8 @@ export const logoutUser = async (user, dispatch, navigate) => {
   }
 };
 
-export const requireLogin = async (user, navigate) => {
-  const axiosJWT = createAxiosJWT(user);
+export const requireLogin = async (user, navigate, dispatch) => {
+  const axiosJWT = createAxiosJWT(user, dispatch, loginSuccess);
   const accessToken = user?.accessToken;
   const id = user?.user.id;
 

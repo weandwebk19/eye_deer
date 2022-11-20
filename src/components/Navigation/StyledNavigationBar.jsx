@@ -27,10 +27,9 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
 // import AdbIcon from "@mui/icons-material/Adb";
 
-import {
+import { 
   StyledHeadingTypography,
-  StyledBigHeadingTypography,
-} from "../Typography/StyledTypography";
+  StyledBigHeadingTypography } from "../Typography/StyledTypography";
 
 import SmallLogo from "../../assets/imgs/small-logo.svg";
 import "./styles.scss";
@@ -318,7 +317,7 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
   );
 };
 
-const StyledDashboardBigTitleBar = ({ width1, width2 }) => {
+const StyledDashboardBigTitleBar = ({ width1, width2, size }) => {
   return (
     <nav id="dashboard-titlebar">
       <StyledAppBar
@@ -341,6 +340,7 @@ const StyledDashboardBigTitleBar = ({ width1, width2 }) => {
             }}
           >
             <StyledBigHeadingTypography> eyedeer.</StyledBigHeadingTypography>
+
           </StyledToolbar>
         </Container>
       </StyledAppBar>

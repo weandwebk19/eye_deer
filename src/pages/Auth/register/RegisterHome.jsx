@@ -1,14 +1,21 @@
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import RegisterCard from "./RegisterCard";
 import { Container, Box, Grid, Link as MuiLink } from "@mui/material";
 import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
+import { StyledPrimaryButton } from "../../../components/Button/StyledButton";
 import Gradient1 from "../../../assets/imgs/gradient.png";
-import { useGetRoles } from "../../../hooks";
+import { useGetWorkplaces } from "../../../hooks";
 
 const RegisterHome = () => {
-  const { isLoading, error, data, isFetching } = useGetRoles();
+  const navigate = useNavigate();
+  const { isLoading, error, data, isFetching } = useGetWorkplaces();
   if (isLoading) return "Loading...";
   if (error) return "An error has occurred: " + error.message;
+
+  const handleNavigate = () => {
+    const path = "/register/birthday";
+    navigate(path, { state: { workplace: null } });
+  };
 
   return (
     <Box
@@ -38,7 +45,7 @@ const RegisterHome = () => {
             color="textPrimary"
             gutterBottom
           >
-            choose your account type.
+            describe your workplace.
           </StyledHeadingTypography>
           <img src={Gradient1} alt="deco gradient" className="deco-img-1" />
 
@@ -78,6 +85,9 @@ const RegisterHome = () => {
               })}
               <div>{isFetching ? "Updating..." : ""}</div>
             </Grid>
+            <StyledPrimaryButton sx={{ width: "200px" }} onClick={handleNavigate}>
+              Other
+            </StyledPrimaryButton>
             <Grid
               container
               justifyContent="center"

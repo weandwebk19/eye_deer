@@ -9,6 +9,10 @@ import Register from "./pages/Auth/register";
 import Login from "./pages/Auth/login";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
+import Group from "pages/Group";
+
+//preview page
+import Profile from "pages/User/Profile";
 
 import { appTheme } from "./themes/theme";
 import "./App.scss";
@@ -33,8 +37,14 @@ const App = () => {
                 <Route exact path="/dashboard" element={<PrivateRoute />}>
                   <Route exact path="/dashboard" element={<Dashboard />} />
                 </Route>
+                <Route exact path="/group" element={<PrivateRoute />}>
+                  <Route exact path="/group/*" element={<Group />} />
+                </Route>
                 <Route path="/register/*" element={<Register />} />
                 <Route path="/login/*" element={<Login />} />
+
+                {/* Preview new page that has writed */}
+                <Route path="/previewpage" element={<Profile />} />
               </Routes>
             </Router>
           </div>
