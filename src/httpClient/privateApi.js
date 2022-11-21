@@ -48,21 +48,49 @@ export const updateProfileUser = async (user, userInfo, dispatch) => {
         if(res.status === 200){
             return res.data;
         }
-        return [];
+        return res;
     } catch(error) {
       console.log(error);
       return error.response.data;
     }
 }
 
-export const getMyGroup = async () => {
-    //const axios = createAxiosDefault();
-    const axios = require('axios');
-  const res = await axios.get("https://dummyjson.com/products").catch((err) => {
-    console.log(err);
+//get list owned group
+export const getOwnedGroups = async (user, dispatch) => {
+    const axios = createAxiosJWT(user, dispatch, loginSuccess);
+    const accessToken = user?.accessToken;
+    const id = user?.user.id;
+
+    const res = await axios.get(`/group/owned?userId=${id}`, {
+        headers: { token: `Bearer ${accessToken}` },
+    })
+    .catch(error => {
+        console.log(error);
+        return error;
+    });
+    if(res.status === 200){
+        return res.data;
+    }
+
     return [];
-  });
-  if (res.status === 200) {
-    return res.data;
-  } else return [];
-};
+}
+
+//get list joined group
+export const getJoinedGroups = async (user, dispatch) => {
+    const axios = createAxiosJWT(user, dispatch, loginSuccess);
+    const accessToken = user?.accessToken;
+    const id = user?.user.id;
+
+    const res = await axios.get(`/group/joined?userId=${id}`, {
+        headers: { token: `Bearer ${accessToken}` },
+    })
+    .catch(error => {
+        console.log(error);
+        return error;
+    });
+    if(res.status === 200){
+        return res.data;
+    }
+
+    return [];
+}

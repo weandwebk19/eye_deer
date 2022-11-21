@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import useSize from "@react-hook/size";
-
 import { Container, CssBaseline, Box, Grid, Typography } from "@mui/material";
-
 import { StyledDashboardNavigationBar } from "../../components/Navigation/StyledNavigationBar";
 import { StyledHeadingTypography } from "../../components/Typography/StyledTypography";
 import {
@@ -12,15 +10,10 @@ import {
 import { StyledSearchField } from "../../components/Textbox/StyledInputField";
 import StyledTabs from "../../components/Tabs/StyledTabs";
 import StyledDivider from "../../components/Divider/StyledDivider";
-
 import DashboardClass from "./DashboardClass";
 import DashboardQuizSet from "./DashboardQuizSet";
 import DashboardFooter from "./DashboardFooter";
-
 import "./styles.scss";
-
-import { getMyGroup } from "../../httpClient";
-import axios from "axios";
 import DashboardTabs from "./DashboardTabs";
 
 const Dashboard = () => {
@@ -29,27 +22,12 @@ const Dashboard = () => {
   const dashboardNav = useRef(null);
   const dashboardHeader = useRef(null);
   const dashboardEyeDeerTitle = useRef();
-  const [myGroupList, setMyGroupList] = useState([]);
-  const [joinedGroupList, setjoinedGroupList] = useState([]);
 
   const [middleTabWidth] = useSize(middleTab);
   const [lastTabWidth] = useSize(lastTab);
   const [, dashboardNavHeight] = useSize(dashboardNav);
   const [, dashboardHeaderHeight] = useSize(dashboardHeader);
   const [, typoHeight] = useSize(dashboardEyeDeerTitle);
-
-  // const { isLoading, error, data, isFetching } = getMyGroup();
-  useEffect(() => {
-    axios
-      .get("https://dummyjson.com/products?limit=10")
-      .then((response) => setMyGroupList(response.data.products));
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get("https://dummyjson.com/products?limit=3")
-      .then((response) => setjoinedGroupList(response.data.products));
-  }, []);
 
   useEffect(() => {
     const onChangeTab = () => {};
@@ -118,8 +96,6 @@ const Dashboard = () => {
                   </StyledHeadingTypography>
                 </Box>
                 <DashboardTabs
-                  myGroupList={myGroupList}
-                  joinedGroupList={joinedGroupList}
                   dashboardNavHeight={dashboardNavHeight}
                   dashboardHeaderHeight={dashboardHeaderHeight}
                 />
