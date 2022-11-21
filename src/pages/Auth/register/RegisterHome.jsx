@@ -58,7 +58,7 @@ const RegisterHome = () => {
               justifyContent="center"
               alignItems="center"
             >
-              {data?.map((role, i) => {
+              {data?.map((workplace, i) => {
                 return (
                   <Grid
                     item
@@ -71,14 +71,10 @@ const RegisterHome = () => {
                     alignItems="center"
                   >
                     <Link
-                      to={`${
-                        role.id === 1
-                          ? "/register/user-type"
-                          : "/register/birthday"
-                      }`}
-                      state={{ role: role.id }}
+                      to="/register/birthday"
+                      state={{ workplace: workplace.id }}
                     >
-                      <RegisterCard cardItem={role} />
+                      <RegisterCard cardItem={workplace} />
                     </Link>
                   </Grid>
                 );

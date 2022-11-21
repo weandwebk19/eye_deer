@@ -1,10 +1,12 @@
-import * as React from "react";
 import PropTypes from "prop-types";
 import { Tabs, Tab, Typography, Container, Box, Grid } from "@mui/material";
 
 import { StyledCard, StyledCardContent } from "../Card/StyledCard";
 
 import "./styles.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { getJoinedGroups, getOwnedGroups } from "httpClient";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -36,16 +38,37 @@ const a11yProps = (index) => {
 };
 
 const StyledTabs = ({
-  myGroupList,
-  joinedGroupList,
   dashboardNavHeight,
   dashboardHeaderHeight,
 }) => {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const [myGroupList, setMyGroupList] = useState();
+  const [joinedGroupList, setjoinedGroupList] = useState();
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.auth.login.currentUser);
+  useEffect(() => {
+    (async() => {
+      const ownedGroups = await getOwnedGroups(currentUser, dispatch)
+      .catch(err => {
+        console.log(err);
+      });
+      setMyGroupList(ownedGroups);
+    })()
+  }, []);
+
+  useEffect(() => {
+    (async() => {
+      const joinedGroups = await getJoinedGroups(currentUser, dispatch)
+      .catch(err => {
+        console.log(err);
+      });
+      setjoinedGroupList(joinedGroups);
+    })()
+  }, []);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -75,7 +98,7 @@ const StyledTabs = ({
             spacing={2}
             sx={{ width: "100%" }}
           >
-            {myGroupList.map((_, i) => {
+            {myGroupList?.map((e, i) => {
               return (
                 <Grid item xs={4} sm={4} md={2} lg={2} key={i}>
                   <StyledCard variant="brick">
@@ -94,12 +117,11 @@ const StyledTabs = ({
                             justifyContent: "space-between",
                           }}
                         >
-                          <Typography>15 quizz(es)</Typography>
+                          <Typography>{e.amountMember} member(s)</Typography>
                         </Box>
                       </StyledCardContent>
                       <Typography variant="h6" noWrap>
-                        Unnamed chapter Unnamed chapter Unnamed chapter Unnamed
-                        chapter Unnamed chapter
+                      {e.name}
                       </Typography>
                     </Box>
                   </StyledCard>
@@ -129,7 +151,7 @@ const StyledTabs = ({
             spacing={2}
             sx={{ width: "100%" }}
           >
-            {joinedGroupList.map((_, i) => {
+            {joinedGroupList?.map((e, i) => {
               return (
                 <Grid item xs={4} sm={4} md={2} lg={2} key={i}>
                   <StyledCard variant="brick">
@@ -148,12 +170,11 @@ const StyledTabs = ({
                             justifyContent: "space-between",
                           }}
                         >
-                          <Typography>15 quizz(es)</Typography>
+                          <Typography>{e.amountMember} member(s)</Typography>
                         </Box>
                       </StyledCardContent>
                       <Typography variant="h6" noWrap>
-                        Unnamed chapter Unnamed chapter Unnamed chapter Unnamed
-                        chapter Unnamed chapter
+                        {e.name}
                       </Typography>
                     </Box>
                   </StyledCard>

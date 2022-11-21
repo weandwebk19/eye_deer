@@ -38,7 +38,6 @@ const RegisterForm = () => {
 
   const onSubmit = async (data) => {
     data.birthday = state.birthday;
-    data.roleId = state.role;
     data.workplaceId = state.workplace;
     data.email = data.email ?? user?.email;
     data.picture = user?.picture;
