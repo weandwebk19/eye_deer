@@ -1,6 +1,6 @@
 import StyledTabs from "../../components/Tabs/StyledTabs";
 
-const DashboardTabs = ({
+const HomeTabs = ({
   onChangeTab,
   dashboardNavHeight,
   dashboardHeaderHeight,
@@ -14,4 +14,4 @@ const DashboardTabs = ({
   );
 };
 
-export default DashboardTabs;
+export default HomeTabs;

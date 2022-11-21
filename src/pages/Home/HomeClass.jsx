@@ -6,7 +6,7 @@ import {
   StyledCardContent,
 } from "../../components/Card/StyledCard";
 
-const DashboardClass = () => {
+const HomeClass = () => {
   return (
     <>
       <StyledCard variant="brick">
@@ -34,4 +34,4 @@ const DashboardClass = () => {
   );
 };
 
-export default DashboardClass;
+export default HomeClass;
