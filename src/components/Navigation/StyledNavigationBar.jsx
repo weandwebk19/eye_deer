@@ -22,14 +22,18 @@ import {
   ListItemButton,
   ListItemText,
   BottomNavigationAction,
+  Tooltip,
+  Avatar,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
 // import AdbIcon from "@mui/icons-material/Adb";
 
-import { 
+import {
   StyledHeadingTypography,
-  StyledBigHeadingTypography } from "../Typography/StyledTypography";
+  StyledBigHeadingTypography,
+} from "../Typography/StyledTypography";
+import { StyledAvatarButton } from "../Button/StyledButton";
 
 import SmallLogo from "../../assets/imgs/small-logo.svg";
 import "./styles.scss";
@@ -38,9 +42,10 @@ const MuiMenu = React.forwardRef((props, ref) => {
   return <Menu ref={ref} {...props} />;
 });
 
-const pages = ["home", "about", "pricing", "logout"];
+const pagesLite = ["play", "about", "pricing", "logout"];
+const pages = ["play", "home", "about", "pricing"];
 const socialmedias = ["facebook", "instagram", "twitter", "linkedin"];
-// const settings = ["profile", "logout"];
+const settings = ["profile", "logout"];
 const drawerWidth = 240;
 
 const StyledAppBar = styled(AppBar)(
@@ -65,7 +70,190 @@ const StyledToolbar = styled(Toolbar)(() => ({
   flexDirection: "row-reverse",
 }));
 
-const StyledNavigationBar = () => {
+const StyledNavigationBar = ({ picture, fullname }) => {
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const user = useSelector((state) => state.auth.login.currentUser);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const handleOpenHome = () => {
+    navigate("/home");
+  };
+
+  const handleOpenPlay = () => {
+    navigate("/");
+  };
+
+  const handleOpenAbout = () => {
+    console.log("About - 404 Not Found");
+  };
+
+  const handleOpenPricing = () => {
+    console.log("Pricing - 404 Not Found");
+  };
+
+  const handleClickNavMenu = (key) => {
+    switch (key) {
+      case "home":
+        handleOpenHome();
+        break;
+      case "play":
+        handleOpenPlay();
+        break;
+      case "about":
+        handleOpenAbout();
+        break;
+      case "pricing":
+        handleOpenPricing();
+        break;
+      default:
+        setAnchorElNav(null);
+        break;
+    }
+
+    setAnchorElNav(null);
+  };
+
+  return (
+    <StyledAppBar position="fixed">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <StyledHeadingTypography
+            variant="h5"
+            noWrap
+            component="a"
+            href="/home"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            eyedeer.
+          </StyledHeadingTypography>
+
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: "block", md: "none" },
+              }}
+            >
+              {pages.map((page) => (
+                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+          <StyledHeadingTypography
+            variant="h5"
+            noWrap
+            component="a"
+            href=""
+            sx={{
+              mr: 2,
+              display: { xs: "flex", md: "none" },
+              flexGrow: 1,
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            eyedeer.
+          </StyledHeadingTypography>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {pages.map((page) => (
+              <Button
+                key={page}
+                onClick={() => handleClickNavMenu(page)}
+                sx={{
+                  my: 2,
+                  display: "block",
+                  textTransform: "lowercase",
+                }}
+              >
+                {page}
+              </Button>
+            ))}
+          </Box>
+
+          <Box sx={{ flexGrow: 0 }}>
+            {/* <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu> */}
+            <StyledAvatarButton />
+          </Box>
+        </Toolbar>
+      </Container>
+    </StyledAppBar>
+  );
+};
+
+const StyledHomeNavigationBar = () => {
   const navigate = useNavigate();
   return (
     <>
@@ -103,29 +291,32 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const handleOpenPlay = () => {
+    navigate("/");
+  };
+  const handleOpenAbout = () => {
+    console.log("About - 404 Not Found");
+  };
+
+  const handleOpenPricing = () => {
+    console.log("Pricing - 404 Not Found");
+  };
+
   const handleLogout = () => {
     logoutUser(user, dispatch, navigate);
   };
 
-  // const handleOpenNavMenu = (event) => {
-  //   console.log(event);
-  //   setAnchorElNav(event.currentTarget);
-  // };
-  // const handleOpenUserMenu = (event) => {
-  //   setAnchorElUser(event.currentTarget);
-  // };
-
-  // const handleCloseNavMenu = () => {
-  //   console.log("close");
-  //   // setAnchorElNav(null);
-  // };
-
-  // const handleCloseUserMenu = () => {
-  //   setAnchorElUser(null);
-  // };
-
   const handleClickNavMenu = (key) => {
     switch (key) {
+      case "play":
+        handleOpenPlay();
+        break;
+      case "about":
+        handleOpenAbout();
+        break;
+      case "pricing":
+        handleOpenPricing();
+        break;
       case "logout":
         handleLogout();
         break;
@@ -150,7 +341,7 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
       </StyledHeadingTypography>
       <Divider />
       <List>
-        {pages.map((page) => (
+        {pagesLite.map((page) => (
           <ListItem key={page} disablePadding>
             <ListItemButton>
               <ListItemText primary={page} />
@@ -189,30 +380,12 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
               >
                 <MenuIcon />
               </IconButton>
-              {/* <MuiMenu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: "block", md: "none" },
-                }}
-              > */}
               <Box
                 sx={{
                   display: { xs: "none", sm: "block", md: "block" },
                 }}
               >
-                {pages.map((page) => (
+                {pagesLite.map((page) => (
                   <Box key={page} onClick={() => handleClickNavMenu(page)}>
                     <Typography textAlign="center">{page}</Typography>
                   </Box>
@@ -231,7 +404,7 @@ const StyledDashboardNavigationBar = ({ width1, width2 }) => {
                 },
               }}
             >
-              {pages.map((page) => (
+              {pagesLite.map((page) => (
                 <Button
                   key={page}
                   onClick={() => handleClickNavMenu(page)}
@@ -340,7 +513,6 @@ const StyledDashboardBigTitleBar = ({ width1, width2, size }) => {
             }}
           >
             <StyledBigHeadingTypography> eyedeer.</StyledBigHeadingTypography>
-
           </StyledToolbar>
         </Container>
       </StyledAppBar>
@@ -376,25 +548,6 @@ const StyledFooter = ({ width1, width2 }) => {
           justifyContent: "space-between !important",
         }}
       >
-        {/* <Container maxWidth="xl">
-          <StyledToolbar
-            className="footer-toolbar"
-            disableGutters
-            sx={{
-              flexDirection: "row",
-            }}
-          >
-            <Box
-              sx={{
-                flexGrow: 1,
-                display: {
-                  xs: "none",
-                  sm: "flex",
-                  md: "flex",
-                  justifyContent: "space-between",
-                },
-              }}
-            > */}
         {socialmedias.map((socialmedia) => (
           <BottomNavigationAction
             label={socialmedia}
@@ -420,6 +573,7 @@ const StyledFooter = ({ width1, width2 }) => {
 
 export {
   StyledNavigationBar,
+  StyledHomeNavigationBar,
   StyledDashboardNavigationBar,
   StyledDashboardBigTitleBar,
   StyledFooter,

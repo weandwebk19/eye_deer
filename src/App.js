@@ -7,8 +7,8 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import PrivateRoute from "./routes/PrivateRoute";
 import Register from "./pages/Auth/register";
 import Login from "./pages/Auth/login";
+import Play from "./pages/Play";
 import Home from "./pages/Home";
-import Dashboard from "./pages/Dashboard";
 import Group from "pages/Group";
 
 //preview page
@@ -33,9 +33,9 @@ const App = () => {
             <CssBaseline />
             <Router>
               <Routes>
-                <Route path="/" element={<Home />} />
-                <Route exact path="/dashboard" element={<PrivateRoute />}>
-                  <Route exact path="/dashboard" element={<Dashboard />} />
+                <Route path="/" element={<Play />} />
+                <Route exact path="/home" element={<PrivateRoute />}>
+                  <Route exact path="/home" element={<Home />} />
                 </Route>
                 <Route exact path="/group" element={<PrivateRoute />}>
                   <Route exact path="/group/*" element={<Group />} />
@@ -44,7 +44,7 @@ const App = () => {
                 <Route path="/login/*" element={<Login />} />
 
                 {/* Preview new page that has writed */}
-                <Route path="/previewpage" element={<Profile />} />
+                <Route path="/profile" element={<Profile />} />
               </Routes>
             </Router>
           </div>

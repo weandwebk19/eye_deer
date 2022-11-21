@@ -1,8 +1,6 @@
 import { styled } from "@mui/system";
 import { Card, CardActionArea, CardContent } from "@mui/material";
 
-// import "./style.scss";
-
 const StyledCard = styled(Card)(({ theme, variant }) => ({
   boxShadow: "none !important",
   borderRadius: 0,

@@ -1,0 +1,61 @@
+@import "../../sassStyles/global";
+@import "../../sassStyles/variables";
+@import "../../sassStyles/mixins";
+
+.profile-container {
+  position: relative;
+  @include desktop {
+    overflow: hidden !important;
+  }
+  @include tablet {
+    padding: 0 120px 0 120px !important;
+    overflow-x: hidden !important;
+  }
+  @include mobile {
+    overflow-x: hidden !important;
+  }
+}
+
+.profile-form {
+  @include desktop {
+    align-content: center;
+  }
+
+  @include tablet {
+    margin-top: 64px !important;
+
+    align-content: start;
+  }
+
+  @include mobile {
+    margin-top: 64px !important;
+
+    align-content: start;
+  }
+}
+
+.profile-form__item {
+  @include tablet {
+    padding-bottom: 64px !important;
+  }
+
+  @include mobile {
+    padding-bottom: 64px !important;
+  }
+}
+
+.deco-img-2 {
+  position: absolute;
+  z-index: -1;
+  left: -20%;
+  bottom: -20%;
+  @include desktop {
+    width: 100vw;
+  }
+  @include tablet {
+    width: 900px;
+  }
+  @include mobile {
+    width: 600px;
+  }
+}
