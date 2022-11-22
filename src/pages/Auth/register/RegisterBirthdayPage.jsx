@@ -105,7 +105,7 @@ const RegisterBirthdayPage = () => {
                 color="textPrimary"
                 gutterBottom
               >
-                Enter your date of birth
+                enter your date of birth.
               </StyledHeadingTypography>
               <img src={Gradient1} alt="deco gradient" className="deco-img-1" />
             </div>

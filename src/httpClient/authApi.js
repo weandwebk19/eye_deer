@@ -9,7 +9,7 @@ import {
   registerStart,
   registerSuccess,
 } from "../redux/authSlice";
-import {createAxios, createAxiosJWT} from './createInstance';
+import { createAxios, createAxiosJWT } from "./createInstance";
 
 const axios = createAxios();
 
@@ -17,33 +17,32 @@ export const loginUser = async (user, dispatch, navigate) => {
   dispatch(loginStart());
   const res = await axios.post("auth/login", user).catch((err) => {
     dispatch(loginFailed());
-    if(err.response !== undefined) {
+    if (err.response !== undefined) {
       return {
         success: false,
-        message: err.response.data.message
+        message: err.response.data.message,
       };
     }
     return {
       success: false,
-      message: err.message
+      message: err.message,
     };
   });
   if (res.status === 200) {
     dispatch(loginSuccess(res.data));
     setTimeout(() => {
-      navigate("/dashboard");
+      navigate("/home");
     }, 2000);
     return {
       success: true,
-      message: "successfully login! 🤗"
+      message: "successfully login! 🤗",
     };
-  } 
-  else {
+  } else {
     dispatch(loginFailed());
     return {
       success: false,
       //message: "oops! something went wrong! 😅"
-      message: res.message
+      message: res.message,
     };
   }
 };
@@ -53,7 +52,7 @@ export const oAuthLoginUser = async (user, dispatch, navigate) => {
   try {
     const res = await axios.post("auth/oauth/login", user);
     dispatch(loginSuccess(res.data));
-    navigate("/dashboard");
+    navigate("/home");
   } catch (err) {
     if (err.response.status === 403) {
       dispatch(loginSuccess(user));
@@ -103,16 +102,13 @@ export const requireLogin = async (user, navigate, dispatch) => {
   const id = user?.user.id;
 
   try {
-  const res = await axiosJWT.post(
-      "auth",
-      id,
-      {
-          headers: { token: `Bearer ${accessToken}` },
-      });
-      if(res.status !== 200) {
-          navigate('/login');
-      };
+    const res = await axiosJWT.post("auth", id, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+    if (res.status !== 200) {
+      navigate("/login");
+    }
   } catch (err) {
-      navigate('/login');
+    navigate("/login");
   }
-}
+};

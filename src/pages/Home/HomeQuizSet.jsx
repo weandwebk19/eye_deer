@@ -6,7 +6,7 @@ import {
   StyledCardContent,
 } from "../../components/Card/StyledCard";
 
-const DashboardQuizSet = () => {
+const HomeQuizSet = () => {
   return (
     <>
       <StyledCard variant="carpet">
@@ -34,4 +34,4 @@ const DashboardQuizSet = () => {
   );
 };
 
-export default DashboardQuizSet;
+export default HomeQuizSet;
