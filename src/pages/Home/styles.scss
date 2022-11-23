@@ -121,4 +121,6 @@ input[type=number]::-webkit-outer-spin-button {
   font-size: 0.88rem;
   position: absolute;
   overflow: visible;
+.MuiTableRow-hover {
+  transition: 0.3s;
 }
