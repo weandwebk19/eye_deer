@@ -33,6 +33,7 @@ import HomeFooter from "./HomeFooter";
 import HomeTabs from "./HomeTabs";
 
 import "./styles.scss";
+import HomeNewGroup from "./HomeNewGroup";
 
 const Dashboard = () => {
   const middleTab = useRef(null);
@@ -130,9 +131,7 @@ const Dashboard = () => {
                     }}
                   >
                     <StyledSearchField />
-                    <StyledPrimaryButton className="add-group-button">
-                      + new group
-                    </StyledPrimaryButton>
+                    <HomeNewGroup/>
                   </Box>
                   <StyledHeadingTypography variant={"h5"}>
                     group.

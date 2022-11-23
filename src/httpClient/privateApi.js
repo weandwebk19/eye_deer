@@ -94,3 +94,39 @@ export const getJoinedGroups = async (user, dispatch) => {
 
     return [];
 }
+
+export const createGroup = async (user, dispatch, groupInfo) => {
+    const axios = createAxiosJWT(user, dispatch, loginSuccess);
+    const accessToken = user?.accessToken;
+    const userId = user?.user.id;
+    try {
+        const formData = new FormData();
+
+        //append data
+        for(let key in groupInfo){
+            formData.append(key, groupInfo[key]);
+        }
+
+        //append user id
+        formData.append("userId", userId);
+
+        console.log(groupInfo, userId);
+        const res = await axios({
+            method: "post",
+            url: `/group/create`,
+            data: formData,
+            headers: {
+                "Content-Type": "multipart/form-data",
+                token: `Bearer ${accessToken}`
+            },
+        });
+
+        if(res.status === 200){
+            return res.data;
+        }
+        return res;
+    } catch(error) {
+      console.log(error);
+      return error.response.data;
+    }
+}
