@@ -1,0 +1,15 @@
+@import "../../sassStyles/global";
+
+#main-area {
+  @include desktop {
+    border-right: 1px solid $black;
+  }
+
+  @include tablet {
+    border-color: 1px solid $black;
+  }
+
+  @include mobile {
+    border-color: 1px solid $black;
+  }
+}

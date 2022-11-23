@@ -10,6 +10,8 @@ import Login from "./pages/Auth/login";
 import Play from "./pages/Play";
 import Home from "./pages/Home";
 import Group from "pages/Group";
+import Chapter from "pages/Group/Chapter";
+import MemberList from "pages/Group/Member";
 
 //preview page
 import Profile from "pages/User/Profile";
@@ -37,13 +39,12 @@ const App = () => {
                 <Route exact path="/home" element={<PrivateRoute />}>
                   <Route exact path="/home" element={<Home />} />
                 </Route>
-                <Route exact path="/group" element={<PrivateRoute />}>
+                <Route exact path="/group/*" element={<PrivateRoute />}>
                   <Route exact path="/group/*" element={<Group />} />
                 </Route>
                 <Route path="/register/*" element={<Register />} />
                 <Route path="/login/*" element={<Login />} />
 
-                {/* Preview new page that has writed */}
                 <Route path="/profile" element={<Profile />} />
               </Routes>
             </Router>

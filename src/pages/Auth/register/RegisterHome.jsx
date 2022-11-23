@@ -64,7 +64,7 @@ const RegisterHome = () => {
                     item
                     xs={2}
                     sm={4}
-                    md={6}
+                    md={3}
                     key={i}
                     display="flex"
                     justifyContent="center"
@@ -81,15 +81,21 @@ const RegisterHome = () => {
               })}
               <div>{isFetching ? "Updating..." : ""}</div>
             </Grid>
-            <StyledPrimaryButton sx={{ width: "200px" }} onClick={handleNavigate}>
-              Other
-            </StyledPrimaryButton>
+
             <Grid
               container
               justifyContent="center"
-              alignItems="flex-end"
-              sx={{ mt: 6 }}
+              alignItems="center"
+              sx={{ mt: 6, display: "flex", flexDirection: "column" }}
             >
+              <Grid item>
+                <StyledPrimaryButton
+                  sx={{ width: "200px", marginBottom: "16px" }}
+                  onClick={handleNavigate}
+                >
+                  Other
+                </StyledPrimaryButton>
+              </Grid>
               <Grid item>
                 <MuiLink
                   className="text-stroke"
