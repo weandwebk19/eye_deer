@@ -139,8 +139,6 @@ const Dashboard = () => {
                   </StyledHeadingTypography>
                 </Box>
                 <HomeTabs
-                  myGroupList={myGroupList}
-                  joinedGroupList={joinedGroupList}
                   dashboardNavHeight={dashboardNavHeight}
                   dashboardHeaderHeight={dashboardHeaderHeight}
                 />

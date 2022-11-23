@@ -8,9 +8,7 @@ import {
 } from "../Card/StyledCard";
 
 import "./styles.scss";
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getJoinedGroups, getOwnedGroups } from "httpClient";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -41,47 +39,26 @@ const a11yProps = (index) => {
   };
 };
 
-const StyledTabs = ({ dashboardNavHeight, dashboardHeaderHeight }) => {
+const StyledTabs = ({ tabElements, dashboardNavHeight, dashboardHeaderHeight }) => {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const [myGroupList, setMyGroupList] = useState();
-  const [joinedGroupList, setjoinedGroupList] = useState();
-  const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.auth.login.currentUser);
-  useEffect(() => {
-    (async () => {
-      const ownedGroups = await getOwnedGroups(currentUser, dispatch).catch(
-        (err) => {
-          console.log(err);
-        }
-      );
-      setMyGroupList(ownedGroups);
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      const joinedGroups = await getJoinedGroups(currentUser, dispatch).catch(
-        (err) => {
-          console.log(err);
-        }
-      );
-      setjoinedGroupList(joinedGroups);
-    })();
-  }, []);
 
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={value} onChange={handleChange} aria-label="group tabs">
-          <Tab label="my groups" {...a11yProps(0)} />
-          <Tab label="joined groups" {...a11yProps(1)} />
+          {tabElements.map((tab, index) => {
+            return (<Tab key={index} label={tab.title} {...a11yProps(index)} />)
+          })}
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0} className="custom-tab-pannel">
+      {
+        tabElements.map((tab, index) => {
+          return (
+            <TabPanel key={index} value={value} index={index} className="custom-tab-pannel">
         <Box
           pb={2}
           sx={{
@@ -101,7 +78,8 @@ const StyledTabs = ({ dashboardNavHeight, dashboardHeaderHeight }) => {
             spacing={2}
             sx={{ width: "100%" }}
           >
-            {myGroupList?.map((e, i) => {
+            {
+            Array.isArray(tab.content) ? tab.content.map((e, i) => {
               return (
                 <Grid item xs={4} sm={4} md={2} lg={2} key={i}>
                   <StyledCard variant="brick">
@@ -132,11 +110,15 @@ const StyledTabs = ({ dashboardNavHeight, dashboardHeaderHeight }) => {
                   </StyledCard>
                 </Grid>
               );
-            })}
+            }): null}
           </Grid>
         </Box>
       </TabPanel>
-      <TabPanel value={value} index={1}>
+        )
+        })
+      }
+      
+      {/* <TabPanel value={value} index={1}>
         <Box
           pb={2}
           sx={{
@@ -188,7 +170,7 @@ const StyledTabs = ({ dashboardNavHeight, dashboardHeaderHeight }) => {
             })}
           </Grid>
         </Box>
-      </TabPanel>
+      </TabPanel> */}
     </Box>
   );
 };
