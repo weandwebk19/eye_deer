@@ -7,22 +7,29 @@ const StyledCard = styled(Card)(({ theme, variant }) => ({
 
   ...(variant === "default" && {
     height: "253px",
-    padding: "8px",
+    //padding: "8px",
     background: `${theme.palette.primary.main}`,
     color: `${theme.palette.secondary.light}`,
   }),
   ...(variant === "carpet" && {
     width: "100%",
     height: "88px",
-    padding: "16px",
+    //padding: "16px",
     background: `${theme.palette.primary.main}`,
     color: `${theme.palette.secondary.light}`,
   }),
   ...(variant === "brick" && {
     width: "100%",
     height: "200px",
-    padding: "16px",
+    //padding: "16px",
     background: `${theme.palette.secondary.dark}`,
+    color: `${theme.palette.primary.main}`,
+  }),
+  ...(variant === "card-visit" && {
+    width: "100%",
+    height: "120px",
+    //padding: "16px",
+    background: `${theme.palette.secondary.light}`,
     color: `${theme.palette.primary.main}`,
   }),
 }));
@@ -35,7 +42,7 @@ const StyledCardActionArea = styled(CardActionArea)(
 
 const StyledCardContent = styled(CardContent)(
   () => `
-  padding: 0;
+  padding: 16px;
 `
 );
 

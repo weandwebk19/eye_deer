@@ -55,7 +55,6 @@ const StyledAvatarButton = () => {
     { routeName: "logout", onClick: () => handleLogout() },
   ];
 
-  const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const currentUser = useSelector((state) => state.auth.login.currentUser);
   const user = currentUser?.user;
