@@ -1,19 +1,13 @@
 import { Box, Container, Grid } from "@mui/material";
+
 import { NavBar } from "components/Navigation";
-import { StyledHeadingTypography } from "components/Typography/StyledTypography";
-import { SearchField } from "components/Textbox";
 import { StyledButton } from "components/Button";
+import { StyledHeadingTypography } from "components/Typography";
+import { StyledSearchField } from "components/StyledSearchField";
 
-import MemberList from "./MemberList";
-import MemberSideSection from "./MemberSideSection";
-
-// import "../styles.scss";
-
-const Member = () => {
+const DefaultLayout = ({ mainSection, sideSection }) => {
   return (
-    <Box sx={{ display: "flex", overflow: "hidden !important" }}>
-      <NavBar />
-
+    <Box sx={{ display: "flex" }}>
       <Container
         component="main"
         maxWidth={false}
@@ -26,6 +20,7 @@ const Member = () => {
           marginTop: "64px",
         }}
       >
+        <NavBar />
         <Grid
           container
           columns={{ xs: 4, sm: 8, md: 12, lg: 12 }}
@@ -37,12 +32,21 @@ const Member = () => {
             </StyledHeadingTypography>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <StyledSearchField />
-              <StyledButton>generate invitation link</StyledButton>
+              <StyledButton>+ new chapter</StyledButton>
             </Box>
-            <MemberList />
+            <StyledHeadingTypography variant="h5">
+              chapter.
+            </StyledHeadingTypography>
+            {Array.apply(null, Array(10)).map((_, i) => {
+              return (
+                <Box key={i} mb={2}>
+                  {mainSection}
+                </Box>
+              );
+            })}
           </Grid>
           <Grid item xs={4} sm={4} md={3} lg={3} id="side-area" p={3}>
-            <MemberSideSection />
+            {sideSection}
           </Grid>
         </Grid>
       </Container>
@@ -50,4 +54,4 @@ const Member = () => {
   );
 };
 
-export default Member;
+export default DefaultLayout;
