@@ -1,9 +1,6 @@
-import { StyledNavigationBar } from "components/Navigation/StyledNavigationBar";
+import { NavBar } from "components/Navigation/NavBar";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
-import {
-  StyledPrimaryButton,
-  StyledSecondaryButton,
-} from "components/Button/StyledButton";
+import { StyledButton } from "components/Button";
 import {
   CssBaseline,
   Link,
@@ -13,14 +10,14 @@ import {
   Avatar,
   Divider,
 } from "@mui/material";
-import InstantMessage from "components/Popup/InstantMessage";
+import { InstantMessage } from "components/Popup/InstantMessage";
 import { ThemeProvider } from "@mui/material/styles";
 import {
   StyledInputField,
   customTheme,
 } from "components/Textbox/StyledInputField";
 
-import defaultAvatar from "../../assets/imgs/avatar.jpg";
+import defaultAvatar from "assets/imgs/avatar.jpg";
 
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -124,7 +121,7 @@ const Profile = () => {
 
   return (
     <Box className="profile-container">
-      <StyledNavigationBar />
+      <NavBar />
 
       <CssBaseline />
       <Container
@@ -190,7 +187,8 @@ const Profile = () => {
                 // mb={0}
               >
                 <Grid item xs={1} sm={1} md={1} lg={1}>
-                  <StyledSecondaryButton
+                  <StyledButton
+                    variant="secondary"
                     onClick={() => {
                       setSelectedFile(undefined);
                       setIsDeleteAvatar(true);
@@ -198,10 +196,10 @@ const Profile = () => {
                     sx={{ width: "100%" }}
                   >
                     Delete Avatar
-                  </StyledSecondaryButton>
+                  </StyledButton>
                 </Grid>
                 <Grid item xs={1} sm={1} md={1} lg={1}>
-                  <StyledPrimaryButton component="label" sx={{ width: "100%" }}>
+                  <StyledButton component="label" sx={{ width: "100%" }}>
                     Change Avatar
                     <input
                       hidden
@@ -209,7 +207,7 @@ const Profile = () => {
                       type="file"
                       onChange={onSelectFile}
                     />
-                  </StyledPrimaryButton>
+                  </StyledButton>
                 </Grid>
               </Grid>
             </Box>
@@ -447,14 +445,15 @@ const Profile = () => {
                 {/* End: current password */}
               </Grid>
             </Box>
-            <StyledSecondaryButton
+            <StyledButton
+              variant="secondary"
               sx={{ marginBottom: "16px", marginTop: "16px" }}
             >
               change password
-            </StyledSecondaryButton>
-            <StyledPrimaryButton type="submit" variant="contained" fullWidth>
+            </StyledButton>
+            <StyledButton type="submit" variant="contained" fullWidth>
               save changes
-            </StyledPrimaryButton>
+            </StyledButton>
           </Grid>
         </Grid>
         {isError === false ? (

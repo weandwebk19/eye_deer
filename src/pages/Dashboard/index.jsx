@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import useSize from "@react-hook/size";
 import { Container, CssBaseline, Box, Grid, Typography } from "@mui/material";
-import { StyledDashboardNavigationBar } from "../../components/Navigation/StyledNavigationBar";
+import { StyledDashboardNavigationBar } from "../../components/Navigation/NavBar";
 import { StyledHeadingTypography } from "../../components/Typography/StyledTypography";
 import {
   StyledPrimaryButton,

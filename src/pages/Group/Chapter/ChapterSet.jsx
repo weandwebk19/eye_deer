@@ -1,7 +1,10 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, CardContent } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-import { StyledCard, StyledCardContent } from "components/Card/StyledCard";
+import {
+  StyledCard,
+  // StyledCardContent
+} from "components/Card/StyledCard";
 
 const ChapterSet = () => {
   return (
@@ -15,12 +18,12 @@ const ChapterSet = () => {
             height: "100%",
           }}
         >
-          <StyledCardContent sx={{ flexGrow: 1 }}>
+          <CardContent sx={{ flexGrow: 1 }}>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Typography>15 quizz(es)</Typography>
               <MoreVertIcon />
             </Box>
-          </StyledCardContent>
+          </CardContent>
           <Typography variant="h6" noWrap>
             Unnamed chapter Unnamed chapter Unnamed chapter Unnamed chapter
             Unnamed chapter

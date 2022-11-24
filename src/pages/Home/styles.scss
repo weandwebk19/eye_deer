@@ -58,6 +58,15 @@
   height: 100%;
 }
 
+#dashboard-md-last-tab {
+  @include tablet {
+    height: 100%;
+  }
+  @include mobile {
+    height: 100%;
+  }
+}
+
 #dashboard-welcome {
   @include tablet {
     display: grid;
@@ -72,9 +81,11 @@
 #dashboard-welcome {
   @include tablet {
     height: 100%;
+    padding-right: 16px;
   }
   @include mobile {
     height: 100%;
+    padding-right: 16px;
   }
 }
 

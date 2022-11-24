@@ -1,10 +1,19 @@
 import PropTypes from "prop-types";
-import { Tabs, Tab, Typography, Container, Box, Grid } from "@mui/material";
+import {
+  Tabs as MuiTabs,
+  Tab,
+  Typography,
+  Container,
+  Box,
+  Grid,
+  CardContent,
+  CardActionArea,
+} from "@mui/material";
 
 import {
   StyledCard,
-  StyledCardContent,
-  StyledCardActionArea,
+  // StyledCardContent,
+  // StyledCardActionArea,
 } from "../Card/StyledCard";
 
 import "./styles.scss";
@@ -39,7 +48,7 @@ const a11yProps = (index) => {
   };
 };
 
-const StyledTabs = ({ tabElements, dashboardNavHeight, dashboardHeaderHeight }) => {
+const Tabs = ({ tabElements, dashboardNavHeight, dashboardHeaderHeight }) => {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -49,75 +58,81 @@ const StyledTabs = ({ tabElements, dashboardNavHeight, dashboardHeaderHeight }) 
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={value} onChange={handleChange} aria-label="group tabs">
+        <MuiTabs value={value} onChange={handleChange} aria-label="group tabs">
           {tabElements.map((tab, index) => {
-            return (<Tab key={index} label={tab.title} {...a11yProps(index)} />)
+            return <Tab key={index} label={tab.title} {...a11yProps(index)} />;
           })}
-        </Tabs>
+        </MuiTabs>
       </Box>
-      {
-        tabElements.map((tab, index) => {
-          return (
-            <TabPanel key={index} value={value} index={index} className="custom-tab-pannel">
-        <Box
-          pb={2}
-          sx={{
-            display: "block",
-            width: "100%",
-            overflowY: "scroll !important",
-            height: {
-              xs: `calc(100vh - ${
-                dashboardNavHeight + dashboardHeaderHeight + 64 + 48 + 48
-              }px)`,
-            },
-          }}
-        >
-          <Grid
-            container
-            columns={{ xs: 4, sm: 4, md: 4, lg: 4 }}
-            spacing={2}
-            sx={{ width: "100%" }}
+      {tabElements.map((tab, index) => {
+        return (
+          <TabPanel
+            key={index}
+            value={value}
+            index={index}
+            className="custom-tab-pannel"
           >
-            {
-            Array.isArray(tab.content) ? tab.content.map((e, i) => {
-              return (
-                <Grid item xs={4} sm={4} md={2} lg={2} key={i}>
-                  <StyledCard variant="brick">
-                    <StyledCardActionArea>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignContent: "space-between",
-                          height: "100%",
-                        }}
-                      >
-                        <StyledCardContent sx={{ flexGrow: 1 }}>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <Typography>{e.amountMember} member(s)</Typography>
-                          </Box>
-                        </StyledCardContent>
-                        <Typography variant="h6" noWrap>
-                          {e.name}
-                        </Typography>
-                      </Box>
-                    </StyledCardActionArea>
-                  </StyledCard>
-                </Grid>
-              );
-            }): null}
-          </Grid>
-        </Box>
-      </TabPanel>
-        )
-        })
-      }
-      
+            <Box
+              pb={2}
+              sx={{
+                display: "block",
+                width: "100%",
+                overflowY: "scroll !important",
+                height: {
+                  xs: `calc(100vh - ${
+                    dashboardNavHeight + dashboardHeaderHeight + 64 + 48 + 48
+                  }px)`,
+                },
+              }}
+            >
+              <Grid
+                container
+                columns={{ xs: 4, sm: 4, md: 4, lg: 4 }}
+                spacing={2}
+                sx={{ width: "100%" }}
+              >
+                {Array.isArray(tab.content)
+                  ? tab.content.map((e, i) => {
+                      return (
+                        <Grid item xs={4} sm={4} md={2} lg={2} key={i}>
+                          <StyledCard variant="brick">
+                            <CardActionArea>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignContent: "space-between",
+                                  height: "100%",
+                                }}
+                              >
+                                <CardContent sx={{ flexGrow: 1 }}>
+                                  <Box
+                                    sx={{
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                    }}
+                                  >
+                                    <Typography>
+                                      {e.amountMember} member(s)
+                                    </Typography>
+                                  </Box>
+                                </CardContent>
+                                <Typography variant="h6" noWrap>
+                                  {e.name}
+                                </Typography>
+                              </Box>
+                            </CardActionArea>
+                          </StyledCard>
+                        </Grid>
+                      );
+                    })
+                  : null}
+              </Grid>
+            </Box>
+          </TabPanel>
+        );
+      })}
+
       {/* <TabPanel value={value} index={1}>
         <Box
           pb={2}
@@ -175,4 +190,4 @@ const StyledTabs = ({ tabElements, dashboardNavHeight, dashboardHeaderHeight }) 
   );
 };
 
-export default StyledTabs;
+export default Tabs;

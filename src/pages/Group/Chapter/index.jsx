@@ -1,8 +1,8 @@
 import { Box, Container, Grid } from "@mui/material";
-import { StyledNavigationBar } from "components/Navigation/StyledNavigationBar";
+import { NavBar } from "components/Navigation";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 import { StyledSearchField } from "components/Textbox/StyledInputField";
-import { StyledPrimaryButton } from "components/Button/StyledButton";
+import { StyledButton } from "components/Button";
 
 import ChapterSet from "./ChapterSet";
 import GroupInfo from "./ChapterGroupInfo";
@@ -24,7 +24,7 @@ const Chapter = () => {
           marginTop: "64px",
         }}
       >
-        <StyledNavigationBar />
+        <NavBar />
         <Grid
           container
           columns={{ xs: 4, sm: 8, md: 12, lg: 12 }}
@@ -36,7 +36,7 @@ const Chapter = () => {
             </StyledHeadingTypography>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <StyledSearchField />
-              <StyledPrimaryButton>+ new chapter</StyledPrimaryButton>
+              <StyledButton>+ new chapter</StyledButton>
             </Box>
             <StyledHeadingTypography variant="h5">
               chapter.

@@ -8,14 +8,16 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  CardContent,
+  CardActionArea,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import BlockIcon from "@mui/icons-material/Block";
 
 import {
   StyledCard,
-  StyledCardActionArea,
-  StyledCardContent,
+  // StyledCardActionArea,
+  // StyledCardContent,
 } from "components/Card/StyledCard";
 
 const MemberCard = () => {
@@ -37,13 +39,13 @@ const MemberCard = () => {
   return (
     <StyledCard variant="card-visit">
       <Box sx={{ display: "flex", height: "100% !important" }}>
-        <StyledCardActionArea
+        <CardActionArea
           disableRipple
           onClick={() => {
             navigate(`${memberId}`);
           }}
         >
-          <StyledCardContent sx={{ display: "flex" }}>
+          <CardContent sx={{ display: "flex" }}>
             <Avatar
               src="https://source.unsplash.com/random/?rococo"
               sx={{ width: 64, height: 64, marginRight: "16px" }}
@@ -53,8 +55,8 @@ const MemberCard = () => {
               <Typography>clsuc@gmail.com</Typography>
               <Typography>clsuc</Typography>
             </Box>
-          </StyledCardContent>
-        </StyledCardActionArea>
+          </CardContent>
+        </CardActionArea>
         <IconButton
           id="co-owner__menuicon"
           disableRipple

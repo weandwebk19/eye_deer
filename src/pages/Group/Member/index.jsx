@@ -1,8 +1,8 @@
 import { Box, Container, Grid } from "@mui/material";
-import { StyledNavigationBar } from "components/Navigation/StyledNavigationBar";
+import { NavBar } from "components/Navigation";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 import { StyledSearchField } from "components/Textbox/StyledInputField";
-import { StyledPrimaryButton } from "components/Button/StyledButton";
+import { StyledButton } from "components/Button";
 
 import MemberList from "./MemberList";
 import MemberSideSection from "./MemberSideSection";
@@ -12,7 +12,7 @@ import MemberSideSection from "./MemberSideSection";
 const Member = () => {
   return (
     <Box sx={{ display: "flex", overflow: "hidden !important" }}>
-      <StyledNavigationBar />
+      <NavBar />
 
       <Container
         component="main"
@@ -37,9 +37,7 @@ const Member = () => {
             </StyledHeadingTypography>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <StyledSearchField />
-              <StyledPrimaryButton>
-                generate invitation link
-              </StyledPrimaryButton>
+              <StyledButton>generate invitation link</StyledButton>
             </Box>
             <MemberList />
           </Grid>
