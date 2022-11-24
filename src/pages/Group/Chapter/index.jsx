@@ -35,7 +35,7 @@ const Chapter = () => {
               group's name: Kim chi đỏ au, thơm phức, dí hà
             </StyledHeadingTypography>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <StyledSearchField />
+              <SearchField />
               <StyledButton>+ new chapter</StyledButton>
             </Box>
             <StyledHeadingTypography variant="h5">

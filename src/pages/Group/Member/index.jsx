@@ -36,7 +36,7 @@ const Member = () => {
               group's name: Kim chi đỏ au, thơm phức, dí hà
             </StyledHeadingTypography>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <StyledSearchField />
+              <SearchField />
               <StyledButton>generate invitation link</StyledButton>
             </Box>
             <MemberList />
