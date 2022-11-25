@@ -21,7 +21,7 @@ import { StyledButton } from "components/Button";
 import {
   StyledInputField,
   customTheme,
-} from "components/Textbox/StyledInputField";
+} from "components/TextField/StyledInputField";
 
 import GoogleAuthButton from "./GoogleAuthButton";
 

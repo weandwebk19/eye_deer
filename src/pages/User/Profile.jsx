@@ -15,7 +15,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import {
   StyledInputField,
   customTheme,
-} from "components/Textbox/StyledInputField";
+} from "components/TextField/StyledInputField";
 
 import defaultAvatar from "assets/imgs/avatar.jpg";
 

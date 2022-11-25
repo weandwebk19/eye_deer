@@ -10,7 +10,7 @@ import { Container, CssBaseline, Box, Grid } from "@mui/material";
 import { HalfSizeNavBar } from "components/Navigation";
 import { StyledHeadingTypography } from "../../components/Typography/StyledTypography";
 
-import { StyledSearchField } from "../../components/Textbox/StyledInputField";
+import { StyledSearchField } from "../../components/TextField/StyledInputField";
 import StyledTabs from "../../components/Tabs/StyledTabs";
 import StyledDivider from "../../components/Divider/StyledDivider";
 

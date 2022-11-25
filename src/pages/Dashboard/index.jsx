@@ -7,7 +7,7 @@ import {
   StyledPrimaryButton,
   StyledSecondaryButton,
 } from "../../components/Button/StyledButton";
-import { StyledSearchField } from "../../components/Textbox/StyledInputField";
+import { StyledSearchField } from "../../components/TextField/StyledInputField";
 import StyledTabs from "../../components/Tabs/StyledTabs";
 import StyledDivider from "../../components/Divider/StyledDivider";
 import DashboardClass from "./DashboardClass";

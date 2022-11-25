@@ -1,7 +1,7 @@
 import { Box, Container, Grid } from "@mui/material";
 import { NavBar } from "components/Navigation";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
-import { SearchField } from "components/Textbox";
+import { SearchField } from "components/TextField";
 import { StyledButton } from "components/Button";
 
 import MemberList from "./MemberList";

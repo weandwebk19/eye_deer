@@ -18,7 +18,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 // import AdbIcon from "@mui/icons-material/Adb";
 
 import { StyledHeadingTypography } from "../Typography/StyledTypography";
-// import AvatarButton from "../AvatarButton";
+import { AvatarButton } from "../Button";
 
 const pages = ["play", "home", "about", "pricing"];
 
@@ -211,7 +211,7 @@ const NavBar = ({ picture, fullname }) => {
               ))}
             </Menu> */}
 
-            {/* <AvatarButton /> */}
+            <AvatarButton />
           </Box>
         </Toolbar>
       </Container>

@@ -1,7 +1,7 @@
 import { Grid, Box, Typography } from "@mui/material";
 
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
-import { StyledSearchField } from "components/TextBox/";
+import { StyledSearchField } from "components/TextField";
 import { StyledPrimaryButton } from "components/";
 
 const GroupHome = () => {

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Box } from "@mui/material";
 import { NavBar, UnregisteredNavBar } from "components/Navigation";
 import { StyledButton } from "components/Button";
-import { StyledInputField } from "../../components/Textbox/StyledInputField";
+import { StyledInputField } from "../../components/TextField/StyledInputField";
 
 import MyLogo1 from "../../assets/imgs/logo.svg";
 import MyDeco2Lines from "../../assets/imgs/deco-2lines.svg";
