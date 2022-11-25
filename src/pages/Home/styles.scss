@@ -110,6 +110,19 @@
   }
 }
 
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.error-message-validate {
+  color: darkred;
+  font-size: 0.88rem;
+  position: absolute;
+  overflow: visible;
+}
+
 .MuiTableRow-hover {
   transition: 0.3s;
 }
