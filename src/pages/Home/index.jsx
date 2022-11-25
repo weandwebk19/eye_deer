@@ -9,7 +9,6 @@ import { Container, CssBaseline, Box, Grid } from "@mui/material";
 
 import { HalfSizeNavBar } from "components/Navigation";
 import { StyledHeadingTypography } from "../../components/Typography/StyledTypography";
-
 import { StyledSearchField } from "../../components/TextField/StyledInputField";
 import StyledTabs from "../../components/Tabs/StyledTabs";
 import StyledDivider from "../../components/Divider/StyledDivider";
@@ -20,6 +19,7 @@ import HomeFooter from "./HomeFooter";
 import HomeTabs from "./HomeTabs";
 
 import "./styles.scss";
+import HomeNewGroup from "./HomeNewGroup";
 
 const Dashboard = () => {
   const middleTab = useRef(null);
