@@ -27,8 +27,6 @@ const Dashboard = () => {
   const dashboardNav = useRef(null);
   const dashboardHeader = useRef(null);
   const dashboardEyeDeerTitle = useRef();
-  const [myGroupList, setMyGroupList] = useState([]);
-  const [joinedGroupList, setjoinedGroupList] = useState([]);
 
   const [middleTabWidth] = useSize(middleTab);
   const [lastTabWidth] = useSize(lastTab);
@@ -37,26 +35,7 @@ const Dashboard = () => {
   const [, typoHeight] = useSize(dashboardEyeDeerTitle);
   const currentUser = useSelector((state) => state.auth.login.currentUser);
   const user = currentUser?.user;
-  const fullname = user.firstName + " " + user.lastName;
-
-  useEffect(() => {
-    (async () => {
-      const response = await axios
-        .get("https://dummyjson.com/products?limit=10")
-        .catch();
-      setMyGroupList(response.data.products);
-    })();
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get("https://dummyjson.com/products?limit=3")
-      .then((response) => setjoinedGroupList(response.data.products));
-  }, []);
-
-  useEffect(() => {
-    const onChangeTab = () => {};
-  });
+  const fullname = user?.firstName + " " + user?.lastName;
 
   return (
     <Box className="dashboard-container">

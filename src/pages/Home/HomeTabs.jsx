@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { getJoinedGroups, getOwnedGroups } from "httpClient";
 
 const HomeTabs = ({
-  onChangeTab,
   dashboardNavHeight,
   dashboardHeaderHeight,
 }) => {
@@ -36,7 +35,6 @@ const HomeTabs = ({
 
   return (
     <StyledTabs
-      // onChangeTab={onChangeTab}
       tabElements={tabElements}
       dashboardNavHeight={dashboardNavHeight}
       dashboardHeaderHeight={dashboardHeaderHeight}
