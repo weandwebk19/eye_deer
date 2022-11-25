@@ -18,8 +18,6 @@ import {
   Checkbox,
   IconButton,
   Tooltip,
-  FormControlLabel,
-  Switch,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -27,6 +25,8 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
+import { SearchField } from "components/TextField";
+import { StyledButton } from "components/Button";
 
 import "../styles.scss";
 
@@ -429,13 +429,16 @@ const MemberList = () => {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        // height: "calc(100vh - 88px)",
-        // overflowY: "scroll !important",
-      }}
-    >
+    <Box>
+      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
+        <SearchField />
+        <Box sx={{ display: "flex" }}>
+          <StyledButton variant="secondary" sx={{ mr: 1 }}>
+            + new member
+          </StyledButton>
+          <StyledButton>generate invitation link</StyledButton>
+        </Box>
+      </Box>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>

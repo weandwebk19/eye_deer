@@ -2,22 +2,11 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import useSize from "@react-hook/size";
 
-import {
-  Container,
-  CssBaseline,
-  Box,
-  Grid,
-  Typography,
-  Avatar,
-  IconButton,
-  Tooltip,
-} from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 import { StyledButton, AvatarButton } from "components/Button";
 import { CarpetCard } from "components/Card";
-
-import HomeQuizSet from "./HomeQuizSet";
 
 const HomeLastSection = ({ fullname, user }) => {
   const mockupData = {

@@ -1,11 +1,9 @@
 import { Box, Container, Grid } from "@mui/material";
 
 import { NavBar } from "components/Navigation";
-import { StyledButton } from "components/Button";
 import { StyledHeadingTypography } from "components/Typography";
-import { StyledSearchField } from "components/StyledSearchField";
 
-const DefaultLayout = ({ mainSection, sideSection }) => {
+const DefaultLayout = ({ name = "", mainSection, sideSection }) => {
   return (
     <Box sx={{ display: "flex" }}>
       <Container
@@ -26,26 +24,17 @@ const DefaultLayout = ({ mainSection, sideSection }) => {
           columns={{ xs: 4, sm: 8, md: 12, lg: 12 }}
           height="100vh"
         >
-          <Grid item xs={4} sm={4} md={9} lg={9} id="main-area" p={3}>
+          <Grid item xs={4} sm={4} md={7} lg={9} id="main-area" p={3}>
             <StyledHeadingTypography variant="h2">
-              group's name: Kim chi đỏ au, thơm phức, dí hà
+              {name}
             </StyledHeadingTypography>
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <StyledSearchField />
-              <StyledButton>+ new chapter</StyledButton>
-            </Box>
+
             <StyledHeadingTypography variant="h5">
               chapter.
             </StyledHeadingTypography>
-            {Array.apply(null, Array(10)).map((_, i) => {
-              return (
-                <Box key={i} mb={2}>
-                  {mainSection}
-                </Box>
-              );
-            })}
+            <Box className="main-content">{mainSection}</Box>
           </Grid>
-          <Grid item xs={4} sm={4} md={3} lg={3} id="side-area" p={3}>
+          <Grid item xs={4} sm={4} md={5} lg={3} id="side-area" p={3}>
             {sideSection}
           </Grid>
         </Grid>

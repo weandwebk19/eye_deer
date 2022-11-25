@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 
 import { styled } from "@mui/system";
 import {
@@ -8,19 +7,17 @@ import {
   AppBar,
   IconButton,
   Menu,
-  Typography,
   Container,
   Toolbar,
   Button,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
-// import AdbIcon from "@mui/icons-material/Adb";
 
 import { StyledHeadingTypography } from "../Typography/StyledTypography";
 import { AvatarButton } from "../Button";
 
-const pages = ["play", "home", "about", "pricing"];
+const pages = ["play", "home", "about", "contact", "pricing"];
 
 const StyledAppBar = styled(AppBar)(
   ({ theme }) => `
@@ -37,25 +34,15 @@ const StyledToolbar = styled(Toolbar)(() => ({
 
 const NavBar = ({ picture, fullname }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const user = useSelector((state) => state.auth.login.currentUser);
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
   };
 
   const handleOpenHome = () => {
@@ -68,6 +55,10 @@ const NavBar = ({ picture, fullname }) => {
 
   const handleOpenAbout = () => {
     console.log("About - 404 Not Found");
+  };
+
+  const handleOpenContact = () => {
+    console.log("Contact - 404 Not Found");
   };
 
   const handleOpenPricing = () => {
@@ -83,7 +74,10 @@ const NavBar = ({ picture, fullname }) => {
         handleOpenPlay();
         break;
       case "about":
+        break;
         handleOpenAbout();
+      case "contact":
+        handleOpenContact();
         break;
       case "pricing":
         handleOpenPricing();
@@ -146,7 +140,16 @@ const NavBar = ({ picture, fullname }) => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Button
+                    sx={{
+                      display: "block",
+                      textTransform: "lowercase",
+                      ...(page === "play" && { fontWeight: "bold" }),
+                    }}
+                    onClick={() => handleClickNavMenu(page)}
+                  >
+                    {page}
+                  </Button>
                 </MenuItem>
               ))}
             </Menu>
@@ -175,6 +178,7 @@ const NavBar = ({ picture, fullname }) => {
                   my: 2,
                   display: "block",
                   textTransform: "lowercase",
+                  ...(page === "play" && { fontWeight: "bold" }),
                 }}
               >
                 {page}
@@ -183,34 +187,6 @@ const NavBar = ({ picture, fullname }) => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {/* <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu> */}
-
             <AvatarButton />
           </Box>
         </Toolbar>

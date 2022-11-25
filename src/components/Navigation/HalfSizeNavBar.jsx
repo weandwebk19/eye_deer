@@ -87,7 +87,7 @@ const HalfSizeNavBar = ({ width1, width2 }) => {
       <List>
         {pagesLite.map((page) => (
           <ListItem key={page} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => handleClickNavMenu(page)}>
               <ListItemText
                 primary={page}
                 sx={{ ...(page === "play" && { fontWeight: "bold" }) }}
