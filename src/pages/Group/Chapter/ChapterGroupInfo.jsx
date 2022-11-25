@@ -9,7 +9,7 @@ import {
   Chip,
 } from "@mui/material";
 
-import { StyledPrimaryButton } from "components/Button/StyledButton";
+import { StyledButton } from "components/Button";
 
 const GroupInfo = () => {
   const navigate = useNavigate();
@@ -117,9 +117,7 @@ const GroupInfo = () => {
       </Typography>
       <Typography gutterBottom>November 22nd, 2022 23:07PM</Typography>
 
-      <StyledPrimaryButton sx={{ width: "100%" }}>
-        group settings
-      </StyledPrimaryButton>
+      <StyledButton sx={{ width: "100%" }}>group settings</StyledButton>
     </Box>
   );
 };

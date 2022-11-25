@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Box, Avatar } from "@mui/material";
 
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
-import { StyledSecondaryButton } from "components/Button/StyledButton";
+import { StyledButton } from "components/Button";
 
 import MemberCard from "./MemberCard";
 
@@ -37,12 +37,13 @@ const MemberOwnerInfo = () => {
             marginRight: "16px !important",
           }}
         >
-          <StyledSecondaryButton
+          <StyledButton
+            variant="secondary"
             sx={{ width: "100%" }}
             onClick={handleNavigate}
           >
             go back to group
-          </StyledSecondaryButton>
+          </StyledButton>
           <StyledHeadingTypography variant="h5">
             group owner.
           </StyledHeadingTypography>

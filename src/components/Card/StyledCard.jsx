@@ -1,7 +1,23 @@
 import { styled } from "@mui/system";
-import { Card, CardActionArea, CardContent } from "@mui/material";
+import {
+  Box,
+  Card as MuiCard,
+  CardActionArea,
+  CardContent,
+  CardItem,
+  Typography,
+} from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-const StyledCard = styled(Card)(({ theme, variant }) => ({
+import { StyledHeadingTypography } from "../Typography/StyledTypography";
+
+const StyledCardActionArea = styled(CardActionArea)(
+  () => `
+  height: 100%;
+  `
+);
+
+const StyledCard = styled(MuiCard)(({ theme, variant = "default" }) => ({
   boxShadow: "none !important",
   borderRadius: 0,
 
@@ -34,16 +50,80 @@ const StyledCard = styled(Card)(({ theme, variant }) => ({
   }),
 }));
 
-const StyledCardActionArea = styled(CardActionArea)(
-  () => `
-  height: 100%;
-  `
-);
+const SimpleCard = ({ name, className, ...other }) => {
+  return (
+    <StyledCard className={className}>
+      <StyledCardActionArea>
+        <CardContent
+          sx={{
+            padding: "8px !important",
+            display: "flex",
+            flexDirection: "column",
+            height: "100% !important",
+          }}
+        >
+          <Box sx={{ flexGrow: 1 }}>
+            <svg viewBox="0 0 198 198" xmlns="http://www.w3.org/2000/svg">
+              <filter id="noiseFilter">
+                <feTurbulence
+                  type="fractalNoise"
+                  baseFrequency="8.11"
+                  numOctaves="1"
+                  stitchTiles="stitch"
+                />
+              </filter>
 
-const StyledCardContent = styled(CardContent)(
-  () => `
-  padding: 16px;
-`
-);
+              <rect width="100%" height="100%" filter="url(#noiseFilter)" />
+            </svg>
+          </Box>
 
-export { StyledCard, StyledCardActionArea, StyledCardContent };
+          <StyledHeadingTypography variant="h5" sx={{ lineHeight: 1 }}>
+            {name}
+          </StyledHeadingTypography>
+        </CardContent>
+      </StyledCardActionArea>
+    </StyledCard>
+  );
+};
+
+const CarpetCard = ({ name = "", picture = "", contentChips }) => {
+  return (
+    <StyledCard variant="carpet">
+      <StyledCardActionArea>
+        <CardContent
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            height: "100% !important",
+            alignContent: "space-between",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              flexGrow: 1,
+            }}
+          >
+            <Box display={"flex"}>
+              {Object.keys(contentChips).map((key, index) => {
+                return (
+                  <Typography
+                    key={key}
+                    mr={1}
+                  >{`${contentChips[key]} ${key}`}</Typography>
+                );
+              })}
+            </Box>
+            <MoreVertIcon />
+          </Box>
+          <Typography variant="h6" noWrap>
+            {name}
+          </Typography>
+        </CardContent>
+      </StyledCardActionArea>
+    </StyledCard>
+  );
+};
+
+export { StyledCard, SimpleCard, CarpetCard };

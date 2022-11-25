@@ -8,14 +8,14 @@ import { CssBaseline, Link, Grid, Box, Container } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 
 // import { ThemeProvider } from "@mui/material/styles";
-import InstantMessage from "../../../components/Popup/InstantMessage";
-import StyledPaper from "../../../components/Paper/StyledPaper";
-import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
-import { StyledPrimaryButton } from "../../../components/Button/StyledButton";
+import { InstantMessage } from "components/Popup";
+import { StyledPaper } from "components/Paper";
+import { StyledHeadingTypography } from "components/Typography";
+import { StyledButton } from "components/Button";
 import {
   StyledInputField,
   customTheme,
-} from "../../../components/Textbox/StyledInputField";
+} from "components/TextField/StyledInputField";
 
 import Gradient6 from "../../../assets/imgs/gradient-6.png";
 
@@ -319,14 +319,14 @@ const RegisterForm = () => {
                 </Grid>
                 {/* End: Confirm password */}
               </Grid>
-              <StyledPrimaryButton
+              <StyledButton
                 type="submit"
                 fullWidth
-                variant="contained"
+                variant="primary"
                 sx={{ mt: 6 }}
               >
                 sign up
-              </StyledPrimaryButton>
+              </StyledButton>
 
               <Grid
                 container
