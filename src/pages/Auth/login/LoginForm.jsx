@@ -14,14 +14,14 @@ import {
 } from "@mui/material";
 
 import { ThemeProvider } from "@mui/material/styles";
-import InstantMessage from "../../../components/Popup/InstantMessage";
-import StyledPaper from "../../../components/Paper/StyledPaper";
-import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
-import { StyledPrimaryButton } from "../../../components/Button/StyledButton";
+import { InstantMessage } from "components/Popup";
+import { StyledPaper } from "components/Paper";
+import { StyledHeadingTypography } from "components/Typography";
+import { StyledButton } from "components/Button";
 import {
   StyledInputField,
   customTheme,
-} from "../../../components/Textbox/StyledInputField";
+} from "components/TextField/StyledInputField";
 
 import GoogleAuthButton from "./GoogleAuthButton";
 
@@ -177,14 +177,14 @@ const LoginForm = () => {
                 </Grid>
               </Grid>
             </Grid>
-            <StyledPrimaryButton
+            <StyledButton
               type="submit"
               fullWidth
-              variant="contained"
+              variant="primary"
               sx={{ mt: 6 }}
             >
               Log In
-            </StyledPrimaryButton>
+            </StyledButton>
             <Typography sx={{ mt: 4, mb: 4, textAlign: "center" }}>
               or
             </Typography>

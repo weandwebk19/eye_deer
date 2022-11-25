@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 
 import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
-import { StyledPrimaryButton } from "../../../components/Button/StyledButton";
+import { StyledButton } from "components/Button";
 import { StyledSelectField } from "../../../components/SelectBox/StyledSelectField";
 
 import Gradient1 from "../../../assets/imgs/gradient.png";
@@ -182,9 +182,9 @@ const RegisterBirthdayPage = () => {
               </Grid>
             </Grid>
           </Box>
-          <StyledPrimaryButton sx={{ width: "200px" }} onClick={handleNavigate}>
+          <StyledButton sx={{ width: "200px" }} onClick={handleNavigate}>
             Continue
-          </StyledPrimaryButton>
+          </StyledButton>
         </Container>
       </LocalizationProvider>
     </Box>

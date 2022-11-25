@@ -1,8 +1,10 @@
 import { useNavigate, Link } from "react-router-dom";
-import RegisterCard from "./RegisterCard";
 import { Container, Box, Grid, Link as MuiLink } from "@mui/material";
-import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
-import { StyledPrimaryButton } from "../../../components/Button/StyledButton";
+
+import { StyledHeadingTypography } from "components/Typography/StyledTypography";
+import { SimpleCard } from "components/Card";
+import { StyledButton } from "components/Button";
+
 import Gradient1 from "../../../assets/imgs/gradient.png";
 import { useGetWorkplaces } from "../../../hooks";
 
@@ -74,7 +76,10 @@ const RegisterHome = () => {
                       to="/register/birthday"
                       state={{ workplace: workplace.id }}
                     >
-                      <RegisterCard cardItem={workplace} />
+                      <SimpleCard
+                        name={workplace.name}
+                        className={`role-card role-card--${workplace.name} workplace-card workplace-card--${workplace.id}`}
+                      />
                     </Link>
                   </Grid>
                 );
@@ -89,12 +94,12 @@ const RegisterHome = () => {
               sx={{ mt: 6, display: "flex", flexDirection: "column" }}
             >
               <Grid item>
-                <StyledPrimaryButton
+                <StyledButton
                   sx={{ width: "200px", marginBottom: "16px" }}
                   onClick={handleNavigate}
                 >
                   Other
-                </StyledPrimaryButton>
+                </StyledButton>
               </Grid>
               <Grid item>
                 <MuiLink
