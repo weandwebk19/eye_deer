@@ -36,14 +36,11 @@ const App = () => {
             <Router>
               <Routes>
                 <Route path="/" element={<Play />} />
-                <Route exact path="/home" element={<PrivateRoute />}>
-                  <Route exact path="/home" element={<Home />} />
-                </Route>
-                <Route exact path="/group/*" element={<PrivateRoute><Group /></PrivateRoute>}/>
                 <Route path="/register/*" element={<Register />} />
                 <Route path="/login/*" element={<Login />} />
-
-                <Route path="/profile" element={<Profile />} />
+                <Route exact path="/home/*" element={<PrivateRoute><Home /></PrivateRoute>}/>
+                <Route exact path="/group/*" element={<PrivateRoute><Group /></PrivateRoute>}/>
+                <Route exact path="/profile/*" element={<PrivateRoute><Profile /></PrivateRoute>}/>
               </Routes>
             </Router>
           </div>
