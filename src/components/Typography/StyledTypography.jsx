@@ -5,7 +5,7 @@ import { Typography } from "@mui/material";
 
 import "./styles.scss";
 
-export const StyledHeadingTypography = styled(Typography)(
+const StyledHeadingTypography = styled(Typography)(
   () =>
     `
     font-family: 'Ibarra Real Nova', serif;
@@ -13,7 +13,7 @@ export const StyledHeadingTypography = styled(Typography)(
 `
 );
 
-export const StyledMediumHeadingTypography = styled(Typography)(
+const StyledMediumHeadingTypography = styled(Typography)(
   () =>
     `
     font-family: 'IM Fell English', serif;
@@ -22,10 +22,16 @@ export const StyledMediumHeadingTypography = styled(Typography)(
 `
 );
 
-export const StyledBigHeadingTypography = styled(Typography)(
+const StyledBigHeadingTypography = styled(Typography)(
   () => `
   font-family: 'IM Fell English', serif;
   font-size: 5rem !important;
   // line-height: 5rem !important;
 `
 );
+
+export {
+  StyledHeadingTypography,
+  StyledMediumHeadingTypography,
+  StyledBigHeadingTypography,
+};

@@ -6,8 +6,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const RegisterInstantMessage = ({ variant, message }) => {
-  console.log(variant + " ---- " + message);
+const InstantMessage = ({ variant, message }) => {
   const [open, setOpen] = useState(true);
   //Leave this true since we are not using a button
 
@@ -28,4 +27,4 @@ const RegisterInstantMessage = ({ variant, message }) => {
   );
 };
 
-export default RegisterInstantMessage;
+export { InstantMessage };

@@ -61,7 +61,7 @@ export const getOwnedGroups = async (user, dispatch) => {
     const accessToken = user?.accessToken;
     const id = user?.user.id;
 
-    const res = await axios.get(`/group/owned?userId=${id}`, {
+    const res = await axios.get(`user/${id}/groups/owned`, {
         headers: { token: `Bearer ${accessToken}` },
     })
     .catch(error => {
@@ -81,7 +81,7 @@ export const getJoinedGroups = async (user, dispatch) => {
     const accessToken = user?.accessToken;
     const id = user?.user.id;
 
-    const res = await axios.get(`/group/joined?userId=${id}`, {
+    const res = await axios.get(`user/${id}/groups/joined`, {
         headers: { token: `Bearer ${accessToken}` },
     })
     .catch(error => {
