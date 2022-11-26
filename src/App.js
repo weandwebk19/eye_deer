@@ -4,15 +4,10 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 import { CssBaseline, ThemeProvider } from "@mui/material";
 
-import Group from "pages/Group";
-import Profile from "pages/User/Profile";
+import PrivateRoute from "routes/PrivateRoute";
 
 import "./App.scss";
-import Login from "./pages/Auth/login";
-import Register from "./pages/Auth/register";
-import Home from "./pages/Home";
-import Play from "./pages/Play";
-import PrivateRoute from "./routes/PrivateRoute";
+import { privateRoutes, publicRoutes } from "./routes";
 import { appTheme } from "./themes/theme";
 
 const App = () => {
@@ -31,36 +26,30 @@ const App = () => {
             <CssBaseline />
             <Router>
               <Routes>
-                <Route path="/" element={<Play />} />
-                <Route path="/register/*" element={<Register />} />
-                <Route path="/login/*" element={<Login />} />
-                <Route
-                  exact
-                  path="/home/*"
-                  element={
-                    <PrivateRoute>
-                      <Home />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  exact
-                  path="/group/*"
-                  element={
-                    <PrivateRoute>
-                      <Group />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  exact
-                  path="/profile/*"
-                  element={
-                    <PrivateRoute>
-                      <Profile />
-                    </PrivateRoute>
-                  }
-                />
+                {publicRoutes.map((route, index) => {
+                  const Page = route.component;
+                  return (
+                    <Route
+                      key={route.path}
+                      path={route.path}
+                      element={<Page />}
+                    />
+                  );
+                })}
+                {privateRoutes.map((route, index) => {
+                  const Page = route.component;
+                  return (
+                    <Route
+                      key={route.path}
+                      path={route.path}
+                      element={
+                        <PrivateRoute>
+                          <Page />
+                        </PrivateRoute>
+                      }
+                    />
+                  );
+                })}
               </Routes>
             </Router>
           </div>

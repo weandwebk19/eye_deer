@@ -1,12 +1,12 @@
-import { FullWidthLayout } from "layouts";
+import { DefaultLayout } from "layouts";
 
 import { GroupList } from "./GroupList";
 
 const Groups = () => {
   return (
-    <FullWidthLayout>
+    <DefaultLayout>
       <GroupList />
-    </FullWidthLayout>
+    </DefaultLayout>
   );
 };
 

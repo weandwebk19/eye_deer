@@ -8,13 +8,14 @@ import {
   Chip,
   Typography,
 } from "@mui/material";
+
 import { StyledButton } from "components/Button";
 
 const GroupInfo = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const onNavigate = () => {
-    navigate("./member-list");
+    navigate("./members");
   };
 
   return (

@@ -108,7 +108,10 @@ const Tabs = ({ tabElements }) => {
 };
 
 Tabs.propTypes = {
-  tabElements: PropTypes.node.isRequired,
+  tabElements: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.object,
+  ]).isRequired,
 };
 
 export default Tabs;
