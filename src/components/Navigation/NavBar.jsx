@@ -1,21 +1,21 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { styled } from "@mui/system";
+import MenuIcon from "@mui/icons-material/Menu";
 import {
-  Box,
   AppBar,
+  Box,
+  Button,
+  Container,
   IconButton,
   Menu,
-  Container,
   Toolbar,
-  Button,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import MenuIcon from "@mui/icons-material/Menu";
+import { styled } from "@mui/system";
 
-import { StyledHeadingTypography } from "../Typography/StyledTypography";
 import { AvatarButton } from "../Button";
+import { StyledHeadingTypography } from "../Typography/StyledTypography";
 
 const pages = ["play", "home", "about", "contact", "pricing"];
 
@@ -32,7 +32,7 @@ const StyledToolbar = styled(Toolbar)(() => ({
   flexDirection: "row-reverse",
 }));
 
-const NavBar = ({ picture, fullname }) => {
+const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
   const navigate = useNavigate();

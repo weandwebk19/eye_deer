@@ -1,37 +1,39 @@
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useRef } from "react";
+import { useSelector } from "react-redux";
 
 import { Box, Container, CssBaseline, Grid } from "@mui/material";
-import useSize from "@react-hook/size";
-import axios from "axios";
-import { HalfSizeNavBar } from "components/Navigation";
 
-import StyledDivider from "../../components/Divider/StyledDivider";
-import StyledTabs from "../../components/Tabs/StyledTabs";
-import { StyledSearchField } from "../../components/TextField/StyledInputField";
-import { StyledHeadingTypography } from "../../components/Typography/StyledTypography";
-import { getMyGroup } from "../../httpClient";
+import useSize from "@react-hook/size";
+
+import { StyledDivider } from "components/Divider";
+// import axios from "axios";
+import { HalfSizeFooter, HalfSizeNavBar } from "components/Navigation";
+// import StyledTabs from "components/Tabs/StyledTabs";
+// import { StyledSearchField } from "components/TextField/StyledInputField";
+import { StyledHeadingTypography } from "components/Typography";
+
+// import { getMyGroup } from "../../httpClient";
 import HomeFirstSection from "./HomeFirstSection";
-import HomeFooter from "./HomeFooter";
 import HomeLastSection from "./HomeLastSection";
-import HomeTabs from "./HomeTabs";
+// import HomeNewGroup from "./HomeNewGroup";
+// import HomeTabs from "./HomeTabs";
 import "./styles.scss";
 
 const Home = () => {
   const middleTab = useRef(null);
   const lastTab = useRef(null);
   const dashboardNav = useRef(null);
-  const dashboardHeader = useRef(null);
-  const dashboardEyeDeerTitle = useRef();
+  // const dashboardHeader = useRef(null);
+  // const dashboardEyeDeerTitle = useRef();
 
   const [middleTabWidth] = useSize(middleTab);
   const [lastTabWidth] = useSize(lastTab);
-  const [, dashboardNavHeight] = useSize(dashboardNav);
-  const [, dashboardHeaderHeight] = useSize(dashboardHeader);
-  const [, typoHeight] = useSize(dashboardEyeDeerTitle);
+  // const [, dashboardNavHeight] = useSize(dashboardNav);
+  // const [, dashboardHeaderHeight] = useSize(dashboardHeader);
+  // const [, typoHeight] = useSize(dashboardEyeDeerTitle);
   const currentUser = useSelector((state) => state.auth.login.currentUser);
   const user = currentUser?.user;
-  const fullname = user?.firstName + " " + user?.lastName;
+  const fullname = `${user?.firstName} ${user?.lastName}`;
 
   return (
     <Box className="dashboard-container">
@@ -74,25 +76,13 @@ const Home = () => {
               </Box>
               <HomeFirstSection />
               <Box>
-                <HomeFooter width1={middleTabWidth} width2={lastTabWidth} />
+                <HalfSizeFooter width1={middleTabWidth} width2={lastTabWidth} />
               </Box>
             </Box>
           </Grid>
-
           {/* End: first */}
 
           {/* Start: middle */}
-          {/* <Box
-            sx={{
-              display: {
-                xs: "block",
-                sm: "block",
-                md: "none",
-              },
-            }}
-          >
-            <StyledDivider />
-          </Box> */}
           <Grid
             item
             xs={4}

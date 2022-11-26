@@ -1,11 +1,13 @@
 {
   "importOrder": [
     "^react(.*)$",
-    "antd/(.*)",
+    "mui/(.*)",
     "<THIRD_PARTY_MODULES>",
+    "^components/(.*)",
     "@/(.*)",
     "^[./]"
   ],
   "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
+  "importOrderSortSpecifiers": true,
+  "endOfLine": "auto"
 }

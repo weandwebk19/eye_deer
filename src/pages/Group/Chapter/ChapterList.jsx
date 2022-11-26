@@ -1,32 +1,38 @@
-import { Box, Typography, CardContent } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Box, CardContent, Typography } from "@mui/material";
 
-import { StyledCard, CarpetCard } from "components/Card/StyledCard";
+import PropTypes from "prop-types";
+
 import { StyledButton } from "components/Button";
+import { CarpetCard } from "components/Card/StyledCard";
 import { SearchField } from "components/TextField";
 
-const ChapterSet = ({ name, picture, contentChips }) => {
+const ChapterList = ({ name, picture, contentChips }) => {
   const mockupData = {
     cards: [
       {
+        id: 1,
         name: "1. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
         picture: "",
         quiz: 11,
         member: 102,
       },
       {
+        id: 2,
         name: "2. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
         picture: "",
         quiz: 12,
         member: 92,
       },
       {
+        id: 3,
         name: "3. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
         picture: "",
         quiz: 13,
         member: 122,
       },
       {
+        id: 4,
         name: "4. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
         picture: "",
         quiz: 14,
@@ -43,7 +49,7 @@ const ChapterSet = ({ name, picture, contentChips }) => {
       </Box>
       {mockupData.cards.map((card, i) => {
         return (
-          <Box className="dashboard-quiz" key={i}>
+          <Box className="dashboard-quiz" key={card.id}>
             <CarpetCard
               name={card.name}
               picture={card.picture}
@@ -59,4 +65,15 @@ const ChapterSet = ({ name, picture, contentChips }) => {
   );
 };
 
-export default ChapterSet;
+ChapterList.propTypes = {
+  name: PropTypes.string.isRequired,
+  picture: PropTypes.string,
+  contentChips: PropTypes.objectOf(PropTypes.number),
+};
+
+ChapterList.defaultProps = {
+  picture: null,
+  contentChips: null,
+};
+
+export default ChapterList;

@@ -1,5 +1,5 @@
-import { styled } from "@mui/system";
 import { Paper } from "@mui/material";
+import { styled } from "@mui/system";
 
 const StyledPaper = styled(Paper)(
   ({ theme }) => `

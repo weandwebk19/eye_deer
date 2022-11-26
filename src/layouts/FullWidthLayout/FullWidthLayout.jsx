@@ -1,4 +1,5 @@
 import { Box, Container, Grid } from "@mui/material";
+
 import { NavBar } from "components/Navigation";
 import { StyledHeadingTypography } from "components/Typography";
 
@@ -31,4 +32,4 @@ const FullWidthLayout = ({ children }) => {
   );
 };
 
-export default FullWidthLayout;
+// export default FullWidthLayout;

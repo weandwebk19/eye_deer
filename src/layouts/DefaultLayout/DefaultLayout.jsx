@@ -1,5 +1,7 @@
 import { Box, Container, Grid } from "@mui/material";
 
+import PropTypes from "prop-types";
+
 import { NavBar } from "components/Navigation";
 import { StyledHeadingTypography } from "components/Typography";
 
@@ -41,6 +43,16 @@ const DefaultLayout = ({ name = "", mainSection, sideSection }) => {
       </Container>
     </Box>
   );
+};
+
+DefaultLayout.propTypes = {
+  name: PropTypes.string,
+  mainSection: PropTypes.node.isRequired,
+  sideSection: PropTypes.node.isRequired,
+};
+
+DefaultLayout.defaultProps = {
+  name: "",
 };
 
 export default DefaultLayout;

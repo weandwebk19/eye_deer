@@ -1,35 +1,44 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import useSize from "@react-hook/size";
 
 import { Box, Grid, Typography } from "@mui/material";
 
-import { StyledHeadingTypography } from "components/Typography/StyledTypography";
-import { StyledButton, AvatarButton } from "components/Button";
+import useSize from "@react-hook/size";
+import PropTypes from "prop-types";
+
+import { AvatarButton, StyledButton } from "components/Button";
 import { CarpetCard } from "components/Card";
+import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 
 const HomeLastSection = ({ fullname, user }) => {
   const mockupData = {
     cards: [
       {
+        id: 1,
         name: "1. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
         picture: "",
         quiz: 11,
         member: 102,
       },
       {
+        id: 2,
+
         name: "2. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
         picture: "",
         quiz: 12,
         member: 92,
       },
       {
+        id: 3,
+
         name: "3. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
         picture: "",
         quiz: 13,
         member: 122,
       },
       {
+        id: 4,
+
         name: "4. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
         picture: "",
         quiz: 14,
@@ -79,10 +88,7 @@ const HomeLastSection = ({ fullname, user }) => {
                 platform.
               </Typography>
             </Box>
-            <AvatarButton
-              picture={user?.picture}
-              fullname={fullname}
-            ></AvatarButton>
+            <AvatarButton picture={user?.picture} fullname={fullname} />
           </Box>
 
           <Box sx={{ flexGrow: 1 }}>
@@ -98,7 +104,7 @@ const HomeLastSection = ({ fullname, user }) => {
               }}
               src="https://source.unsplash.com/random/?deer,antelope,forest"
               draggable={false}
-            ></Box>
+            />
           </Box>
         </Box>
         <Box>
@@ -142,7 +148,7 @@ const HomeLastSection = ({ fullname, user }) => {
         >
           {mockupData.cards.map((card, i) => {
             return (
-              <Box className="dashboard-quiz" key={i}>
+              <Box className="dashboard-quiz" key={card.id}>
                 <CarpetCard
                   name={card.name}
                   picture={card.picture}
@@ -160,4 +166,8 @@ const HomeLastSection = ({ fullname, user }) => {
   );
 };
 
+HomeLastSection.propTypes = {
+  fullname: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
+};
 export default HomeLastSection;

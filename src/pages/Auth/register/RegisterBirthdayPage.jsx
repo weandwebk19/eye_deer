@@ -1,26 +1,23 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 // import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import {
   Box,
   Container,
   FormControl,
-  Select,
+  Grid,
   InputLabel,
   MenuItem,
-  Typography,
-  Button,
-  Grid,
 } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
-import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
 import { StyledButton } from "components/Button";
-import { StyledSelectField } from "../../../components/SelectBox/StyledSelectField";
 
 import Gradient1 from "../../../assets/imgs/gradient.png";
+import { StyledSelectField } from "../../../components/SelectBox/StyledSelectField";
+import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
 
 const months = [
   "Jan",
@@ -41,7 +38,8 @@ const days = Array(31)
   .map((n, i) => {
     if (n + i < 10) {
       return `0${n + i}`;
-    } else return `${n + i}`;
+    }
+    return `${n + i}`;
   });
 
 const years = Array(100)
@@ -121,16 +119,16 @@ const RegisterBirthdayPage = () => {
                 <FormControl fullWidth>
                   <InputLabel id="month-select-label">Month</InputLabel>
                   <StyledSelectField
-                    key={"month"}
+                    key="month"
                     labelId="month-select-input-label"
                     id="month-select"
                     label="Month"
                     value={month}
                     onChange={handleChangeMonth}
                   >
-                    {months.map((element, i) => {
+                    {months.map((element) => {
                       return (
-                        <MenuItem key={i} value={element}>
+                        <MenuItem key={element} value={element}>
                           {element}
                         </MenuItem>
                       );
@@ -142,16 +140,16 @@ const RegisterBirthdayPage = () => {
                 <FormControl fullWidth>
                   <InputLabel id="day-select-label">Day</InputLabel>
                   <StyledSelectField
-                    key={"day"}
+                    key="day"
                     labelId="day-select-input-label"
                     id="day-select"
                     label="Day"
                     value={day}
                     onChange={handleChangeDay}
                   >
-                    {days.map((element, i) => {
+                    {days.map((element) => {
                       return (
-                        <MenuItem key={i} value={element}>
+                        <MenuItem key={element} value={element}>
                           {element}
                         </MenuItem>
                       );
@@ -163,16 +161,16 @@ const RegisterBirthdayPage = () => {
                 <FormControl fullWidth>
                   <InputLabel id="year-select-label">Year</InputLabel>
                   <StyledSelectField
-                    key={"year"}
+                    key="year"
                     labelId="year-select-input-label"
                     id="year-select"
                     label="Year"
                     value={year ?? "2001"}
                     onChange={handleChangeYear}
                   >
-                    {years.map((element, i) => {
+                    {years.map((element) => {
                       return (
-                        <MenuItem key={i} value={element}>
+                        <MenuItem key={element} value={element}>
                           {element}
                         </MenuItem>
                       );

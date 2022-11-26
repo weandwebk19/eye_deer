@@ -1,11 +1,18 @@
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { CssBaseline, ThemeProvider } from "@mui/material";
+
+import PrivateRoute from "./routes/PrivateRoute";
+import Register from "./pages/Auth/register";
+import Login from "./pages/Auth/login";
+import Play from "./pages/Play";
+import Home from "./pages/Home";
 import Group from "pages/Group";
 import Chapter from "pages/Group/Chapter";
 import MemberList from "pages/Group/Member";
+
 //preview page
 import Profile from "pages/User/Profile";
 

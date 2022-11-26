@@ -20,15 +20,14 @@ import {
   TableSortLabel,
   Toolbar,
   Tooltip,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
 import { StyledButton } from "components/Button";
-import { BasicModal } from "components/Modal";
 import { SearchField } from "components/TextField";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
-import config from "config";
 import PropTypes from "prop-types";
 
 import "../styles.scss";
@@ -313,7 +312,7 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-function EnhancedTableToolbar(props) {
+const EnhancedTableToolbar = (props) => {
   const { numSelected } = props;
 
   return (
@@ -365,7 +364,7 @@ function EnhancedTableToolbar(props) {
       )}
     </Toolbar>
   );
-}
+};
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
@@ -525,7 +524,7 @@ const MemberList = () => {
                       <TableCell>
                         {row.username === showActionId ? (
                           <IconButton
-                            id={"edit-" + row.username}
+                            id={`edit-${row.username}`}
                             component="button"
                             variant="body2"
                             onClick={(event) => {

@@ -8,31 +8,29 @@ import "./styles.scss";
 const UnregisteredNavBar = () => {
   const navigate = useNavigate();
   return (
-    <>
-      <StyledAppBar elevation={0}>
-        <StyledToolbar>
-          <Button
-            color="inherit"
-            sx={{ textTransform: "lowercase" }}
-            onClick={() => {
-              navigate("/login");
-            }}
-          >
-            log in
-          </Button>
-          <span>/</span>
-          <Button
-            color="inherit"
-            sx={{ textTransform: "lowercase" }}
-            onClick={() => {
-              navigate("/register");
-            }}
-          >
-            <b>sign up</b>
-          </Button>
-        </StyledToolbar>
-      </StyledAppBar>
-    </>
+    <StyledAppBar elevation={0}>
+      <StyledToolbar>
+        <Button
+          color="inherit"
+          sx={{ textTransform: "lowercase" }}
+          onClick={() => {
+            navigate("/login");
+          }}
+        >
+          log in
+        </Button>
+        <span>/</span>
+        <Button
+          color="inherit"
+          sx={{ textTransform: "lowercase" }}
+          onClick={() => {
+            navigate("/register");
+          }}
+        >
+          <b>sign up</b>
+        </Button>
+      </StyledToolbar>
+    </StyledAppBar>
   );
 };
 

@@ -1,58 +1,60 @@
-import { isValidElement, useState } from "react";
-
+import PropTypes from "prop-types";
 import {
-  Box,
-  CardActionArea,
-  CardContent,
-  Container,
-  Grid,
   Tabs as MuiTabs,
   Tab,
   Typography,
+  Container,
+  Box,
+  Grid,
+  CardContent,
+  CardActionArea,
 } from "@mui/material";
-import PropTypes from "prop-types";
 
 import {
-  StyledCard, // StyledCardContent,
+  StyledCard,
+  // StyledCardContent,
   // StyledCardActionArea,
 } from "../Card/StyledCard";
+
 import "./styles.scss";
+import { useEffect, useState } from "react";
 
-const TabPanel = (props) => {
-  const { children, value, index, ...other } = props;
+//   return (
+//     <div
+//       role="tabpanel"
+//       hidden={value !== index}
+//       id={`simple-tabpanel-${index}`}
+//       aria-labelledby={`simple-tab-${index}`}
+//       {...other}
+//     >
+//       {value === index && <Box py={2}>{children}</Box>}
+//     </div>
+//   );
+// };
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box py={2}>{children}</Box>}
-    </div>
-  );
-};
+// TabPanel.propTypes = {
+//   children: PropTypes.node,
+//   index: PropTypes.number.isRequired,
+//   value: PropTypes.number.isRequired,
+// };
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
+// TabPanel.defaultProps = {
+//   children: "",
+// };
 
-const a11yProps = (index) => {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-};
+// const a11yProps = (index) => {
+//   return {
+//     id: `simple-tab-${index}`,
+//     "aria-controls": `simple-tabpanel-${index}`,
+//   };
+// };
 
-const Tabs = ({ tabElements }) => {
-  const [value, setValue] = useState(0);
+// const Tabs = ({ tabElements }) => {
+//   const [value, setValue] = useState(0);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+//   const handleChange = (event, newValue) => {
+//     setValue(newValue);
+//   };
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -103,61 +105,61 @@ const Tabs = ({ tabElements }) => {
         );
       })}
 
-      {/* <TabPanel value={value} index={1}>
-        <Box
-          pb={2}
-          sx={{
-            display: "block",
-            width: "100%",
-            overflowY: "scroll !important",
-            height: {
-              xs: `calc(100vh - ${
-                dashboardNavHeight + dashboardHeaderHeight + 64 + 48 + 48
-              }px)`,
-            },
-          }}
-        >
-          <Grid
-            container
-            columns={{ xs: 4, sm: 4, md: 4, lg: 4 }}
-            spacing={2}
-            sx={{ width: "100%" }}
-          >
-            {joinedGroupList?.map((e, i) => {
-              return (
-                <Grid item xs={4} sm={4} md={2} lg={2} key={i}>
-                  <StyledCard variant="brick">
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignContent: "space-between",
-                        height: "100%",
-                      }}
-                    >
-                      <StyledCardContent sx={{ flexGrow: 1 }}>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <Typography>{e.amountMember} member(s)</Typography>
-                        </Box>
-                      </StyledCardContent>
-                      <Typography variant="h6" noWrap>
-                        {e.name}
-                      </Typography>
-                    </Box>
-                  </StyledCard>
-                </Grid>
-              );
-            })}
-          </Grid>
-        </Box>
-      </TabPanel> */}
-    </Box>
-  );
-};
+//       {/* <TabPanel value={value} index={1}>
+//         <Box
+//           pb={2}
+//           sx={{
+//             display: "block",
+//             width: "100%",
+//             overflowY: "scroll !important",
+//             height: {
+//               xs: `calc(100vh - ${
+//                 dashboardNavHeight + dashboardHeaderHeight + 64 + 48 + 48
+//               }px)`,
+//             },
+//           }}
+//         >
+//           <Grid
+//             container
+//             columns={{ xs: 4, sm: 4, md: 4, lg: 4 }}
+//             spacing={2}
+//             sx={{ width: "100%" }}
+//           >
+//             {joinedGroupList?.map((e, i) => {
+//               return (
+//                 <Grid item xs={4} sm={4} md={2} lg={2} key={i}>
+//                   <StyledCard variant="brick">
+//                     <Box
+//                       sx={{
+//                         display: "flex",
+//                         flexDirection: "column",
+//                         alignContent: "space-between",
+//                         height: "100%",
+//                       }}
+//                     >
+//                       <StyledCardContent sx={{ flexGrow: 1 }}>
+//                         <Box
+//                           sx={{
+//                             display: "flex",
+//                             justifyContent: "space-between",
+//                           }}
+//                         >
+//                           <Typography>{e.amountMember} member(s)</Typography>
+//                         </Box>
+//                       </StyledCardContent>
+//                       <Typography variant="h6" noWrap>
+//                         {e.name}
+//                       </Typography>
+//                     </Box>
+//                   </StyledCard>
+//                 </Grid>
+//               );
+//             })}
+//           </Grid>
+//         </Box>
+//       </TabPanel> */}
+//     </Box>
+//   );
+// };
 
-export default Tabs;
+// export default Tabs;

@@ -31,7 +31,7 @@ const GroupInfo = () => {
         }}
         src="https://source.unsplash.com/random/?rococo"
         draggable={false}
-      ></Box>
+      />
       <Button
         sx={{
           textTransform: "lowercase",

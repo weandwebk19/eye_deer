@@ -1,6 +1,5 @@
 import { Box, Grid, Typography } from "@mui/material";
-import { StyledButton } from "components/Button";
-import { SearchField } from "components/TextField";
+
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 
 import GroupTabs from "./GroupTabs";
@@ -21,7 +20,7 @@ const GroupList = () => {
           <SearchField />
           <StyledButton className="add-group-button">+ new group</StyledButton>
         </Box>
-        <StyledHeadingTypography variant={"h5"}>group.</StyledHeadingTypography>
+        <StyledHeadingTypography variant="h5">group.</StyledHeadingTypography>
       </Box>
       <GroupTabs />
 
@@ -44,13 +43,12 @@ const GroupList = () => {
           spacing={2}
           sx={{ width: "100%" }}
         >
-          {Array.apply(null, Array(15)).map((_, i) => {
+          {/* {Array.apply(null, Array(15)).map((_, i) => {
             return (
               <Grid item xs={4} sm={4} md={2} lg={2} key={i}>
-                {/* <DashboardClass /> */}
               </Grid>
             );
-          })}
+          })} */}
         </Grid>
       </Box>
     </Box>
