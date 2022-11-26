@@ -1,16 +1,15 @@
-import { DefaultLayout } from "layouts";
+import { FluidLayout } from "layouts";
 
+import GroupInfo from "../GroupInfo";
 import "../styles.scss";
-import GroupInfo from "./ChapterGroupInfo";
 import ChapterList from "./ChapterList";
 
 const Chapter = () => {
   return (
-    <DefaultLayout
-      name="group's name: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-      mainSection={<ChapterList />}
-      sideSection={<GroupInfo />}
-    />
+    <FluidLayout>
+      <ChapterList name="chapter." />
+      <GroupInfo />
+    </FluidLayout>
   );
 };
 
