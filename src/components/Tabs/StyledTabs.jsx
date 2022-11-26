@@ -1,23 +1,22 @@
-import PropTypes from "prop-types";
+import { isValidElement, useState } from "react";
+
 import {
+  Box,
+  CardActionArea,
+  CardContent,
+  Container,
+  Grid,
   Tabs as MuiTabs,
   Tab,
   Typography,
-  Container,
-  Box,
-  Grid,
-  CardContent,
-  CardActionArea,
 } from "@mui/material";
+import PropTypes from "prop-types";
 
 import {
-  StyledCard,
-  // StyledCardContent,
+  StyledCard, // StyledCardContent,
   // StyledCardActionArea,
 } from "../Card/StyledCard";
-
 import "./styles.scss";
-import { useEffect, useState } from "react";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -48,7 +47,7 @@ const a11yProps = (index) => {
   };
 };
 
-const Tabs = ({ tabElements, dashboardNavHeight, dashboardHeaderHeight }) => {
+const Tabs = ({ tabElements }) => {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -77,12 +76,12 @@ const Tabs = ({ tabElements, dashboardNavHeight, dashboardHeaderHeight }) => {
               sx={{
                 display: "block",
                 width: "100%",
-                overflowY: "scroll !important",
-                height: {
-                  xs: `calc(100vh - ${
-                    dashboardNavHeight + dashboardHeaderHeight + 64 + 48 + 48
-                  }px)`,
-                },
+                //overflowY: "scroll !important",
+                // height: {
+                //   xs: `calc(100vh - ${
+                //     dashboardNavHeight + dashboardHeaderHeight + 64 + 48 + 48
+                //   }px)`,
+                //},
               }}
             >
               <Grid
@@ -92,41 +91,12 @@ const Tabs = ({ tabElements, dashboardNavHeight, dashboardHeaderHeight }) => {
                 sx={{ width: "100%" }}
               >
                 {Array.isArray(tab.content)
-                  ? tab.content.map((e, i) => {
-                      return (
-                        <Grid item xs={4} sm={4} md={2} lg={2} key={i}>
-                          <StyledCard variant="brick">
-                            <CardActionArea>
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  alignContent: "space-between",
-                                  height: "100%",
-                                }}
-                              >
-                                <CardContent sx={{ flexGrow: 1 }}>
-                                  <Box
-                                    sx={{
-                                      display: "flex",
-                                      justifyContent: "space-between",
-                                    }}
-                                  >
-                                    <Typography>
-                                      {e.amountMember} member(s)
-                                    </Typography>
-                                  </Box>
-                                </CardContent>
-                                <Typography variant="h6" noWrap>
-                                  {e.name}
-                                </Typography>
-                              </Box>
-                            </CardActionArea>
-                          </StyledCard>
-                        </Grid>
-                      );
+                  ? tab.content.map((content, i) => {
+                      if (isValidElement(content)) {
+                        return content;
+                      }
                     })
-                  : null}
+                  : tab.content}
               </Grid>
             </Box>
           </TabPanel>

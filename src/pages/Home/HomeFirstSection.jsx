@@ -1,7 +1,6 @@
 import { Box, Typography } from "@mui/material";
-
-import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 import { StyledButton } from "components/Button";
+import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 
 import HomeNewGroup from "./HomeNewGroup";
 

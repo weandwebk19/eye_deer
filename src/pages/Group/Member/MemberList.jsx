@@ -1,9 +1,15 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
-import { alpha } from "@mui/material/styles";
+import { useLocation } from "react-router-dom";
+
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import FilterListIcon from "@mui/icons-material/FilterList";
 import {
   Avatar,
   Box,
+  Checkbox,
+  IconButton,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -13,20 +19,17 @@ import {
   TableRow,
   TableSortLabel,
   Toolbar,
-  Typography,
-  Paper,
-  Checkbox,
-  IconButton,
   Tooltip,
+  Typography,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
+import { alpha } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
-
-import { StyledHeadingTypography } from "components/Typography/StyledTypography";
-import { SearchField } from "components/TextField";
 import { StyledButton } from "components/Button";
+import { BasicModal } from "components/Modal";
+import { SearchField } from "components/TextField";
+import { StyledHeadingTypography } from "components/Typography/StyledTypography";
+import config from "config";
+import PropTypes from "prop-types";
 
 import "../styles.scss";
 
@@ -377,6 +380,10 @@ const MemberList = () => {
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  let { search } = useLocation();
+  const query = new URLSearchParams(search);
+  const paramSuccess = JSON.parse(query.get("id"));
+  console.log(paramSuccess);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -422,6 +429,11 @@ const MemberList = () => {
     setPage(0);
   };
 
+  const generateInvitationLink = () => {
+    let link = `${config.FRONTEND_URL}/group/${1}/join`;
+    return link;
+  };
+
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -436,7 +448,11 @@ const MemberList = () => {
           <StyledButton variant="secondary" sx={{ mr: 1 }}>
             + new member
           </StyledButton>
-          <StyledButton>generate invitation link</StyledButton>
+          <BasicModal
+            title="Invitation link"
+            description={generateInvitationLink()}
+            content="generate invitation link"
+          />
         </Box>
       </Box>
       <Paper sx={{ width: "100%", mb: 2 }}>

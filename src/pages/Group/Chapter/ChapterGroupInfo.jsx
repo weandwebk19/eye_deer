@@ -1,18 +1,18 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import {
+  Avatar,
+  AvatarGroup,
   Box,
   Button,
-  AvatarGroup,
-  Avatar,
-  Typography,
   Chip,
+  Typography,
 } from "@mui/material";
-
 import { StyledButton } from "components/Button";
 
 const GroupInfo = () => {
   const navigate = useNavigate();
+  const { state } = useLocation();
   const onNavigate = () => {
     navigate("./member-list");
   };

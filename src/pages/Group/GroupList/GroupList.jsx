@@ -1,10 +1,11 @@
-import { Grid, Box, Typography } from "@mui/material";
-
+import { Box, Grid, Typography } from "@mui/material";
+import { StyledButton } from "components/Button";
+import { SearchField } from "components/TextField";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
-import { StyledSearchField } from "components/TextField";
-import { StyledPrimaryButton } from "components/";
 
-const GroupHome = () => {
+import GroupTabs from "./GroupTabs";
+
+const GroupList = () => {
   return (
     <Box>
       <Box my={2}>
@@ -17,17 +18,12 @@ const GroupHome = () => {
             alignItems: "center",
           }}
         >
-          <StyledSearchField />
-          <StyledPrimaryButton className="add-group-button">
-            + new group
-          </StyledPrimaryButton>
+          <SearchField />
+          <StyledButton className="add-group-button">+ new group</StyledButton>
         </Box>
         <StyledHeadingTypography variant={"h5"}>group.</StyledHeadingTypography>
       </Box>
-      {/* <HomeTabs
-      // dashboardNavHeight={dashboardNavHeight}
-      // dashboardHeaderHeight={dashboardHeaderHeight}
-    /> */}
+      <GroupTabs />
 
       <Box
         pb={2}
@@ -61,4 +57,4 @@ const GroupHome = () => {
   );
 };
 
-export default GroupHome;
+export default GroupList;
