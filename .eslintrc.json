@@ -20,7 +20,7 @@
       "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
       "rules": {
         "react/react-in-jsx-scope": "off",
-        "linebreak-style": ["error", "windows"],
+        // "linebreak-style": ["error", "windows"],
         // "import/order": [
         //   "error",
         //   {
@@ -81,7 +81,8 @@
         "react/forbid-prop-types": "off",
         "guard-for-in": "off",
         "no-shadow": "off",
-        "camelcase": "off"
+        "camelcase": "off",
+        "linebreak-style": 0
       }
     }
   ],
