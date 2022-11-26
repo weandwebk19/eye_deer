@@ -23,10 +23,14 @@ import {
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
+
+import config from "config";
+import PropTypes from "prop-types";
+
 import { StyledButton } from "components/Button";
+import { BasicModal } from "components/Modal";
 import { SearchField } from "components/TextField";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
-import PropTypes from "prop-types";
 
 import "../styles.scss";
 
@@ -422,6 +426,11 @@ const MemberList = () => {
     setPage(0);
   };
 
+  const generateInvitationLink = () => {
+    const link = `${config.FRONTEND_URL}/group/${1}/join`;
+    return link;
+  };
+
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -436,7 +445,11 @@ const MemberList = () => {
           <StyledButton variant="secondary" sx={{ mr: 1 }}>
             + new member
           </StyledButton>
-          <StyledButton>generate invitation link</StyledButton>
+          <BasicModal
+            title="Invitation link"
+            description={generateInvitationLink()}
+            content="generate invitation link"
+          />
         </Box>
       </Box>
       <Paper sx={{ width: "100%", mb: 2 }}>

@@ -12,6 +12,7 @@
     "@mui/lab": "^5.0.0-alpha.105",
     "@mui/material": "^5.10.12",
     "@mui/styled-engine-sc": "^5.10.6",
+    "@mui/utils": "^5.10.15",
     "@mui/x-date-pickers": "^5.0.6",
     "@react-hook/size": "^2.1.2",
     "@reduxjs/toolkit": "^1.9.0",

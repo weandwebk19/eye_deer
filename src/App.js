@@ -3,8 +3,8 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 import { CssBaseline, ThemeProvider } from "@mui/material";
+
 import Group from "pages/Group";
-// preview page
 import Profile from "pages/User/Profile";
 
 import "./App.scss";
