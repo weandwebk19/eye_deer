@@ -1,5 +1,7 @@
 import { Box, Container, Grid } from "@mui/material";
 
+import PropTypes from "prop-types";
+
 import { NavBar } from "components/Navigation";
 import { StyledHeadingTypography } from "components/Typography";
 
@@ -32,4 +34,8 @@ const FullWidthLayout = ({ children }) => {
   );
 };
 
-// export default FullWidthLayout;
+FullWidthLayout.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export default FullWidthLayout;

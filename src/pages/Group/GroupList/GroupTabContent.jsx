@@ -8,9 +8,12 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
+
+import PropTypes from "prop-types";
+
 import { StyledCard } from "components/Card";
 
-function GroupTabContent({ id, chapters, members, name, picture }) {
+const GroupTabContent = ({ id, chapters, members, name, picture }) => {
   const navigate = useNavigate();
   const handleClick = (e) => {
     const path = `./${id}`;
@@ -49,6 +52,21 @@ function GroupTabContent({ id, chapters, members, name, picture }) {
       </StyledCard>
     </Grid>
   );
-}
+};
+
+GroupTabContent.propTypes = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string,
+  chapters: PropTypes.number,
+  members: PropTypes.number,
+  picture: PropTypes.string,
+};
+
+GroupTabContent.defaultProps = {
+  name: "",
+  chapters: 0,
+  members: 0,
+  picture: "",
+};
 
 export default GroupTabContent;

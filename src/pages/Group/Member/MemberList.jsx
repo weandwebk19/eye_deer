@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -20,15 +19,18 @@ import {
   TableSortLabel,
   Toolbar,
   Tooltip,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
+
+import config from "config";
+import PropTypes from "prop-types";
+
 import { StyledButton } from "components/Button";
+import { BasicModal } from "components/Modal";
 import { SearchField } from "components/TextField";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
-import PropTypes from "prop-types";
 
 import "../styles.scss";
 
@@ -379,10 +381,6 @@ const MemberList = () => {
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  let { search } = useLocation();
-  const query = new URLSearchParams(search);
-  const paramSuccess = JSON.parse(query.get("id"));
-  console.log(paramSuccess);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -429,7 +427,7 @@ const MemberList = () => {
   };
 
   const generateInvitationLink = () => {
-    let link = `${config.FRONTEND_URL}/group/${1}/join`;
+    const link = `${config.FRONTEND_URL}/group/${1}/join`;
     return link;
   };
 

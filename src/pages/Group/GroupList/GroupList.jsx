@@ -1,5 +1,7 @@
 import { Box, Grid, Typography } from "@mui/material";
 
+import { StyledButton } from "components/Button";
+import { SearchField } from "components/TextField";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 
 import GroupTabs from "./GroupTabs";
@@ -55,4 +57,4 @@ const GroupList = () => {
   );
 };
 
-export default GroupList;
+export { GroupList };
