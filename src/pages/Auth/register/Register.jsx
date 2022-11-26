@@ -4,13 +4,13 @@ import { Route, Routes } from "react-router-dom";
 import ConfirmEmail from "./ConfirmEmail";
 import RegisterBirthdayPage from "./RegisterBirthdayPage";
 import RegisterForm from "./RegisterForm";
-import RegisterHome from "./RegisterHome";
+import RegisterUserType from "./RegisterUserType";
 import "./styles.scss";
 
 const Register = () => {
   return (
     <Routes>
-      <Route path="/" index={true} element={<RegisterHome />} />
+      <Route path="/" index={true} element={<RegisterUserType />} />
       <Route
         index={false}
         path="/birthday"
