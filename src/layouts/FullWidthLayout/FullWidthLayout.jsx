@@ -1,5 +1,5 @@
-const FullWidthLayout = () => {
-  return <></>;
-};
+// const FullWidthLayout = () => {
+//   return <></>;
+// };
 
-export default FullWidthLayout;
+// export default FullWidthLayout;

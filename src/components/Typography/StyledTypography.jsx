@@ -1,7 +1,6 @@
-//import "@fontsource/ibarra-real-nova";
-
-import { styled } from "@mui/system";
+// import "@fontsource/ibarra-real-nova";
 import { Typography } from "@mui/material";
+import { styled } from "@mui/system";
 
 import "./styles.scss";
 

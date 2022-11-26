@@ -1,14 +1,14 @@
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import { Box, Avatar } from "@mui/material";
-
-import { StyledHeadingTypography } from "components/Typography/StyledTypography";
-import { StyledButton } from "components/Button";
-
-import MemberCard from "./MemberCard";
+import { Avatar, Box } from "@mui/material";
 
 import defaultAvatar from "assets/imgs/avatar.jpg";
+
+import { StyledButton } from "components/Button";
+import { StyledHeadingTypography } from "components/Typography/StyledTypography";
+
+import MemberCard from "./MemberCard";
 
 const MemberOwnerInfo = () => {
   const navigate = useNavigate();
@@ -62,13 +62,14 @@ const MemberOwnerInfo = () => {
           <StyledHeadingTypography variant="h5">
             co-owner.
           </StyledHeadingTypography>
-          {Array.apply(null, Array(5)).map((_, i) => {
+          <MemberCard />
+          {/* {Array.apply(null, Array(5)).map((_, i) => {
             return (
               <Box key={i} mb={2}>
                 <MemberCard />
               </Box>
             );
-          })}
+          })} */}
         </Box>
       </Box>
     </Box>

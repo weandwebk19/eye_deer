@@ -1,22 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import BlockIcon from "@mui/icons-material/Block";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
-  Box,
   Avatar,
-  Typography,
+  Box,
+  CardActionArea,
+  CardContent,
   IconButton,
   Menu,
   MenuItem,
-  CardContent,
-  CardActionArea,
+  Typography,
 } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import BlockIcon from "@mui/icons-material/Block";
-
 import {
-  StyledCard,
-  // StyledCardActionArea,
+  StyledCard, // StyledCardActionArea,
   // StyledCardContent,
 } from "components/Card/StyledCard";
 

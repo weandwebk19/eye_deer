@@ -1,23 +1,19 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 import { CssBaseline, ThemeProvider } from "@mui/material";
-
-import PrivateRoute from "./routes/PrivateRoute";
-import Register from "./pages/Auth/register";
-import Login from "./pages/Auth/login";
-import Play from "./pages/Play";
-import Home from "./pages/Home";
 import Group from "pages/Group";
-import Chapter from "pages/Group/Chapter";
-import MemberList from "pages/Group/Member";
-
-//preview page
+// preview page
 import Profile from "pages/User/Profile";
 
-import { appTheme } from "./themes/theme";
 import "./App.scss";
+import Login from "./pages/Auth/login";
+import Register from "./pages/Auth/register";
+import Home from "./pages/Home";
+import Play from "./pages/Play";
+import PrivateRoute from "./routes/PrivateRoute";
+import { appTheme } from "./themes/theme";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -38,9 +34,33 @@ const App = () => {
                 <Route path="/" element={<Play />} />
                 <Route path="/register/*" element={<Register />} />
                 <Route path="/login/*" element={<Login />} />
-                <Route exact path="/home/*" element={<PrivateRoute><Home /></PrivateRoute>}/>
-                <Route exact path="/group/*" element={<PrivateRoute><Group /></PrivateRoute>}/>
-                <Route exact path="/profile/*" element={<PrivateRoute><Profile /></PrivateRoute>}/>
+                <Route
+                  exact
+                  path="/home/*"
+                  element={
+                    <PrivateRoute>
+                      <Home />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  exact
+                  path="/group/*"
+                  element={
+                    <PrivateRoute>
+                      <Group />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  exact
+                  path="/profile/*"
+                  element={
+                    <PrivateRoute>
+                      <Profile />
+                    </PrivateRoute>
+                  }
+                />
               </Routes>
             </Router>
           </div>

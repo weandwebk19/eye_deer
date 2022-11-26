@@ -1,8 +1,8 @@
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
+import Chapter from "./Chapter";
 import Member from "./Member";
 import MemberProfile from "./Member/MemberProfile";
-import Chapter from "./Chapter";
 
 const Group = () => {
   return (
