@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import StyledTabs from "../../components/Tabs/StyledTabs";
 import { useDispatch, useSelector } from "react-redux";
-
+import { useEffect, useState } from "react";
 import { getJoinedGroups, getOwnedGroups } from "httpClient";
 
-import StyledTabs from "../../components/Tabs/StyledTabs";
-
-const HomeTabs = () => {
+const HomeTabs = ({
+  dashboardNavHeight,
+  dashboardHeaderHeight,
+}) => {
   const [tabElements, setTabElements] = useState([]);
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.login.currentUser);
@@ -17,21 +18,28 @@ const HomeTabs = () => {
         const newTabElements = [];
         newTabElements.push({
           title: "my groups",
-          content: ownedGroups,
+          content: ownedGroups
         });
         newTabElements.push({
           title: "joined groups",
-          content: joinedGroups,
+          content: joinedGroups
         });
 
         setTabElements(newTabElements);
-      } catch (e) {
+      }
+      catch (e) {
         console.log(e);
       }
     })();
   }, []);
 
-  return <StyledTabs tabElements={tabElements} />;
+  return (
+    <StyledTabs
+      tabElements={tabElements}
+      dashboardNavHeight={dashboardNavHeight}
+      dashboardHeaderHeight={dashboardHeaderHeight}
+    />
+  );
 };
 
 export default HomeTabs;

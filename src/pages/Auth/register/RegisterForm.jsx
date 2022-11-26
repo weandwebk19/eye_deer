@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { registerUser } from "../../../httpClient";
 
-import { Box, Container, CssBaseline, Grid, Link } from "@mui/material";
+import { CssBaseline, Link, Grid, Box, Container } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 
-import Gradient6 from "assets/imgs/gradient-6.png";
-import { registerUser } from "httpClient";
-
-import { StyledButton } from "components/Button";
-import { StyledPaper } from "components/Paper";
 // import { ThemeProvider } from "@mui/material/styles";
 import { InstantMessage } from "components/Popup";
+import { StyledPaper } from "components/Paper";
+import { StyledHeadingTypography } from "components/Typography";
+import { StyledButton } from "components/Button";
 import {
   StyledInputField,
   customTheme,
 } from "components/TextField/StyledInputField";
-import { StyledHeadingTypography } from "components/Typography";
+
+import Gradient6 from "../../../assets/imgs/gradient-6.png";
 
 const RegisterForm = () => {
   const [isError, setIsError] = useState("");
@@ -37,27 +37,23 @@ const RegisterForm = () => {
   const password = watch("password", "");
 
   const onSubmit = async (data) => {
-    try {
-      data.birthday = state.birthday;
-      data.workplaceId = state.workplace;
-      data.email = data.email ?? user?.email;
-      data.picture = user?.picture;
-      data.firstName = data.firstName ?? user?.given_name;
-      data.lastName = data.lastName ?? user?.family_name;
-      const res = await registerUser(data, dispatch, navigate).catch((err) => {
-        setMessage(err.message);
-        setIsError(true);
-      });
+    data.birthday = state.birthday;
+    data.workplaceId = state.workplace;
+    data.email = data.email ?? user?.email;
+    data.picture = user?.picture;
+    data.firstName = data.firstName ?? user?.given_name;
+    data.lastName = data.lastName ?? user?.family_name;
+    const res = await registerUser(data, dispatch, navigate).catch((err) => {
+      setMessage(err.message);
+      setIsError(true);
+    });
 
-      if (res.success === true) {
-        setMessage(res.message);
-        setIsError(false);
-      } else {
-        setMessage(res.message);
-        setIsError(true);
-      }
-    } catch (err) {
-      console.log(err);
+    if (res.success === true) {
+      setMessage(res.message);
+      setIsError(false);
+    } else {
+      setMessage(res.message);
+      setIsError(true);
     }
   };
 
@@ -70,7 +66,7 @@ const RegisterForm = () => {
   }, [isError]);
 
   return (
-    <Box>
+    <>
       <Box
         sx={{
           position: "relative",
@@ -307,7 +303,7 @@ const RegisterForm = () => {
                         required: true,
                         validate: (value) => {
                           if (watch("password") !== value) {
-                            return "passwords do not match";
+                            return "passwords do no match";
                           }
                         },
                       })}
@@ -349,16 +345,15 @@ const RegisterForm = () => {
           <img src={Gradient6} alt="deco gradient" className="deco-img-61" />
           <img src={Gradient6} alt="deco gradient" className="deco-img-62" />
         </Container>
-        {(() => {
-          if (isError === false) {
-            return <InstantMessage variant="success" message={message} />;
-          } else if (isError === true) {
-            return <InstantMessage variant="error" message={message} />;
-          }
-          return "";
-        })()}
+        {isError === false ? (
+          <InstantMessage variant={"success"} message={message} />
+        ) : isError === true ? (
+          <InstantMessage variant={"error"} message={message} />
+        ) : (
+          ""
+        )}
       </Box>
-    </Box>
+    </>
   );
   //   <Box sx={{ flexGrow: 1 }}>
   //     <Grid container>

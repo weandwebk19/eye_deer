@@ -1,10 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { Container, Box, Grid, Link as MuiLink } from "@mui/material";
 
-import { Box, Container, Grid, Link as MuiLink } from "@mui/material";
-
-import { StyledButton } from "components/Button";
-import { SimpleCard } from "components/Card";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
+import { SimpleCard } from "components/Card";
+import { StyledButton } from "components/Button";
 
 import Gradient1 from "../../../assets/imgs/gradient.png";
 import { useGetWorkplaces } from "../../../hooks";
@@ -13,7 +12,7 @@ const RegisterHome = () => {
   const navigate = useNavigate();
   const { isLoading, error, data, isFetching } = useGetWorkplaces();
   if (isLoading) return "Loading...";
-  if (error) return `An error has occurred: ${error.message}`;
+  if (error) return "An error has occurred: " + error.message;
 
   const handleNavigate = () => {
     const path = "/register/birthday";
@@ -61,14 +60,14 @@ const RegisterHome = () => {
               justifyContent="center"
               alignItems="center"
             >
-              {data?.map((workplace) => {
+              {data?.map((workplace, i) => {
                 return (
                   <Grid
                     item
                     xs={2}
                     sm={4}
                     md={3}
-                    key={workplace.id}
+                    key={i}
                     display="flex"
                     justifyContent="center"
                     alignItems="center"

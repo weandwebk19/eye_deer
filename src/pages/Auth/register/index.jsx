@@ -1,10 +1,10 @@
-import { Route, Routes } from "react-router-dom";
-
-// import RegisterUserType from "./RegisterUserType";
-import ConfirmEmail from "./ConfirmEmail";
+import { Routes, Route } from "react-router-dom";
+import RegisterHome from "./RegisterHome";
 import RegisterBirthdayPage from "./RegisterBirthdayPage";
 import RegisterForm from "./RegisterForm";
-import RegisterHome from "./RegisterHome";
+// import RegisterUserType from "./RegisterUserType";
+import ConfirmEmail from "./ConfirmEmail";
+
 import "./styles.scss";
 
 const Register = () => {

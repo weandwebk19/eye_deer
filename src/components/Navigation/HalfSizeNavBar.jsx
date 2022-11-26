@@ -1,34 +1,36 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../httpClient";
 
-import MenuIcon from "@mui/icons-material/Menu";
 import {
   Box,
-  Button,
-  Container,
-  Divider,
-  Drawer,
   IconButton,
+  Typography,
+  Container,
+  Button,
+  Drawer,
+  Divider,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
-  Typography,
 } from "@mui/material";
-import SmallLogo from "assets/imgs/small-logo.svg";
-import PropTypes from "prop-types";
+import MenuIcon from "@mui/icons-material/Menu";
 
-import { logoutUser } from "../../httpClient";
 import { StyledHeadingTypography } from "../Typography";
-import { BigTitleBar } from "./BigTitleBar";
+
 import { StyledAppBar, StyledToolbar } from "./NavBar";
+import { BigTitleBar } from "./BigTitleBar";
+import SmallLogo from "../../assets/imgs/small-logo.svg";
 import "./styles.scss";
 
 const pagesLite = ["play", "about", "pricing", "logout"];
 const drawerWidth = 240;
 
 const HalfSizeNavBar = ({ width1, width2 }) => {
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
   const user = useSelector((state) => state.auth.login.currentUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -63,8 +65,11 @@ const HalfSizeNavBar = ({ width1, width2 }) => {
         handleLogout();
         break;
       default:
+        setAnchorElNav(null);
         break;
     }
+
+    setAnchorElNav(null);
   };
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -165,7 +170,7 @@ const HalfSizeNavBar = ({ width1, width2 }) => {
               ))}
             </Box>
             <StyledHeadingTypography
-              variant="h5"
+              variant={"h5"}
               noWrap
               component="a"
               sx={{
@@ -197,7 +202,7 @@ const HalfSizeNavBar = ({ width1, width2 }) => {
               />
             </Box>
 
-            <Box sx={{ flexGrow: 0 }} />
+            <Box sx={{ flexGrow: 0 }}></Box>
           </StyledToolbar>
 
           <BigTitleBar width1={width1} width2={width2} />
@@ -235,16 +240,6 @@ const HalfSizeNavBar = ({ width1, width2 }) => {
       </Box>
     </nav>
   );
-};
-
-HalfSizeNavBar.propTypes = {
-  width1: PropTypes.number,
-  width2: PropTypes.number,
-};
-
-HalfSizeNavBar.defaultProps = {
-  width1: 0,
-  width2: 0,
 };
 
 export { HalfSizeNavBar };

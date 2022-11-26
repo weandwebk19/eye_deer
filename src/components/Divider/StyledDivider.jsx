@@ -1,5 +1,7 @@
-import { Divider } from "@mui/material";
 import { styled } from "@mui/system";
+import { Divider } from "@mui/material";
+
+// import "./style.scss";
 
 const StyledDivider = styled(Divider)(
   ({ theme }) => `
@@ -7,4 +9,4 @@ const StyledDivider = styled(Divider)(
 `
 );
 
-export { StyledDivider };
+export default StyledDivider;

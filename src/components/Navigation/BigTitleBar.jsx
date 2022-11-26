@@ -1,11 +1,10 @@
 import { Box, Container } from "@mui/material";
 
-import PropTypes from "prop-types";
-
-import { StyledBigHeadingTypography } from "../Typography";
 import { StyledAppBar, StyledToolbar } from "./NavBar";
 
-const BigTitleBar = ({ width1, width2 }) => {
+import { StyledBigHeadingTypography } from "../Typography";
+
+const BigTitleBar = ({ width1, width2, size }) => {
   return (
     <nav id="dashboard-titlebar">
       <StyledAppBar
@@ -40,16 +39,6 @@ const BigTitleBar = ({ width1, width2 }) => {
       </Box>
     </nav>
   );
-};
-
-BigTitleBar.propTypes = {
-  width1: PropTypes.number,
-  width2: PropTypes.number,
-};
-
-BigTitleBar.defaultProps = {
-  width1: 0,
-  width2: 0,
 };
 
 export { BigTitleBar };

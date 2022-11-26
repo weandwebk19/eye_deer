@@ -1,14 +1,9 @@
 import { useState } from "react";
-
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import FilterListIcon from "@mui/icons-material/FilterList";
+import PropTypes from "prop-types";
+import { alpha } from "@mui/material/styles";
 import {
   Avatar,
   Box,
-  Checkbox,
-  IconButton,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -18,15 +13,20 @@ import {
   TableRow,
   TableSortLabel,
   Toolbar,
-  Tooltip,
   Typography,
+  Paper,
+  Checkbox,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
-import { alpha } from "@mui/material/styles";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
-import { StyledButton } from "components/Button";
-import { SearchField } from "components/TextField";
+
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
-import PropTypes from "prop-types";
+import { SearchField } from "components/TextField";
+import { StyledButton } from "components/Button";
 
 import "../styles.scss";
 
@@ -310,7 +310,7 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-const EnhancedTableToolbar = (props) => {
+function EnhancedTableToolbar(props) {
   const { numSelected } = props;
 
   return (
@@ -362,7 +362,7 @@ const EnhancedTableToolbar = (props) => {
       )}
     </Toolbar>
   );
-};
+}
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
@@ -509,7 +509,7 @@ const MemberList = () => {
                       <TableCell>
                         {row.username === showActionId ? (
                           <IconButton
-                            id={`edit-${row.username}`}
+                            id={"edit-" + row.username}
                             component="button"
                             variant="body2"
                             onClick={(event) => {

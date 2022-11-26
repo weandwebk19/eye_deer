@@ -1,14 +1,13 @@
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { styled } from "@mui/system";
 import {
   Box,
+  Card as MuiCard,
   CardActionArea,
   CardContent,
-  Card as MuiCard,
+  CardItem,
   Typography,
 } from "@mui/material";
-import { styled } from "@mui/system";
-
-import PropTypes from "prop-types";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { StyledHeadingTypography } from "../Typography/StyledTypography";
 
@@ -24,34 +23,34 @@ const StyledCard = styled(MuiCard)(({ theme, variant = "default" }) => ({
 
   ...(variant === "default" && {
     height: "253px",
-    // padding: "8px",
+    //padding: "8px",
     background: `${theme.palette.primary.main}`,
     color: `${theme.palette.secondary.light}`,
   }),
   ...(variant === "carpet" && {
     width: "100%",
     height: "88px",
-    // padding: "16px",
+    //padding: "16px",
     background: `${theme.palette.primary.main}`,
     color: `${theme.palette.secondary.light}`,
   }),
   ...(variant === "brick" && {
     width: "100%",
     height: "200px",
-    // padding: "16px",
+    //padding: "16px",
     background: `${theme.palette.secondary.dark}`,
     color: `${theme.palette.primary.main}`,
   }),
   ...(variant === "card-visit" && {
     width: "100%",
     height: "120px",
-    // padding: "16px",
+    //padding: "16px",
     background: `${theme.palette.secondary.light}`,
     color: `${theme.palette.primary.main}`,
   }),
 }));
 
-const SimpleCard = ({ name, className }) => {
+const SimpleCard = ({ name, className, ...other }) => {
   return (
     <StyledCard className={className}>
       <StyledCardActionArea>
@@ -87,7 +86,7 @@ const SimpleCard = ({ name, className }) => {
   );
 };
 
-const CarpetCard = ({ name, picture, contentChips }) => {
+const CarpetCard = ({ name = "", picture = "", contentChips }) => {
   return (
     <StyledCard variant="carpet">
       <StyledCardActionArea>
@@ -97,7 +96,6 @@ const CarpetCard = ({ name, picture, contentChips }) => {
             flexDirection: "column",
             height: "100% !important",
             alignContent: "space-between",
-            backgroundImage: { picture },
           }}
         >
           <Box
@@ -107,8 +105,8 @@ const CarpetCard = ({ name, picture, contentChips }) => {
               flexGrow: 1,
             }}
           >
-            <Box display="flex">
-              {Object.keys(contentChips).map((key) => {
+            <Box display={"flex"}>
+              {Object.keys(contentChips).map((key, index) => {
                 return (
                   <Typography
                     key={key}
@@ -126,26 +124,6 @@ const CarpetCard = ({ name, picture, contentChips }) => {
       </StyledCardActionArea>
     </StyledCard>
   );
-};
-
-SimpleCard.propTypes = {
-  name: PropTypes.string.isRequired,
-  className: PropTypes.string,
-};
-
-SimpleCard.defaultProps = {
-  className: null,
-};
-
-CarpetCard.propTypes = {
-  name: PropTypes.string.isRequired,
-  picture: PropTypes.string,
-  contentChips: PropTypes.objectOf(PropTypes.number),
-};
-
-CarpetCard.defaultProps = {
-  picture: null,
-  contentChips: null,
 };
 
 export { StyledCard, SimpleCard, CarpetCard };

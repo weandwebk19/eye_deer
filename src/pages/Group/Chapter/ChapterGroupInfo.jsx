@@ -1,13 +1,14 @@
 import { useNavigate } from "react-router-dom";
 
 import {
-  Avatar,
-  AvatarGroup,
   Box,
   Button,
-  Chip,
+  AvatarGroup,
+  Avatar,
   Typography,
+  Chip,
 } from "@mui/material";
+
 import { StyledButton } from "components/Button";
 
 const GroupInfo = () => {
@@ -30,7 +31,7 @@ const GroupInfo = () => {
         }}
         src="https://source.unsplash.com/random/?rococo"
         draggable={false}
-      />
+      ></Box>
       <Button
         sx={{
           textTransform: "lowercase",

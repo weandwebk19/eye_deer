@@ -1,10 +1,10 @@
 import {
-  logOutFailed,
-  logOutStart,
-  logOutSuccess,
   loginFailed,
   loginStart,
   loginSuccess,
+  logOutFailed,
+  logOutStart,
+  logOutSuccess,
   registerFailed,
   registerStart,
   registerSuccess,
@@ -41,7 +41,7 @@ export const loginUser = async (user, dispatch, navigate) => {
     dispatch(loginFailed());
     return {
       success: false,
-      // message: "oops! something went wrong! 😅"
+      //message: "oops! something went wrong! 😅"
       message: res.message,
     };
   }

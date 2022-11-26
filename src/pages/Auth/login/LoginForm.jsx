@@ -1,31 +1,31 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../../httpClient";
 
 import {
-  Box,
-  Container,
   CssBaseline,
-  Grid,
   Link,
-  ThemeProvider,
+  Grid,
+  Box,
   Typography,
+  Container,
 } from "@mui/material";
 
-import Gradient6 from "assets/imgs/gradient-6.png";
-import { loginUser } from "httpClient";
-
-import { StyledButton } from "components/Button";
-import { StyledPaper } from "components/Paper";
+import { ThemeProvider } from "@mui/material/styles";
 import { InstantMessage } from "components/Popup";
+import { StyledPaper } from "components/Paper";
+import { StyledHeadingTypography } from "components/Typography";
+import { StyledButton } from "components/Button";
 import {
   StyledInputField,
   customTheme,
 } from "components/TextField/StyledInputField";
-import { StyledHeadingTypography } from "components/Typography";
 
 import GoogleAuthButton from "./GoogleAuthButton";
+
+import Gradient6 from "../../../assets/imgs/gradient-6.png";
 
 const LoginForm = () => {
   const [isError, setIsError] = useState("");
@@ -154,19 +154,23 @@ const LoginForm = () => {
                 <Grid container justifyContent="space-between">
                   <Grid item>
                     {errors.password ? (
-                      <div
-                        style={{
-                          color: "darkred",
-                          fontSize: "0.88rem",
-                          position: "absolute",
-                        }}
-                      >
-                        {errors.password.message}
-                      </div>
+                      <>
+                        {errors.password.type === "required" && (
+                          <div
+                            style={{
+                              color: "darkred",
+                              fontSize: "0.88rem",
+                              position: "absolute",
+                            }}
+                          >
+                            {errors.password.message}
+                          </div>
+                        )}
+                      </>
                     ) : null}
                   </Grid>
                   <Grid item>
-                    <Link href="/#" variant="body2">
+                    <Link href="#" variant="body2">
                       forgot password?
                     </Link>
                   </Grid>
@@ -202,13 +206,13 @@ const LoginForm = () => {
         <img src={Gradient6} alt="deco gradient" className="deco-img-61" />
         <img src={Gradient6} alt="deco gradient" className="deco-img-62" />
       </Container>
-      {(() => {
-        if (isError === false) {
-          return <InstantMessage variant="success" message={message} />;
-        } else if (isError === true) {
-          return <InstantMessage variant="error" message={message} />;
-        }
-      })()}
+      {isError === false ? (
+        <InstantMessage variant={"success"} message={message} />
+      ) : isError === true ? (
+        <InstantMessage variant={"error"} message={message} />
+      ) : (
+        ""
+      )}
     </Box>
   );
 };

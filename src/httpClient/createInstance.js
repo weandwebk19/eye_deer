@@ -1,6 +1,5 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-
 import config from "../config";
 
 const refreshToken = async () => {
@@ -23,7 +22,7 @@ export const createAxiosJWT = (user, dispatch, stateSuccess) => {
   });
   newInstance.interceptors.request.use(
     async (config) => {
-      const date = new Date();
+      let date = new Date();
       const decodedToken = jwt_decode(user?.accessToken);
       if (decodedToken.exp < date.getTime() / 1000) {
         const data = await refreshToken();
@@ -35,7 +34,7 @@ export const createAxiosJWT = (user, dispatch, stateSuccess) => {
         //   dispatch(stateSuccess(refreshUser));
         // }
         dispatch(stateSuccess(refreshUser));
-        config.headers.token = `Bearer ${data.accessToken}`;
+        config.headers["token"] = "Bearer " + data.accessToken;
       }
       return config;
     },
@@ -52,11 +51,12 @@ export const createAxios = () => {
     baseURL: `${config.SERVER_URL}`,
   });
   return instance;
-};
+}
 
 export const createAxiosDefault = () => {
   const instance = axios.create({
-    baseURL: `${config.SERVER_URL}`,
+    baseURL: `${config.SERVER_URL}`
   });
   return instance;
-};
+}
+

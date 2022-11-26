@@ -2,20 +2,18 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Grid, Switch } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-
-import pictureDefault from "assets/imgs/pictureDefault.png";
-import { createGroup } from "httpClient";
-
 import { StyledButton } from "components/Button/StyledButton";
+import { StyledInputField, customTheme } from "components/TextField";
+import { Grid, ButtonBase, Switch, Paper } from "@mui/material";
+import pictureDefault from "../../assets/imgs/pictureDefault.png";
+import { createGroup } from "httpClient";
 import { InstantMessage } from "components/Popup";
-import { StyledInputField } from "components/TextField";
 
-const HomeNewGroup = () => {
+export default function HomeNewGroup() {
   //
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.login.currentUser);
@@ -28,7 +26,7 @@ const HomeNewGroup = () => {
     formState: { errors },
   } = useForm();
 
-  /// /form
+  ////form
   const [isError, setIsError] = useState("");
   const [messageFromServer, setMessageFromServer] = useState("");
 
@@ -69,21 +67,19 @@ const HomeNewGroup = () => {
   };
 
   const onSubmit = async (groupInfo) => {
-    if (selectedFile) {
-      groupInfo.picture = selectedFile;
-    } else {
-      groupInfo.picture = null;
-    }
+    selectedFile
+      ? (groupInfo.picture = selectedFile)
+      : (groupInfo.picture = null);
 
-    // call api
+    //call api
     const res = await createGroup(currentUser, dispatch, groupInfo);
 
-    // handle res
+    //handle res
     if (res.success === true) {
       setMessageFromServer(res.message);
       setIsError(false);
 
-      alert(`redirect with id group: ${res.groupId}`);
+      alert("redirect with id group: " + res.groupId);
     } else {
       setMessageFromServer(res.message);
       setIsError(true);
@@ -108,7 +104,7 @@ const HomeNewGroup = () => {
                 <Grid item xs={12}>
                   <img
                     src={preview || pictureDefault}
-                    alt="group"
+                    alt="picture group"
                     style={{ width: "100%", height: "100%" }}
                   />
                 </Grid>
@@ -215,29 +211,14 @@ const HomeNewGroup = () => {
             </Grid>
           </DialogActions>
         </form>
-        {(() => {
-          if (isError === false) {
-            return (
-              <InstantMessage variant="success" message={messageFromServer} />
-            );
-          } else if (isError === true) {
-            return (
-              <InstantMessage variant="error" message={messageFromServer} />
-            );
-          }
-          return "";
-        })()}
-
-        {/* {isError === false ? (
-          <InstantMessage variant="success" message={messageFromServer} />
+        {isError === false ? (
+          <InstantMessage variant={"success"} message={messageFromServer} />
         ) : isError === true ? (
-          <InstantMessage variant="error" message={messageFromServer} />
+          <InstantMessage variant={"error"} message={messageFromServer} />
         ) : (
           ""
-        )} */}
+        )}
       </Dialog>
     </div>
   );
-};
-
-export default HomeNewGroup;
+}

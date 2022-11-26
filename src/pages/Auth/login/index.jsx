@@ -1,6 +1,7 @@
-import { Route, Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import LoginForm from "./LoginForm";
+
 import "./styles.scss";
 
 const index = () => {

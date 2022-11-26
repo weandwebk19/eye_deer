@@ -1,40 +1,42 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-
+import { NavBar } from "components/Navigation/NavBar";
+import { StyledHeadingTypography } from "components/Typography/StyledTypography";
+import { StyledButton } from "components/Button";
 import {
-  Avatar,
+  CssBaseline,
+  Link,
+  Grid,
   Box,
   Container,
-  CssBaseline,
+  Avatar,
   Divider,
-  Grid,
 } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
-
-import defaultAvatar from "assets/imgs/avatar.jpg";
-import { getUserByUsername, updateProfileUser } from "httpClient";
-
-import { StyledButton } from "components/Button";
-import { NavBar } from "components/Navigation/NavBar";
 import { InstantMessage } from "components/Popup/InstantMessage";
+import { ThemeProvider } from "@mui/material/styles";
 import {
   StyledInputField,
   customTheme,
 } from "components/TextField/StyledInputField";
-import { StyledHeadingTypography } from "components/Typography/StyledTypography";
+
+import defaultAvatar from "assets/imgs/avatar.jpg";
+
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { getUserByUsername, updateProfileUser } from "httpClient";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./styles.scss";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.login.currentUser);
-  // preview avatar
+  const user = currentUser?.user;
+  const username = user.username;
+  //preview avatar
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
   const [isDeleteAvatar, setIsDeleteAvatar] = useState(false);
 
-  // form
+  //form
   const [isError, setIsError] = useState("");
   const [messageFromServer, setMessageFromServer] = useState("");
 
@@ -49,7 +51,7 @@ const Profile = () => {
     userInfo.avatarFile = selectedFile;
     userInfo.isDeleteAvatar = isDeleteAvatar;
 
-    // call api here
+    //call api here
     const res = await updateProfileUser(currentUser, userInfo, dispatch).catch(
       (err) => {
         setMessageFromServer(err.message);
@@ -98,7 +100,7 @@ const Profile = () => {
     setSelectedFile(e.target.files[0]);
   };
 
-  // get user info
+  //get user info
   useEffect(() => {
     (async () => {
       const userInfo = await getUserByUsername(currentUser, dispatch).catch(
@@ -132,7 +134,7 @@ const Profile = () => {
           alignItems: "center",
           height: "100vh",
         }}
-        // className="profile-container"
+        //className="profile-container"
       >
         <Grid
           container
@@ -454,18 +456,13 @@ const Profile = () => {
             </StyledButton>
           </Grid>
         </Grid>
-        {(() => {
-          if (isError === false) {
-            return (
-              <InstantMessage variant="success" message={messageFromServer} />
-            );
-          } else if (isError === true) {
-            return (
-              <InstantMessage variant="error" message={messageFromServer} />
-            );
-          }
-          return "";
-        })()}
+        {isError === false ? (
+          <InstantMessage variant={"success"} message={messageFromServer} />
+        ) : isError === true ? (
+          <InstantMessage variant={"error"} message={messageFromServer} />
+        ) : (
+          ""
+        )}
       </Container>
     </Box>
   );

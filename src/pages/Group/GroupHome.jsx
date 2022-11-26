@@ -1,8 +1,8 @@
-import { Box, Grid } from "@mui/material";
+import { Grid, Box, Typography } from "@mui/material";
 
-import { StyledPrimaryButton } from "components/";
-import { StyledSearchField } from "components/TextField";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
+import { StyledSearchField } from "components/TextField";
+import { StyledPrimaryButton } from "components/";
 
 const GroupHome = () => {
   return (
@@ -22,7 +22,7 @@ const GroupHome = () => {
             + new group
           </StyledPrimaryButton>
         </Box>
-        <StyledHeadingTypography variant="h5">group.</StyledHeadingTypography>
+        <StyledHeadingTypography variant={"h5"}>group.</StyledHeadingTypography>
       </Box>
       {/* <HomeTabs
       // dashboardNavHeight={dashboardNavHeight}
@@ -48,12 +48,13 @@ const GroupHome = () => {
           spacing={2}
           sx={{ width: "100%" }}
         >
-          {/* {Array.apply(null, Array(15)).map((_, i) => {
+          {Array.apply(null, Array(15)).map((_, i) => {
             return (
               <Grid item xs={4} sm={4} md={2} lg={2} key={i}>
+                {/* <DashboardClass /> */}
               </Grid>
             );
-          })} */}
+          })}
         </Grid>
       </Box>
     </Box>
