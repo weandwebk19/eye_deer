@@ -1,8 +1,7 @@
 import { Box, Typography } from "@mui/material";
+
 import { StyledButton } from "components/Button";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
-
-import HomeNewGroup from "./HomeNewGroup";
 
 const HomeFirstSection = () => {
   return (
@@ -41,7 +40,6 @@ const HomeFirstSection = () => {
       <Box
         sx={{ width: "100%", display: "flex", flexDirection: "row-reverse" }}
       >
-        <HomeNewGroup />
         <StyledButton variant="secondary">getting started</StyledButton>
       </Box>
     </Box>

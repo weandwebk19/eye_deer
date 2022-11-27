@@ -20,14 +20,16 @@ const style = {
   p: 4,
 };
 
-const BasicModal = ({ content, title, description }) => {
+const BasicModal = ({ content, title, children, variant }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <div>
-      <StyledButton onClick={handleOpen}>{content}</StyledButton>
+      <StyledButton variant={variant} onClick={handleOpen}>
+        {content}
+      </StyledButton>
       <Modal
         open={open}
         onClose={handleClose}
@@ -39,7 +41,7 @@ const BasicModal = ({ content, title, description }) => {
             {title}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {description}
+            {children}
           </Typography>
         </Box>
       </Modal>
@@ -50,13 +52,15 @@ const BasicModal = ({ content, title, description }) => {
 BasicModal.propTypes = {
   content: PropTypes.string,
   title: PropTypes.string,
-  description: PropTypes.string,
+  children: PropTypes.string,
+  variant: PropTypes.string,
 };
 
 BasicModal.defaultProps = {
   content: "",
   title: "",
-  description: "",
+  children: "",
+  variant: "",
 };
 
 export { BasicModal };

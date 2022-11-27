@@ -73,7 +73,7 @@ const Tabs = ({ tabElements }) => {
       {tabElements.map((tab, index) => {
         return (
           <TabPanel
-            key={tab.titile}
+            key={tab.title}
             value={value}
             index={index}
             className="custom-tab-pannel"
