@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { getJoinedGroups, getOwnedGroups } from "httpClient";
 
-import StyledTabs from "../../../components/Tabs/StyledTabs";
+import StyledTabs from "components/Tabs/StyledTabs";
+
 import GroupTabContent from "./GroupTabContent";
 
 const GroupTabs = () => {

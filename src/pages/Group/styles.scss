@@ -13,3 +13,13 @@
     border-color: 1px solid $black;
   }
 }
+
+.search-field {
+  @include tablet {
+    margin-right: 0 !important;
+    width: 100% !important;
+  }
+  @include mobile {
+    margin-right: 0 !important;
+  }
+}

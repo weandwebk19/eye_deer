@@ -1,13 +1,18 @@
 import { useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import ShareIcon from "@mui/icons-material/Share";
 import {
   Avatar,
   Box,
+  Button,
   Checkbox,
+  Divider,
   IconButton,
   Paper,
   Table,
@@ -25,6 +30,7 @@ import {
 import { alpha } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
 
+import AncientScrollIcon from "assets/icons/ancient-scroll.png";
 import config from "config";
 import PropTypes from "prop-types";
 
@@ -375,8 +381,9 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-const MemberList = () => {
+const MemberList = ({ name }) => {
   const [showActionId, setShowActionId] = useState(-1);
+  const navigate = useNavigate();
   const params = useParams();
   const groupId = params.id;
 
@@ -386,6 +393,10 @@ const MemberList = () => {
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const handleNavigate = (groupId) => {
+    navigate(`..${groupId}`);
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -444,7 +455,45 @@ const MemberList = () => {
 
   return (
     <Box>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
+      <Tooltip title={name} followCursor>
+        <StyledHeadingTypography
+          variant="h3"
+          className="text-limit text-limit--3-lines"
+          mb={2}
+        >
+          "{name}"
+        </StyledHeadingTypography>
+      </Tooltip>
+      <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
+        <Button
+          sx={{
+            textTransform: "lowercase",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+          onClick={handleNavigate(groupId)}
+        >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              component="img"
+              alt="scroll icon"
+              src={AncientScrollIcon}
+              sx={{ width: "28px", m: 1 }}
+            />
+            <Typography>view chapter list</Typography>
+          </Box>
+        </Button>
+      </Box>
+      <Divider sx={{ mt: 2, mb: 2 }} />
+
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          mb: 2,
+        }}
+      >
         <SearchField />
         <Box sx={{ display: "flex" }}>
           <FormDialog
@@ -459,7 +508,21 @@ const MemberList = () => {
             content="generate invitation link"
             variant="primary"
           >
-            {generateInvitationLink()}
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography className="text-limit">
+                {generateInvitationLink()}
+                hdfghadshgjdghfdsf
+              </Typography>
+              <Tooltip title="Copy link">
+                <IconButton
+                  sx={{ marginLeft: 2 }}
+                  aria-label="delete"
+                  size="small"
+                >
+                  <ContentCopyIcon fontSize="inherit" />
+                </IconButton>
+              </Tooltip>
+            </Box>
           </BasicModal>
         </Box>
       </Box>
@@ -574,6 +637,10 @@ const MemberList = () => {
       </Paper>
     </Box>
   );
+};
+
+MemberList.propTypes = {
+  name: PropTypes.string.isRequired,
 };
 
 export default MemberList;

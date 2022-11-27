@@ -7,7 +7,7 @@ import ChapterList from "./ChapterList";
 const Chapter = () => {
   return (
     <FluidLayout>
-      <ChapterList name="chapter." />
+      <ChapterList name="sweet are the uses of adversity which, like the toad, ugly and venomous, wears yet a precious jewel in his head." />
       <GroupInfo />
     </FluidLayout>
   );

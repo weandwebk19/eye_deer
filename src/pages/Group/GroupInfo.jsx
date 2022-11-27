@@ -32,39 +32,7 @@ const GroupInfo = () => {
         src="https://source.unsplash.com/random/?rococo"
         draggable={false}
       />
-      <Button
-        sx={{
-          textTransform: "lowercase",
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-        onClick={onNavigate}
-      >
-        <AvatarGroup max={4}>
-          <Avatar
-            alt="Remy Sharp"
-            src="https://source.unsplash.com/random/?man"
-          />
-          <Avatar
-            alt="Travis Howard"
-            src="https://source.unsplash.com/random/?human"
-          />
-          <Avatar
-            alt="Cindy Baker"
-            src="https://source.unsplash.com/random/?girl"
-          />
-          <Avatar
-            alt="Agnes Walker"
-            src="https://source.unsplash.com/random/?girl"
-          />
-          <Avatar
-            alt="Agnes Walker"
-            src="https://source.unsplash.com/random/?girl"
-          />
-        </AvatarGroup>
-        <Typography sx={{ textAlign: "end" }}>view all members</Typography>
-      </Button>
+
       <Typography variant="h6" gutterBottom>
         group's description.
       </Typography>

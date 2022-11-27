@@ -51,43 +51,7 @@ const StyledCard = styled(MuiCard)(({ theme, variant = "default" }) => ({
   }),
 }));
 
-const SimpleCard = ({ name, className }) => {
-  return (
-    <StyledCard className={className}>
-      <StyledCardActionArea>
-        <CardContent
-          sx={{
-            padding: "8px !important",
-            display: "flex",
-            flexDirection: "column",
-            height: "100% !important",
-          }}
-        >
-          <Box sx={{ flexGrow: 1 }}>
-            <svg viewBox="0 0 198 198" xmlns="http://www.w3.org/2000/svg">
-              <filter id="noiseFilter">
-                <feTurbulence
-                  type="fractalNoise"
-                  baseFrequency="8.11"
-                  numOctaves="1"
-                  stitchTiles="stitch"
-                />
-              </filter>
-
-              <rect width="100%" height="100%" filter="url(#noiseFilter)" />
-            </svg>
-          </Box>
-
-          <StyledHeadingTypography variant="h5" sx={{ lineHeight: 1 }}>
-            {name}
-          </StyledHeadingTypography>
-        </CardContent>
-      </StyledCardActionArea>
-    </StyledCard>
-  );
-};
-
-const CarpetCard = ({ name, picture, contentChips }) => {
+const CarpetContentBox = ({ name, picture, contentChips }) => {
   return (
     <StyledCard variant="carpet">
       <StyledCardActionArea>
@@ -128,24 +92,15 @@ const CarpetCard = ({ name, picture, contentChips }) => {
   );
 };
 
-SimpleCard.propTypes = {
-  name: PropTypes.string.isRequired,
-  className: PropTypes.string,
-};
-
-SimpleCard.defaultProps = {
-  className: null,
-};
-
-CarpetCard.propTypes = {
+CarpetContentBox.propTypes = {
   name: PropTypes.string.isRequired,
   picture: PropTypes.string,
   contentChips: PropTypes.objectOf(PropTypes.number),
 };
 
-CarpetCard.defaultProps = {
+CarpetContentBox.defaultProps = {
   picture: null,
   contentChips: null,
 };
 
-export { StyledCard, StyledCardActionArea, SimpleCard, CarpetCard };
+export { CarpetContentBox };

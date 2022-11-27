@@ -28,6 +28,8 @@ const StyledSearchIconWrapper = styled("div")(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  height: "100%",
+
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
@@ -46,7 +48,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const SearchField = () => {
   return (
-    <StyledSearch>
+    <StyledSearch sx={{ mr: 2 }} className="search-field">
       <StyledSearchIconWrapper>
         <SearchIcon />
       </StyledSearchIconWrapper>
