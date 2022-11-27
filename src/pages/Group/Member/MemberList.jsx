@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -28,11 +29,13 @@ import config from "config";
 import PropTypes from "prop-types";
 
 import { StyledButton } from "components/Button";
+import { FormDialog } from "components/Dialog";
 import { BasicModal } from "components/Modal";
 import { SearchField } from "components/TextField";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 
 import "../styles.scss";
+import AddMember from "./AddMember/AddMember";
 
 const createData = (avatar, fullname, email, username, action) => {
   return {
@@ -374,6 +377,8 @@ EnhancedTableToolbar.propTypes = {
 
 const MemberList = () => {
   const [showActionId, setShowActionId] = useState(-1);
+  const params = useParams();
+  const groupId = params.id;
 
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("calories");
@@ -427,7 +432,7 @@ const MemberList = () => {
   };
 
   const generateInvitationLink = () => {
-    const link = `${config.FRONTEND_URL}/group/${1}/join`;
+    const link = `${config.FRONTEND_URL}/group/${groupId}/join`;
     return link;
   };
 
@@ -442,14 +447,20 @@ const MemberList = () => {
       <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
         <SearchField />
         <Box sx={{ display: "flex" }}>
-          <StyledButton variant="secondary" sx={{ mr: 1 }}>
-            + new member
-          </StyledButton>
+          <FormDialog
+            content="+ add member"
+            title="Add member"
+            variant="secondary"
+          >
+            <AddMember />
+          </FormDialog>
           <BasicModal
             title="Invitation link"
-            description={generateInvitationLink()}
             content="generate invitation link"
-          />
+            variant="primary"
+          >
+            {generateInvitationLink()}
+          </BasicModal>
         </Box>
       </Box>
       <Paper sx={{ width: "100%", mb: 2 }}>

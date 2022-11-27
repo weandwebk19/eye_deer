@@ -1,9 +1,11 @@
 import { Box, Grid, Typography } from "@mui/material";
 
 import { StyledButton } from "components/Button";
+import { FormDialog } from "components/Dialog";
 import { SearchField } from "components/TextField";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 
+import AddNewGroup from "./AddNewGroup";
 import GroupTabs from "./GroupTabs";
 
 const GroupList = () => {
@@ -20,7 +22,13 @@ const GroupList = () => {
           }}
         >
           <SearchField />
-          <StyledButton className="add-group-button">+ new group</StyledButton>
+          <FormDialog
+            content="+ new group"
+            title="Add group"
+            variant="secondary"
+          >
+            <AddNewGroup />
+          </FormDialog>
         </Box>
         <StyledHeadingTypography variant="h5">group.</StyledHeadingTypography>
       </Box>
@@ -31,27 +39,21 @@ const GroupList = () => {
         sx={{
           display: "block",
           width: "100%",
-          overflowY: "scroll !important",
-          // height: {
-          //   xs: `calc(100vh - ${
-          //     dashboardNavHeight + dashboardHeaderHeight + 64 + 24
-          //   }px)`,
-          // },
         }}
       >
-        <Grid
+        {/* <Grid
           container
           columns={{ xs: 4, sm: 4, md: 4, lg: 4 }}
           spacing={2}
           sx={{ width: "100%" }}
         >
-          {/* {Array.apply(null, Array(15)).map((_, i) => {
+          {Array.apply(null, Array(15)).map((_, i) => {
             return (
               <Grid item xs={4} sm={4} md={2} lg={2} key={i}>
               </Grid>
             );
-          })} */}
-        </Grid>
+          })}
+        </Grid> */}
       </Box>
     </Box>
   );

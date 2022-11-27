@@ -3,7 +3,7 @@ import { createAxiosDefault } from "./createInstance";
 const axios = createAxiosDefault();
 
 export const getRoles = async () => {
-  const res = await axios.get("role/roles").catch((err) => {
+  const res = await axios.get("roles").catch((err) => {
     console.log(err);
     return [];
   });
@@ -14,7 +14,7 @@ export const getRoles = async () => {
 };
 
 export const getWorkplaces = async () => {
-  const res = await axios.get("workplace/workplaces").catch((err) => {
+  const res = await axios.get("workplaces").catch((err) => {
     console.log(err);
     return [];
   });

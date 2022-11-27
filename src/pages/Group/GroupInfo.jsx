@@ -13,7 +13,6 @@ import { StyledButton } from "components/Button";
 
 const GroupInfo = () => {
   const navigate = useNavigate();
-  const { state } = useLocation();
   const onNavigate = () => {
     navigate("./members");
   };
