@@ -1,5 +1,5 @@
-import { styled } from "@mui/system";
 import { Button } from "@mui/material";
+import { styled } from "@mui/system";
 
 const StyledButton = styled(Button)(({ theme, variant = "primary" }) => ({
   borderRadius: 0,

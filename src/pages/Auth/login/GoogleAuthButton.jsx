@@ -1,11 +1,12 @@
-//External imports
+// External imports
 import { useEffect, useRef } from "react";
-import jwt_decode from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { oAuthLoginUser } from "../../../httpClient";
+
+import jwt_decode from "jwt-decode";
 
 import config from "../../../config";
+import { oAuthLoginUser } from "../../../httpClient";
 
 const loadScript = (src) =>
   new Promise((resolve, reject) => {
@@ -28,7 +29,7 @@ const GoogleAuthButton = () => {
 
     loadScript(src)
       .then(() => {
-        /*global google*/
+        /* global google */
         google.accounts.id.initialize({
           client_id: id,
           callback: handleCredentialResponse,
@@ -53,7 +54,7 @@ const GoogleAuthButton = () => {
     oAuthLoginUser(userObj, dispatch, navigate);
   }
 
-  return <div ref={googleButton}></div>;
+  return <div ref={googleButton} />;
 };
 
 export default GoogleAuthButton;

@@ -1,4 +1,4 @@
-const MemberProfile = ({ memberId }) => {
+const MemberProfile = () => {
   return <>Let's pretend this is user 1 profile page</>;
 };
 

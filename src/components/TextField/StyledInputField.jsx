@@ -1,11 +1,11 @@
-import { styled, alpha } from "@mui/system";
-import {
-  TextField,
-  createTheme,
-  ThemeProvider,
-  InputBase,
-} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import {
+  InputBase,
+  TextField,
+  ThemeProvider,
+  createTheme,
+} from "@mui/material";
+import { alpha, styled } from "@mui/system";
 
 const customTheme = createTheme({
   components: {

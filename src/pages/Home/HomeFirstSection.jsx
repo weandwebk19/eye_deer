@@ -1,9 +1,7 @@
 import { Box, Typography } from "@mui/material";
 
-import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 import { StyledButton } from "components/Button";
-
-import HomeNewGroup from "./HomeNewGroup";
+import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 
 const HomeFirstSection = () => {
   return (
@@ -26,7 +24,7 @@ const HomeFirstSection = () => {
           }}
           src="https://source.unsplash.com/random/?deer,antelope,forest"
           draggable={false}
-        ></Box>
+        />
         <Typography>
           it is a super fun and competitive way for those who want to practice
           and learn content.
@@ -42,7 +40,6 @@ const HomeFirstSection = () => {
       <Box
         sx={{ width: "100%", display: "flex", flexDirection: "row-reverse" }}
       >
-        <HomeNewGroup />
         <StyledButton variant="secondary">getting started</StyledButton>
       </Box>
     </Box>

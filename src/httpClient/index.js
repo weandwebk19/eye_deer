@@ -1,3 +1,3 @@
-export * from './authApi';
-export * from './publicApi';
-export * from './privateApi';
+export * from "./authApi";
+export * from "./publicApi";
+export * from "./privateApis";

@@ -1,5 +1,7 @@
-import { Box, BottomNavigation, BottomNavigationAction } from "@mui/material";
+import { BottomNavigation, BottomNavigationAction, Box } from "@mui/material";
 import { styled } from "@mui/system";
+
+import PropTypes from "prop-types";
 
 const socialmedias = ["facebook", "instagram", "twitter", "linkedin"];
 
@@ -54,6 +56,16 @@ const HalfSizeFooter = ({ width1, width2 }) => {
       </StyledBottomNavigation>
     </Box>
   );
+};
+
+HalfSizeFooter.propTypes = {
+  width1: PropTypes.number,
+  width2: PropTypes.number,
+};
+
+HalfSizeFooter.defaultProps = {
+  width1: 0,
+  width2: 0,
 };
 
 export { HalfSizeFooter };

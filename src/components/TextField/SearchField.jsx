@@ -1,6 +1,6 @@
-import { styled, alpha } from "@mui/system";
-import { InputBase } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { InputBase } from "@mui/material";
+import { alpha, styled } from "@mui/system";
 
 const StyledSearch = styled("div")(({ theme }) => ({
   position: "relative",
