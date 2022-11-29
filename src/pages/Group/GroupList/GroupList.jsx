@@ -1,6 +1,5 @@
 import { Box, Grid, Typography } from "@mui/material";
 
-import { StyledButton } from "components/Button";
 import { FormDialog } from "components/Dialog";
 import { SearchField } from "components/TextField";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
@@ -32,7 +31,9 @@ const GroupList = () => {
         </Box>
         <StyledHeadingTypography variant="h5">group.</StyledHeadingTypography>
       </Box>
-      <GroupTabs />
+      <Grid container columns={{ xs: 12 }}>
+        <GroupTabs />
+      </Grid>
     </Box>
   );
 };

@@ -14,9 +14,9 @@ const StyledContentBox = styled(Box)(({ theme, variant = "default" }) => ({
   }),
   ...(variant === "brick" && {
     width: "100%",
-    height: "200px",
+    // height: "200px",
     // padding: "16px",
-    background: `${theme.palette.secondary.dark}`,
+    background: `${theme.palette.secondary.light}`,
     color: `${theme.palette.primary.main}`,
   }),
 }));

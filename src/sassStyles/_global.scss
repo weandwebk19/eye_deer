@@ -11,7 +11,8 @@ body {
   // min-height: 100vh;
   height: 100%;
 
-  Hide scrollbar &::-webkit-scrollbar {
+  // Hide scrollbar
+  &::-webkit-scrollbar {
     display: none;
   }
   transition: 0.3s cubic-bezier(0.4, 0.4, 0, 1);
@@ -160,4 +161,28 @@ div.MuiTooltip-popper {
   @include tablet {
     display: none;
   }
+}
+
+div.box-zoom-out {
+  transition: 0.2s;
+  &__main-content {
+    transition: none;
+  }
+  &:hover {
+    .MuiIconButton-root .MuiSvgIcon-root {
+      transition: 0.2s;
+      color: $white;
+    }
+
+    background-color: #344443;
+    color: $white;
+    .box-zoom-out__img {
+      -webkit-transform: scale(1.2);
+      transform: scale(1.2);
+    }
+  }
+}
+
+p.box-zoom-out__content-chips {
+  transition: none;
 }

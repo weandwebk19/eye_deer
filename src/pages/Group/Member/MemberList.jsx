@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -13,6 +13,7 @@ import {
   Button,
   Checkbox,
   Divider,
+  Grid,
   IconButton,
   Paper,
   Table,
@@ -31,10 +32,12 @@ import { alpha } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
 
 import AncientScrollIcon from "assets/icons/ancient-scroll.png";
+import Star2 from "assets/imgs/star-2.svg";
 import config from "config";
 import PropTypes from "prop-types";
 
 import { StyledButton } from "components/Button";
+import { VisitCard } from "components/Card";
 import { FormDialog } from "components/Dialog";
 import { BasicModal } from "components/Modal";
 import { SearchField } from "components/TextField";
@@ -394,8 +397,8 @@ const MemberList = ({ name }) => {
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const handleNavigate = (groupId) => {
-    navigate(`..${groupId}`);
+  const handleNavigate = (e) => {
+    navigate(`/group/${groupId}`);
   };
 
   const handleRequestSort = (event, property) => {
@@ -455,15 +458,6 @@ const MemberList = ({ name }) => {
 
   return (
     <Box>
-      <Tooltip title={name} followCursor>
-        <StyledHeadingTypography
-          variant="h3"
-          className="text-limit text-limit--3-lines"
-          mb={2}
-        >
-          "{name}"
-        </StyledHeadingTypography>
-      </Tooltip>
       <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
         <Button
           sx={{
@@ -471,7 +465,7 @@ const MemberList = ({ name }) => {
             display: "flex",
             justifyContent: "space-between",
           }}
-          onClick={handleNavigate(groupId)}
+          onClick={handleNavigate}
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Box
@@ -484,8 +478,33 @@ const MemberList = ({ name }) => {
           </Box>
         </Button>
       </Box>
-      <Divider sx={{ mt: 2, mb: 2 }} />
-
+      <Divider sx={{ mt: 2, mb: 2 }}>
+        <Box
+          component="img"
+          alt="star"
+          src={Star2}
+          sx={{ width: "24px", height: "100%" }}
+          draggable={false}
+        />
+      </Divider>
+      <Box my={4}>
+        <StyledHeadingTypography variant="h5">owner.</StyledHeadingTypography>
+        <VisitCard variant="no-morebutton" />
+        <StyledHeadingTypography variant="h5">
+          co-owner.
+        </StyledHeadingTypography>
+        <Grid spacing={2} container columns={{ xs: 4, sm: 4, md: 12, lg: 12 }}>
+          <Grid item xs={4} sm={2} md={6} lg={4}>
+            <VisitCard />
+          </Grid>
+          <Grid item xs={4} sm={2} md={6} lg={4}>
+            <VisitCard />
+          </Grid>
+          <Grid item xs={4} sm={2} md={6} lg={4}>
+            <VisitCard />
+          </Grid>
+        </Grid>
+      </Box>
       <Box
         sx={{
           display: "flex",
@@ -495,14 +514,16 @@ const MemberList = ({ name }) => {
         }}
       >
         <SearchField />
-        <Box sx={{ display: "flex" }}>
-          <FormDialog
-            content="+ add member"
-            title="Add member"
-            variant="secondary"
-          >
-            <AddMember />
-          </FormDialog>
+        <Box sx={{ display: "flex" }} className="button-group">
+          <Box mr={2}>
+            <FormDialog
+              content="+ add member"
+              title="Add member"
+              variant="secondary"
+            >
+              <AddMember />
+            </FormDialog>
+          </Box>
           <BasicModal
             title="Invitation link"
             content="generate invitation link"

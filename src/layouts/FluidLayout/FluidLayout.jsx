@@ -11,7 +11,7 @@ const FluidLayout = ({ children }) => {
     <Box sx={{ display: "flex" }}>
       <Container
         component="main"
-        maxWidth={false}
+        maxWidth="xl"
         sx={{
           display: "flex",
           flexDirection: "column",

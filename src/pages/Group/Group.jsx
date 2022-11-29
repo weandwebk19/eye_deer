@@ -1,17 +1,20 @@
 import { Route, Routes } from "react-router-dom";
 
 import Chapter from "./Chapter";
+import ChapterListDetail from "./Chapter/ChapterListDetail";
 import GroupList from "./GroupList";
 import Join from "./Join";
-import Member from "./Member";
+import MemberList from "./Member/MemberList";
 
 const Group = () => {
   return (
     <Routes>
-      <Route path="/" index={true} element={<GroupList />} />
-      <Route path="/:id" index={false} element={<Chapter />} />
-      <Route path="/:id/members" index={false} element={<Member />} />
-      <Route path="/:id/join" index={false} element={<Join />} />
+      <Route path="/" element={<GroupList />} />
+      <Route path="/:id" element={<Chapter />}>
+        <Route path="" index element={<ChapterListDetail />} />
+        <Route path="members" element={<MemberList />} />
+        <Route path="join" element={<Join />} />
+      </Route>
     </Routes>
   );
 };
