@@ -148,4 +148,4 @@ CarpetCard.defaultProps = {
   contentChips: null,
 };
 
-export { StyledCard, SimpleCard, CarpetCard };
+export { StyledCard, StyledCardActionArea, SimpleCard, CarpetCard };

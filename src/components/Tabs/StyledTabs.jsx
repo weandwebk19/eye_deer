@@ -30,11 +30,7 @@ const TabPanel = (props) => {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 };
@@ -87,7 +83,7 @@ const Tabs = ({ tabElements }) => {
             >
               <Grid
                 container
-                columns={{ xs: 4, sm: 4, md: 4, lg: 4 }}
+                columns={{ xs: 4, sm: 4, md: 12, lg: 12 }}
                 spacing={2}
                 sx={{ width: "100%" }}
               >

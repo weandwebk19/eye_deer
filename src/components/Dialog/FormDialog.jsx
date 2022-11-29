@@ -9,10 +9,18 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
+import { styled } from "@mui/system";
 
 import PropTypes from "prop-types";
 
 import { StyledButton } from "components/Button";
+import { StyledHeadingTypography } from "components/Typography";
+
+const StyledDialogContent = styled(DialogContent)(
+  ({ theme }) => `
+  padding: 16px;
+`
+);
 
 const FormDialog = ({ content, title, children, variant }) => {
   const [open, setOpen] = useState(false);
@@ -30,10 +38,12 @@ const FormDialog = ({ content, title, children, variant }) => {
       <StyledButton variant={variant} onClick={handleOpen}>
         {content}
       </StyledButton>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>
+      <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+        <DialogTitle sx={{ px: 4 }}>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            {title}
+            <StyledHeadingTypography variant="h5">
+              {title}.
+            </StyledHeadingTypography>
             <IconButton aria-label="close" onClick={handleClose}>
               <CloseIcon fontSize="inherit" />
             </IconButton>
@@ -58,4 +68,4 @@ FormDialog.defaultProps = {
   variant: "",
 };
 
-export { FormDialog };
+export { StyledDialogContent, FormDialog };

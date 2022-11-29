@@ -124,3 +124,62 @@ export const getLitsMembers = async (user, dispatch, groupId) => {
     return [];
   }
 };
+
+// invite member to group by username or email
+export const sendEmailToInviteMember = async (user, dispatch, groupId, memberId) => {
+  const axios = createAxiosJWT(user, dispatch, loginSuccess);
+  const accessToken = user?.accessToken;
+  
+  try {
+    const formData = new FormData();
+
+    // append data
+    formData.append("memberId", memberId);
+    console.log(memberId);
+
+    const res = await axios({
+      method: "post",
+      url: `/groups/${groupId}/invite`,
+      data: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        token: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (res.status === 200) {
+      return res.data;
+    }
+
+    return res.response.data;
+  } catch (error) {
+    console.log(error);
+    return error.response.data;
+  }
+};
+
+// add member to group
+export const addMemberFromToken = async (user, dispatch, token) => {
+  const axios = createAxiosJWT(user, dispatch, loginSuccess);
+  const accessToken = user?.accessToken;
+  
+  try {
+    const res = await axios({
+      method: "get",
+      url: `/groups/invite/${token}`,
+      headers: {
+        "Content-Type": "application/json",
+        token: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (res.status === 200) {
+      return res.data;
+    }
+
+    return res.response.data;
+  } catch (error) {
+    console.log(error);
+    return error.response.data;
+  }
+};

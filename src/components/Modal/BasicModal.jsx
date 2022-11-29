@@ -1,8 +1,6 @@
 import { useState } from "react";
 
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Typography from "@mui/material/Typography";
+import { Backdrop, Box, Fade, Modal, Typography } from "@mui/material";
 
 import PropTypes from "prop-types";
 
@@ -35,15 +33,22 @@ const BasicModal = ({ content, title, children, variant }) => {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
       >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {title}
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {children}
-          </Typography>
-        </Box>
+        <Fade in={open}>
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              {title}
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              {children}
+            </Typography>
+          </Box>
+        </Fade>
       </Modal>
     </div>
   );

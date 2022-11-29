@@ -1,14 +1,21 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import ShareIcon from "@mui/icons-material/Share";
 import {
   Avatar,
   Box,
+  Button,
   Checkbox,
+  Divider,
+  Grid,
   IconButton,
   Paper,
   Table,
@@ -26,11 +33,14 @@ import {
 import { alpha } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
 
+import AncientScrollIcon from "assets/icons/ancient-scroll.png";
+import Star2 from "assets/imgs/star-2.svg";
 import config from "config";
 import { getLitsMembers } from "httpClient";
 import PropTypes from "prop-types";
 
 import { StyledButton } from "components/Button";
+import { VisitCard } from "components/Card";
 import { FormDialog } from "components/Dialog";
 import { BasicModal } from "components/Modal";
 import { SearchField } from "components/TextField";
@@ -377,9 +387,10 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-const MemberList = () => {
+const MemberList = ({ name }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.login.currentUser);
+  const navigate = useNavigate();
   const params = useParams();
   const groupId = params.id;
 
@@ -402,6 +413,10 @@ const MemberList = () => {
       }
     })();
   }, []);
+
+  const handleNavigate = (e) => {
+    navigate(`/group/${groupId}`);
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -460,22 +475,78 @@ const MemberList = () => {
 
   return (
     <Box>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
+      <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
+        <Button onClick={handleNavigate} sx={{ textTransform: "lowercase" }}>
+          <KeyboardBackspaceIcon sx={{ mr: 1 }} />
+          <Typography>back to group</Typography>
+        </Button>
+      </Box>
+      <Divider sx={{ mt: 2, mb: 2 }}>
+        <Box
+          component="img"
+          alt="star"
+          src={Star2}
+          sx={{ width: "24px", height: "100%" }}
+          draggable={false}
+        />
+      </Divider>
+      <Box my={4}>
+        <StyledHeadingTypography variant="h5">owner.</StyledHeadingTypography>
+        <VisitCard variant="no-morebutton" />
+        <StyledHeadingTypography variant="h5">
+          co-owner.
+        </StyledHeadingTypography>
+        <Grid spacing={2} container columns={{ xs: 4, sm: 4, md: 12, lg: 12 }}>
+          <Grid item xs={4} sm={2} md={6} lg={4}>
+            <VisitCard />
+          </Grid>
+          <Grid item xs={4} sm={2} md={6} lg={4}>
+            <VisitCard />
+          </Grid>
+          <Grid item xs={4} sm={2} md={6} lg={4}>
+            <VisitCard />
+          </Grid>
+        </Grid>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          mb: 2,
+        }}
+      >
         <SearchField />
-        <Box sx={{ display: "flex" }}>
-          <FormDialog
-            content="+ add member"
-            title="Add member"
-            variant="secondary"
-          >
-            <AddMember />
-          </FormDialog>
+        <Box sx={{ display: "flex" }} className="button-group">
+          <Box mr={2}>
+            <FormDialog
+              content="+ add member"
+              title="Add member"
+              variant="secondary"
+            >
+              <AddMember />
+            </FormDialog>
+          </Box>
           <BasicModal
             title="Invitation link"
             content="generate invitation link"
             variant="primary"
           >
-            {generateInvitationLink()}
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography className="text-limit">
+                {generateInvitationLink()}
+                hdfghadshgjdghfdsf
+              </Typography>
+              <Tooltip title="Copy link">
+                <IconButton
+                  sx={{ marginLeft: 2 }}
+                  aria-label="delete"
+                  size="small"
+                >
+                  <ContentCopyIcon fontSize="inherit" />
+                </IconButton>
+              </Tooltip>
+            </Box>
           </BasicModal>
         </Box>
       </Box>
@@ -590,6 +661,10 @@ const MemberList = () => {
       </Paper>
     </Box>
   );
+};
+
+MemberList.propTypes = {
+  name: PropTypes.string.isRequired,
 };
 
 export default MemberList;

@@ -4,14 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { Box, Container, CssBaseline, Grid, Link } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
 
 import Gradient6 from "assets/imgs/gradient-6.png";
 import { registerUser } from "httpClient";
 
 import { StyledButton } from "components/Button";
 import { StyledPaper } from "components/Paper";
-// import { ThemeProvider } from "@mui/material/styles";
 import { InstantMessage } from "components/Popup";
 import {
   StyledInputField,
@@ -110,23 +108,22 @@ const RegisterForm = () => {
                 {/* Start: Lastname */}
                 {user?.family_name === undefined ? (
                   <Grid item xs={8} sm={4} md={4}>
-                    <ThemeProvider theme={customTheme}>
-                      <StyledInputField
-                        variant="light"
-                        fullWidth
-                        id="lastname"
-                        label="last name"
-                        name="lastName"
-                        autoComplete="lastName"
-                        {...register("lastName", {
-                          required: false,
-                          pattern: {
-                            value: /^[a-zA-Z ]*$/i,
-                            message: "wrong format!",
-                          },
-                        })}
-                      />
-                    </ThemeProvider>
+                    <StyledInputField
+                      variant="outlined"
+                      customvariant="light"
+                      fullWidth
+                      id="lastname"
+                      label="last name"
+                      name="lastName"
+                      autoComplete="lastName"
+                      {...register("lastName", {
+                        required: false,
+                        pattern: {
+                          value: /^[a-zA-Z ]*$/i,
+                          message: "wrong format!",
+                        },
+                      })}
+                    />
                     {errors.lastName ? (
                       <div className="error-message-validate">
                         {errors.lastName.message}
@@ -135,20 +132,19 @@ const RegisterForm = () => {
                   </Grid>
                 ) : (
                   <Grid item xs={8} sm={4} md={4}>
-                    <ThemeProvider theme={customTheme}>
-                      <StyledInputField
-                        variant="light"
-                        fullWidth
-                        id="lastname"
-                        label="last name"
-                        name="lastName"
-                        defaultValue={user.family_name}
-                        autoComplete="lastName"
-                        {...register("lastName", {
-                          required: false,
-                        })}
-                      />
-                    </ThemeProvider>
+                    <StyledInputField
+                      variant="outlined"
+                      customvariant="light"
+                      fullWidth
+                      id="lastname"
+                      label="last name"
+                      name="lastName"
+                      defaultValue={user.family_name}
+                      autoComplete="lastName"
+                      {...register("lastName", {
+                        required: false,
+                      })}
+                    />
                   </Grid>
                 )}
                 {/* End: lastname */}
@@ -156,23 +152,22 @@ const RegisterForm = () => {
                 {/* Start: firstname */}
                 {user?.given_name === undefined ? (
                   <Grid item xs={8} sm={4} md={4}>
-                    <ThemeProvider theme={customTheme}>
-                      <StyledInputField
-                        variant="light"
-                        fullWidth
-                        id="firstname"
-                        label="first name"
-                        name="firstName"
-                        autoComplete="firstName"
-                        {...register("firstName", {
-                          required: false,
-                          pattern: {
-                            value: /^[a-zA-Z ]*$/i,
-                            message: "wrong format!",
-                          },
-                        })}
-                      />
-                    </ThemeProvider>
+                    <StyledInputField
+                      variant="outlined"
+                      customvariant="light"
+                      fullWidth
+                      id="firstname"
+                      label="first name"
+                      name="firstName"
+                      autoComplete="firstName"
+                      {...register("firstName", {
+                        required: false,
+                        pattern: {
+                          value: /^[a-zA-Z ]*$/i,
+                          message: "wrong format!",
+                        },
+                      })}
+                    />
                     {errors.firstName ? (
                       <div className="error-message-validate">
                         {errors.firstName.message}
@@ -181,41 +176,39 @@ const RegisterForm = () => {
                   </Grid>
                 ) : (
                   <Grid item xs={8} sm={4} md={4}>
-                    <ThemeProvider theme={customTheme}>
-                      <StyledInputField
-                        variant="light"
-                        fullWidth
-                        id="firstname"
-                        label="first name"
-                        name="firstName"
-                        defaultValue={user.given_name}
-                        autoComplete={user.given_name}
-                        {...register("firstName", {
-                          required: false,
-                        })}
-                      />
-                    </ThemeProvider>
+                    <StyledInputField
+                      variant="outlined"
+                      customvariant="light"
+                      fullWidth
+                      id="firstname"
+                      label="first name"
+                      name="firstName"
+                      defaultValue={user.given_name}
+                      autoComplete={user.given_name}
+                      {...register("firstName", {
+                        required: false,
+                      })}
+                    />
                   </Grid>
                 )}
                 {/* End: firstname */}
 
                 {/* Start: username */}
                 <Grid item xs={8} sm={8} md={8}>
-                  <ThemeProvider theme={customTheme}>
-                    <StyledInputField
-                      variant="light"
-                      required
-                      fullWidth
-                      id="username"
-                      label="username"
-                      name="username"
-                      autoComplete="username"
-                      {...register("username", {
-                        required: "required",
-                        // validate: (value) => value !== "admin" || "nice try!",
-                      })}
-                    />
-                  </ThemeProvider>
+                  <StyledInputField
+                    variant="outlined"
+                    customvariant="light"
+                    required
+                    fullWidth
+                    id="username"
+                    label="username"
+                    name="username"
+                    autoComplete="username"
+                    {...register("username", {
+                      required: "required",
+                      // validate: (value) => value !== "admin" || "nice try!",
+                    })}
+                  />
                   {errors.username ? (
                     <div className="error-message-validate">
                       {errors.username.message}
@@ -227,25 +220,24 @@ const RegisterForm = () => {
                 {/* Start: email */}
                 {user?.email === undefined ? (
                   <Grid item xs={8} sm={8} md={8}>
-                    <ThemeProvider theme={customTheme}>
-                      <StyledInputField
-                        variant="light"
-                        required
-                        fullWidth
-                        id="email"
-                        label="email"
-                        type="email"
-                        name="email"
-                        autoComplete="email"
-                        {...register("email", {
-                          required: "required",
-                          pattern: {
-                            value: /^\S+@\S+$/i,
-                            message: "invalid email address",
-                          },
-                        })}
-                      />
-                    </ThemeProvider>
+                    <StyledInputField
+                      variant="outlined"
+                      customvariant="light"
+                      required
+                      fullWidth
+                      id="email"
+                      label="email"
+                      type="email"
+                      name="email"
+                      autoComplete="email"
+                      {...register("email", {
+                        required: "required",
+                        pattern: {
+                          value: /^\S+@\S+$/i,
+                          message: "invalid email address",
+                        },
+                      })}
+                    />
                     {errors.email ? (
                       <div className="error-message-validate">
                         {errors.email.message}
@@ -257,26 +249,25 @@ const RegisterForm = () => {
 
                 {/* Start: Password */}
                 <Grid item xs={8} sm={4} md={4}>
-                  <ThemeProvider theme={customTheme}>
-                    <StyledInputField
-                      variant="light"
-                      required
-                      fullWidth
-                      name="password"
-                      label="password"
-                      type="password"
-                      id="password"
-                      autoComplete="new-password"
-                      {...register("password", {
-                        required: "required",
-                        pattern: {
-                          value:
-                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/i,
-                          message: `password must be 8-16 characters, at least one uppercase letter, one lowercase letter, one number and one special character`,
-                        },
-                      })}
-                    />
-                  </ThemeProvider>
+                  <StyledInputField
+                    variant="outlined"
+                    customvariant="light"
+                    required
+                    fullWidth
+                    name="password"
+                    label="password"
+                    type="password"
+                    id="password"
+                    autoComplete="new-password"
+                    {...register("password", {
+                      required: "required",
+                      pattern: {
+                        value:
+                          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/i,
+                        message: `password must be 8-16 characters, at least one uppercase letter, one lowercase letter, one number and one special character`,
+                      },
+                    })}
+                  />
                   <Grid item>
                     {errors.password ? (
                       <div
@@ -294,26 +285,25 @@ const RegisterForm = () => {
 
                 {/* Start: Confirm password */}
                 <Grid item xs={8} sm={4} md={4}>
-                  <ThemeProvider theme={customTheme}>
-                    <StyledInputField
-                      variant="light"
-                      required
-                      fullWidth
-                      name="confirmPassword"
-                      label="confirm password"
-                      type="password"
-                      id="confirm-password"
-                      autoComplete="confirm-password"
-                      {...register("confirmPassword", {
-                        required: true,
-                        validate: (value) => {
-                          if (watch("password") !== value) {
-                            return "passwords do not match";
-                          }
-                        },
-                      })}
-                    />
-                  </ThemeProvider>
+                  <StyledInputField
+                    variant="outlined"
+                    customvariant="light"
+                    required
+                    fullWidth
+                    name="confirmPassword"
+                    label="confirm password"
+                    type="password"
+                    id="confirm-password"
+                    autoComplete="confirm-password"
+                    {...register("confirmPassword", {
+                      required: true,
+                      validate: (value) => {
+                        if (watch("password") !== value) {
+                          return "passwords do not match";
+                        }
+                      },
+                    })}
+                  />
                   <Grid item>
                     {errors.confirmPassword ? (
                       <div className="error-message-validate">

@@ -9,7 +9,6 @@ import {
   CssBaseline,
   Grid,
   Link,
-  ThemeProvider,
   Typography,
 } from "@mui/material";
 
@@ -19,10 +18,7 @@ import { loginUser } from "httpClient";
 import { StyledButton } from "components/Button";
 import { StyledPaper } from "components/Paper";
 import { InstantMessage } from "components/Popup";
-import {
-  StyledInputField,
-  customTheme,
-} from "components/TextField/StyledInputField";
+import { StyledInputField } from "components/TextField/StyledInputField";
 import { StyledHeadingTypography } from "components/Typography";
 
 import GoogleAuthButton from "./GoogleAuthButton";
@@ -95,21 +91,20 @@ const LoginForm = () => {
           >
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <ThemeProvider theme={customTheme}>
-                  <StyledInputField
-                    variant="light"
-                    required
-                    fullWidth
-                    id="username"
-                    label="username"
-                    name="username"
-                    autoComplete="username"
-                    {...register("username", {
-                      required: "required",
-                      // validate: (value) => value !== "admin" || "nice try!",
-                    })}
-                  />
-                </ThemeProvider>
+                <StyledInputField
+                  variant="outlined"
+                  customvariant="light"
+                  required
+                  fullWidth
+                  id="username"
+                  label="username"
+                  name="username"
+                  autoComplete="username"
+                  {...register("username", {
+                    required: "required",
+                    // validate: (value) => value !== "admin" || "nice try!",
+                  })}
+                />
                 {errors.username ? (
                   <>
                     {errors.username.type === "required" && (
@@ -138,22 +133,21 @@ const LoginForm = () => {
                 ) : null}
               </Grid>
               <Grid item xs={12}>
-                <ThemeProvider theme={customTheme}>
-                  <StyledInputField
-                    sx={{ mt: 2 }}
-                    variant="light"
-                    required
-                    fullWidth
-                    name="password"
-                    label="password"
-                    type="password"
-                    id="password"
-                    autoComplete="new-password"
-                    {...register("password", {
-                      required: "required",
-                    })}
-                  />
-                </ThemeProvider>
+                <StyledInputField
+                  sx={{ mt: 2 }}
+                  variant="outlined"
+                  customvariant="light"
+                  required
+                  fullWidth
+                  name="password"
+                  label="password"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                  {...register("password", {
+                    required: "required",
+                  })}
+                />
                 <Grid container justifyContent="space-between">
                   <Grid item>
                     {errors.password ? (
