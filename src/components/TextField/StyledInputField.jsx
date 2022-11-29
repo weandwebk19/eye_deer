@@ -1,84 +1,27 @@
-import SearchIcon from "@mui/icons-material/Search";
-import {
-  InputBase,
-  TextField,
-  ThemeProvider,
-  createTheme,
-} from "@mui/material";
-import { alpha, styled } from "@mui/system";
+import { TextField } from "@mui/material";
+import { styled } from "@mui/system";
 
-const customTheme = createTheme({
-  components: {
-    StyledInputField: {
-      variants: [
-        {
-          props: { variant: "light" },
-          style: {
-            background: "#fafafa",
-          },
-        },
-      ],
-      // defaultProps: {
-      //   variant: "outlined",
-      //   fullWidth: true,
-      //   sx: { mb: 2 },
-      // },
-      // styleOverrides: {
-      //   root: {
-      //     "&.subvariant-hovered": {
-      //       "& fieldset": {
-      //         background: "#fafafa",
-      //       },
-      //     },
-      //   },
-      // },
+const StyledInputField = styled(TextField)(
+  ({ theme, customvariant = "default" }) => ({
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "white",
     },
-  },
-  palette: {
-    primary: {
-      main: "#292929",
-      light: "#424242",
-      dark: "#101010",
-      contrastText: "#e6e6e6",
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: `${theme.palette.primary.main}`,
+        borderRadius: 0,
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: `${theme.palette.primary.light}`,
+      },
     },
-    secondary: {
-      main: "#e6e6e6",
-      light: "#fafafa",
-      dark: "#bdbdbd",
-      contrastText: "#292929",
-    },
-  },
-  typography: {
-    fontFamily: "'Poppins', 'sans-serif'",
-  },
-});
-
-const StyledInputField = styled(TextField, {
-  shouldForwardProp: (prop) =>
-    prop !== "background" && prop !== "sx" && prop !== "variant",
-  name: "StyledInputField",
-  slot: "Root",
-  overridesResolver: (props, styles) => [
-    styles.root,
-    props.background === "primary" && styles.primary,
-    props.background === "secondary" && styles.secondary,
-  ],
-})(
-  ({ theme }) => `
-  background: ${theme.palette.secondary.main};
-  & .MuiInput-underline:after {
-    border-bottom-color: white;
-  }
-  & .MuiOutlinedInput-root {
-    & fieldset {
-      border-color: ${theme.palette.primary.main};
-      border-radius: 0;
-    }
-    &.Mui-focused fieldset {
-      border-color: ${theme.palette.primary.light};
-    }
-  }
-`
+    ...(customvariant === "default" && {
+      background: `${theme.palette.secondary.main}`,
+    }),
+    ...(customvariant === "light" && {
+      background: `${theme.palette.secondary.light}`,
+    }),
+  })
 );
 
-export { customTheme, StyledInputField };
+export { StyledInputField };

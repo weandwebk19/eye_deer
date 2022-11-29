@@ -10,7 +10,6 @@ import {
   Divider,
   Grid,
 } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
 
 import defaultAvatar from "assets/imgs/avatar.jpg";
 import { getUserByUsername, updateProfileUser } from "httpClient";
@@ -18,10 +17,7 @@ import { getUserByUsername, updateProfileUser } from "httpClient";
 import { StyledButton } from "components/Button";
 import { NavBar } from "components/Navigation/NavBar";
 import { InstantMessage } from "components/Popup/InstantMessage";
-import {
-  StyledInputField,
-  customTheme,
-} from "components/TextField/StyledInputField";
+import { StyledInputField } from "components/TextField/StyledInputField";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 
 import "./styles.scss";
@@ -258,25 +254,23 @@ const Profile = () => {
               >
                 {/* Start: Lastname */}
                 <Grid item xs={8} sm={4} md={4}>
-                  <ThemeProvider theme={customTheme}>
-                    <StyledInputField
-                      fullWidth
-                      id="lastname"
-                      label="lastname"
-                      name="lastName"
-                      autoComplete="lastName"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      {...register("lastName", {
-                        required: "required",
-                        pattern: {
-                          value: /^[a-zA-Z ]*$/i,
-                          message: "wrong format!",
-                        },
-                      })}
-                    />
-                  </ThemeProvider>
+                  <StyledInputField
+                    fullWidth
+                    id="lastname"
+                    label="lastname"
+                    name="lastName"
+                    autoComplete="lastName"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    {...register("lastName", {
+                      required: "required",
+                      pattern: {
+                        value: /^[a-zA-Z ]*$/i,
+                        message: "wrong format!",
+                      },
+                    })}
+                  />
                   {errors.lastName ? (
                     <div
                       style={{
@@ -293,25 +287,23 @@ const Profile = () => {
 
                 {/* Start: firstname */}
                 <Grid item xs={8} sm={4} md={4}>
-                  <ThemeProvider theme={customTheme}>
-                    <StyledInputField
-                      fullWidth
-                      id="firstname"
-                      label="first name"
-                      name="firstName"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      autoComplete="firstName"
-                      {...register("firstName", {
-                        required: "required",
-                        pattern: {
-                          value: /^[a-zA-Z ]*$/i,
-                          message: "wrong format!",
-                        },
-                      })}
-                    />
-                  </ThemeProvider>
+                  <StyledInputField
+                    fullWidth
+                    id="firstname"
+                    label="first name"
+                    name="firstName"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    autoComplete="firstName"
+                    {...register("firstName", {
+                      required: "required",
+                      pattern: {
+                        value: /^[a-zA-Z ]*$/i,
+                        message: "wrong format!",
+                      },
+                    })}
+                  />
                   {errors.firstName ? (
                     <div
                       style={{
@@ -329,48 +321,44 @@ const Profile = () => {
 
                 {/* Start: username */}
                 <Grid item xs={8} sm={8} md={8}>
-                  <ThemeProvider theme={customTheme}>
-                    <StyledInputField
-                      required
-                      fullWidth
-                      id="username"
-                      label="username"
-                      name="username"
-                      autoComplete="username"
-                      disabled
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      {...register("username")}
-                    />
-                  </ThemeProvider>
+                  <StyledInputField
+                    required
+                    fullWidth
+                    id="username"
+                    label="username"
+                    name="username"
+                    autoComplete="username"
+                    disabled
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    {...register("username")}
+                  />
                 </Grid>
                 {/* End: username */}
 
                 {/* Start: email */}
                 <Grid item xs={8} sm={8} md={8}>
-                  <ThemeProvider theme={customTheme}>
-                    <StyledInputField
-                      required
-                      fullWidth
-                      id="email"
-                      label="email"
-                      type="email"
-                      name="email"
-                      autoComplete="email"
-                      disabled
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      {...register("email", {
-                        required: "required",
-                        pattern: {
-                          value: /^\S+@\S+$/i,
-                          message: "invalid email address",
-                        },
-                      })}
-                    />
-                  </ThemeProvider>
+                  <StyledInputField
+                    required
+                    fullWidth
+                    id="email"
+                    label="email"
+                    type="email"
+                    name="email"
+                    autoComplete="email"
+                    disabled
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    {...register("email", {
+                      required: "required",
+                      pattern: {
+                        value: /^\S+@\S+$/i,
+                        message: "invalid email address",
+                      },
+                    })}
+                  />
                   {errors.email ? (
                     <>
                       {errors.email.type === "required" && (
@@ -408,25 +396,23 @@ const Profile = () => {
 
                 {/* Start: current password */}
                 <Grid item xs={8} sm={8} md={8}>
-                  <ThemeProvider theme={customTheme}>
-                    <StyledInputField
-                      required
-                      fullWidth
-                      name="currentPassword"
-                      label="password"
-                      type="password"
-                      id="current-password"
-                      autoComplete="current-password"
-                      {...register("currentPassword", {
-                        required: "required",
-                        // pattern: {
-                        //   value:
-                        //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/i,
-                        //   message: `password must be 8-16 characters, at least one uppercase letter, one lowercase letter, one number and one special character`,
-                        // },
-                      })}
-                    />
-                  </ThemeProvider>
+                  <StyledInputField
+                    required
+                    fullWidth
+                    name="currentPassword"
+                    label="password"
+                    type="password"
+                    id="current-password"
+                    autoComplete="current-password"
+                    {...register("currentPassword", {
+                      required: "required",
+                      // pattern: {
+                      //   value:
+                      //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/i,
+                      //   message: `password must be 8-16 characters, at least one uppercase letter, one lowercase letter, one number and one special character`,
+                      // },
+                    })}
+                  />
                   <Grid item>
                     {errors.currentPassword ? (
                       <div

@@ -12,43 +12,32 @@ import { Box } from "@mui/system";
 import PropTypes from "prop-types";
 
 import { StyledCard } from "components/Card";
+import { ContentBox } from "components/ContentBox";
 
-const GroupTabContent = ({ id, chapters, members, name, picture }) => {
+const GroupTabContent = ({
+  id,
+  chapters,
+  contentChips,
+  members,
+  name,
+  picture,
+  menulist,
+}) => {
   const navigate = useNavigate();
   const handleClick = (e) => {
     const path = `/group/${id}`;
     navigate(path, { state: { groupId: id } });
   };
   return (
-    <Grid item xs={4} sm={4} md={2} lg={1}>
-      <StyledCard variant="brick" onClick={handleClick}>
-        <CardActionArea>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignContent: "space-between",
-              height: "100%",
-              padding: "5px",
-            }}
-          >
-            <CardContent sx={{ flexGrow: 1 }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Typography>{members} member(s)</Typography>
-              </Box>
-            </CardContent>
-            <Typography variant="h6" noWrap>
-              {name}
-            </Typography>
-          </Box>
-        </CardActionArea>
-      </StyledCard>
-    </Grid>
+    <ContentBox
+      variant="brick"
+      name={name}
+      picture={picture}
+      index={id}
+      contentChips={contentChips}
+      handleClick={handleClick}
+      menulist={menulist}
+    />
   );
 };
 
@@ -58,6 +47,8 @@ GroupTabContent.propTypes = {
   chapters: PropTypes.number,
   members: PropTypes.number,
   picture: PropTypes.string,
+  contentChips: PropTypes.objectOf(PropTypes.number).isRequired,
+  menulist: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 GroupTabContent.defaultProps = {

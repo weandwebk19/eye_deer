@@ -1,13 +1,13 @@
 import { FluidLayout } from "layouts";
 
+import GroupHeader from "../GroupHeader";
 import GroupInfo from "../GroupInfo";
 import "../styles.scss";
-import ChapterList from "./ChapterList";
 
 const Chapter = () => {
   return (
     <FluidLayout>
-      <ChapterList name="chapter." />
+      <GroupHeader />
       <GroupInfo />
     </FluidLayout>
   );

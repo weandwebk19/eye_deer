@@ -1,94 +1,123 @@
-// import { useNavigate, useLocation, Link } from "react-router-dom";
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { Box, Container, Grid } from "@mui/material";
-// import { SimpleCard } from "components/Card";
-// import { StyledHeadingTypography } from "../../../components/Typography/StyledTypography";
-// import { StyledButton } from "components/Button";
-// import Gradient1 from "../../../assets/imgs/gradient.png";
-// import { useGetWorkplaces } from "../../../hooks";
+import { Link, useNavigate } from "react-router-dom";
 
-// const RegisterUserType = () => {
-//   const navigate = useNavigate();
-//   const { state } = useLocation();
-//   const { isLoading, error, data, isFetching } = useGetWorkplaces();
+import { Box, Container, Grid, Link as MuiLink } from "@mui/material";
 
-//   if (isLoading) return "Loading...";
-//   if (error) return "An error has occurred: " + error.message;
+import { StyledButton } from "components/Button";
+import { SimpleCard } from "components/Card";
+import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 
-//   const handleNavigate = () => {
-//     const path = "/register/form";
-//     navigate(path, { state: { workplace: data, role: state.role } });
-//   };
+import Gradient1 from "../../../assets/imgs/gradient.png";
+import { useGetWorkplaces } from "../../../hooks";
 
-//   return (
-//     <LocalizationProvider dateAdapter={AdapterDayjs}>
-//       <Box
-//         sx={{
-//           position: "relative",
-//           overflow: "hidden",
-//         }}
-//       >
-//         <Container
-//           component="main"
-//           maxWidth="md"
-//           sx={{
-//             display: "flex",
-//             flexDirection: "column",
-//             justifyContent: "center",
-//             alignItems: "center",
-//             minHeight: "100vh",
-//           }}
-//         >
-//           <Box>
-//             <StyledHeadingTypography
-//               className="text-stroke"
-//               component="h1"
-//               variant="h3"
-//               align="center"
-//               color="textPrimary"
-//               gutterBottom
-//             >
-//               describe your workplace.
-//             </StyledHeadingTypography>
-//             <img src={Gradient1} alt="deco gradient" className="deco-img-1" />
-//             <Box sx={{ mt: 8 }}>
-//               <Grid
-//                 container
-//                 columns={{ xs: 4, sm: 8, md: 12 }}
-//                 // spacing={{ xs: 2, sm: 2, md: 3 }}
-//                 mx="auto"
-//                 direction="row"
-//                 justifyContent="center"
-//                 alignItems="center"
-//               >
-//                 {data.map((workplace, i) => {
-//                   return (
-//                     <Grid item xs={2} sm={4} md={3} key={i}>
-//                       <Link
-//                         to="/register/form"
-//                         state={{ workplace: workplace.id, role: state.role }}
-//                         key={i}
-//                       >
-//                         <SimpleCard
-//                           name={workplace.name}
-//                           className={`role-card role-card--${workplace.name} workplace-card workplace-card--${workplace.id}`}
-//                         />
-//                       </Link>
-//                     </Grid>
-//                   );
-//                 })}
-//                 <div>{isFetching ? "Updating..." : ""}</div>
-//               </Grid>
-//             </Box>
-//           </Box>
-//           <StyledButton sx={{ width: "200px" }} onClick={handleNavigate}>
-//             Other
-//           </StyledButton>
-//         </Container>
-//       </Box>
-//     </LocalizationProvider>
-//   );
-// };
+const RegisterUserType = () => {
+  const navigate = useNavigate();
+  const { isLoading, error, data, isFetching } = useGetWorkplaces();
+  if (isLoading) return "Loading...";
+  if (error) return `An error has occurred: ${error.message}`;
 
-// export default RegisterUserType;
+  const handleNavigate = () => {
+    const path = "/register/birthday";
+    navigate(path, { state: { workplace: null } });
+  };
+
+  return (
+    <Box
+      sx={{
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <Container
+        component="main"
+        maxWidth="md"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+        }}
+      >
+        <Box>
+          {/* <Box sx={{ isolation: "isolate" }}> */}
+          <StyledHeadingTypography
+            className="text-stroke"
+            component="h1"
+            variant="h3"
+            align="center"
+            color="textPrimary"
+            gutterBottom
+          >
+            describe your workplace.
+          </StyledHeadingTypography>
+          <img src={Gradient1} alt="deco gradient" className="deco-img-1" />
+
+          {/* </Box> */}
+          <Box sx={{ mt: 8 }}>
+            <Grid
+              container
+              columns={{ xs: 4, sm: 8, md: 12 }}
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+            >
+              {data?.map((workplace) => {
+                return (
+                  <Grid
+                    item
+                    xs={2}
+                    sm={4}
+                    md={3}
+                    key={workplace.id}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Link
+                      to="/register/birthday"
+                      state={{ workplace: workplace.id }}
+                    >
+                      <SimpleCard
+                        name={workplace.name}
+                        className={`role-card role-card--${workplace.name} workplace-card workplace-card--${workplace.id}`}
+                      />
+                    </Link>
+                  </Grid>
+                );
+              })}
+              <div>{isFetching ? "Updating..." : ""}</div>
+            </Grid>
+
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="center"
+              sx={{ mt: 6, display: "flex", flexDirection: "column" }}
+            >
+              <Grid item>
+                <StyledButton
+                  sx={{ width: "200px", marginBottom: "16px" }}
+                  onClick={handleNavigate}
+                >
+                  Other
+                </StyledButton>
+              </Grid>
+              <Grid item>
+                <MuiLink
+                  className="text-stroke"
+                  href="/login"
+                  variant="body2"
+                  sx={{ padding: "0 2px" }}
+                >
+                  already have an account? <b>login</b>
+                </MuiLink>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+    </Box>
+  );
+};
+
+export default RegisterUserType;
