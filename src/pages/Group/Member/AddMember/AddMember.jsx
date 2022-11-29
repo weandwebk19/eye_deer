@@ -5,10 +5,11 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { DialogActions, DialogContent } from "@mui/material";
 
-import { getSearchUsers } from "httpClient";
+import { getSearchUsers, sendEmailToInviteMember } from "httpClient";
 
 import { StyledButton } from "components/Button";
 import { StyledPaper } from "components/Paper";
+import { InstantMessage } from "components/Popup";
 import { ScrollStack } from "components/Stack";
 import { StyledInputField } from "components/TextField";
 
@@ -27,10 +28,28 @@ const AddMember = () => {
   const params = useParams();
   const groupId = params.id;
 
+  // state of ui after add member
+  const [isError, setIsError] = useState("");
+  const [messageFromServer, setMessageFromServer] = useState("");
+
   const onSubmit = async () => {
-    console.log("submit");
     // call api add user to group with groupId and user is memberChosen
     // And at the same time Send email to memberChosen
+    const res = await sendEmailToInviteMember(
+      currentUser,
+      dispatch,
+      groupId,
+      memberChosen.id
+    );
+
+    // handle res
+    if (res.success === true) {
+      setMessageFromServer(res.message);
+      setIsError(false);
+    } else {
+      setMessageFromServer(res.message);
+      setIsError(true);
+    }
   };
 
   const handleOnChange = (e) => {
@@ -96,6 +115,18 @@ const AddMember = () => {
             Add
           </StyledButton>
         </DialogActions>
+        {(() => {
+          if (isError === false) {
+            return (
+              <InstantMessage variant="success" message={messageFromServer} />
+            );
+          } else if (isError === true) {
+            return (
+              <InstantMessage variant="error" message={messageFromServer} />
+            );
+          }
+          return "";
+        })()}
       </form>
     </StyledPaper>
   );

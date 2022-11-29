@@ -16,7 +16,7 @@ import PropTypes from "prop-types";
 import { StyledButton } from "components/Button";
 import { StyledHeadingTypography } from "components/Typography";
 
-const StyledDiaglogContent = styled(DialogContent)(
+const StyledDialogContent = styled(DialogContent)(
   ({ theme }) => `
   padding: 16px;
 `
@@ -68,4 +68,4 @@ FormDialog.defaultProps = {
   variant: "",
 };
 
-export { StyledDiaglogContent, FormDialog };
+export { StyledDialogContent, FormDialog };

@@ -5,6 +5,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import ShareIcon from "@mui/icons-material/Share";
 import {
@@ -459,23 +460,9 @@ const MemberList = ({ name }) => {
   return (
     <Box>
       <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
-        <Button
-          sx={{
-            textTransform: "lowercase",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-          onClick={handleNavigate}
-        >
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Box
-              component="img"
-              alt="scroll icon"
-              src={AncientScrollIcon}
-              sx={{ width: "28px", m: 1 }}
-            />
-            <Typography>view chapter list</Typography>
-          </Box>
+        <Button onClick={handleNavigate} sx={{ textTransform: "lowercase" }}>
+          <KeyboardBackspaceIcon sx={{ mr: 1 }} />
+          <Typography>back to group</Typography>
         </Button>
       </Box>
       <Divider sx={{ mt: 2, mb: 2 }}>

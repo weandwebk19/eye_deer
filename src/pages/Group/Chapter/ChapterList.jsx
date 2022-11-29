@@ -1,15 +1,12 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import NavigationIcon from "@mui/icons-material/Navigation";
 import {
   Avatar,
   AvatarGroup,
   Box,
   Button,
   Divider,
-  Fab,
-  Tooltip,
   Typography,
 } from "@mui/material";
 
@@ -19,9 +16,7 @@ import PropTypes from "prop-types";
 import { StyledButton } from "components/Button";
 import { ContentBox } from "components/ContentBox";
 import { SearchField } from "components/TextField";
-import { StyledHeadingTypography } from "components/Typography";
 
-import GroupHeader from "../GroupHeader";
 import "../styles.scss";
 
 const ChapterList = ({ name, picture, contentChips }) => {
@@ -91,17 +86,7 @@ const ChapterList = ({ name, picture, contentChips }) => {
 
   return (
     <Box>
-      <GroupHeader name={name} />
-      {/* <Tooltip title={name} followCursor>
-        <StyledHeadingTypography
-          variant="h3"
-          className="text-limit text-limit--3-lines"
-          mb={2}
-        >
-          "{name}"
-        </StyledHeadingTypography>
-      </Tooltip> */}
-      {/* <Box
+      <Box
         sx={{
           width: "100%",
           display: "flex",
@@ -199,7 +184,7 @@ const ChapterList = ({ name, picture, contentChips }) => {
             </Box>
           );
         })}
-      </Box> */}
+      </Box>
     </Box>
   );
 };
