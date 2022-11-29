@@ -5,6 +5,8 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 
 import App from "./App";
+// import store from "./redux/store.redux";
+// import setupInterceptors from "./services/setupInterceptors";
 import { persistor, store } from "./redux/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -17,3 +19,5 @@ root.render(
     </Provider>
   </React.StrictMode>
 );
+
+// setupInterceptors(store);

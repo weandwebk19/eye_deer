@@ -32,7 +32,7 @@ const menulist = [
   },
 ];
 
-const VisitCard = ({ variant }) => {
+const VisitCard = ({ variant, user }) => {
   const [memberId, setMemberId] = useState(1);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -59,13 +59,15 @@ const VisitCard = ({ variant }) => {
         >
           <CardContent sx={{ display: "flex" }}>
             <Avatar
-              src="https://source.unsplash.com/random/?rococo"
+              src={user.picture ?? "https://source.unsplash.com/random/?rococo"}
               sx={{ width: 64, height: 64, marginRight: "16px" }}
             />
             <Box sx={{ textOverflow: "ellipsis" }}>
-              <Typography variant="h6">Cam lan suc</Typography>
-              <Typography>clsuc@gmail.com</Typography>
-              <Typography>clsuc</Typography>
+              <Typography variant="h6">
+                {`${user.firstName} ${user.lastName}`}
+              </Typography>
+              <Typography>{user.email}</Typography>
+              <Typography>{user.username}</Typography>
             </Box>
             {(() => {
               if (variant === "no-morebutton") {
@@ -81,10 +83,18 @@ const VisitCard = ({ variant }) => {
 
 VisitCard.propTypes = {
   variant: PropTypes.string,
+  user: PropTypes.object,
 };
 
 VisitCard.defaultProps = {
   variant: "default",
+  user: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    username: "",
+    picture: "https://source.unsplash.com/random/?rococo",
+  },
 };
 
 export { VisitCard };

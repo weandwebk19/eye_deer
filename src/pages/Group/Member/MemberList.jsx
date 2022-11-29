@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -35,6 +36,11 @@ import { visuallyHidden } from "@mui/utils";
 import AncientScrollIcon from "assets/icons/ancient-scroll.png";
 import Star2 from "assets/imgs/star-2.svg";
 import config from "config";
+import {
+  getListCoOwners,
+  getLitsMembers,
+  getOwner,
+} from "httpClient/privateApis";
 import PropTypes from "prop-types";
 
 import { StyledButton } from "components/Button";
@@ -45,7 +51,7 @@ import { SearchField } from "components/TextField";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 
 import "../styles.scss";
-import AddMember from "./AddMember/AddMember";
+import AddMember from "./AddMember";
 
 const createData = (avatar, fullname, email, username, action) => {
   return {
@@ -56,153 +62,6 @@ const createData = (avatar, fullname, email, username, action) => {
     action,
   };
 };
-
-const rows = [
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Hoang An",
-    "annguyen@gmail.com",
-    "an_ne"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Nhat Binh",
-    "binhanbenbovutru@gmail.com",
-    "nhat_binhhh"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Vu Do Hoang Cuong",
-    "cuongng@gmail.com",
-    "cuuoong"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Truong Thuy Duong",
-    "duong2001@gmail.com",
-    "duong2001"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-];
 
 const descendingComparator = (a, b, orderBy) => {
   if (b[orderBy] < a[orderBy]) {
@@ -386,17 +245,45 @@ EnhancedTableToolbar.propTypes = {
 };
 
 const MemberList = ({ name }) => {
-  const [showActionId, setShowActionId] = useState(-1);
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.auth.login.currentUser);
   const navigate = useNavigate();
   const params = useParams();
   const groupId = params.id;
 
+  const [showActionId, setShowActionId] = useState(-1);
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("calories");
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rows, setRows] = useState([]);
+  const [owner, setOwner] = useState();
+  const [coOwners, setCoOwners] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const members = await getLitsMembers(currentUser, dispatch, groupId);
+        setRows(members);
+        const ownerRes = await getOwner(currentUser, dispatch, groupId);
+        if (ownerRes && ownerRes.success === true) {
+          setOwner(ownerRes.data);
+        }
+        const coOwnerRes = await getListCoOwners(
+          currentUser,
+          dispatch,
+          groupId
+        );
+        if (coOwnerRes && coOwnerRes.success === true) {
+          setCoOwners(coOwnerRes.data);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+  }, []);
 
   const handleNavigate = (e) => {
     navigate(`/group/${groupId}`);
@@ -476,20 +363,18 @@ const MemberList = ({ name }) => {
       </Divider>
       <Box my={4}>
         <StyledHeadingTypography variant="h5">owner.</StyledHeadingTypography>
-        <VisitCard variant="no-morebutton" />
+        <VisitCard variant="no-morebutton" user={owner} />
         <StyledHeadingTypography variant="h5">
           co-owner.
         </StyledHeadingTypography>
         <Grid spacing={2} container columns={{ xs: 4, sm: 4, md: 12, lg: 12 }}>
-          <Grid item xs={4} sm={2} md={6} lg={4}>
-            <VisitCard />
-          </Grid>
-          <Grid item xs={4} sm={2} md={6} lg={4}>
-            <VisitCard />
-          </Grid>
-          <Grid item xs={4} sm={2} md={6} lg={4}>
-            <VisitCard />
-          </Grid>
+          {coOwners.map((coOwner) => {
+            return (
+              <Grid item xs={4} sm={2} md={6} lg={4}>
+                <VisitCard user={coOwner} />
+              </Grid>
+            );
+          })}
         </Grid>
       </Box>
       <Box

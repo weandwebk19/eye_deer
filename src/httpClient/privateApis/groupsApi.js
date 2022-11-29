@@ -84,8 +84,33 @@ export const joinTheGroup = async (user, dispatch, groupId) => {
   const axios = createAxiosJWT(user, dispatch, loginSuccess);
   const accessToken = user?.accessToken;
 
+  try {
+    const res = await axios.post(`groups/${groupId}/join`, groupId, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+
+    return res.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
+// get lits members of group
+export const getLitsMembers = async (user, dispatch, groupId) => {
+  const axios = createAxiosJWT(user, dispatch, loginSuccess);
+  const accessToken = user?.accessToken;
+
   const res = await axios
-    .post(`groups/${groupId}/join`, groupId, {
+    .get(`groups/${groupId}/members`, {
       headers: { token: `Bearer ${accessToken}` },
     })
     .catch((error) => {
@@ -93,14 +118,23 @@ export const joinTheGroup = async (user, dispatch, groupId) => {
       return error.message;
     });
 
-  return res.data;
+  if (res.status === 200) {
+    return res.data.data;
+  } else {
+    return [];
+  }
 };
 
 // invite member to group by username or email
-export const sendEmailToInviteMember = async (user, dispatch, groupId, memberId) => {
+export const sendEmailToInviteMember = async (
+  user,
+  dispatch,
+  groupId,
+  memberId
+) => {
   const axios = createAxiosJWT(user, dispatch, loginSuccess);
   const accessToken = user?.accessToken;
-  
+
   try {
     const formData = new FormData();
 
@@ -133,7 +167,7 @@ export const sendEmailToInviteMember = async (user, dispatch, groupId, memberId)
 export const addMemberFromToken = async (user, dispatch, token) => {
   const axios = createAxiosJWT(user, dispatch, loginSuccess);
   const accessToken = user?.accessToken;
-  
+
   try {
     const res = await axios({
       method: "get",
@@ -152,5 +186,55 @@ export const addMemberFromToken = async (user, dispatch, token) => {
   } catch (error) {
     console.log(error);
     return error.response.data;
+  }
+};
+
+// get owner of group
+export const getOwner = async (user, dispatch, groupId) => {
+  const axios = createAxiosJWT(user, dispatch, loginSuccess);
+  const accessToken = user?.accessToken;
+
+  try {
+    const res = await axios.get(`groups/${groupId}/owner`, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+
+    return res.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
+// get list co-owners of group
+export const getListCoOwners = async (user, dispatch, groupId) => {
+  const axios = createAxiosJWT(user, dispatch, loginSuccess);
+  const accessToken = user?.accessToken;
+
+  try {
+    const res = await axios.get(`groups/${groupId}/co-owner`, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+
+    return res.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
   }
 };

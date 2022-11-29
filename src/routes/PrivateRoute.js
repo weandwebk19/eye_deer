@@ -10,8 +10,8 @@ const PrivateRoute = (props) => {
 
   if (data === true) {
     return props.children;
+  } else {
+    navigate("/login");
   }
-
-  navigate("/login");
 };
 export default PrivateRoute;

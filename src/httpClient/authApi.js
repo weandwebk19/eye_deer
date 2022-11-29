@@ -30,9 +30,9 @@ export const loginUser = async (user, dispatch, navigate) => {
   });
   if (res.status === 200) {
     dispatch(loginSuccess(res.data));
-    setTimeout(() => {
-      navigate("/home");
-    }, 2000);
+    // setTimeout(() => {
+    //   navigate("/home");
+    // }, 2000);
     return {
       success: true,
       message: "successfully login! 🤗",
@@ -52,7 +52,7 @@ export const oAuthLoginUser = async (user, dispatch, navigate) => {
   try {
     const res = await axios.post("auth/oauth/login", user);
     dispatch(loginSuccess(res.data));
-    navigate("/home");
+    navigate(-1);
   } catch (err) {
     if (err.response.status === 403) {
       dispatch(loginSuccess(user));
@@ -106,9 +106,13 @@ export const requireLogin = async (user, navigate, dispatch) => {
       headers: { token: `Bearer ${accessToken}` },
     });
     if (res.status !== 200) {
-      navigate("/login");
+      // navigate("/login");
+      return false;
+    } else {
+      return true;
     }
   } catch (err) {
     navigate("/login");
+    return false;
   }
 };
