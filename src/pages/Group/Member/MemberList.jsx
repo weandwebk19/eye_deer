@@ -346,10 +346,10 @@ const MemberList = ({ name }) => {
 
   return (
     <Box>
-      <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
+      <Box sx={{ width: "100%", display: "flex", height: "56px" }}>
         <Button onClick={handleNavigate} sx={{ textTransform: "lowercase" }}>
           <KeyboardBackspaceIcon sx={{ mr: 1 }} />
-          <Typography>back to group</Typography>
+          <Typography>back</Typography>
         </Button>
       </Box>
       <Divider sx={{ mt: 2, mb: 2 }}>
