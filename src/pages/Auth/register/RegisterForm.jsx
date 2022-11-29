@@ -52,6 +52,7 @@ const RegisterForm = () => {
       if (res.success === true) {
         setMessage(res.message);
         setIsError(false);
+        navigate("/home");
       } else {
         setMessage(res.message);
         setIsError(true);

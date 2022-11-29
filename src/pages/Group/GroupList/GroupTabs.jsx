@@ -19,7 +19,7 @@ const GroupTabs = () => {
           id={group.id}
           name={group.name}
           picture={group.picture}
-          members={group.amountMember}
+          members={group.totalMembers}
         />
       );
     });

@@ -38,11 +38,14 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    const res = await loginUser(data, dispatch, navigate);
+    const res = await loginUser(data, dispatch);
 
     setMessage(res.message);
     if (res && res.success === true) {
       setIsError(false);
+      setTimeout(() => {
+        navigate(-1);
+      }, 1000);
     } else {
       setIsError(true);
     }

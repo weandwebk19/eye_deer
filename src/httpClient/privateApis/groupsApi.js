@@ -84,8 +84,33 @@ export const joinTheGroup = async (user, dispatch, groupId) => {
   const axios = createAxiosJWT(user, dispatch, loginSuccess);
   const accessToken = user?.accessToken;
 
+  try {
+    const res = await axios.post(`groups/${groupId}/join`, groupId, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+
+    return res.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
+// get lits members of group
+export const getLitsMembers = async (user, dispatch, groupId) => {
+  const axios = createAxiosJWT(user, dispatch, loginSuccess);
+  const accessToken = user?.accessToken;
+
   const res = await axios
-    .post(`groups/${groupId}/join`, groupId, {
+    .get(`groups/${groupId}/members`, {
       headers: { token: `Bearer ${accessToken}` },
     })
     .catch((error) => {
@@ -93,5 +118,9 @@ export const joinTheGroup = async (user, dispatch, groupId) => {
       return error.message;
     });
 
-  return res.data;
+  if (res.status === 200) {
+    return res.data.data;
+  } else {
+    return [];
+  }
 };

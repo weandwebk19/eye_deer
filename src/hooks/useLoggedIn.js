@@ -11,10 +11,11 @@ export const useLoggedIn = () => {
   const res = useQuery(
     ["auth"],
     async () => {
-      await requireLogin(user, navigate, dispatch).catch((err) => {
+      const res = await requireLogin(user, navigate, dispatch).catch((err) => {
         return false;
       });
-      return true;
+      if (res) return true;
+      else return false;
     },
     {
       cacheTime: Infinity,

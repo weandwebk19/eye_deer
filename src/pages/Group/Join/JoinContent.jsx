@@ -25,6 +25,7 @@ const JoinContent = () => {
         setMessage(err.message);
         setIsError(true);
       });
+      console.log(res);
 
       if (res.success === true) {
         setMessage(res.message);

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -26,6 +27,7 @@ import { alpha } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
 
 import config from "config";
+import { getLitsMembers } from "httpClient";
 import PropTypes from "prop-types";
 
 import { StyledButton } from "components/Button";
@@ -35,7 +37,7 @@ import { SearchField } from "components/TextField";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 
 import "../styles.scss";
-import AddMember from "./AddMember/AddMember";
+import AddMember from "./AddMember";
 
 const createData = (avatar, fullname, email, username, action) => {
   return {
@@ -47,152 +49,152 @@ const createData = (avatar, fullname, email, username, action) => {
   };
 };
 
-const rows = [
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Hoang An",
-    "annguyen@gmail.com",
-    "an_ne"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Nhat Binh",
-    "binhanbenbovutru@gmail.com",
-    "nhat_binhhh"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Vu Do Hoang Cuong",
-    "cuongng@gmail.com",
-    "cuuoong"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Truong Thuy Duong",
-    "duong2001@gmail.com",
-    "duong2001"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-  createData(
-    "https://source.unsplash.com/random/?deer,antelope,forest",
-    "Nguyen Ngoc Bao Giang",
-    "giangbao@gmail.com",
-    "arronshuu"
-  ),
-];
+// const rows = [
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Hoang An",
+//     "annguyen@gmail.com",
+//     "an_ne"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Nhat Binh",
+//     "binhanbenbovutru@gmail.com",
+//     "nhat_binhhh"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Vu Do Hoang Cuong",
+//     "cuongng@gmail.com",
+//     "cuuoong"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Truong Thuy Duong",
+//     "duong2001@gmail.com",
+//     "duong2001"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+//   createData(
+//     "https://source.unsplash.com/random/?deer,antelope,forest",
+//     "Nguyen Ngoc Bao Giang",
+//     "giangbao@gmail.com",
+//     "arronshuu"
+//   ),
+// ];
 
 const descendingComparator = (a, b, orderBy) => {
   if (b[orderBy] < a[orderBy]) {
@@ -376,16 +378,30 @@ EnhancedTableToolbar.propTypes = {
 };
 
 const MemberList = () => {
-  const [showActionId, setShowActionId] = useState(-1);
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.auth.login.currentUser);
   const params = useParams();
   const groupId = params.id;
 
+  const [showActionId, setShowActionId] = useState(-1);
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("calories");
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const members = await getLitsMembers(currentUser, dispatch, groupId);
+        setRows(members);
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+  }, []);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
