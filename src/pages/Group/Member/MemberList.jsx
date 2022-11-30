@@ -362,9 +362,11 @@ const MemberList = ({ name }) => {
         />
       </Divider>
       <Box my={4}>
-        <StyledHeadingTypography variant="h5">owner.</StyledHeadingTypography>
+        <StyledHeadingTypography variant="h5" gutterBottom>
+          owner.
+        </StyledHeadingTypography>
         <VisitCard variant="no-morebutton" user={owner} />
-        <StyledHeadingTypography variant="h5">
+        <StyledHeadingTypography variant="h5" gutterBottom sx={{ mt: 4 }}>
           co-owner.
         </StyledHeadingTypography>
         <Grid spacing={2} container columns={{ xs: 4, sm: 4, md: 12, lg: 12 }}>

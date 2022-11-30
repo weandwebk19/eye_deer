@@ -1,6 +1,4 @@
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Stack from "@mui/material/Stack";
+import { Box, Collapse, Paper, Stack } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import PropTypes from "prop-types";
@@ -15,7 +13,15 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const ScrollStack = ({ items }) => {
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box
+      className="hide-scrollbar"
+      sx={{
+        mt: 2,
+        width: "100%",
+        height: "400px",
+        overflowY: "scroll !important",
+      }}
+    >
       <Stack spacing={0}>
         {items.map((item) => {
           return <Item key={item}>{item}</Item>;
