@@ -27,9 +27,9 @@ const VisitCard = ({ variant, user, menulist }) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleClick = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -39,38 +39,74 @@ const VisitCard = ({ variant, user, menulist }) => {
   };
 
   return (
-    <StyledCard variant="card-visit">
-      <Box sx={{ display: "flex", height: "100% !important" }}>
-        <CardActionArea
-          disableRipple
-          onClick={() => {
-            navigate(`${memberId}`);
-          }}
-        >
-          <CardContent sx={{ display: "flex" }}>
-            <Avatar
-              src={
-                user.picture ??
-                "https://res.cloudinary.com/dbaulxzoc/image/upload/v1669543514/WeAndWeb/bg-img-4_ujohe5.jpg"
-              }
-              sx={{ width: 64, height: 64, marginRight: "16px" }}
-            />
-            <Box sx={{ textOverflow: "ellipsis" }}>
-              <Typography variant="h6">
-                {`${user.firstName} ${user.lastName}`}
-              </Typography>
-              <Typography>{user.email}</Typography>
-              <Typography>{user.username}</Typography>
-            </Box>
-            {(() => {
-              if (variant === "no-morebutton") {
-                return "";
-              } else return <MoreButton menulist={menulist} />;
-            })()}
-          </CardContent>
-        </CardActionArea>
-      </Box>
-    </StyledCard>
+    <Box>
+      {(() => {
+        if (variant === "wide") {
+          return (
+            <StyledCard variant="card-visit" sx={{ height: "56px" }}>
+              <Box sx={{ display: "flex", height: "100% !important" }}>
+                <CardActionArea disableRipple onClick={handleClick}>
+                  <CardContent sx={{ display: "flex", p: 1 }}>
+                    <Avatar
+                      src={
+                        user.picture ??
+                        "https://res.cloudinary.com/dbaulxzoc/image/upload/v1669543514/WeAndWeb/bg-img-4_ujohe5.jpg"
+                      }
+                      sx={{ marginRight: "16px" }}
+                    />
+                    <Box sx={{}}>
+                      <Typography
+                        variant="body2"
+                        sx={{ textAlign: "start", fontWeight: "bold" }}
+                      >
+                        {`${user.firstName} ${user.lastName}`}
+                      </Typography>
+                      <Typography variant="caption">{user.email}</Typography>
+                      <span>・</span>
+                      <Typography variant="caption">{user.username}</Typography>
+                    </Box>
+                  </CardContent>
+                </CardActionArea>
+              </Box>
+            </StyledCard>
+          );
+        } else
+          return (
+            <StyledCard variant="card-visit">
+              <Box sx={{ display: "flex", height: "100% !important" }}>
+                <CardActionArea
+                  disableRipple
+                  onClick={() => {
+                    handleClick(user.id);
+                  }}
+                >
+                  <CardContent sx={{ display: "flex" }}>
+                    <Avatar
+                      src={
+                        user.picture ??
+                        "https://res.cloudinary.com/dbaulxzoc/image/upload/v1669543514/WeAndWeb/bg-img-4_ujohe5.jpg"
+                      }
+                      sx={{ width: 64, height: 64, marginRight: "16px" }}
+                    />
+                    <Box sx={{ textOverflow: "ellipsis" }}>
+                      <Typography variant="h6">
+                        {`${user.firstName} ${user.lastName}`}
+                      </Typography>
+                      <Typography>{user.email}</Typography>
+                      <Typography>{user.username}</Typography>
+                    </Box>
+                    {(() => {
+                      if (variant === "no-morebutton") {
+                        return "";
+                      } else return <MoreButton menulist={menulist} />;
+                    })()}
+                  </CardContent>
+                </CardActionArea>
+              </Box>
+            </StyledCard>
+          );
+      })()}
+    </Box>
   );
 };
 

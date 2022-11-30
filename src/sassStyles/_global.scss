@@ -117,6 +117,12 @@ div.MuiTooltip-popper {
   -webkit-backface-visibility: hidden;
 }
 
+.hide-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .text-stroke {
   // text-shadow: -1px -1px 0 $white, 1px -1px 0 $white, -1px 1px 0 $white,
   //   1px 1px 0 $white;
@@ -145,6 +151,12 @@ div.MuiTooltip-popper {
 }
 
 .button-group {
+  @include smalldesktop {
+    margin: 16px 0;
+    justify-content: space-between !important;
+    width: 100% !important;
+  }
+
   @include tablet {
     margin: 16px 0;
     justify-content: space-between !important;

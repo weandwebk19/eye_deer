@@ -8,6 +8,7 @@ import { DialogActions, DialogContent } from "@mui/material";
 import { getSearchUsers, sendEmailToInviteMember } from "httpClient";
 
 import { StyledButton } from "components/Button";
+import { VisitCard } from "components/Card";
 import { StyledPaper } from "components/Paper";
 import { InstantMessage } from "components/Popup";
 import { ScrollStack } from "components/Stack";
@@ -68,9 +69,10 @@ const AddMember = () => {
   const generateChooseMemberButtons = (users) => {
     return users.map((user) => {
       return (
-        <ChooseMemberButton
+        <VisitCard
+          variant="wide"
           user={user}
-          onClick={(e) => handleChooseMember(user, e)}
+          handleClick={(e) => handleChooseMember(user, e)}
         />
       );
     });
