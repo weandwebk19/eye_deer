@@ -40,6 +40,8 @@ import {
   getListCoOwners,
   getLitsMembers,
   getOwner,
+  kickOutMember,
+  terminateCoOwner,
 } from "httpClient/privateApis";
 import PropTypes from "prop-types";
 
@@ -47,11 +49,13 @@ import { StyledButton } from "components/Button";
 import { VisitCard } from "components/Card";
 import { FormDialog } from "components/Dialog";
 import { BasicModal } from "components/Modal";
+import { InstantMessage } from "components/Popup";
 import { SearchField } from "components/TextField";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 
 import "../styles.scss";
 import AddMember from "./AddMember";
+import EditContentDialog from "./EditMember/EditContentDialog";
 
 const createData = (avatar, fullname, email, username, action) => {
   return {
@@ -186,8 +190,30 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
+// const handleKickOut = async (members) => {
+//   if (Array.isArray(members)) {
+//     await Promise.all(members.map(async (member) => {
+//       // call api terminate co-ownership
+//       const res = await kickOutMember(
+//         currentUser,
+//         dispatch,
+//         groupId,
+//         member.id
+//       );
+
+//       if (res.success === true) {
+//         setMessageFromServer(res.message);
+//         setIsError(false);
+//       } else {
+//         setMessageFromServer(res.message);
+//         setIsError(true);
+//       }
+//     }));
+//   }
+// };
+
 const EnhancedTableToolbar = (props) => {
-  const { numSelected } = props;
+  const { numSelected, selected } = props;
 
   return (
     <Toolbar
@@ -242,6 +268,10 @@ const EnhancedTableToolbar = (props) => {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
+  selected: PropTypes.oneOfType(
+    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.object
+  ).isRequired,
 };
 
 const MemberList = ({ name }) => {
@@ -251,6 +281,8 @@ const MemberList = ({ name }) => {
   const params = useParams();
   const groupId = params.id;
 
+  const [isError, setIsError] = useState("");
+  const [messageFromServer, setMessageFromServer] = useState("");
   const [showActionId, setShowActionId] = useState(-1);
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("calories");
@@ -338,6 +370,38 @@ const MemberList = ({ name }) => {
     return link;
   };
 
+  const showEditMember = (userId) => {};
+
+  const menuCoOwners = coOwners.map((coOwner, index) => {
+    return [
+      {
+        id: index,
+        name: "terminate co-ownership",
+        onClick: async () => {
+          // call api terminate co-ownership
+          const res = await terminateCoOwner(
+            currentUser,
+            dispatch,
+            groupId,
+            coOwner.id
+          );
+
+          // remove co-owner
+          // const newCoOwners = coOwners.splice(index, 1);
+          // setCoOwners(newCoOwners);
+          // handle res
+          if (res.success === true) {
+            setMessageFromServer(res.message);
+            setIsError(false);
+          } else {
+            setMessageFromServer(res.message);
+            setIsError(true);
+          }
+        },
+      },
+    ];
+  });
+
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -368,10 +432,10 @@ const MemberList = ({ name }) => {
           co-owner.
         </StyledHeadingTypography>
         <Grid spacing={2} container columns={{ xs: 4, sm: 4, md: 12, lg: 12 }}>
-          {coOwners.map((coOwner) => {
+          {coOwners.map((coOwner, index) => {
             return (
               <Grid item xs={4} sm={2} md={6} lg={4}>
-                <VisitCard user={coOwner} />
+                <VisitCard user={coOwner} menulist={menuCoOwners[index]} />
               </Grid>
             );
           })}
@@ -404,7 +468,6 @@ const MemberList = ({ name }) => {
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Typography className="text-limit">
                 {generateInvitationLink()}
-                hdfghadshgjdghfdsf
               </Typography>
               <Tooltip title="Copy link">
                 <IconButton
@@ -487,21 +550,29 @@ const MemberList = ({ name }) => {
                       <TableCell>{row.username}</TableCell>
 
                       <TableCell>
-                        {row.username === showActionId ? (
-                          <IconButton
-                            id={`edit-${row.username}`}
-                            component="button"
-                            variant="body2"
-                            onClick={(event) => {
-                              console.log(event);
-                              alert(row.username);
-                            }}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                        ) : (
-                          ""
-                        )}
+                        {(() => {
+                          if (row.username === showActionId) {
+                            const content = (
+                              <IconButton
+                                id={`edit-${row.username}`}
+                                component="button"
+                                variant="body2"
+                              >
+                                <EditIcon />
+                              </IconButton>
+                            );
+                            return (
+                              <FormDialog
+                                FormDialog
+                                content={content}
+                                title="Edit member"
+                                variant={null}
+                              >
+                                <EditContentDialog userId={row.id} />
+                              </FormDialog>
+                            );
+                          }
+                        })()}
                       </TableCell>
                     </TableRow>
                   );
@@ -528,6 +599,16 @@ const MemberList = ({ name }) => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      {(() => {
+        if (isError === false) {
+          return (
+            <InstantMessage variant="success" message={messageFromServer} />
+          );
+        } else if (isError === true) {
+          return <InstantMessage variant="error" message={messageFromServer} />;
+        }
+        return "";
+      })()}
     </Box>
   );
 };

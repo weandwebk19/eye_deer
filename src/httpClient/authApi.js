@@ -69,7 +69,9 @@ export const registerUser = async (user, dispatch, navigate) => {
     const res = await axios.post("/auth/register", user);
     if (res.status === 201) {
       dispatch(registerSuccess());
-      loginUser(user, dispatch, navigate);
+      // loginUser(user, dispatch, navigate);
+    } else {
+      dispatch(registerFailed());
     }
     return res.data;
   } catch (err) {

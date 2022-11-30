@@ -22,17 +22,7 @@ import {
   // StyledCardContent,
 } from "components/Card/StyledCard";
 
-const menulist = [
-  {
-    id: 1,
-    name: "terminate co-ownership",
-    onClick: () => {
-      console.log("group settings");
-    },
-  },
-];
-
-const VisitCard = ({ variant, user }) => {
+const VisitCard = ({ variant, user, menulist }) => {
   const [memberId, setMemberId] = useState(1);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -87,6 +77,7 @@ const VisitCard = ({ variant, user }) => {
 VisitCard.propTypes = {
   variant: PropTypes.string,
   user: PropTypes.object,
+  menulist: PropTypes.arrayOf(PropTypes.object),
 };
 
 VisitCard.defaultProps = {
@@ -99,6 +90,15 @@ VisitCard.defaultProps = {
     picture:
       "https://res.cloudinary.com/dbaulxzoc/image/upload/v1669543514/WeAndWeb/bg-img-4_ujohe5.jpg",
   },
+  menulist: [
+    {
+      id: 1,
+      name: "settings",
+      onClick: () => {
+        console.log("group settings");
+      },
+    },
+  ],
 };
 
 export { VisitCard };

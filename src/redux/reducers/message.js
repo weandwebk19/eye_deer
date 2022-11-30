@@ -2,7 +2,8 @@ import { CLEAR_MESSAGE, SET_MESSAGE } from "../actions/types";
 
 const initialState = {};
 
-const messageReducer = (action, state = initialState) => {
+// eslint-disable-next-line default-param-last
+const messageReducer = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
