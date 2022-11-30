@@ -12,7 +12,8 @@ const initialState = user
   ? { isLoggedIn: true, user }
   : { isLoggedIn: false, user: null };
 
-const authReducer = (action, state = initialState) => {
+// eslint-disable-next-line default-param-last
+const authReducer = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
