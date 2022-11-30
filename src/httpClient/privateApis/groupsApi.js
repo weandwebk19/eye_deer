@@ -265,3 +265,93 @@ export const getListCoOwners = async (user, dispatch, groupId) => {
     };
   }
 };
+
+// terminate  co-owner out of group
+export const terminateCoOwner = async (user, dispatch, groupId, userId) => {
+  const axios = createAxiosJWT(user, dispatch, loginSuccess);
+  const accessToken = user?.accessToken;
+
+  try {
+    const res = await axios({
+      method: "put",
+      url: `groups/${groupId}/co-owner/${userId}/terminate`,
+      headers: {
+        "Content-Type": "application/json",
+        token: `Bearer ${accessToken}`,
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
+// assign  co-owner out of group
+export const assignCoOwner = async (user, dispatch, groupId, userId) => {
+  const axios = createAxiosJWT(user, dispatch, loginSuccess);
+  const accessToken = user?.accessToken;
+
+  try {
+    const res = await axios({
+      method: "put",
+      url: `groups/${groupId}/co-owner/${userId}/assign`,
+      headers: {
+        "Content-Type": "application/json",
+        token: `Bearer ${accessToken}`,
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
+// kickout member from group
+export const kickOutMember = async (user, dispatch, groupId, userId) => {
+  const axios = createAxiosJWT(user, dispatch, loginSuccess);
+  const accessToken = user?.accessToken;
+
+  try {
+    const res = await axios({
+      method: "delete",
+      url: `groups/${groupId}/members/${userId}/kickout`,
+      headers: {
+        "Content-Type": "application/json",
+        token: `Bearer ${accessToken}`,
+      },
+    });
+
+    return res.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};

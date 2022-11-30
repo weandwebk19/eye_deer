@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Box, Container, CssBaseline, Grid, Link } from "@mui/material";
 
 import Gradient6 from "assets/imgs/gradient-6.png";
-import { registerUser } from "httpClient";
+import { loginUser, registerUser } from "httpClient";
 
 import { StyledButton } from "components/Button";
 import { StyledPaper } from "components/Paper";
@@ -50,7 +50,17 @@ const RegisterForm = () => {
       if (res.success === true) {
         setMessage(res.message);
         setIsError(false);
-        navigate("/home");
+        const login = await loginUser(data, dispatch);
+
+        setMessage(login.message);
+        if (login && login.success === true) {
+          setIsError(false);
+          setTimeout(() => {
+            navigate("/home");
+          }, 1000);
+        } else {
+          setIsError(true);
+        }
       } else {
         setMessage(res.message);
         setIsError(true);

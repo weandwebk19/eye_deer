@@ -51,9 +51,9 @@ const MoreButton = ({ menulist }) => {
         {menulist.map((menuitem) => {
           return (
             <MenuItem
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation(e);
                 menuitem.onClick();
-                handleClose();
               }}
             >
               {menuitem.name}
