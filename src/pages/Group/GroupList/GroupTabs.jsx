@@ -41,7 +41,7 @@ const GroupTabs = () => {
             name={group.name}
             picture={group.picture}
             contentChips={(() => ({
-              members: group.amountMember,
+              members: group.totalMembers,
             }))(group)}
             menulist={menulist}
           />
