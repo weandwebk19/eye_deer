@@ -23,6 +23,33 @@ export const getOwnedGroups = async (user, dispatch) => {
   return [];
 };
 
+// get group by id
+export const getGroupById = async (user, dispatch, groupId) => {
+  const axios = createAxiosJWT(user, dispatch, loginSuccess);
+  const accessToken = user?.accessToken;
+
+  try {
+    const res = await axios.get(`groups/${groupId}`, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+    if (res.status === 200) {
+      return res.data;
+    }
+    return [];
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
 // get list joined group
 export const getJoinedGroups = async (user, dispatch) => {
   const axios = createAxiosJWT(user, dispatch, loginSuccess);

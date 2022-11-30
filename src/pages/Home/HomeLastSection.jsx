@@ -102,7 +102,7 @@ const HomeLastSection = ({ fullname, user }) => {
                 mb: 2,
                 flex: "1",
               }}
-              src="https://source.unsplash.com/random/?deer,antelope,forest"
+              src="https://res.cloudinary.com/dbaulxzoc/image/upload/v1669543514/WeAndWeb/bg-img-4_ujohe5.jpg"
               draggable={false}
             />
           </Box>

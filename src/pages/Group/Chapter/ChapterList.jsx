@@ -111,23 +111,23 @@ const ChapterList = ({ name, picture, contentChips }) => {
           <AvatarGroup max={4}>
             <Avatar
               alt="Remy Sharp"
-              src="https://source.unsplash.com/random/?man"
+              src="https://res.cloudinary.com/dbaulxzoc/image/upload/v1669543514/WeAndWeb/bg-img-4_ujohe5.jpg"
             />
             <Avatar
               alt="Travis Howard"
-              src="https://source.unsplash.com/random/?human"
+              src="https://res.cloudinary.com/dbaulxzoc/image/upload/v1669543514/WeAndWeb/bg-img-4_ujohe5.jpg"
             />
             <Avatar
               alt="Cindy Baker"
-              src="https://source.unsplash.com/random/?girl"
+              src="https://res.cloudinary.com/dbaulxzoc/image/upload/v1669543514/WeAndWeb/bg-img-4_ujohe5.jpg"
             />
             <Avatar
               alt="Agnes Walker"
-              src="https://source.unsplash.com/random/?girl"
+              src="https://res.cloudinary.com/dbaulxzoc/image/upload/v1669543514/WeAndWeb/bg-img-4_ujohe5.jpg"
             />
             <Avatar
               alt="Agnes Walker"
-              src="https://source.unsplash.com/random/?girl"
+              src="https://res.cloudinary.com/dbaulxzoc/image/upload/v1669543514/WeAndWeb/bg-img-4_ujohe5.jpg"
             />
           </AvatarGroup>
           <Typography sx={{ textAlign: "end", ml: 2 }}>

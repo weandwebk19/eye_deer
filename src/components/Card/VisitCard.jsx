@@ -59,7 +59,10 @@ const VisitCard = ({ variant, user }) => {
         >
           <CardContent sx={{ display: "flex" }}>
             <Avatar
-              src={user.picture ?? "https://source.unsplash.com/random/?rococo"}
+              src={
+                user.picture ??
+                "https://res.cloudinary.com/dbaulxzoc/image/upload/v1669543514/WeAndWeb/bg-img-4_ujohe5.jpg"
+              }
               sx={{ width: 64, height: 64, marginRight: "16px" }}
             />
             <Box sx={{ textOverflow: "ellipsis" }}>
@@ -93,7 +96,8 @@ VisitCard.defaultProps = {
     lastName: "",
     email: "",
     username: "",
-    picture: "https://source.unsplash.com/random/?rococo",
+    picture:
+      "https://res.cloudinary.com/dbaulxzoc/image/upload/v1669543514/WeAndWeb/bg-img-4_ujohe5.jpg",
   },
 };
 
