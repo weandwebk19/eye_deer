@@ -1,0 +1,13 @@
+@import "../../sassStyles/global";
+
+.responsive-avatar {
+  display: none !important;
+  @include mobile {
+    display: block !important;
+  }
+}
+
+.owner-visit-card {
+  border: 3px double $black !important;
+  border-corner-shape: scoop;
+}

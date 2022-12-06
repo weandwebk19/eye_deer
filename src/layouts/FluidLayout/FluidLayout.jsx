@@ -35,7 +35,16 @@ const FluidLayout = ({ children }) => {
               return children;
             })()}
           </Grid>
-          <Grid item xs={4} sm={3} md={5} lg={3} id="side-area" p={3}>
+          <Grid
+            item
+            xs={4}
+            sm={3}
+            md={5}
+            lg={3}
+            id="side-area"
+            p={3}
+            sx={{ height: "calc(100vh - 64px)" }}
+          >
             {(() => {
               if (Array.isArray(children)) {
                 return children[1];

@@ -178,7 +178,7 @@ ContentBox.propTypes = {
   picture: PropTypes.string,
   contentChips: PropTypes.objectOf(PropTypes.number),
   handleClick: PropTypes.func.isRequired,
-  menulist: PropTypes.objectOf(PropTypes.object).isRequired,
+  menulist: PropTypes.arrayOf(PropTypes.object),
 };
 
 ContentBox.defaultProps = {
@@ -186,6 +186,7 @@ ContentBox.defaultProps = {
   picture:
     "https://res.cloudinary.com/dbaulxzoc/image/upload/v1669543514/WeAndWeb/bg-img-4_ujohe5.jpg",
   contentChips: null,
+  menulist: [],
 };
 
 export { ContentBox };

@@ -429,7 +429,7 @@ const MemberList = ({ name }) => {
         <StyledHeadingTypography variant="h5" gutterBottom>
           owner.
         </StyledHeadingTypography>
-        <VisitCard variant="no-morebutton" user={owner} />
+        <VisitCard variant="special" user={owner} />
         <StyledHeadingTypography variant="h5" gutterBottom sx={{ mt: 4 }}>
           co-owner.
         </StyledHeadingTypography>

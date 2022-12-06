@@ -17,7 +17,6 @@ import {
   StyledCard, // StyledCardContent,
   // StyledCardActionArea,
 } from "../Card/StyledCard";
-import "./styles.scss";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
