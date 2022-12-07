@@ -48,6 +48,7 @@ const StyledCard = styled(MuiCard)(({ theme, variant = "default" }) => ({
     // padding: "16px",
     background: `${theme.palette.secondary.light}`,
     color: `${theme.palette.primary.main}`,
+    border: `1px solid ${theme.palette.primary.dark}`,
   }),
 }));
 

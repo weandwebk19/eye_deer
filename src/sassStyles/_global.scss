@@ -198,3 +198,11 @@ div.box-zoom-out {
 p.box-zoom-out__content-chips {
   transition: none;
 }
+
+#side-area {
+  &--fixed {
+    @include mobile {
+      position: sticky;
+    }
+  }
+}

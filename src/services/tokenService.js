@@ -1,6 +1,18 @@
-const getLocalRefreshToken = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  return user?.refreshToken;
+import axios from "axios";
+
+import config from "../config";
+
+const getRefreshToken = async () => {
+  try {
+    const instance = axios.create({
+      withCredentials: true,
+      baseURL: `${config.SERVER_URL}`,
+    });
+    const res = await instance.post("/auth/refresh");
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const getLocalAccessToken = () => {
@@ -19,7 +31,6 @@ const getUser = () => {
 };
 
 const setUser = (user) => {
-  console.log(JSON.stringify(user));
   localStorage.setItem("user", JSON.stringify(user));
 };
 
@@ -28,7 +39,7 @@ const removeUser = () => {
 };
 
 const TokenService = {
-  getLocalRefreshToken,
+  getRefreshToken,
   getLocalAccessToken,
   updateLocalAccessToken,
   getUser,

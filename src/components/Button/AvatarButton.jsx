@@ -10,9 +10,9 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import PropTypes from "prop-types";
 
-import { logoutUser } from "../../httpClient";
+import PropTypes from "prop-types";
+import { logout } from "redux/actions/auth";
 
 const AvatarButton = ({ picture, fullname }) => {
   const settings = [
@@ -27,8 +27,6 @@ const AvatarButton = ({ picture, fullname }) => {
   ];
 
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const currentUser = useSelector((state) => state.auth.login.currentUser);
-  // const user = currentUser?.user;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,8 +35,13 @@ const AvatarButton = ({ picture, fullname }) => {
     navigate("/profile");
   };
 
-  const handleLogout = () => {
-    logoutUser(currentUser, dispatch, navigate);
+  const handleLogout = async () => {
+    try {
+      await dispatch(logout());
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleOpenUserMenu = (event) => {

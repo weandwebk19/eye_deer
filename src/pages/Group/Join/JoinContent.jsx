@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 
-import { joinTheGroup } from "httpClient";
+import GroupService from "services/groupService";
 
 import { StyledButton } from "components/Button";
 import { InstantMessage } from "components/Popup";
@@ -15,13 +15,13 @@ const JoinContent = () => {
   const groupId = params.id;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth.login.currentUser);
+  const user = useSelector((state) => state.auth.user);
   const [isError, setIsError] = useState("");
   const [message, setMessage] = useState("");
 
   const handleClick = (e) => {
     (async () => {
-      const res = await joinTheGroup(user, dispatch, groupId).catch((err) => {
+      const res = await GroupService.joinTheGroup(groupId).catch((err) => {
         setMessage(err.message);
         setIsError(true);
       });

@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import MenuIcon from "@mui/icons-material/Menu";
@@ -33,6 +34,9 @@ const StyledToolbar = styled(Toolbar)(() => ({
 }));
 
 const NavBar = () => {
+  // const { user } = useSelector((state) => state.auth.user);
+  const currentUser = useSelector((state) => state.auth.user);
+  const user = currentUser?.user;
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
   const navigate = useNavigate();
@@ -93,7 +97,7 @@ const NavBar = () => {
   return (
     <StyledAppBar position="fixed">
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
+        <Toolbar disableGutters sx={{ px: "24px" }}>
           <StyledHeadingTypography
             variant="h5"
             noWrap
@@ -187,7 +191,10 @@ const NavBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <AvatarButton />
+            <AvatarButton
+              picture={user.picture}
+              fullname={`${user.firstName} ${user.lastName}`}
+            />
           </Box>
         </Toolbar>
       </Container>

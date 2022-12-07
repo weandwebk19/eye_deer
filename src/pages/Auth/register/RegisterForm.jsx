@@ -6,7 +6,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Box, Container, CssBaseline, Grid, Link } from "@mui/material";
 
 import Gradient6 from "assets/imgs/gradient-6.png";
-import { loginUser, registerUser } from "httpClient";
+import {
+  login as loginUser,
+  register as registerUser,
+} from "redux/actions/auth";
 
 import { StyledButton } from "components/Button";
 import { StyledPaper } from "components/Paper";
@@ -24,7 +27,7 @@ const RegisterForm = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth.login.currentUser);
+  const user = useSelector((state) => state.auth.user);
   const {
     register,
     handleSubmit,
@@ -42,7 +45,11 @@ const RegisterForm = () => {
       data.picture = user?.picture;
       data.firstName = data.firstName ?? user?.given_name;
       data.lastName = data.lastName ?? user?.family_name;
-      const res = await registerUser(data, dispatch, navigate).catch((err) => {
+      // const res = await registerUser(data, dispatch, navigate).catch((err) => {
+      //   setMessage(err.message);
+      //   setIsError(true);
+      // });
+      const res = await dispatch(registerUser(data)).catch((err) => {
         setMessage(err.message);
         setIsError(true);
       });
@@ -50,22 +57,17 @@ const RegisterForm = () => {
       if (res.success === true) {
         setMessage(res.message);
         setIsError(false);
-        const login = await loginUser(data, dispatch);
-
-        setMessage(login.message);
-        if (login && login.success === true) {
-          setIsError(false);
-          setTimeout(() => {
-            navigate("/home");
-          }, 1000);
-        } else {
-          setIsError(true);
-        }
+        await dispatch(loginUser(data));
+        setTimeout(() => {
+          navigate("/home");
+        }, 1000);
       } else {
         setMessage(res.message);
         setIsError(true);
       }
     } catch (err) {
+      setIsError(true);
+      setMessage(err.message);
       console.log(err);
     }
   };

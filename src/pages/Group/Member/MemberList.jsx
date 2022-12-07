@@ -36,14 +36,8 @@ import { visuallyHidden } from "@mui/utils";
 import AncientScrollIcon from "assets/icons/ancient-scroll.png";
 import Star2 from "assets/imgs/star-2.svg";
 import config from "config";
-import {
-  getListCoOwners,
-  getLitsMembers,
-  getOwner,
-  kickOutMember,
-  terminateCoOwner,
-} from "httpClient/privateApis";
 import PropTypes from "prop-types";
+import GroupService from "services/groupService";
 
 import { StyledButton } from "components/Button";
 import { VisitCard } from "components/Card";
@@ -276,7 +270,7 @@ EnhancedTableToolbar.propTypes = {
 
 const MemberList = ({ name }) => {
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.auth.login.currentUser);
+  const currentUser = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
   const params = useParams();
   const groupId = params.id;
@@ -297,17 +291,13 @@ const MemberList = ({ name }) => {
   useEffect(() => {
     (async () => {
       try {
-        const members = await getLitsMembers(currentUser, dispatch, groupId);
+        const members = await GroupService.getLitsMembers(groupId);
         setRows(members);
-        const ownerRes = await getOwner(currentUser, dispatch, groupId);
+        const ownerRes = await GroupService.getOwner(groupId);
         if (ownerRes && ownerRes.success === true) {
           setOwner(ownerRes.data);
         }
-        const coOwnerRes = await getListCoOwners(
-          currentUser,
-          dispatch,
-          groupId
-        );
+        const coOwnerRes = await GroupService.getListCoOwners(groupId);
         if (coOwnerRes && coOwnerRes.success === true) {
           setCoOwners(coOwnerRes.data);
         }
@@ -379,12 +369,7 @@ const MemberList = ({ name }) => {
         name: "terminate co-ownership",
         onClick: async () => {
           // call api terminate co-ownership
-          const res = await terminateCoOwner(
-            currentUser,
-            dispatch,
-            groupId,
-            coOwner.id
-          );
+          const res = await GroupService.terminateCoOwner(groupId, coOwner.id);
 
           // remove co-owner
           // const newCoOwners = coOwners.splice(index, 1);
@@ -429,7 +414,7 @@ const MemberList = ({ name }) => {
         <StyledHeadingTypography variant="h5" gutterBottom>
           owner.
         </StyledHeadingTypography>
-        <VisitCard variant="no-morebutton" user={owner} />
+        <VisitCard variant="special" user={owner} />
         <StyledHeadingTypography variant="h5" gutterBottom sx={{ mt: 4 }}>
           co-owner.
         </StyledHeadingTypography>

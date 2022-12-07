@@ -20,7 +20,7 @@ const Home = () => {
 
   const [middleTabWidth] = useSize(middleTab);
   const [lastTabWidth] = useSize(lastTab);
-  const currentUser = useSelector((state) => state.auth.login.currentUser);
+  const currentUser = useSelector((state) => state.auth.user);
   const user = currentUser?.user;
   const fullname = `${user?.firstName} ${user?.lastName}`;
 

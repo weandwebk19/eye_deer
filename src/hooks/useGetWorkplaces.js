@@ -1,12 +1,12 @@
 import { useQuery } from "react-query";
 
-import { getWorkplaces } from "../httpClient";
+import WorkplaceService from "services/workplacesService";
 
 export const useGetWorkplaces = () => {
   const res = useQuery(
     ["workplace"],
     async () => {
-      const data = await getWorkplaces();
+      const data = await WorkplaceService.getWorkplaces();
       return data;
     },
     {

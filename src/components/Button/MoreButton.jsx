@@ -51,6 +51,7 @@ const MoreButton = ({ menulist }) => {
         {menulist.map((menuitem) => {
           return (
             <MenuItem
+              key={menuitem.id}
               onClick={(e) => {
                 e.stopPropagation(e);
                 menuitem.onClick();
@@ -66,11 +67,11 @@ const MoreButton = ({ menulist }) => {
 };
 
 MoreButton.propTypes = {
-  menulist: PropTypes.objectOf(PropTypes.object),
+  menulist: PropTypes.arrayOf(PropTypes.object),
 };
 
 MoreButton.defaultProps = {
-  menulist: {},
+  menulist: [],
 };
 
 export { MoreButton };

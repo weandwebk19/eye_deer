@@ -4,8 +4,8 @@ import { Outlet, useParams } from "react-router-dom";
 
 import { Box, Tooltip } from "@mui/material";
 
-import { getGroupById } from "httpClient";
 import { PropTypes } from "prop-types";
+import GroupService from "services/groupService";
 
 import { StyledHeadingTypography } from "components/Typography";
 
@@ -14,7 +14,7 @@ import "./styles.scss";
 const GroupHeader = () => {
   const params = useParams();
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.auth.login.currentUser);
+  const currentUser = useSelector((state) => state.auth.user);
   const [groupInfo, setGroupInfo] = useState("");
 
   const groupId = params.id;
@@ -22,7 +22,7 @@ const GroupHeader = () => {
   useEffect(() => {
     (async () => {
       try {
-        const info = await getGroupById(currentUser, dispatch, groupId);
+        const info = await GroupService.getGroupById(groupId);
         setGroupInfo(info);
       } catch (e) {
         console.log(e);
