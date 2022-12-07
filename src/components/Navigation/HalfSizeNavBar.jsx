@@ -16,10 +16,11 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+
 import SmallLogo from "assets/imgs/small-logo.svg";
 import PropTypes from "prop-types";
+import { logout } from "redux/actions/auth";
 
-import { logoutUser } from "../../httpClient";
 import { StyledHeadingTypography } from "../Typography";
 import { BigTitleBar } from "./BigTitleBar";
 import { StyledAppBar, StyledToolbar } from "./NavBar";
@@ -29,7 +30,6 @@ const pagesLite = ["play", "about", "pricing", "logout"];
 const drawerWidth = 240;
 
 const HalfSizeNavBar = ({ width1, width2 }) => {
-  const user = useSelector((state) => state.auth.login.currentUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -44,8 +44,13 @@ const HalfSizeNavBar = ({ width1, width2 }) => {
     console.log("Pricing - 404 Not Found");
   };
 
-  const handleLogout = () => {
-    logoutUser(user, dispatch, navigate);
+  const handleLogout = async () => {
+    try {
+      await dispatch(logout());
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleClickNavMenu = (key) => {

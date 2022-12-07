@@ -34,7 +34,9 @@ const StyledToolbar = styled(Toolbar)(() => ({
 }));
 
 const NavBar = () => {
-  const { user } = useSelector((state) => state.auth.login.currentUser);
+  // const { user } = useSelector((state) => state.auth.user);
+  const currentUser = useSelector((state) => state.auth.user);
+  const user = currentUser?.user;
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
   const navigate = useNavigate();

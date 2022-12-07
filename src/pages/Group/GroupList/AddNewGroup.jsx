@@ -11,7 +11,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Box } from "@mui/system";
 
 import pictureDefault from "assets/imgs/pictureDefault.png";
-import { createGroup } from "httpClient";
+import GroupService from "services/groupService";
 
 import { StyledButton } from "components/Button/StyledButton";
 import { StyledPaper } from "components/Paper";
@@ -22,7 +22,7 @@ const AddNewGroup = () => {
   //
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const currentUser = useSelector((state) => state.auth.login.currentUser);
+  const currentUser = useSelector((state) => state.auth.user);
 
   //
   const [open, setOpen] = useState(false);
@@ -71,7 +71,7 @@ const AddNewGroup = () => {
     }
 
     // call api
-    const res = await createGroup(currentUser, dispatch, groupInfo);
+    const res = await GroupService.createGroup(groupInfo);
 
     // handle res
     if (res.success === true) {

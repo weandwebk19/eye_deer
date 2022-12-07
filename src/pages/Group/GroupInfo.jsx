@@ -13,8 +13,8 @@ import {
   Typography,
 } from "@mui/material";
 
-import { getGroupById } from "httpClient";
 import { PropTypes } from "prop-types";
+import GroupService from "services/groupService";
 import { dateFormatter } from "utils/dateFormatter";
 
 import { StyledButton } from "components/Button";
@@ -22,7 +22,7 @@ import { StyledButton } from "components/Button";
 const GroupInfo = () => {
   const params = useParams();
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.auth.login.currentUser);
+  const currentUser = useSelector((state) => state.auth.user);
   const [groupInfo, setGroupInfo] = useState("");
   const [createdAt, setCreatedAt] = useState("");
   const [updatedAt, setUpdatedAt] = useState("");
@@ -31,7 +31,7 @@ const GroupInfo = () => {
   useEffect(() => {
     (async () => {
       try {
-        const info = await getGroupById(currentUser, dispatch, groupId);
+        const info = await GroupService.getGroupById(groupId);
         setGroupInfo(info);
         setCreatedAt(dateFormatter(info.createdAt));
         setUpdatedAt(dateFormatter(info.updatedAt));

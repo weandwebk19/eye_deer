@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 
 import defaultAvatar from "assets/imgs/avatar.jpg";
-import { getUserByUsername, updateProfileUser } from "httpClient";
+import UserService from "services/userService";
 
 import { StyledButton } from "components/Button";
 import { NavBar } from "components/Navigation/NavBar";
@@ -24,7 +24,7 @@ import "./styles.scss";
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.auth.login.currentUser);
+  const currentUser = useSelector((state) => state.auth.user);
   // preview avatar
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
@@ -46,12 +46,10 @@ const Profile = () => {
     userInfo.isDeleteAvatar = isDeleteAvatar;
 
     // call api here
-    const res = await updateProfileUser(currentUser, userInfo, dispatch).catch(
-      (err) => {
-        setMessageFromServer(err.message);
-        setIsError(true);
-      }
-    );
+    const res = await UserService.updateProfileUser(userInfo).catch((err) => {
+      setMessageFromServer(err.message);
+      setIsError(true);
+    });
 
     if (res.success === true) {
       setMessageFromServer(res.message);
@@ -97,11 +95,9 @@ const Profile = () => {
   // get user info
   useEffect(() => {
     (async () => {
-      const userInfo = await getUserByUsername(currentUser, dispatch).catch(
-        (error) => {
-          console.log(error);
-        }
-      );
+      const userInfo = await UserService.getUserByUsername().catch((error) => {
+        console.log(error);
+      });
 
       setPreview(userInfo.picture);
       reset({

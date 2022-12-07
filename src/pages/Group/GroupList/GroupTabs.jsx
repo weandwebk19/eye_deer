@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Grid } from "@mui/material";
 
-import { getJoinedGroups, getOwnedGroups } from "httpClient";
+// import { getJoinedGroups, getOwnedGroups } from "httpClient";
+import GroupService from "services/groupService";
 
 import StyledTabs from "components/Tabs/StyledTabs";
 
@@ -29,7 +30,7 @@ const GroupTabs = () => {
 
   const [tabElements, setTabElements] = useState([]);
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.auth.login.currentUser);
+  const currentUser = useSelector((state) => state.auth.user);
 
   const getContents = (groups) => {
     return groups.map((group) => {
@@ -53,8 +54,8 @@ const GroupTabs = () => {
   useEffect(() => {
     (async () => {
       try {
-        const ownedGroups = await getOwnedGroups(currentUser, dispatch);
-        const joinedGroups = await getJoinedGroups(currentUser, dispatch);
+        const ownedGroups = await GroupService.getOwnedGroups();
+        const joinedGroups = await GroupService.getJoinedGroups();
         const newTabElements = [];
         newTabElements.push({
           title: "my groups",

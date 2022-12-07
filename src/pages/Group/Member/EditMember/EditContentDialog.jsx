@@ -11,9 +11,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Box } from "@mui/system";
 
 import pictureDefault from "assets/imgs/pictureDefault.png";
-import { createGroup } from "httpClient";
-import { assignCoOwner, kickOutMember } from "httpClient/privateApis";
 import PropTypes from "prop-types";
+import GroupService from "services/groupService";
 
 import { StyledButton } from "components/Button/StyledButton";
 import { StyledPaper } from "components/Paper";
@@ -22,7 +21,7 @@ import { InstantMessage } from "components/Popup";
 const EditContentDialog = ({ userId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const currentUser = useSelector((state) => state.auth.login.currentUser);
+  const currentUser = useSelector((state) => state.auth.user);
   const params = useParams();
   const groupId = params.id;
 
@@ -31,7 +30,7 @@ const EditContentDialog = ({ userId }) => {
   const [messageFromServer, setMessageFromServer] = useState("");
 
   const handleKickOut = async (e) => {
-    const res = await kickOutMember(currentUser, dispatch, groupId, userId);
+    const res = await GroupService.kickOutMember(groupId, userId);
 
     // handle res
     if (res.success === true) {
@@ -44,7 +43,7 @@ const EditContentDialog = ({ userId }) => {
   };
 
   const handleAssignCoOwner = async (e) => {
-    const res = await assignCoOwner(currentUser, dispatch, groupId, userId);
+    const res = await GroupService.assignCoOwner(groupId, userId);
 
     // handle res
     if (res.success === true) {

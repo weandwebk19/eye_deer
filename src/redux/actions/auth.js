@@ -2,7 +2,8 @@ import AuthService from "../../services/authService";
 import {
   LOGIN_FAIL,
   LOGIN_SUCCESS,
-  LOGOUT,
+  LOGOUT_FAIL,
+  LOGOUT_SUCCESS,
   REFRESH_TOKEN,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
@@ -21,7 +22,7 @@ export const register = (user) => (dispatch) => {
         payload: response.data.message,
       });
 
-      return Promise.resolve();
+      return Promise.resolve(response.data);
     },
     (error) => {
       const message =
@@ -40,7 +41,7 @@ export const register = (user) => (dispatch) => {
         payload: message,
       });
 
-      return Promise.reject();
+      return Promise.reject(error);
     }
   );
 };
@@ -48,12 +49,19 @@ export const register = (user) => (dispatch) => {
 export const login = (user) => (dispatch) => {
   return AuthService.login(user).then(
     (data) => {
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: { user: data },
-      });
+      if (data.success === true) {
+        dispatch({
+          type: LOGIN_SUCCESS,
+          payload: { user: data.user },
+        });
 
-      return Promise.resolve();
+        dispatch({
+          type: SET_MESSAGE,
+          payload: data.message,
+        });
+
+        return Promise.resolve();
+      }
     },
     (error) => {
       const message =
@@ -77,12 +85,80 @@ export const login = (user) => (dispatch) => {
   );
 };
 
-export const logout = () => (dispatch) => {
-  AuthService.logout();
+export const oAuthLogin = (user) => (dispatch) => {
+  return AuthService.oAuthLogin(user).then(
+    (data) => {
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: { user: data.user },
+      });
 
-  dispatch({
-    type: LOGOUT,
-  });
+      dispatch({
+        type: SET_MESSAGE,
+        payload: data.message,
+      });
+
+      return Promise.resolve(data);
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      dispatch({
+        type: LOGIN_FAIL,
+      });
+
+      dispatch({
+        type: SET_MESSAGE,
+        payload: message,
+      });
+
+      return Promise.reject(error);
+    }
+  );
+};
+
+export const logout = () => (dispatch) => {
+  return AuthService.logout().then(
+    (data) => {
+      if (data.success === true) {
+        dispatch({
+          type: LOGOUT_SUCCESS,
+          payload: { user: null },
+        });
+
+        dispatch({
+          type: SET_MESSAGE,
+          payload: data.message,
+        });
+
+        return Promise.resolve();
+      }
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      dispatch({
+        type: LOGOUT_FAIL,
+      });
+
+      dispatch({
+        type: SET_MESSAGE,
+        payload: message,
+      });
+
+      return Promise.reject();
+    }
+  );
 };
 
 export const refreshToken = (accessToken) => (dispatch) => {

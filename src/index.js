@@ -7,9 +7,6 @@ import { PersistGate } from "redux-persist/integration/react";
 import App from "./App";
 import { persistor, store } from "./redux/store";
 
-// import store from "./redux/store.redux";
-// import setupInterceptors from "./services/setupInterceptors";
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -20,5 +17,3 @@ root.render(
     </Provider>
   </React.StrictMode>
 );
-
-// setupInterceptors(store);

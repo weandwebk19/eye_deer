@@ -5,7 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { DialogActions, DialogContent } from "@mui/material";
 
-import { getSearchUsers, sendEmailToInviteMember } from "httpClient";
+import GroupService from "services/groupService";
+import UserService from "services/userService";
 
 import { StyledButton } from "components/Button";
 import { VisitCard } from "components/Card";
@@ -14,12 +15,9 @@ import { InstantMessage } from "components/Popup";
 import { ScrollStack } from "components/Stack";
 import { StyledInputField } from "components/TextField";
 
-import ChooseMemberButton from "./ChooseMemberButton";
 import MemberChosen from "./MemberChosen";
 
 const AddMember = () => {
-  const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.auth.login.currentUser);
   const [users, setUsers] = useState([]);
   const [memberChosen, setMemberChosen] = useState();
   const {
@@ -36,9 +34,7 @@ const AddMember = () => {
   const onSubmit = async () => {
     // call api add user to group with groupId and user is memberChosen
     // And at the same time Send email to memberChosen
-    const res = await sendEmailToInviteMember(
-      currentUser,
-      dispatch,
+    const res = await GroupService.sendEmailToInviteMember(
       groupId,
       memberChosen.id
     );
@@ -56,11 +52,9 @@ const AddMember = () => {
   const handleOnChange = (e) => {
     (async () => {
       const term = e.target.value;
-      const users = await getSearchUsers(currentUser, dispatch, term).catch(
-        (err) => {
-          console.error(err);
-        }
-      );
+      const users = await UserService.getSearchUsers(term).catch((err) => {
+        console.error(err);
+      });
 
       setUsers(users);
     })();

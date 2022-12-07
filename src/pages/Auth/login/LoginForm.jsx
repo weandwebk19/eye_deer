@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 
 import Gradient6 from "assets/imgs/gradient-6.png";
-import { loginUser } from "httpClient";
+import { login } from "redux/actions/auth";
 
 import { StyledButton } from "components/Button";
 import { StyledPaper } from "components/Paper";
@@ -25,24 +25,24 @@ import GoogleAuthButton from "./GoogleAuthButton";
 
 const LoginForm = () => {
   const [isError, setIsError] = useState("");
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const message = useSelector((state) => state.message.message);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    const res = await loginUser(data, dispatch);
-
-    setMessage(res.message);
-    if (res && res.success === true) {
+    try {
+      await dispatch(login(data));
       setIsError(false);
       setTimeout(() => {
         navigate(-1);
       }, 1000);
-    } else {
+    } catch (err) {
       setIsError(true);
     }
   };

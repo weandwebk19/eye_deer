@@ -11,12 +11,12 @@ import { StyledInputField } from "../../components/TextField/StyledInputField";
 import "./styles.scss";
 
 const Play = () => {
-  const currentUser = useSelector((state) => state.auth.login.currentUser);
-  const user = currentUser?.user;
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
+  // const user = null;
   return (
     <>
-      {user ? <NavBar /> : <UnregisteredNavBar />}
+      {isLoggedIn ? <NavBar /> : <UnregisteredNavBar />}
       <Box
         sx={{
           width: "300px",

@@ -4,9 +4,9 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import jwt_decode from "jwt-decode";
+import { oAuthLogin } from "redux/actions/auth";
 
 import config from "../../../config";
-import { oAuthLoginUser } from "../../../httpClient";
 
 const loadScript = (src) =>
   new Promise((resolve, reject) => {
@@ -51,7 +51,15 @@ const GoogleAuthButton = () => {
 
   function handleCredentialResponse(response) {
     const userObj = jwt_decode(response.credential);
-    oAuthLoginUser(userObj, dispatch, navigate);
+    (async () => {
+      const res = await dispatch(oAuthLogin(userObj));
+      if (res.isRegisterd === false) {
+        navigate("/register");
+      }
+      if (res.success === true) {
+        navigate(-1);
+      }
+    })();
   }
 
   return <div ref={googleButton} />;

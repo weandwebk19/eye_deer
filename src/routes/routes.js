@@ -1,5 +1,6 @@
 import { FluidLayout } from "layouts";
 
+import Confirmation from "../pages/Auth/confirmation";
 import Login from "../pages/Auth/login";
 import Register from "../pages/Auth/register";
 import Group from "../pages/Group";
@@ -12,6 +13,7 @@ const publicRoutes = [
   { path: "/", component: Play },
   { path: "/register/*", component: Register },
   { path: "/login/*", component: Login },
+  { path: "/confirmation/*", component: Confirmation },
 ];
 // private Routes
 const privateRoutes = [

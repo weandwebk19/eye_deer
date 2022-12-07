@@ -1,17 +1,14 @@
 import { useQuery } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import { requireLogin } from "../httpClient";
+import AuthService from "services/authService";
 
 export const useLoggedIn = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.login.currentUser);
+  const user = useSelector((state) => state.auth.user);
   const res = useQuery(
     ["auth"],
     async () => {
-      const res = await requireLogin(user, navigate, dispatch).catch((err) => {
+      const res = await AuthService.isLoggedIn().catch((err) => {
         return false;
       });
       if (res) return true;
