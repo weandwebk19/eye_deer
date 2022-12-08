@@ -93,110 +93,112 @@ const NavBar = () => {
   };
 
   return (
-    <StyledAppBar position="fixed">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ px: "24px" }}>
-          <StyledHeadingTypography
-            variant="h5"
-            noWrap
-            component="a"
-            href="/home"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            eyedeer.
-          </StyledHeadingTypography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
+    <nav>
+      <StyledAppBar>
+        <Container maxWidth="xl">
+          <Toolbar disableGutters sx={{ px: "24px" }}>
+            <StyledHeadingTypography
+              variant="h5"
+              noWrap
+              component="a"
+              href="/home"
               sx={{
-                display: { xs: "block", md: "none" },
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                color: "inherit",
+                textDecoration: "none",
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Button
-                    sx={{
-                      display: "block",
-                      textTransform: "lowercase",
-                      ...(page === "play" && { fontWeight: "bold" }),
-                    }}
-                    onClick={() => handleClickNavMenu(page)}
-                  >
-                    {page}
-                  </Button>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <StyledHeadingTypography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            eyedeer.
-          </StyledHeadingTypography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={() => handleClickNavMenu(page)}
+              eyedeer.
+            </StyledHeadingTypography>
+
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
                 sx={{
-                  my: 2,
-                  display: "block",
-                  textTransform: "lowercase",
-                  ...(page === "play" && { fontWeight: "bold" }),
+                  display: { xs: "block", md: "none" },
                 }}
               >
-                {page}
-              </Button>
-            ))}
-          </Box>
+                {pages.map((page) => (
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Button
+                      sx={{
+                        display: "block",
+                        textTransform: "lowercase",
+                        ...(page === "play" && { fontWeight: "bold" }),
+                      }}
+                      onClick={() => handleClickNavMenu(page)}
+                    >
+                      {page}
+                    </Button>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+            <StyledHeadingTypography
+              variant="h5"
+              noWrap
+              component="a"
+              href=""
+              sx={{
+                mr: 2,
+                display: { xs: "flex", md: "none" },
+                flexGrow: 1,
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              eyedeer.
+            </StyledHeadingTypography>
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              {pages.map((page) => (
+                <Button
+                  key={page}
+                  onClick={() => handleClickNavMenu(page)}
+                  sx={{
+                    my: 2,
+                    display: "block",
+                    textTransform: "lowercase",
+                    ...(page === "play" && { fontWeight: "bold" }),
+                  }}
+                >
+                  {page}
+                </Button>
+              ))}
+            </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <AvatarButton
-              picture={user.picture}
-              fullname={`${user.firstName} ${user.lastName}`}
-            />
-          </Box>
-        </Toolbar>
-      </Container>
-    </StyledAppBar>
+            <Box sx={{ flexGrow: 0 }}>
+              <AvatarButton
+                picture={user.picture}
+                fullname={`${user.firstName} ${user.lastName}`}
+              />
+            </Box>
+          </Toolbar>
+        </Container>
+      </StyledAppBar>
+    </nav>
   );
 };
 

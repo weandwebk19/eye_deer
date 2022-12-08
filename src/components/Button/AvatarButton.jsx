@@ -10,6 +10,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+
 import PropTypes from "prop-types";
 
 import { logoutUser } from "../../httpClient";
@@ -70,7 +71,7 @@ const AvatarButton = ({ picture, fullname }) => {
       <Tooltip title="Open settings">
         <IconButton
           onClick={handleOpenUserMenu}
-          sx={{ p: 0 }}
+          sx={{ p: 0, m: "0 !important" }}
           className="avatar-menu"
         >
           <Avatar alt={fullname} src={picture} />

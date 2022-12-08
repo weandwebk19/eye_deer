@@ -42,21 +42,11 @@ const GroupInfo = () => {
   }, [groupId]);
 
   return (
-    <Box
-      id="side-area--fixed"
-      sx={{
-        position: "fixed",
-        pt: 0,
-        ml: 0,
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-      >
+    <Box id="side-area--fixed">
+      <Box>
+        <StyledButton variant="secondary" sx={{ width: "100%" }}>
+          group settings
+        </StyledButton>
         <Box
           component="img"
           sx={{
@@ -144,10 +134,6 @@ const GroupInfo = () => {
           <Typography gutterBottom>{updatedAt}</Typography>
         </Box>
       </Box>
-
-      <StyledButton variant="secondary" sx={{ width: "100%" }}>
-        group settings
-      </StyledButton>
     </Box>
   );
 };
