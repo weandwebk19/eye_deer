@@ -1,0 +1,56 @@
+@import "../../sassStyles/global";
+
+#fluid-layout-container {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  @include tablet {
+    overflow-y: scroll !important;
+  }
+
+  @include mobile {
+    overflow-y: scroll !important;
+  }
+}
+
+#main-area {
+  position: relative;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @include desktop {
+    border-right: 1px solid $black;
+  }
+
+  @include tablet {
+    border-color: 1px solid $black;
+  }
+
+  @include mobile {
+    border-color: 1px solid $black;
+    height: 100vh !important;
+  }
+}
+
+#main-area {
+  @include tablet {
+    order: 2;
+  }
+  @include mobile {
+    order: 2;
+  }
+}
+
+#side-area {
+  @include tablet {
+    margin-top: 64px;
+    order: 1;
+    height: 700px;
+  }
+  @include mobile {
+    margin-top: 64px;
+    order: 1;
+    height: 100vh;
+  }
+}

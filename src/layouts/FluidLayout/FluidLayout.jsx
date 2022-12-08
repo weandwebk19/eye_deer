@@ -1,15 +1,17 @@
-import { Fragment } from "react";
-
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Container, CssBaseline, Grid } from "@mui/material";
 
 import PropTypes from "prop-types";
 
 import { NavBar } from "components/Navigation";
 
+import "./styles.scss";
+
 const FluidLayout = ({ children }) => {
   return (
     <Box sx={{ display: "flex" }}>
+      <CssBaseline />
       <Container
+        id="fluid-layout-container"
         component="main"
         maxWidth="xl"
         sx={{
@@ -18,16 +20,32 @@ const FluidLayout = ({ children }) => {
           justifyContent: "center",
           alignItems: "center",
           height: "100vh",
-          marginTop: "64px",
+          overflowY: "hidden",
         }}
       >
         <NavBar />
+        <CssBaseline />
         <Grid
           container
           columns={{ xs: 4, sm: 8, md: 12, lg: 12 }}
-          height="100vh"
+          sx={{
+            pt: "70px",
+            height: "100vh",
+          }}
         >
-          <Grid item xs={4} sm={5} md={7} lg={9} id="main-area" p={3}>
+          <Grid
+            item
+            xs={4}
+            sm={8}
+            md={7}
+            lg={9}
+            id="main-area"
+            p={3}
+            sx={{
+              height: "calc(100vh - 70px)",
+              overflowY: "scroll !important",
+            }}
+          >
             {(() => {
               if (Array.isArray(children)) {
                 return children[0];
@@ -38,12 +56,14 @@ const FluidLayout = ({ children }) => {
           <Grid
             item
             xs={4}
-            sm={3}
+            sm={8}
             md={5}
             lg={3}
             id="side-area"
             p={3}
-            sx={{ height: "calc(100vh - 64px)" }}
+            sx={{
+              height: "100vh",
+            }}
           >
             {(() => {
               if (Array.isArray(children)) {
