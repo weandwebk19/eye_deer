@@ -1,16 +1,16 @@
-import { FluidLayout } from "layouts";
+import { FLayout } from "layouts";
 
 import GroupHeader from "../GroupHeader";
 import GroupInfo from "../GroupInfo";
 import "../styles.scss";
 
-const Chapter = () => {
+const Presentation = () => {
   return (
-    <FluidLayout>
+    <FLayout>
       <GroupHeader />
       <GroupInfo />
-    </FluidLayout>
+    </FLayout>
   );
 };
 
-export default Chapter;
+export default Presentation;

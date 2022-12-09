@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Button } from "@mui/material";
 
-import { StyledAppBar, StyledToolbar } from "./NavBar";
+import { StyledAppBar, StyledToolbar } from "./StyledNavBar";
 import "./styles.scss";
 
 const UnregisteredNavBar = () => {

@@ -16,7 +16,7 @@ import { ContentBox } from "components/ContentBox";
 
 const GroupTabContent = ({
   id,
-  chapters,
+  presentations,
   contentChips,
   members,
   name,
@@ -44,7 +44,7 @@ const GroupTabContent = ({
 GroupTabContent.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string,
-  chapters: PropTypes.number,
+  presentations: PropTypes.number,
   members: PropTypes.number,
   picture: PropTypes.string,
   contentChips: PropTypes.objectOf(PropTypes.number).isRequired,
@@ -53,7 +53,7 @@ GroupTabContent.propTypes = {
 
 GroupTabContent.defaultProps = {
   name: "",
-  chapters: 0,
+  presentations: 0,
   members: 0,
   picture: "",
 };

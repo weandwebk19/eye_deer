@@ -1,6 +1,6 @@
 @import "../../sassStyles/global";
 
-#fluid-layout {
+#f-layout {
   &-container {
     &::-webkit-scrollbar {
       display: none;
@@ -14,20 +14,13 @@
     }
   }
 
-  &__left {
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    background: linear-gradient(to right, $white, $white-light);
-  }
-
   &__main {
+    position: relative;
     &::-webkit-scrollbar {
       display: none;
     }
 
     @include desktop {
-      border-left: 1px solid $black;
       border-right: 1px solid $black;
     }
 
@@ -41,9 +34,7 @@
     }
   }
 
-  &__right {
-    background: linear-gradient(to left, $white, $white-light);
-
+  &__side {
     @include tablet {
       margin-top: 64px;
       order: 1;

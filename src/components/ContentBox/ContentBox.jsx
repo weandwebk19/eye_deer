@@ -32,7 +32,7 @@ const ContentBox = ({
             <Tooltip title={name} followCursor>
               <StyledContentBox
                 variant="carpet"
-                className="chapter-content-box"
+                className="presentation-content-box"
               >
                 <StyledCardActionArea onClick={handleClick}>
                   <CardContent
@@ -65,7 +65,7 @@ const ContentBox = ({
                       <MoreButton menulist={menulist} />
                     </Box>
                     <Typography variant="h5" noWrap>
-                      chapter {index}
+                      presentation {index}
                     </Typography>
                     <Typography variant="h6" noWrap>
                       {name}

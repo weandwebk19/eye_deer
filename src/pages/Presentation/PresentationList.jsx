@@ -19,7 +19,7 @@ import { SearchField } from "components/TextField";
 
 import "../styles.scss";
 
-const ChapterList = ({ name, picture, contentChips }) => {
+const PresentationList = ({ name, picture, contentChips }) => {
   const navigate = useNavigate();
 
   const handleGroupNavigate = () => {
@@ -33,9 +33,9 @@ const ChapterList = ({ name, picture, contentChips }) => {
   const menulist = [
     {
       id: 1,
-      name: "chapter settings",
+      name: "presentation settings",
       onClick: () => {
-        console.log("chapter settings");
+        console.log("presentation settings");
       },
     },
     {
@@ -160,7 +160,7 @@ const ChapterList = ({ name, picture, contentChips }) => {
               display: "flex",
             }}
           >
-            <StyledButton>+ new chapter</StyledButton>
+            <StyledButton>+ new presentation</StyledButton>
           </Box>
         </Box>
         {mockupData.cards.map((card, i) => {
@@ -174,7 +174,7 @@ const ChapterList = ({ name, picture, contentChips }) => {
                   member,
                 }))(card)}
                 handleClick={() => {
-                  console.log(`${card.index} handle click`);
+                  navigate(`/presentation/${card.id}`);
                 }}
                 handleChange={() => {
                   console.log(`${card.index} handle change`);
@@ -189,15 +189,15 @@ const ChapterList = ({ name, picture, contentChips }) => {
   );
 };
 
-ChapterList.propTypes = {
+PresentationList.propTypes = {
   name: PropTypes.string.isRequired,
   picture: PropTypes.string,
   contentChips: PropTypes.objectOf(PropTypes.number),
 };
 
-ChapterList.defaultProps = {
+PresentationList.defaultProps = {
   picture: null,
   contentChips: null,
 };
 
-export default ChapterList;
+export default PresentationList;

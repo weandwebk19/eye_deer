@@ -17,21 +17,22 @@ import { styled } from "@mui/system";
 
 import { AvatarButton } from "../Button";
 import { StyledHeadingTypography } from "../Typography/StyledTypography";
+import { StyledAppBar, StyledToolbar } from "./StyledNavBar";
 
 const pages = ["play", "home", "about", "contact", "pricing"];
 
-const StyledAppBar = styled(AppBar)(
-  ({ theme }) => `
-  color: ${theme.palette.secondary.contrastText};
-  background-color: ${theme.palette.secondary.main};
-  padding: 0 ${theme.spacing(2)};
-  position: fixed;
-`
-);
+// const StyledAppBar = styled(AppBar)(
+//   ({ theme }) => `
+//   color: ${theme.palette.secondary.contrastText};
+//   background-color: ${theme.palette.secondary.main};
+//   padding: 0 ${theme.spacing(2)};
+//   position: fixed;
+// `
+// );
 
-const StyledToolbar = styled(Toolbar)(() => ({
-  flexDirection: "row-reverse",
-}));
+// const StyledToolbar = styled(Toolbar)(() => ({
+//   flexDirection: "row-reverse",
+// }));
 
 const NavBar = () => {
   // const { user } = useSelector((state) => state.auth.user);
@@ -204,4 +205,4 @@ const NavBar = () => {
   );
 };
 
-export { StyledAppBar, StyledToolbar, NavBar };
+export { NavBar };

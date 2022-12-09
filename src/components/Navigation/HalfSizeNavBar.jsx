@@ -23,7 +23,7 @@ import { logout } from "redux/actions/auth";
 
 import { StyledHeadingTypography } from "../Typography";
 import { BigTitleBar } from "./BigTitleBar";
-import { StyledAppBar, StyledToolbar } from "./NavBar";
+import { StyledAppBar, StyledToolbar } from "./StyledNavBar";
 import "./styles.scss";
 
 const pagesLite = ["play", "about", "pricing", "logout"];

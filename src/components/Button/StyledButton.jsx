@@ -24,6 +24,18 @@ const StyledButton = styled(Button)(({ theme, variant = "primary" }) => ({
       backgroundColor: `${theme.palette.secondary.dark}`,
     },
   }),
+  ...(variant === "simple" && {
+    minWidth: "32px",
+    height: "100%",
+    padding: "4px !important",
+    fontWeight: "light",
+    color: `${theme.palette.secondary.contrastText}`,
+    background: "rgba(0,0,0,0)",
+    border: `1px solid ${theme.palette.primary.dark}`,
+    "&:hover": {
+      backgroundColor: `${theme.palette.secondary.main}`,
+    },
+  }),
 }));
 
 export { StyledButton };

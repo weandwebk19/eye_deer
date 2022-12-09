@@ -108,9 +108,9 @@ const GroupInfo = () => {
 
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography variant="h6" gutterBottom>
-            chapter
+            presentation
           </Typography>
-          <Typography gutterBottom>{groupInfo.totalChapter}</Typography>
+          <Typography gutterBottom>{groupInfo.totalPresentation}</Typography>
         </Box>
 
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
