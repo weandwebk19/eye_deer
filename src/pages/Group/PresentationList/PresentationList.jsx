@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import {
   Avatar,
   AvatarGroup,
@@ -10,16 +9,20 @@ import {
   Typography,
 } from "@mui/material";
 
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+
 import Star1 from "assets/imgs/star-1.svg";
 import PropTypes from "prop-types";
 
 import { StyledButton } from "components/Button";
 import { ContentBox } from "components/ContentBox";
+import { FormDialog } from "components/Dialog";
 import { SearchField } from "components/TextField";
 
 import "../styles.scss";
+import AddPresentation from "./AddPresentation";
 
-const ChapterList = ({ name, picture, contentChips }) => {
+const PresentationList = ({ name, picture, contentChips }) => {
   const navigate = useNavigate();
 
   const handleGroupNavigate = () => {
@@ -33,9 +36,9 @@ const ChapterList = ({ name, picture, contentChips }) => {
   const menulist = [
     {
       id: 1,
-      name: "chapter settings",
+      name: "presentation settings",
       onClick: () => {
-        console.log("chapter settings");
+        console.log("presentation settings");
       },
     },
     {
@@ -160,7 +163,13 @@ const ChapterList = ({ name, picture, contentChips }) => {
               display: "flex",
             }}
           >
-            <StyledButton>+ new chapter</StyledButton>
+            <FormDialog
+              content="+ new presentation"
+              title="Create new presentation"
+              variant="primary"
+            >
+              <AddPresentation />
+            </FormDialog>
           </Box>
         </Box>
         {mockupData.cards.map((card, i) => {
@@ -174,7 +183,7 @@ const ChapterList = ({ name, picture, contentChips }) => {
                   member,
                 }))(card)}
                 handleClick={() => {
-                  console.log(`${card.index} handle click`);
+                  navigate(`/presentation/${card.id}/1/edit`);
                 }}
                 handleChange={() => {
                   console.log(`${card.index} handle change`);
@@ -189,15 +198,15 @@ const ChapterList = ({ name, picture, contentChips }) => {
   );
 };
 
-ChapterList.propTypes = {
+PresentationList.propTypes = {
   name: PropTypes.string.isRequired,
   picture: PropTypes.string,
   contentChips: PropTypes.objectOf(PropTypes.number),
 };
 
-ChapterList.defaultProps = {
+PresentationList.defaultProps = {
   picture: null,
   contentChips: null,
 };
 
-export default ChapterList;
+export default PresentationList;

@@ -3,3 +3,4 @@ export * from "./BigTitleBar";
 export * from "./UnregisteredNavBar";
 export * from "./HalfSizeNavBar";
 export * from "./HalfSizeFooter";
+export * from "./CustomizerNavBar";

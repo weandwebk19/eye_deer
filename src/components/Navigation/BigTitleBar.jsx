@@ -3,7 +3,7 @@ import { Box, Container } from "@mui/material";
 import PropTypes from "prop-types";
 
 import { StyledBigHeadingTypography } from "../Typography";
-import { StyledAppBar, StyledToolbar } from "./NavBar";
+import { StyledAppBar, StyledToolbar } from "./StyledNavBar";
 
 const BigTitleBar = ({ width1, width2 }) => {
   return (

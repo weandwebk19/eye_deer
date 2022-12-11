@@ -38,7 +38,7 @@ const GroupHeader = () => {
           className="text-limit text-limit--3-lines"
           mb={2}
         >
-          "{groupInfo.name}"
+          “{groupInfo.name}”
         </StyledHeadingTypography>
       </Tooltip>
       <Outlet />

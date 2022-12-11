@@ -13,7 +13,7 @@ const FluidLayout = ({ children }) => {
       <Container
         id="fluid-layout-container"
         component="main"
-        maxWidth="xl"
+        maxWidth={false}
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -23,13 +23,14 @@ const FluidLayout = ({ children }) => {
           overflowY: "hidden",
         }}
       >
-        <NavBar />
+        {/* <NavBar /> */}
         <CssBaseline />
+
         <Grid
           container
           columns={{ xs: 4, sm: 8, md: 12, lg: 12 }}
           sx={{
-            pt: "70px",
+            pt: "65px",
             height: "100vh",
           }}
         >
@@ -37,12 +38,12 @@ const FluidLayout = ({ children }) => {
             item
             xs={4}
             sm={8}
-            md={7}
-            lg={9}
-            id="main-area"
+            md={2}
+            lg={2}
+            id="fluid-layout__left"
             p={3}
             sx={{
-              height: "calc(100vh - 70px)",
+              height: "calc(100vh - 65px)",
               overflowY: "scroll !important",
             }}
           >
@@ -57,9 +58,29 @@ const FluidLayout = ({ children }) => {
             item
             xs={4}
             sm={8}
-            md={5}
+            md={7}
+            lg={7}
+            id="fluid-layout__main"
+            p={3}
+            sx={{
+              height: "calc(100vh - 65px)",
+              overflowY: "scroll !important",
+            }}
+          >
+            {(() => {
+              if (Array.isArray(children)) {
+                return children[1];
+              }
+              return children;
+            })()}
+          </Grid>
+          <Grid
+            item
+            xs={4}
+            sm={8}
+            md={3}
             lg={3}
-            id="side-area"
+            id="fluid-layout__right"
             p={3}
             sx={{
               height: "100vh",
@@ -67,7 +88,7 @@ const FluidLayout = ({ children }) => {
           >
             {(() => {
               if (Array.isArray(children)) {
-                return children[1];
+                return children[2];
               }
             })()}
           </Grid>
@@ -84,4 +105,4 @@ FluidLayout.propTypes = {
   ]).isRequired,
 };
 
-export default FluidLayout;
+export { FluidLayout };

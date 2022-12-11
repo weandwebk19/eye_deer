@@ -1,4 +1,4 @@
-import { FluidLayout } from "layouts";
+import { FLayout } from "layouts";
 
 import GroupInfo from "../GroupInfo";
 import "../styles.scss";
@@ -6,10 +6,10 @@ import MemberList from "./MemberList";
 
 const Member = () => {
   return (
-    <FluidLayout>
+    <FLayout>
       <MemberList />
       <GroupInfo />
-    </FluidLayout>
+    </FLayout>
   );
 };
 

@@ -1,2 +1,3 @@
 export { default, default as DefaultLayout } from "./DefaultLayout";
-export { default as FluidLayout } from "./FluidLayout";
+export { default as FLayout } from "./FLayout";
+export { FluidLayout } from "./FluidLayout";

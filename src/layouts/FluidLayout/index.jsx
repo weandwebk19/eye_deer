@@ -1,1 +1,1 @@
-export { default } from "./FluidLayout";
+export { FluidLayout } from "./FluidLayout";

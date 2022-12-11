@@ -1,0 +1,49 @@
+@import "../../sassStyles/global";
+
+#f-layout {
+  &-container {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    @include tablet {
+      overflow-y: scroll !important;
+    }
+
+    @include mobile {
+      overflow-y: scroll !important;
+    }
+  }
+
+  &__main {
+    position: relative;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @include desktop {
+      border-right: 1px solid $black;
+    }
+
+    @include tablet {
+      border-color: 1px solid $black;
+    }
+
+    @include mobile {
+      border-color: 1px solid $black;
+      height: 100vh !important;
+    }
+  }
+
+  &__side {
+    @include tablet {
+      margin-top: 64px;
+      order: 1;
+      height: 700px;
+    }
+    @include mobile {
+      margin-top: 64px;
+      order: 1;
+      height: 100vh;
+    }
+  }
+}

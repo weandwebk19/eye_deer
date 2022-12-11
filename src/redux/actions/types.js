@@ -8,3 +8,6 @@ export const LOGOUT_FAIL = "LOGOUT_FAIL";
 export const SET_MESSAGE = "SET_MESSAGE";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
 export const REFRESH_TOKEN = "REFRESH_TOKEN";
+
+export const CLICK_SLIDE = "presentationSlideList/clickSlide";
+export const RESET_STATE = "presentationSlideList/resetState";
