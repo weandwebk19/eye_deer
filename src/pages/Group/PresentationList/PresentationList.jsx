@@ -16,9 +16,11 @@ import PropTypes from "prop-types";
 
 import { StyledButton } from "components/Button";
 import { ContentBox } from "components/ContentBox";
+import { FormDialog } from "components/Dialog";
 import { SearchField } from "components/TextField";
 
 import "../styles.scss";
+import AddPresentation from "./AddPresentation";
 
 const PresentationList = ({ name, picture, contentChips }) => {
   const navigate = useNavigate();
@@ -161,7 +163,13 @@ const PresentationList = ({ name, picture, contentChips }) => {
               display: "flex",
             }}
           >
-            <StyledButton>+ new presentation</StyledButton>
+            <FormDialog
+              content="+ new presentation"
+              title="Create new presentation"
+              variant="primary"
+            >
+              <AddPresentation />
+            </FormDialog>
           </Box>
         </Box>
         {mockupData.cards.map((card, i) => {

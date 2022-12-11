@@ -25,10 +25,9 @@ import GoogleAuthButton from "./GoogleAuthButton";
 
 const LoginForm = () => {
   const [isError, setIsError] = useState("");
-  // const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const message = useSelector((state) => state.message.message);
 
   const {
     register,
@@ -37,13 +36,20 @@ const LoginForm = () => {
   } = useForm();
   const onSubmit = async (data) => {
     try {
-      await dispatch(login(data));
-      setIsError(false);
-      setTimeout(() => {
-        navigate(-1);
-      }, 1000);
+      const res = await dispatch(login(data));
+      if (res.success === true) {
+        setMessage(res.message);
+        setIsError(false);
+        setTimeout(() => {
+          navigate(-1);
+        }, 1000);
+      } else {
+        setMessage(res.message);
+        setIsError(true);
+      }
     } catch (err) {
       setIsError(true);
+      setMessage(err.message);
     }
   };
 
