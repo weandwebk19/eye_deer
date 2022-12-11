@@ -60,7 +60,7 @@ export const login = (user) => (dispatch) => {
           payload: data.message,
         });
 
-        return Promise.resolve();
+        return Promise.resolve(data);
       }
     },
     (error) => {
@@ -80,7 +80,7 @@ export const login = (user) => (dispatch) => {
         payload: message,
       });
 
-      return Promise.reject();
+      return Promise.reject(error);
     }
   );
 };
@@ -136,7 +136,7 @@ export const logout = () => (dispatch) => {
           payload: data.message,
         });
 
-        return Promise.resolve();
+        return Promise.resolve(data);
       }
     },
     (error) => {

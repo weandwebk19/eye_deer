@@ -35,18 +35,21 @@
     "react-query": "^3.39.2",
     "react-redux": "^8.0.5",
     "react-scripts": "5.0.1",
+<<<<<<< Updated upstream
     "recharts": "^2.2.0",
     "redux": "^4.2.0",
+=======
+>>>>>>> Stashed changes
     "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.4.2",
     "sass": "^1.55.0",
+    "socket.io-client": "^4.5.4",
     "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject",
     "_lint": "eslint --config ./.eslintrc.json --ext js --ext jsx --ext tsx --ext ts",
     "lint": "npm run _lint -- ./src/",
@@ -72,6 +75,7 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^7.0.0",
     "@trivago/prettier-plugin-sort-imports": "^3.4.0",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.4",

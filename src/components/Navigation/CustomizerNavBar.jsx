@@ -37,7 +37,7 @@ const StyledToolbar = styled(Toolbar)(() => ({
   flexDirection: "row-reverse",
 }));
 
-const CustomizerNavBar = ({ name }) => {
+const CustomizerNavBar = ({ left, middle, right }) => {
   // const { user } = useSelector((state) => state.auth.user);
   const currentUser = useSelector((state) => state.auth.user);
   const user = currentUser?.user;
@@ -51,8 +51,16 @@ const CustomizerNavBar = ({ name }) => {
             <IconButton sx={{ mr: 2 }}>
               <ArrowBackIcon />
             </IconButton>
+<<<<<<< Updated upstream
             <Box sx={{ flexGrow: 1 }}>
               <StyledInputField defaultValue={name} />
+=======
+            {left}
+            {middle}
+            {right}
+            {/* <Box sx={{ flexGrow: 1 }}>
+              <StyledInputField defaultValue="Hello World" />
+>>>>>>> Stashed changes
             </Box>
             <StyledButton
               sx={{ display: { xs: "none", md: "flex" } }}
@@ -67,7 +75,7 @@ const CustomizerNavBar = ({ name }) => {
               sx={{ display: { xs: "flex", md: "none", lg: "none" } }}
             >
               <PlayCircleFilledWhiteOutlinedIcon />
-            </StyledButton>
+            </StyledButton> */}
           </Toolbar>
         </Container>
       </StyledAppBar>
@@ -76,7 +84,15 @@ const CustomizerNavBar = ({ name }) => {
 };
 
 CustomizerNavBar.propTypes = {
-  name: PropTypes.string.isRequired,
+  left: PropTypes.node,
+  middle: PropTypes.node,
+  right: PropTypes.node,
+};
+
+CustomizerNavBar.defaultProps = {
+  left: null,
+  middle: null,
+  right: null,
 };
 
 export { CustomizerNavBar };

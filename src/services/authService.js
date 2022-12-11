@@ -19,9 +19,7 @@ const login = async (user) => {
     const res = await axios.post("auth/login", user);
 
     if (res.status === 200) {
-      if (res.data.accessToken) {
-        TokenService.setUser(res.data);
-      }
+      TokenService.setUser(res.data);
       return {
         success: true,
         message: "successfully login! 🤗",
@@ -93,14 +91,20 @@ const oAuthLogin = async (user) => {
 
 const logout = async () => {
   try {
-    const user = getCurrentUser();
+    // const user = TokenService.getUser();
     const res = await axiosJWT.post("auth/logout");
 
-    TokenService.removeUser();
-    return {
-      success: true,
-      message: res.data,
-    };
+    if (res.status === 200) {
+      return {
+        success: true,
+        message: res.data,
+      };
+    } else {
+      return {
+        success: false,
+        message: res.data,
+      };
+    }
   } catch (err) {
     console.error(err);
     if (err.response !== undefined) {
