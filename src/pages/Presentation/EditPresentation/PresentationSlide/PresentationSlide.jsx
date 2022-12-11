@@ -1,7 +1,6 @@
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { Box, Paper, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 
 import PropTypes from "prop-types";
 
@@ -12,7 +11,7 @@ import ChartSlide from "./ChartSlide";
 import HeadingSlide from "./HeadingSlide";
 import ParagraphSlide from "./ParagraphSlide";
 
-const data = [
+const data1 = [
   {
     name: "option 1",
     vote: 15,
@@ -39,38 +38,54 @@ const data = [
   },
 ];
 
+const data2 = [
+  {
+    name: "option 1",
+    vote: 15,
+  },
+  {
+    name: "option 2",
+    vote: 25,
+  },
+  {
+    name: "option 3",
+    vote: 2,
+  },
+];
+
 const slideList = [
   {
     slideid: 1,
     type: 1,
     question: "chart here",
-    content: <ChartSlide question="chart here" data={data} />,
+    content: <ChartSlide question="chart here" data={data1} />,
   },
   {
     slideid: 2,
     type: 2,
     question: "heading here",
-    content: <HeadingSlide question="heading here" data={data} />,
+    content: <HeadingSlide question="heading here" />,
   },
   {
     slideid: 3,
     type: 3,
     question: "paragraph here",
-    content: <ParagraphSlide question="paragraph here" data={data} />,
+    paragraph: "lorem ipsum",
+    content: (
+      <ParagraphSlide question="paragraph here" paragraph="lorem ipsum" />
+    ),
   },
   {
     slideid: 4,
     type: 1,
     question: "chart here",
-    content: <ChartSlide question="chart here" data={data} />,
+    content: <ChartSlide question="chart here" data={data2} />,
   },
 ];
 
 const PresentationSlide = () => {
   const { slideid } = useParams();
   const obj = slideList.find((o) => o.slideid === Number(slideid));
-
-  const slideType = useSelector((state) => state.presentation);
   return (
     <StyledPaper sx={{ pb: "56.25%", position: "relative" }}>
       <Box className="presentation-slide__content">

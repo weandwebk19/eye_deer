@@ -175,7 +175,7 @@ const PresentationList = ({ name, picture, contentChips }) => {
                   member,
                 }))(card)}
                 handleClick={() => {
-                  navigate(`/presentation/${card.id}/:slideid/edit`);
+                  navigate(`/presentation/${card.id}/1/edit`);
                 }}
                 handleChange={() => {
                   console.log(`${card.index} handle change`);
