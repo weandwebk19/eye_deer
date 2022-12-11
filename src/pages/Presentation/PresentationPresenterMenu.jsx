@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   Badge,
@@ -25,6 +25,9 @@ import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
 import ZoomInMapIcon from "@mui/icons-material/ZoomInMap";
 import ZoomOutMapIcon from "@mui/icons-material/ZoomOutMap";
 
+import { SocketContext } from "context/socket";
+import PresentationService from "services/presentationService";
+
 import ChatBox from "components/ChatBox/ChatBox";
 import { FormDialog } from "components/Dialog";
 import { BasicModal } from "components/Modal";
@@ -38,12 +41,14 @@ import { StyledHeadingTypography } from "components/Typography";
 // ];
 
 const PresentationPresenterMenu = () => {
+  const { slideid, id } = useParams();
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [votingReset, setVotingReset] = useState(false);
   const [isLock, setIsLock] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-
+  const socket = useContext(SocketContext);
+  const [code, setCode] = useState();
   const navigate = useNavigate();
 
   const handleClick = (event) => {
@@ -83,6 +88,13 @@ const PresentationPresenterMenu = () => {
     }
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      const code = await PresentationService.getCodePresentation(id);
+      setCode(code);
+    })();
+  }, []);
+
   const handleToggleLock = () => {
     setIsLock(!isLock);
   };
@@ -99,6 +111,7 @@ const PresentationPresenterMenu = () => {
               sx={{ mt: 2, ml: 2 }}
               onClick={() => {
                 navigate("../edit");
+                socket.emit("HOST_END_PRESENT", code);
               }}
             >
               <CloseIcon />

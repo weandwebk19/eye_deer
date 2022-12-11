@@ -1,8 +1,10 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Box } from "@mui/material";
 
 import PropTypes from "prop-types";
+import PresentationService from "services/presentationService";
 
 import { StyledPaper } from "components/Paper";
 
@@ -86,10 +88,19 @@ const slideList = [
 ];
 
 const PresentationSlide = () => {
-  const { slideid } = useParams();
+  const { slideid, id } = useParams();
   const currentSlide = slideList.find((o) => o.slideid === Number(slideid));
+  const [code, setCode] = useState();
+
+  useEffect(() => {
+    (async () => {
+      const code = await PresentationService.getCodePresentation(id);
+      setCode(code);
+    })();
+  }, []);
   return (
     <StyledPaper sx={{ pb: "56.25%", position: "relative" }}>
+      code: {code}
       <Box className="presentation-slide__content">{currentSlide.content}</Box>
     </StyledPaper>
   );
