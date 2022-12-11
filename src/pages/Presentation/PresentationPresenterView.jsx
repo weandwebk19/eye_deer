@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 
 import { Box } from "@mui/material";
 
+import { SocketContext } from "context/socket";
+import PresentationService from "services/presentationService";
+
 import { StyledPaper } from "components/Paper";
 
 import ChartSlide from "./EditPresentation/PresentationSlide/ChartSlide";
@@ -121,16 +124,25 @@ const slideList = [
 ];
 
 const PresenatationPresenterView = () => {
-  const { slideid } = useParams();
+  const { slideid, id } = useParams();
+  const socket = React.useContext(SocketContext);
   const currentSlide = slideList.find((o) => o.slideid === Number(slideid));
+  const [code, setCode] = React.useState();
+
+  React.useEffect(() => {
+    (async () => {
+      const code = await PresentationService.getCodePresentation(id);
+      setCode(code);
+    })();
+  }, []);
 
   return (
     <StyledPaper
       className="presentation-presenter-view__container"
       sx={{ height: "100vh", width: "100vw", position: "relative" }}
     >
+      code: {code}
       <PresentationPresenterMenu />
-
       <Box className="presentation-presenter-view__content">
         {currentSlide.content}
       </Box>

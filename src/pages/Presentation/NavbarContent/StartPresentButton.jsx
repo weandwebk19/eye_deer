@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import PlayCircleFilledWhiteOutlinedIcon from "@mui/icons-material/PlayCircleFilledWhiteOutlined";
-import { Box } from "@mui/system";
 
+import { Box } from "@mui/system";
 import { SocketContext } from "context/socket";
 import PresentationService from "services/presentationService";
 
@@ -12,14 +12,17 @@ import { StyledInputField } from "components/TextField";
 
 const StartPresentButton = () => {
   const params = useParams();
-  const presentationId = params?.presentationId;
+  const navigate = useNavigate();
+  const presentationId = params?.id;
+  const slideId = params?.slideid;
 
   const socket = useContext(SocketContext);
   const handleStartPresent = async () => {
     console.log("StartPresent");
     const code = await PresentationService.getCodePresentation(presentationId);
     console.log("code", code);
-    socket.emit("CLIENT_SEND_CREATE_ROOM", code);
+    socket.emit("HOST_START_PRESENT", { code, presentationId, slideId });
+    navigate("presenting");
   };
   return (
     <Box>
