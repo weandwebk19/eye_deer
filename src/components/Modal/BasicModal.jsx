@@ -25,9 +25,19 @@ const BasicModal = ({ content, title, children, variant }) => {
 
   return (
     <div>
-      <StyledButton variant={variant} onClick={handleOpen}>
-        {content}
-      </StyledButton>
+      {(() => {
+        if (typeof content === "string")
+          return (
+            <StyledButton variant={variant} onClick={handleOpen}>
+              {content}
+            </StyledButton>
+          );
+        return (
+          <Box variant={variant} onClick={handleOpen}>
+            {content}
+          </Box>
+        );
+      })()}
       <Modal
         open={open}
         onClose={handleClose}
@@ -55,7 +65,7 @@ const BasicModal = ({ content, title, children, variant }) => {
 };
 
 BasicModal.propTypes = {
-  content: PropTypes.string,
+  content: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   title: PropTypes.string,
   children: PropTypes.string,
   variant: PropTypes.string,

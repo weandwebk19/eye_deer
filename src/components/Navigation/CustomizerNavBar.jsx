@@ -2,9 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import MenuIcon from "@mui/icons-material/Menu";
-import PlayCircleFilledWhiteOutlinedIcon from "@mui/icons-material/PlayCircleFilledWhiteOutlined";
 import {
   AppBar,
   Box,
@@ -14,8 +11,12 @@ import {
   Menu,
   Toolbar,
 } from "@mui/material";
-import { styled } from "@mui/system";
 
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import MenuIcon from "@mui/icons-material/Menu";
+import PlayCircleFilledWhiteOutlinedIcon from "@mui/icons-material/PlayCircleFilledWhiteOutlined";
+
+import { styled } from "@mui/system";
 import PropTypes from "prop-types";
 
 import { StyledButton } from "components/Button";
@@ -40,6 +41,7 @@ const CustomizerNavBar = ({ name }) => {
   // const { user } = useSelector((state) => state.auth.user);
   const currentUser = useSelector((state) => state.auth.user);
   const user = currentUser?.user;
+  const navigate = useNavigate();
 
   return (
     <nav>
@@ -50,9 +52,14 @@ const CustomizerNavBar = ({ name }) => {
               <ArrowBackIcon />
             </IconButton>
             <Box sx={{ flexGrow: 1 }}>
-              <StyledInputField defaultValue="Hello World" />
+              <StyledInputField defaultValue={name} />
             </Box>
-            <StyledButton sx={{ display: { xs: "none", md: "flex" } }}>
+            <StyledButton
+              sx={{ display: { xs: "none", md: "flex" } }}
+              onClick={() => {
+                navigate("presenting");
+              }}
+            >
               <PlayCircleFilledWhiteOutlinedIcon sx={{ mr: 2 }} />
               start present
             </StyledButton>

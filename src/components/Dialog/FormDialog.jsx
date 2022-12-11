@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import CloseIcon from "@mui/icons-material/Close";
 import { Grid, IconButton } from "@mui/material";
 import Box from "@mui/material/Box";
 import Dialog from "@mui/material/Dialog";
@@ -9,8 +8,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
-import { styled } from "@mui/system";
 
+import CloseIcon from "@mui/icons-material/Close";
+
+import { styled } from "@mui/system";
 import PropTypes from "prop-types";
 
 import { StyledButton } from "components/Button";
@@ -35,9 +36,20 @@ const FormDialog = ({ content, title, children, variant }) => {
 
   return (
     <div>
-      <StyledButton variant={variant} onClick={handleOpen}>
-        {content}
-      </StyledButton>
+      {(() => {
+        if (typeof content === "string")
+          return (
+            <StyledButton variant={variant} onClick={handleOpen}>
+              {content}
+            </StyledButton>
+          );
+        return (
+          <Box variant={variant} onClick={handleOpen}>
+            {content}
+          </Box>
+        );
+      })()}
+
       <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
         <DialogTitle sx={{ px: 4 }}>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -56,7 +68,7 @@ const FormDialog = ({ content, title, children, variant }) => {
 };
 
 FormDialog.propTypes = {
-  content: PropTypes.string,
+  content: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   title: PropTypes.string,
   children: PropTypes.node.isRequired,
   variant: PropTypes.string,

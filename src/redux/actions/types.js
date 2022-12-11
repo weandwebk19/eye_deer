@@ -9,4 +9,5 @@ export const SET_MESSAGE = "SET_MESSAGE";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
 export const REFRESH_TOKEN = "REFRESH_TOKEN";
 
-export const ADD_SLIDE = "presentationSlidListe/addSlide";
+export const CLICK_SLIDE = "presentationSlideList/clickSlide";
+export const RESET_STATE = "presentationSlideList/resetState";

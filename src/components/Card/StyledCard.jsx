@@ -1,4 +1,3 @@
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Box,
   CardActionArea,
@@ -6,8 +5,10 @@ import {
   Card as MuiCard,
   Typography,
 } from "@mui/material";
-import { styled } from "@mui/system";
 
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+
+import { styled } from "@mui/system";
 import PropTypes from "prop-types";
 
 import { StyledHeadingTypography } from "../Typography/StyledTypography";
@@ -23,7 +24,7 @@ const StyledCard = styled(MuiCard)(({ theme, variant = "default" }) => ({
   borderRadius: 0,
 
   ...(variant === "default" && {
-    height: "253px",
+    // height: "253px",
     // padding: "8px",
     background: `${theme.palette.primary.main}`,
     color: `${theme.palette.secondary.light}`,
@@ -52,10 +53,10 @@ const StyledCard = styled(MuiCard)(({ theme, variant = "default" }) => ({
   }),
 }));
 
-const SimpleCard = ({ name, className }) => {
+const SimpleCard = ({ name, className, handleClick }) => {
   return (
     <StyledCard className={className}>
-      <StyledCardActionArea>
+      <StyledCardActionArea onClick={handleClick}>
         <CardContent
           sx={{
             padding: "8px !important",
@@ -132,10 +133,12 @@ const CarpetCard = ({ name, picture, contentChips }) => {
 SimpleCard.propTypes = {
   name: PropTypes.string.isRequired,
   className: PropTypes.string,
+  handleClick: PropTypes.func,
 };
 
 SimpleCard.defaultProps = {
   className: null,
+  handleClick: () => {},
 };
 
 CarpetCard.propTypes = {

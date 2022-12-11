@@ -1,7 +1,77 @@
-.presentation-preview-list__add-button {
-  width: 100%;
-  position: sticky;
+@import "../../sassStyles/global";
+.presentation-preview-list__add-button > div > button {
+  width: 100% !important;
+}
+
+.preview-box {
+  transition: all 0.2s !important;
+  &:hover {
+    background-color: $white;
+    scale: 1.05;
+    outline: 6px double $white-light;
+    cursor: pointer;
+  }
+  &--active {
+    background-color: $black !important;
+    p {
+      color: $white !important;
+    }
+    button {
+      border: 1px solid $white;
+      color: $white;
+    }
+  }
+}
+
+#preview-box__indicator {
+  display: none;
+  color: $black;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -2rem;
+}
+
+.presentation-slide__content {
+  position: absolute;
   top: 0;
-  z-index: 1;
-  margin-bottom: 2;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.presentation-presenter-view__menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.presentation-presenter-view__content {
+  height: 100%;
+  width: 100%;
+  padding: 80px 120px 200px 120px;
+}
+
+.presentation-slide__content {
+  padding: 48px;
+  h3 {
+    font-size: 1.6rem;
+    margin-bottom: 48px;
+  }
+  .recharts-responsive-container {
+    height: 80% !important;
+  }
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
