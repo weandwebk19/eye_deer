@@ -2,13 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import ShareIcon from "@mui/icons-material/Share";
 import {
   Avatar,
   Box,
@@ -31,8 +24,16 @@ import {
   Typography,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
-import { visuallyHidden } from "@mui/utils";
 
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import ShareIcon from "@mui/icons-material/Share";
+
+import { visuallyHidden } from "@mui/utils";
 import AncientScrollIcon from "assets/icons/ancient-scroll.png";
 import Star2 from "assets/imgs/star-2.svg";
 import config from "config";
@@ -262,10 +263,10 @@ const EnhancedTableToolbar = (props) => {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
-  selected: PropTypes.oneOfType(
+  selected: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.object),
-    PropTypes.object
-  ).isRequired,
+    PropTypes.object,
+  ]).isRequired,
 };
 
 const MemberList = ({ name }) => {

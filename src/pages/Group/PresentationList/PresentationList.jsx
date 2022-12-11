@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import {
   Avatar,
   AvatarGroup,
@@ -9,6 +8,8 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
+
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 import Star1 from "assets/imgs/star-1.svg";
 import PropTypes from "prop-types";
@@ -174,7 +175,7 @@ const PresentationList = ({ name, picture, contentChips }) => {
                   member,
                 }))(card)}
                 handleClick={() => {
-                  navigate(`/presentation/${card.id}`);
+                  navigate(`/presentation/${card.id}/:slideid/edit`);
                 }}
                 handleChange={() => {
                   console.log(`${card.index} handle change`);
