@@ -7,7 +7,6 @@ import PresenatationPresenterView from "./PresentationPresenterView";
 const Presentation = () => {
   return (
     <Routes>
-<<<<<<< Updated upstream
       <Route path=":id">
         <Route path=":slideid">
           <Route path="" element={<EditPresentation />}>
@@ -16,12 +15,6 @@ const Presentation = () => {
           <Route path="presenting" element={<PresenatationPresenterView />} />
         </Route>
       </Route>
-=======
-      <Route
-        path="/:presentationId/:slideId/edit"
-        element={<EditPresentation />}
-      />
->>>>>>> Stashed changes
     </Routes>
   );
 };

@@ -51,16 +51,11 @@ const CustomizerNavBar = ({ left, middle, right }) => {
             <IconButton sx={{ mr: 2 }}>
               <ArrowBackIcon />
             </IconButton>
-<<<<<<< Updated upstream
-            <Box sx={{ flexGrow: 1 }}>
-              <StyledInputField defaultValue={name} />
-=======
             {left}
             {middle}
             {right}
             {/* <Box sx={{ flexGrow: 1 }}>
               <StyledInputField defaultValue="Hello World" />
->>>>>>> Stashed changes
             </Box>
             <StyledButton
               sx={{ display: { xs: "none", md: "flex" } }}
