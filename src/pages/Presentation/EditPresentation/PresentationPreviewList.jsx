@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import { Box, Button } from "@mui/material";
 
@@ -32,13 +33,15 @@ const mockSlides = [
 ];
 
 const PresentationPreviewList = () => {
-  const [activeIndex, setActiveIndex] = useState(1);
+  const { slideid } = useParams();
+
+  const [activeIndex, setActiveIndex] = useState(Number(slideid));
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (window.performance) {
-      if (performance.navigation.type == 1) {
+      if (performance.navigation.type === 1) {
         dispatch(resetState());
       }
     }
