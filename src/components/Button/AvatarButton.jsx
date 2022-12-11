@@ -37,8 +37,10 @@ const AvatarButton = ({ picture, fullname }) => {
 
   const handleLogout = async () => {
     try {
-      await dispatch(logout());
-      navigate("/login");
+      const res = await dispatch(logout());
+      if (res) {
+        navigate("/login");
+      }
     } catch (err) {
       console.log(err);
     }
