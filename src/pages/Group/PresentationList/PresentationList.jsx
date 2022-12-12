@@ -1,4 +1,7 @@
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+
+import GroupService from "services/groupService";
 
 import {
   Avatar,
@@ -24,6 +27,8 @@ import AddPresentation from "./AddPresentation";
 
 const PresentationList = ({ name, picture, contentChips }) => {
   const navigate = useNavigate();
+  const params = useParams();
+  const [presentationList, setPresentationList] = useState([]);
 
   const handleGroupNavigate = () => {
     navigate("/group");
@@ -50,6 +55,18 @@ const PresentationList = ({ name, picture, contentChips }) => {
     },
   ];
 
+  useEffect(()=>{
+    // call api to get presentation list of this group
+    (async ()=>{
+      const groupId = params.id;
+      const data = await GroupService.getPresentationList(groupId);
+      setPresentationList(data);
+
+      console.log(data);
+    })()
+  }, []);
+
+  // data to ui test
   const mockupData = {
     cards: [
       {
@@ -172,21 +189,20 @@ const PresentationList = ({ name, picture, contentChips }) => {
             </FormDialog>
           </Box>
         </Box>
-        {mockupData.cards.map((card, i) => {
+        {presentationList.map((card, i) => {
           return (
             <Box className="dashboard-quiz" key={card.id}>
               <ContentBox
                 name={card.name}
-                index={card.index}
-                contentChips={(({ quiz, member }) => ({
-                  quizzes: quiz,
-                  member,
+                index={i}
+                contentChips={(({ quizzes, code}) => ({
+                  quizzes, code,
                 }))(card)}
                 handleClick={() => {
                   navigate(`/presentation/${card.id}/1/edit`);
                 }}
                 handleChange={() => {
-                  console.log(`${card.index} handle change`);
+                  console.log(`${card.i} handle change`);
                 }}
                 menulist={menulist}
               />
