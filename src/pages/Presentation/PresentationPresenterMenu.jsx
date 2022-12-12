@@ -25,6 +25,7 @@ import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
 import ZoomInMapIcon from "@mui/icons-material/ZoomInMap";
 import ZoomOutMapIcon from "@mui/icons-material/ZoomOutMap";
 
+import MyLogo1 from "assets/imgs/logo.svg";
 import { SocketContext } from "context/socket";
 import PresentationService from "services/presentationService";
 
@@ -230,8 +231,8 @@ const PresentationPresenterMenu = () => {
           </Box>
         </Box>
       </Box>
-      <Box sx={{ position: "absolute", bottom: 1, right: 1 }}>
-        <Box sx={{ mr: 2, mb: 2, opacity: "1 !important" }}>
+      <Box sx={{ position: "absolute", bottom: 16, right: 16 }}>
+        <Box sx={{ opacity: "1 !important" }}>
           <Stack direction="row" spacing={2}>
             {(() => {
               const content = (
@@ -275,6 +276,14 @@ const PresentationPresenterMenu = () => {
             </Badge>
           </Stack>
         </Box>
+      </Box>
+      <Box sx={{ position: "absolute", top: 16, right: 16 }}>
+        <img
+          className="presentation-logo"
+          src={MyLogo1}
+          alt="eyedeer logo"
+          draggable="false"
+        />
       </Box>
     </>
   );

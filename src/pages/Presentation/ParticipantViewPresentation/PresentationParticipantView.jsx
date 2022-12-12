@@ -1,17 +1,17 @@
 import * as React from "react";
 import { useParams } from "react-router-dom";
 
-import { Box, Typography } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
-import { SocketContext } from "context/socket";
-import PresentationService from "services/presentationService";
+import Gradient4 from "assets/imgs/gradient-4.png";
+import { DefaultLayout } from "layouts";
 
 import { StyledPaper } from "components/Paper";
 
-import ChartSlide from "./EditPresentation/PresentationSlide/ChartSlide";
-import HeadingSlide from "./EditPresentation/PresentationSlide/HeadingSlide";
-import ParagraphSlide from "./EditPresentation/PresentationSlide/ParagraphSlide";
-import PresentationPresenterMenu from "./PresentationPresenterMenu";
+import ChartSlide from "../EditPresentation/PresentationSlide/ChartSlide";
+import HeadingSlide from "../EditPresentation/PresentationSlide/HeadingSlide";
+import ParagraphSlide from "../EditPresentation/PresentationSlide/ParagraphSlide";
+import VotingSlideParticipantView from "./VotingSlideParticipantView";
 
 const data = [
   {
@@ -123,46 +123,23 @@ const slideList = [
   },
 ];
 
-const PresenatationPresenterView = () => {
-  const { slideid, id } = useParams();
-  const socket = React.useContext(SocketContext);
+const PresenatationParticipantView = () => {
+  const { slideid } = useParams();
   const currentSlide = slideList.find((o) => o.slideid === Number(slideid));
-  const [code, setCode] = React.useState();
-
-  React.useEffect(() => {
-    (async () => {
-      const code = await PresentationService.getCodePresentation(id);
-      setCode(code);
-    })();
-  }, []);
 
   return (
-    <StyledPaper
-      className="presentation-presenter-view__container"
-      sx={{ height: "100vh", width: "100vw", position: "relative" }}
-    >
-      <Box className="presentation-slide__code">
-        <Typography
-          variant="h5"
-          sx={{
-            width: "100%",
-            textAlign: "center",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          code:&nbsp;
-          <Box component="span" sx={{ fontWeight: "bold", fontSize: "2rem" }}>
-            {code}
-          </Box>
-        </Typography>
+    <DefaultLayout>
+      <Box className="presentation-participant-view__container">
+        <Box className="presentation-participant-view__content">
+          <VotingSlideParticipantView
+            question={currentSlide.question}
+            data={currentSlide.data}
+          />
+        </Box>
+        <img src={Gradient4} alt="deco gradient" className="deco-img-4" />
       </Box>
-      <PresentationPresenterMenu />
-      <Box className="presentation-presenter-view__content">
-        {currentSlide.content}
-      </Box>
-    </StyledPaper>
+    </DefaultLayout>
   );
 };
 
-export default PresenatationPresenterView;
+export default PresenatationParticipantView;

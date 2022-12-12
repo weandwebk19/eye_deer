@@ -91,73 +91,20 @@ const PresentationCustomizer = () => {
   // const [slideStyle, setSlideStyle] = useState();
   const currentSlide = slideList.find((o) => o.slideid === Number(slideid));
 
-  const slideTypeName = (type) => {
-    if (type === 2) return "heading";
-    else if (type === 3) return "paragraph";
-    else return "multiple choice";
-  };
-
-  // useEffect(() => {
-  //   const thisType = () => {
-  //     if (currentSlide.type === 2) {
-  //       return (
-  //         <Box>
-  //           <Typography>heading</Typography>
-  //           <StyledInputField
-  //             label="heading"
-  //             defaultValue={currentSlide.question}
-  //           />
-  //         </Box>
-  //       );
-  //     } else if (currentSlide.type === 3) {
-  //       return (
-  //         <Box>
-  //           <Typography>heading</Typography>
-  //           <StyledInputField
-  //             label="heading"
-  //             defaultValue={currentSlide.question}
-  //           />
-  //           <Typography>paragraph</Typography>
-  //           <StyledInputField
-  //             label="paragraph"
-  //             defaultValue={currentSlide.paragraph}
-  //           />
-  //         </Box>
-  //       );
-  //     } else {
-  //       return (
-  //         <Box>
-  //           <Typography>your question</Typography>
-  //           <StyledInputField
-  //             label="multiple choice"
-  //             defaultValue={currentSlide.paragraph}
-  //           />
-  //           <Typography>options</Typography>
-  //           {currentSlide.data.map((option, i) => {
-  //             return (
-  //               <StyledInputField
-  //                 label={`option ${i + 1}`}
-  //                 defaultValue={option.name}
-  //               />
-  //             );
-  //           })}
-  //           <StyledButton>+ option</StyledButton>
-  //         </Box>
-  //       );
-  //     }
-  //   };
-  //   setSlideStyle(thisType);
-  // }, [slideid]);
-
   return (
     <Box>
       <Typography>slide style.</Typography>
-      <StyledSelectField value={currentSlide.type} label={slideTypeName}>
+      <StyledSelectField
+        value={currentSlide.type}
+        key="type"
+        labelId="type-select-input-label"
+        id="type-select"
+        label="slide style"
+      >
         <MenuItem value={1}>multiple choice</MenuItem>
         <MenuItem value={2}>heading</MenuItem>
         <MenuItem value={3}>paragraph</MenuItem>
       </StyledSelectField>
-      {/* {slideStyle} */}
       {(() => {
         if (currentSlide.type === 2) {
           return (

@@ -48,7 +48,12 @@ const CustomizerNavBar = ({ left, middle, right }) => {
       <StyledAppBar>
         <Container maxWidth={false}>
           <Toolbar disableGutters>
-            <IconButton sx={{ mr: 2 }}>
+            <IconButton
+              sx={{ mr: 2 }}
+              onClick={() => {
+                navigate("/group");
+              }}
+            >
               <ArrowBackIcon />
             </IconButton>
             {left}

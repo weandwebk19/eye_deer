@@ -84,21 +84,38 @@ const PresentationPreviewThumb = ({ variant, index }) => {
                 return (
                   <>
                     <BarChartIcon />
-                    <Typography variant="caption"> multiple choice</Typography>
+                    <Typography
+                      variant="caption"
+                      className="presentation-thumb__caption"
+                    >
+                      multiple choice
+                    </Typography>
                   </>
                 );
               else if (slideTypeMapper(variant) === "heading")
                 return (
                   <>
                     <TitleIcon />
-                    <Typography variant="caption"> title heading</Typography>
+                    <Typography
+                      variant="caption"
+                      className="presentation-thumb__caption"
+                    >
+                      {" "}
+                      title heading
+                    </Typography>
                   </>
                 );
               else if (slideTypeMapper(variant) === "paragraph")
                 return (
                   <>
                     <FormatAlignLeftIcon />
-                    <Typography variant="caption"> paragraph</Typography>
+                    <Typography
+                      variant="caption"
+                      className="presentation-thumb__caption"
+                    >
+                      {" "}
+                      paragraph
+                    </Typography>
                   </>
                 );
             })()}

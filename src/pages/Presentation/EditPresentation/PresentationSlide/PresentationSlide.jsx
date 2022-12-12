@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 import PropTypes from "prop-types";
 import PresentationService from "services/presentationService";
@@ -51,7 +51,7 @@ const data2 = [
   },
   {
     name: "nhin doi",
-    vote: 2,
+    vote: 10,
   },
 ];
 
@@ -100,7 +100,11 @@ const PresentationSlide = () => {
   }, []);
   return (
     <StyledPaper sx={{ pb: "56.25%", position: "relative" }}>
-      code: {code}
+      <Box className="presentation-slide__code">
+        <Typography variant="caption" sx={{ textAlign: "center" }}>
+          code: {code}
+        </Typography>
+      </Box>
       <Box className="presentation-slide__content">{currentSlide.content}</Box>
     </StyledPaper>
   );
