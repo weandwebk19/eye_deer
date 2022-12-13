@@ -24,11 +24,13 @@ import { SearchField } from "components/TextField";
 
 import "../styles.scss";
 import AddPresentation from "./AddPresentation";
+import RemovePresentation from "./RemovePresentation";
 
 const PresentationList = ({ name, picture, contentChips }) => {
   const navigate = useNavigate();
   const params = useParams();
   const [presentationList, setPresentationList] = useState([]);
+  const [removePresentation, setRemovePresentation] = useState(false);
 
   const handleGroupNavigate = () => {
     navigate("/group");
@@ -38,33 +40,61 @@ const PresentationList = ({ name, picture, contentChips }) => {
     navigate("./members");
   };
 
-  const menulist = [
-    {
-      id: 1,
-      name: "presentation settings",
-      onClick: () => {
-        console.log("presentation settings");
+  const handleRemovePresentation = (isRemove) => {
+    setRemovePresentation(isRemove);
+  }
+
+  const createRemovePresentationButton = (props) => {
+    const removePresentationButton = 
+    <FormDialog
+      content="remove"
+      title="Remove Presentation"
+    >
+      <RemovePresentation {...props}/>
+    </FormDialog>
+    return removePresentationButton;
+  }
+    
+
+const createSettingPresentationButton = (props) => {
+  const settingPresentationButton = 
+  <FormDialog
+    content="setting presentation"
+    title="Setting Presentation"
+  >
+      set up later
+  </FormDialog>
+  return settingPresentationButton;
+}
+  const menulist = (props) => {
+    return [
+      {
+        id: 1,
+        children: createSettingPresentationButton(props),
+        onClick: () => {
+          console.log("presentation settings");
+        },
       },
-    },
-    {
-      id: 2,
-      name: "remove",
-      onClick: () => {
-        console.log("remove");
+      {
+        id: 2,
+        children: createRemovePresentationButton(props),
+        onClick: () => {},
       },
-    },
   ];
+}
 
   useEffect(()=>{
     // call api to get presentation list of this group
     (async ()=>{
       const groupId = params.id;
       const data = await GroupService.getPresentationList(groupId);
+      
       setPresentationList(data);
-
+      setRemovePresentation(false);
+      
       console.log(data);
     })()
-  }, []);
+  }, [removePresentation]);
 
   // data to ui test
   const mockupData = {
@@ -205,7 +235,7 @@ const PresentationList = ({ name, picture, contentChips }) => {
                 handleChange={() => {
                   console.log(`${card.i} handle change`);
                 }}
-                menulist={menulist}
+                menulist={menulist({presentationId: card.id, handleRemovePresentation})}
               />
             </Box>
           );
