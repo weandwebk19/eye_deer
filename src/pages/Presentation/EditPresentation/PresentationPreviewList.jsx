@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { Box, Button } from "@mui/material";
 
 import { clickSlide, resetState } from "redux/actions/presentation";
+import SlideService from "services/slideService";
 
 import { StyledButton } from "components/Button";
 import { FormDialog } from "components/Dialog";
@@ -33,18 +34,25 @@ const mockSlides = [
 ];
 
 const PresentationPreviewList = () => {
-  const { slideid } = useParams();
+  const { id, slideid } = useParams();
 
   const [activeIndex, setActiveIndex] = useState(Number(slideid));
 
   const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   if (window.performance) {
+  //     if (performance.navigation.type === 1) {
+  //       dispatch(resetState());
+  //     }
+  //   }
+  // }, []);
+
   useEffect(() => {
-    if (window.performance) {
-      if (performance.navigation.type === 1) {
-        dispatch(resetState());
-      }
-    }
+    (async () => {
+      const slideList = await SlideService.getSlidesByPresentationId(id);
+      console.log(slideList);
+    })();
   }, []);
 
   return (
@@ -67,7 +75,7 @@ const PresentationPreviewList = () => {
               key={slide.id}
               onClick={() => {
                 setActiveIndex(slide.id);
-                dispatch(clickSlide(slide.type));
+                // dispatch(clickSlide(slide.type));
               }}
             >
               <PresentationPreviewThumb variant={slide.type} index={slide.id} />

@@ -88,18 +88,29 @@ const slideList = [
 
 const PresentationCustomizer = () => {
   const { slideid } = useParams();
+  const [selectedStyle, setSelectedStyle] = useState(1);
   // const [slideStyle, setSlideStyle] = useState();
   const currentSlide = slideList.find((o) => o.slideid === Number(slideid));
+
+  useEffect(() => {
+    setSelectedStyle(currentSlide.type);
+  }, [slideid]);
+
+  const handleChangeStyleSelection = (e) => {
+    setSelectedStyle(e.target.value);
+  };
 
   return (
     <Box>
       <Typography>slide style.</Typography>
       <StyledSelectField
-        value={currentSlide.type}
-        key="type"
+        defaultValue={currentSlide.type}
+        value={selectedStyle}
+        key={`${currentSlide.slideid}-type`}
         labelId="type-select-input-label"
         id="type-select"
         label="slide style"
+        onChange={handleChangeStyleSelection}
       >
         <MenuItem value={1}>multiple choice</MenuItem>
         <MenuItem value={2}>heading</MenuItem>
