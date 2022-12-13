@@ -25,7 +25,7 @@ const getCodePresentation = async (presentationId) => {
   try {
     const res = await axios.get(`presentations/${presentationId}/code`);
 
-    return res.data.data;
+    return res.data;
   } catch (err) {
     if (err.response !== undefined) {
       return {

@@ -94,8 +94,14 @@ const PresentationSlide = () => {
 
   useEffect(() => {
     (async () => {
-      const code = await PresentationService.getCodePresentation(id);
-      setCode(code);
+      try {
+        const res = await PresentationService.getCodePresentation(id);
+        if (res.success === true) {
+          setCode(res.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
     })();
   }, []);
   return (

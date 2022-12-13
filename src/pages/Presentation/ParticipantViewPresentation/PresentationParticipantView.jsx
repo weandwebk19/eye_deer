@@ -1,9 +1,10 @@
-import * as React from "react";
-import { useParams } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { Box, Container } from "@mui/material";
+import { Box, Container, alertClasses } from "@mui/material";
 
 import Gradient4 from "assets/imgs/gradient-4.png";
+import { SocketContext } from "context/socket";
 import { DefaultLayout } from "layouts";
 
 import { StyledPaper } from "components/Paper";
@@ -93,20 +94,20 @@ const data2 = [
 
 const slideList = [
   {
-    slideid: 1,
+    id: 1,
     type: 1,
     question: "chart here",
     data: data1,
     content: <ChartSlide question="chart here" data={data1} />,
   },
   {
-    slideid: 2,
+    id: 2,
     type: 2,
     question: "heading here",
     content: <HeadingSlide question="heading here" />,
   },
   {
-    slideid: 3,
+    id: 3,
     type: 3,
     question: "paragraph here",
     paragraph: "lorem ipsum",
@@ -115,7 +116,7 @@ const slideList = [
     ),
   },
   {
-    slideid: 4,
+    id: 4,
     type: 1,
     question: "chart here",
     data: data2,
@@ -124,9 +125,20 @@ const slideList = [
 ];
 
 const PresenatationParticipantView = () => {
-  const { slideid } = useParams();
-  const currentSlide = slideList.find((o) => o.slideid === Number(slideid));
-
+  const params = useParams();
+  const presentationId = params.id;
+  const slideId = params.slideid;
+  const currentSlide = slideList.find((o) => o.id === Number(slideId));
+  const socket = useContext(SocketContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    socket.on("PARTICIPANT_MOVE_TO_SLIDE", (newSlideId) => {
+      navigate(`/presentation/${presentationId}/${newSlideId}/participating`);
+    });
+    socket.on("PARTICIPANT_END_PRESENT", () => {
+      alert("End presentation.");
+    });
+  }, []);
   return (
     <DefaultLayout>
       <Box className="presentation-participant-view__container">

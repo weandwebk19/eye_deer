@@ -27,6 +27,7 @@ import ZoomOutMapIcon from "@mui/icons-material/ZoomOutMap";
 
 import MyLogo1 from "assets/imgs/logo.svg";
 import { SocketContext } from "context/socket";
+import PropTypes from "prop-types";
 import PresentationService from "services/presentationService";
 
 import ChatBox from "components/ChatBox/ChatBox";
@@ -41,8 +42,10 @@ import { StyledHeadingTypography } from "components/Typography";
 //   { icon: <TimerOutlinedIcon />, name: "Start countdown" },
 // ];
 
-const PresentationPresenterMenu = () => {
-  const { slideid, id } = useParams();
+const PresentationPresenterMenu = ({ currentSlide, slideList }) => {
+  const params = useParams();
+  const slideId = params.slideid;
+  const presentationId = params.id;
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [votingReset, setVotingReset] = useState(false);
   const [isLock, setIsLock] = useState(false);
@@ -91,13 +94,47 @@ const PresentationPresenterMenu = () => {
 
   useEffect(() => {
     (async () => {
-      const code = await PresentationService.getCodePresentation(id);
-      setCode(code);
+      try {
+        const res = await PresentationService.getCodePresentation(
+          presentationId
+        );
+        if (res.success === true) {
+          setCode(res.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
     })();
   }, []);
 
   const handleToggleLock = () => {
     setIsLock(!isLock);
+  };
+
+  const handleNextSlide = (e) => {
+    const newIndex = slideList.indexOf(currentSlide) + 1;
+    if (newIndex >= 0 && newIndex < slideList.length) {
+      const newSlideId = slideList[newIndex].id;
+      socket.emit("HOST_MOVE_TO_SLIDE", {
+        code,
+        presentationId,
+        slideId: newSlideId,
+      });
+      navigate(`/presentation/${presentationId}/${newSlideId}/presenting`);
+    }
+  };
+
+  const handlePrevSlide = (e) => {
+    const newIndex = slideList.indexOf(currentSlide) - 1;
+    if (newIndex >= 0 && newIndex < slideList.length) {
+      const newSlideId = slideList[newIndex].id;
+      socket.emit("HOST_MOVE_TO_SLIDE", {
+        code,
+        presentationId,
+        slideId: newSlideId,
+      });
+      navigate(`/presentation/${presentationId}/${newSlideId}/presenting`);
+    }
   };
 
   return (
@@ -221,10 +258,10 @@ const PresentationPresenterMenu = () => {
                 flexItem
                 sx={{ borderColor: "#4d4d4d" }}
               />
-              <IconButton color="secondary">
+              <IconButton color="secondary" onClick={handlePrevSlide}>
                 <ArrowCircleLeftIcon />
               </IconButton>
-              <IconButton color="secondary">
+              <IconButton color="secondary" onClick={handleNextSlide}>
                 <ArrowCircleRightIcon />
               </IconButton>
             </Stack>
@@ -288,5 +325,8 @@ const PresentationPresenterMenu = () => {
     </>
   );
 };
-
+PresentationPresenterMenu.propTypes = {
+  currentSlide: PropTypes.object.isRequired,
+  slideList: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 export default PresentationPresenterMenu;
