@@ -4,7 +4,9 @@ import { useParams } from "react-router-dom";
 
 import { Box, Button } from "@mui/material";
 
+import PropTypes from "prop-types";
 import { clickSlide, resetState } from "redux/actions/presentation";
+import SlideService from "services/slideService";
 
 import { StyledButton } from "components/Button";
 import { FormDialog } from "components/Dialog";
@@ -13,39 +15,51 @@ import AddPresentationSlide from "../AddPresentationSlide";
 import "../styles.scss";
 import { PresentationPreviewThumb } from "./PresentationPreviewThumb";
 
-const mockSlides = [
-  {
-    id: 1,
-    type: 1,
-  },
-  {
-    id: 2,
-    type: 2,
-  },
-  {
-    id: 3,
-    type: 3,
-  },
-  {
-    id: 4,
-    type: 1,
-  },
-];
+// const mockSlides = [
+//   {
+//     id: 1,
+//     type: 1,
+//   },
+//   {
+//     id: 2,
+//     type: 2,
+//   },
+//   {
+//     id: 3,
+//     type: 3,
+//   },
+//   {
+//     id: 4,
+//     type: 1,
+//   },
+// ];
 
-const PresentationPreviewList = () => {
-  const { slideid } = useParams();
+const PresentationPreviewList = ({
+  slideList,
+  currentSlide,
+  handleChangeSlideList,
+  handleChangeCurrentSlide,
+}) => {
+  const { id, slideid } = useParams();
 
-  const [activeIndex, setActiveIndex] = useState(Number(slideid));
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (window.performance) {
-      if (performance.navigation.type === 1) {
-        dispatch(resetState());
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (window.performance) {
+  //     if (performance.navigation.type === 1) {
+  //       dispatch(resetState());
+  //     }
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const slideList = await SlideService.getSlidesByPresentationId(id);
+  //     console.log(slideList);
+  //   })();
+  // }, []);
 
   return (
     <>
@@ -58,25 +72,42 @@ const PresentationPreviewList = () => {
         </FormDialog>
       </Box>
       <ol>
-        {mockSlides.map((slide, i) => {
+        {slideList.map((slide, i) => {
           return (
             <Box
               className={`preview-box ${
-                activeIndex === slide.id && "preview-box--active"
+                activeIndex === slide.index && "preview-box--active"
               }`}
               key={slide.id}
               onClick={() => {
-                setActiveIndex(slide.id);
-                dispatch(clickSlide(slide.type));
+                setActiveIndex(slide.index);
+                // dispatch(clickSlide(slide.type));
               }}
             >
-              <PresentationPreviewThumb variant={slide.type} index={slide.id} />
+              <PresentationPreviewThumb
+                variant={slide.type}
+                index={slide.index}
+              />
             </Box>
           );
         })}
       </ol>
     </>
   );
+};
+
+PresentationPreviewList.propTypes = {
+  slideList: PropTypes.arrayOf(PropTypes.object),
+  currentSlide: PropTypes.object,
+  handleChangeSlideList: PropTypes.func,
+  handleChangeCurrentSlide: PropTypes.func,
+};
+
+PresentationPreviewList.defaultProps = {
+  slideList: [],
+  currentSlide: null,
+  handleChangeSlideList: () => {},
+  handleChangeCurrentSlide: () => {},
 };
 
 export default PresentationPreviewList;
