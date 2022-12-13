@@ -315,6 +315,33 @@ const kickOutMember = async (groupId, userId) => {
   }
 };
 
+
+const getPresentationList = async (groupId) => {
+  try {
+    const res = await axios({
+      method: "get",
+      url: `/groups/${groupId}/presentations`,
+      headers: {
+        "Content-Type": "application/json",
+        // "x-access-token": `Bearer ${accessToken}`,
+      },
+    });
+
+    return res.data.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
 const GroupService = {
   getOwnedGroups,
   getGroupById,
@@ -329,6 +356,7 @@ const GroupService = {
   terminateCoOwner,
   assignCoOwner,
   kickOutMember,
+  getPresentationList,
 };
 
 export default GroupService;

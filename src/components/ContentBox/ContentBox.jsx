@@ -58,7 +58,7 @@ const ContentBox = ({
                             <Typography
                               key={key}
                               mr={1}
-                            >{`${contentChips[key]} ${key}`}</Typography>
+                            >{`${key}: ${contentChips[key]}`}</Typography>
                           );
                         })}
                       </Box>
@@ -102,7 +102,7 @@ const ContentBox = ({
                               className="box-zoom-out__content-chips"
                               key={key}
                               mr={1}
-                            >{`${contentChips[key]} ${key}`}</Typography>
+                            >{`${key}: ${contentChips[key]} `}</Typography>
                           );
                         })}
                       </Box>
