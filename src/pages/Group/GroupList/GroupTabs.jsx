@@ -14,14 +14,14 @@ const GroupTabs = () => {
   const menulist = [
     {
       id: 1,
-      name: "group settings",
+      children: "group settings",
       onClick: () => {
         console.log("group settings");
       },
     },
     {
       id: 2,
-      name: "remove",
+      children: "remove",
       onClick: () => {
         console.log("remove");
       },
