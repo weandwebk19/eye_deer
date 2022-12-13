@@ -10,7 +10,7 @@ const StyledHeadingTypography = styled(Typography)(
     `
     font-family: 'Ibarra Real Nova', serif !important;
     font-weight: bold !important;
-    color: ${theme.palette.secondary.contrastText}
+    // color: ${theme.palette.secondary.contrastText};
 `
 );
 
@@ -20,7 +20,7 @@ const StyledMediumHeadingTypography = styled(Typography)(
     font-family: 'IM Fell English', serif !important;
     font-size: 4rem !important;
     line-height: 3rem !important;
-    color: ${theme.palette.secondary.contrastText}
+    // color: ${theme.palette.secondary.contrastText};
 
 `
 );
@@ -30,7 +30,7 @@ const StyledBigHeadingTypography = styled(Typography)(
   font-family: 'IM Fell English', serif !important;
   font-size: 5rem !important;
   // line-height: 5rem !important;
-  color: ${theme.palette.secondary.contrastText}
+  // color: ${theme.palette.secondary.contrastText};
 
 `
 );

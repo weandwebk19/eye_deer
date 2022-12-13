@@ -51,6 +51,15 @@ const StyledCard = styled(MuiCard)(({ theme, variant = "default" }) => ({
     color: `${theme.palette.primary.main}`,
     border: `1px solid ${theme.palette.primary.dark}`,
   }),
+
+  ...(variant === "double-border" && {
+    width: "100%",
+    height: "120px",
+    // padding: "16px",
+    background: `${theme.palette.secondary.light}`,
+    color: `${theme.palette.primary.main}`,
+    border: `3px double ${theme.palette.primary.dark}`,
+  }),
 }));
 
 const SimpleCard = ({ name, className, handleClick }) => {
@@ -130,6 +139,29 @@ const CarpetCard = ({ name, picture, contentChips }) => {
   );
 };
 
+const OptionCard = ({ name, picture, handleClick }) => {
+  return (
+    <StyledCard variant="double-border">
+      <StyledCardActionArea onClick={handleClick}>
+        <CardContent
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            height: "100% !important",
+            alignContent: "space-between",
+            backgroundImage: { picture },
+          }}
+        >
+          <Typography variant="h6">
+            {name}Lorem Ipsum is simply dummy text of the printing and
+            typesetting industry
+          </Typography>
+        </CardContent>
+      </StyledCardActionArea>
+    </StyledCard>
+  );
+};
+
 SimpleCard.propTypes = {
   name: PropTypes.string.isRequired,
   className: PropTypes.string,
@@ -152,4 +184,15 @@ CarpetCard.defaultProps = {
   contentChips: null,
 };
 
-export { StyledCard, StyledCardActionArea, SimpleCard, CarpetCard };
+OptionCard.propTypes = {
+  name: PropTypes.string.isRequired,
+  picture: PropTypes.string,
+  handleClick: PropTypes.func,
+};
+
+OptionCard.defaultProps = {
+  picture: "",
+  handleClick: () => {},
+};
+
+export { StyledCard, StyledCardActionArea, SimpleCard, CarpetCard, OptionCard };

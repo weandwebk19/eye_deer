@@ -1,14 +1,54 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 
+import Star1 from "assets/imgs/star-1.svg";
 import PropTypes from "prop-types";
 
 import { StyledHeadingTypography } from "components/Typography";
 
 const ParagraphSlide = ({ question, paragraph }) => {
   return (
-    <Box>
-      <StyledHeadingTypography>{question}</StyledHeadingTypography>
-      <Typography>{paragraph}</Typography>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Stack
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Box
+            component="img"
+            alt="star"
+            src={Star1}
+            sx={{ width: "42px", height: "100%", justifyContent: "center" }}
+            draggable={false}
+          />
+          <StyledHeadingTypography
+            sx={{ fontSize: "3rem !important" }}
+            gutterBottom
+          >
+            {question}
+          </StyledHeadingTypography>
+        </Box>
+
+        <Typography sx={{ fontSize: "1rem !important" }}>
+          {paragraph}
+        </Typography>
+      </Stack>
     </Box>
   );
 };

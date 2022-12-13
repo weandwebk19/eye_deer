@@ -1,8 +1,10 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 import PropTypes from "prop-types";
+import PresentationService from "services/presentationService";
 
 import { StyledPaper } from "components/Paper";
 
@@ -40,16 +42,16 @@ const data1 = [
 
 const data2 = [
   {
-    name: "option 1",
+    name: "mi xao",
     vote: 15,
   },
   {
-    name: "option 2",
+    name: "com ga xoi mo",
     vote: 25,
   },
   {
-    name: "option 3",
-    vote: 2,
+    name: "nhin doi",
+    vote: 10,
   },
 ];
 
@@ -58,6 +60,7 @@ const slideList = [
     slideid: 1,
     type: 1,
     question: "chart here",
+    data: data1,
     content: <ChartSlide question="chart here" data={data1} />,
   },
   {
@@ -79,23 +82,36 @@ const slideList = [
     slideid: 4,
     type: 1,
     question: "chart here",
+    data: data2,
     content: <ChartSlide question="chart here" data={data2} />,
   },
 ];
 
 const PresentationSlide = () => {
-  const { slideid } = useParams();
-  const obj = slideList.find((o) => o.slideid === Number(slideid));
+  const { slideid, id } = useParams();
+  const currentSlide = slideList.find((o) => o.slideid === Number(slideid));
+  const [code, setCode] = useState();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await PresentationService.getCodePresentation(id);
+        if (res.success === true) {
+          setCode(res.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
   return (
     <StyledPaper sx={{ pb: "56.25%", position: "relative" }}>
-      <Box className="presentation-slide__content">
-        {obj.content}
-        {/* <ChartSlide
-          data={data}
-          question={`I would never fall in love again until I found her.
-          I said, “I would never fall unless it’s you I fall into”`}
-        /> */}
+      <Box className="presentation-slide__code">
+        <Typography variant="caption" sx={{ textAlign: "center" }}>
+          code: {code}
+        </Typography>
       </Box>
+      <Box className="presentation-slide__content">{currentSlide.content}</Box>
     </StyledPaper>
   );
 };
