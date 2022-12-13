@@ -21,8 +21,23 @@ const createNewSlide = async (slide) => {
   }
 };
 
+const getSlidesByPresentationId = async (presentationId) => {
+  const res = await axios
+    .get(`slides/${presentationId}/slideList`)
+    .catch((error) => {
+      console.log(error);
+      return error;
+    });
+  if (res.status === 200) {
+    return res.data;
+  }
+
+  return [];
+};
+
 const SlideService = {
   createNewSlide,
+  getSlidesByPresentationId,
 };
 
 export default SlideService;

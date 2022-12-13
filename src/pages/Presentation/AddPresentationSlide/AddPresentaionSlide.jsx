@@ -8,11 +8,12 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Box } from "@mui/system";
 
+import { Box } from "@mui/system";
 import pictureDefault from "assets/imgs/pictureDefault.png";
 import { clickSlide } from "redux/actions/presentation";
 import GroupService from "services/groupService";
+import SlideService from "services/slideService";
 
 import { StyledButton } from "components/Button/StyledButton";
 import { SimpleCard } from "components/Card";
@@ -34,78 +35,29 @@ const AddPresentationSlide = () => {
     formState: { errors },
   } = useForm();
 
-  /// /form
-  const [isError, setIsError] = useState("");
-  const [messageFromServer, setMessageFromServer] = useState("");
-
-  const [selectedFile, setSelectedFile] = useState();
-  const [preview, setPreview] = useState();
-
-  // create a preview as a side effect, whenever selected file is changed
-  useEffect(() => {
-    if (!selectedFile) {
-      setPreview(undefined);
-      return;
-    }
-
-    const objectUrl = URL.createObjectURL(selectedFile);
-    setPreview(objectUrl);
-
-    // free memory when ever this component is unmounted
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [selectedFile]);
-
-  const onSelectFile = (e) => {
-    if (!e.target.files || e.target.files.length === 0) {
-      setSelectedFile(undefined);
-      return;
-    }
-
-    // I've kept this example simple by using the first image instead of multiple
-    setSelectedFile(e.target.files[0]);
-  };
-
-  const onSubmit = async (groupInfo) => {
-    if (selectedFile) {
-      groupInfo.picture = selectedFile;
-    } else {
-      groupInfo.picture = null;
-    }
-
-    // call api
-    const res = await GroupService.createGroup(groupInfo);
-
-    // handle res
-    if (res.success === true) {
-      setMessageFromServer(res.message);
-      setIsError(false);
-
-      navigate(`/group/${res.groupId}`, {
-        state: { groupId: res.groupId },
-      });
-    } else {
-      setMessageFromServer(res.message);
-      setIsError(true);
-    }
+  const onSubmit = async () => {
+    const slideInfo = { slideName: "", presentationId: 1 };
+    const res = await SlideService.createNewSlide(slideInfo);
+    console.log(res);
   };
 
   return (
     <StyledPaper>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={onSubmit}>
         <DialogContent sx={{ p: 1 }}>
           <Typography>question types.</Typography>
           <Grid container spacing={2} columns={{ xs: 2, sm: 3, md: 9, lg: 9 }}>
             <Grid item xs={1} sm={3} md={3} lg={3}>
-              <SimpleCard name="multiple choice" />
+              <SimpleCard name="multiple choice" handleClick={onSubmit} />
             </Grid>
           </Grid>
           <Typography>contain slides.</Typography>
           <Grid container spacing={2} columns={{ xs: 2, sm: 3, md: 9, lg: 9 }}>
             <Grid item xs={1} sm={3} md={3} lg={3}>
-              <SimpleCard name="heading" />
+              <SimpleCard name="heading" handleClick={onSubmit} />
             </Grid>
             <Grid item xs={1} sm={3} md={3} lg={3}>
-              <SimpleCard name="paragraph" />
+              <SimpleCard name="paragraph" handleClick={onSubmit} />
             </Grid>
           </Grid>
         </DialogContent>

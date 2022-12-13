@@ -104,6 +104,7 @@ const PresentationSlide = () => {
       }
     })();
   }, []);
+
   return (
     <StyledPaper sx={{ pb: "56.25%", position: "relative" }}>
       <Box className="presentation-slide__code">
