@@ -22,17 +22,23 @@ const createNewSlide = async (slide) => {
 };
 
 const getSlidesByPresentationId = async (presentationId) => {
-  const res = await axios
-    .get(`slides/${presentationId}/slideList`)
-    .catch((error) => {
-      console.log(error);
-      return error;
-    });
-  if (res.status === 200) {
-    return res.data;
-  }
+  try {
+    const res = await axios.get(`presentations/${presentationId}/slides`);
 
-  return [];
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
 };
 
 const SlideService = {

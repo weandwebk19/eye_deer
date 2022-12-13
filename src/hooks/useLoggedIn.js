@@ -8,11 +8,13 @@ export const useLoggedIn = () => {
   const res = useQuery(
     ["auth"],
     async () => {
-      const res = await AuthService.isLoggedIn().catch((err) => {
+      try {
+        const res = await AuthService.isLoggedIn();
+        return res;
+      } catch (err) {
+        console.error(err);
         return false;
-      });
-      if (res) return true;
-      else return false;
+      }
     },
     {
       cacheTime: Infinity,
