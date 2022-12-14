@@ -35,7 +35,7 @@ const ChartSlide = ({ question, data }) => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
+          <XAxis dataKey="content" />
           <YAxis />
           <Tooltip />
           <Bar dataKey="vote" fill="#297373" />

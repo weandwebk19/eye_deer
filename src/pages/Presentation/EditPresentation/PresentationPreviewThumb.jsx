@@ -88,7 +88,7 @@ const PresentationPreviewThumb = ({ variant, index }) => {
                       variant="caption"
                       className="presentation-thumb__caption"
                     >
-                      multiple choice
+                      {variant}
                     </Typography>
                   </>
                 );
@@ -101,7 +101,7 @@ const PresentationPreviewThumb = ({ variant, index }) => {
                       className="presentation-thumb__caption"
                     >
                       {" "}
-                      title heading
+                      {variant}
                     </Typography>
                   </>
                 );
@@ -114,7 +114,7 @@ const PresentationPreviewThumb = ({ variant, index }) => {
                       className="presentation-thumb__caption"
                     >
                       {" "}
-                      paragraph
+                      {variant}
                     </Typography>
                   </>
                 );
