@@ -15,25 +15,6 @@ import AddPresentationSlide from "../AddPresentationSlide";
 import "../styles.scss";
 import { PresentationPreviewThumb } from "./PresentationPreviewThumb";
 
-// const mockSlides = [
-//   {
-//     id: 1,
-//     type: 1,
-//   },
-//   {
-//     id: 2,
-//     type: 2,
-//   },
-//   {
-//     id: 3,
-//     type: 3,
-//   },
-//   {
-//     id: 4,
-//     type: 1,
-//   },
-// ];
-
 const PresentationPreviewList = ({
   slideList,
   currentSlide,
@@ -43,23 +24,6 @@ const PresentationPreviewList = ({
   const { id, slideid } = useParams();
 
   const [activeIndex, setActiveIndex] = useState(0);
-
-  const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   if (window.performance) {
-  //     if (performance.navigation.type === 1) {
-  //       dispatch(resetState());
-  //     }
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const slideList = await SlideService.getSlidesByPresentationId(id);
-  //     console.log(slideList);
-  //   })();
-  // }, []);
 
   return (
     <>

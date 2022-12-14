@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import { Box } from "@mui/system";
 import PropTypes from "prop-types";
 import {
@@ -13,15 +15,31 @@ import {
 import { StyledHeadingTypography } from "components/Typography";
 
 const ChartSlide = ({ question, data }) => {
-  return (
-    <Box sx={{ width: "100%", height: "100%" }}>
-      <StyledHeadingTypography
-        variant="h3"
-        sx={{ textAlign: "center" }}
-        gutterBottom
+  // console.log(data);
+  const [chart, setChart] = useState(
+    <ResponsiveContainer width="100%" height="100%">
+      <BarChart
+        width={300}
+        height={300}
+        data={data}
+        margin={{
+          top: 5,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
       >
-        {question}
-      </StyledHeadingTypography>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="content" />
+        <YAxis />
+        <Tooltip />
+        <Bar dataKey="vote" fill="#297373" />
+      </BarChart>
+    </ResponsiveContainer>
+  );
+
+  useEffect(() => {
+    setChart(
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           width={300}
@@ -35,12 +53,25 @@ const ChartSlide = ({ question, data }) => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
+          <XAxis dataKey="content" />
           <YAxis />
           <Tooltip />
           <Bar dataKey="vote" fill="#297373" />
         </BarChart>
       </ResponsiveContainer>
+    );
+  }, [data]);
+
+  return (
+    <Box sx={{ width: "100%", height: "100%" }}>
+      <StyledHeadingTypography
+        variant="h3"
+        sx={{ textAlign: "center" }}
+        gutterBottom
+      >
+        {question}
+      </StyledHeadingTypography>
+      {chart}
     </Box>
   );
 };

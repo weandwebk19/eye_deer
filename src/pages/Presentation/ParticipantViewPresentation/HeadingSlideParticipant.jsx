@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import { StyledHeadingTypography } from "components/Typography";
 
-const HeadingSlide = ({ question, subHeading }) => {
+const HeadingSlideParticipant = ({ question, subHeading }) => {
   return (
     <Box
       sx={{
@@ -41,13 +41,13 @@ const HeadingSlide = ({ question, subHeading }) => {
   );
 };
 
-HeadingSlide.propTypes = {
+HeadingSlideParticipant.propTypes = {
   question: PropTypes.string,
   subHeading: PropTypes.string,
 };
 
-HeadingSlide.defaultProps = {
+HeadingSlideParticipant.defaultProps = {
   question: "",
   subHeading: "",
 };
-export default HeadingSlide;
+export default HeadingSlideParticipant;

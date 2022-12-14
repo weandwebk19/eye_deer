@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 
 import { Box, Typography } from "@mui/material";
 
@@ -87,12 +87,13 @@ import ParagraphSlide from "./ParagraphSlide";
 //   },
 // ];
 
-const PresentationSlide = ({
-  slideList,
-  currentSlide,
-  handleChangeSlideList,
-  handleChangeCurrentSlide,
-}) => {
+const PresentationSlide = () => {
+  const {
+    slideList,
+    currentSlide,
+    handleChangeSlideList,
+    handleChangeCurrentSlide,
+  } = useOutletContext();
   const { slideid, id } = useParams();
   // const currentSlide = slideList.find((o) => o.slideid === Number(slideid));
   const [code, setCode] = useState();
@@ -117,23 +118,48 @@ const PresentationSlide = ({
           code: {code}
         </Typography>
       </Box>
-      {/* <Box className="presentation-slide__content">{currentSlide.content}</Box> */}
+      <Box className="presentation-slide__content">
+        {(() => {
+          if (currentSlide?.typeId === 1) {
+            return (
+              <ChartSlide
+                question={currentSlide?.content.question}
+                data={currentSlide?.content.options}
+              />
+            );
+          } else if (currentSlide?.typeId === 2) {
+            return (
+              <HeadingSlide
+                question={currentSlide?.content.heading}
+                subHeading={currentSlide?.content.subHeading}
+              />
+            );
+          } else {
+            return (
+              <ParagraphSlide
+                question={currentSlide?.content.heading}
+                paragraph={currentSlide?.content.paragraph}
+              />
+            );
+          }
+        })()}
+      </Box>
     </StyledPaper>
   );
 };
 
-PresentationSlide.propTypes = {
-  slideList: PropTypes.arrayOf(PropTypes.object),
-  currentSlide: PropTypes.object,
-  handleChangeSlideList: PropTypes.func,
-  handleChangeCurrentSlide: PropTypes.func,
-};
+// PresentationSlide.propTypes = {
+//   slideList: PropTypes.arrayOf(PropTypes.object),
+//   currentSlide: PropTypes.object,
+//   handleChangeSlideList: PropTypes.func,
+//   handleChangeCurrentSlide: PropTypes.func,
+// };
 
-PresentationSlide.defaultProps = {
-  slideList: [],
-  currentSlide: null,
-  handleChangeSlideList: () => {},
-  handleChangeCurrentSlide: () => {},
-};
+// PresentationSlide.defaultProps = {
+//   slideList: [],
+//   currentSlide: null,
+//   handleChangeSlideList: () => {},
+//   handleChangeCurrentSlide: () => {},
+// };
 
 export default PresentationSlide;
