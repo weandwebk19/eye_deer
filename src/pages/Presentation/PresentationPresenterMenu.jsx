@@ -42,10 +42,16 @@ import { StyledHeadingTypography } from "components/Typography";
 //   { icon: <TimerOutlinedIcon />, name: "Start countdown" },
 // ];
 
-const PresentationPresenterMenu = ({ currentSlide, slideList }) => {
+const PresentationPresenterMenu = ({
+  slideList,
+  currentSlide,
+  setSlideList,
+  setCurrentSlide,
+}) => {
   const params = useParams();
   const slideId = params.slideid;
   const presentationId = params.id;
+  // const currentSlide = slideList.find((slide) => slide.id === Number(slideId));
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [votingReset, setVotingReset] = useState(false);
   const [isLock, setIsLock] = useState(false);
@@ -114,26 +120,28 @@ const PresentationPresenterMenu = ({ currentSlide, slideList }) => {
   const handleNextSlide = (e) => {
     const newIndex = slideList.indexOf(currentSlide) + 1;
     if (newIndex >= 0 && newIndex < slideList.length) {
-      const newSlideId = slideList[newIndex].id;
+      const newSlide = slideList[newIndex];
       socket.emit("HOST_MOVE_TO_SLIDE", {
         code,
         presentationId,
-        slideId: newSlideId,
+        slideId: newSlide.id,
       });
-      navigate(`/presentation/${presentationId}/${newSlideId}/presenting`);
+      setCurrentSlide(newSlide);
+      navigate(`/presentation/${presentationId}/${newSlide.id}/presenting`);
     }
   };
 
   const handlePrevSlide = (e) => {
     const newIndex = slideList.indexOf(currentSlide) - 1;
     if (newIndex >= 0 && newIndex < slideList.length) {
-      const newSlideId = slideList[newIndex].id;
+      const newSlide = slideList[newIndex];
       socket.emit("HOST_MOVE_TO_SLIDE", {
         code,
         presentationId,
-        slideId: newSlideId,
+        slideId: newSlide.id,
       });
-      navigate(`/presentation/${presentationId}/${newSlideId}/presenting`);
+      setCurrentSlide(newSlide);
+      navigate(`/presentation/${presentationId}/${newSlide.id}/presenting`);
     }
   };
 
@@ -328,5 +336,12 @@ const PresentationPresenterMenu = ({ currentSlide, slideList }) => {
 PresentationPresenterMenu.propTypes = {
   currentSlide: PropTypes.object.isRequired,
   slideList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setSlideList: PropTypes.func,
+  setCurrentSlide: PropTypes.func,
+};
+
+PresentationPresenterMenu.defaultProps = {
+  setSlideList: () => {},
+  setCurrentSlide: () => {},
 };
 export default PresentationPresenterMenu;

@@ -1,152 +1,97 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Box, Container, alertClasses } from "@mui/material";
+import { Box } from "@mui/material";
 
 import Gradient4 from "assets/imgs/gradient-4.png";
 import { SocketContext } from "context/socket";
 import { DefaultLayout } from "layouts";
+import PresentationService from "services/presentationService";
+import SlideService from "services/slideService";
 
-import { StyledPaper } from "components/Paper";
-
-import ChartSlide from "../EditPresentation/PresentationSlide/ChartSlide";
-import HeadingSlide from "../EditPresentation/PresentationSlide/HeadingSlide";
-import ParagraphSlide from "../EditPresentation/PresentationSlide/ParagraphSlide";
+import HeadingSlideParticipant from "./HeadingSlideParticipant";
+import ParagraphSlideParticipant from "./ParagraphSlideParticipant";
 import VotingSlideParticipantView from "./VotingSlideParticipantView";
-
-const data = [
-  {
-    name: "option 1",
-    vote: 15,
-  },
-  {
-    name: "option 2",
-    vote: 25,
-  },
-  {
-    name: "option 3",
-    vote: 2,
-  },
-  {
-    name: "option 4",
-    vote: 10,
-  },
-  {
-    name: "option 5",
-    vote: 11,
-  },
-  {
-    name: "option 6",
-    vote: 32,
-  },
-];
-
-const data1 = [
-  {
-    id: 1,
-    name: "option 1",
-    vote: 15,
-  },
-  {
-    id: 2,
-    name: "option 2",
-    vote: 25,
-  },
-  {
-    id: 3,
-    name: "option 3",
-    vote: 2,
-  },
-  {
-    id: 3,
-    name: "option 4",
-    vote: 10,
-  },
-  {
-    id: 4,
-    name: "option 5",
-    vote: 11,
-  },
-  {
-    id: 5,
-    name: "option 6",
-    vote: 32,
-  },
-];
-
-const data2 = [
-  {
-    id: 1,
-    name: "mi xao",
-    vote: 15,
-  },
-  {
-    id: 2,
-    name: "com ga xoi mo",
-    vote: 25,
-  },
-  {
-    id: 3,
-    name: "nhin doi",
-    vote: 2,
-  },
-];
-
-const slideList = [
-  {
-    id: 1,
-    type: 1,
-    question: "chart here",
-    data: data1,
-    content: <ChartSlide question="chart here" data={data1} />,
-  },
-  {
-    id: 2,
-    type: 2,
-    question: "heading here",
-    content: <HeadingSlide question="heading here" />,
-  },
-  {
-    id: 3,
-    type: 3,
-    question: "paragraph here",
-    paragraph: "lorem ipsum",
-    content: (
-      <ParagraphSlide question="paragraph here" paragraph="lorem ipsum" />
-    ),
-  },
-  {
-    id: 4,
-    type: 1,
-    question: "chart here",
-    data: data2,
-    content: <ChartSlide question="chart here" data={data2} />,
-  },
-];
 
 const PresenatationParticipantView = () => {
   const params = useParams();
   const presentationId = params.id;
   const slideId = params.slideid;
-  const currentSlide = slideList.find((o) => o.id === Number(slideId));
+  // const currentSlide = slideList.find((o) => o.id === Number(slideId));
+  const [slideList, setSlideList] = useState([]);
+  const [currentSlide, setCurrentSlide] = useState();
+  const [code, setCode] = useState();
   const socket = useContext(SocketContext);
   const navigate = useNavigate();
+
   useEffect(() => {
+    (async () => {
+      try {
+        const slideRes = await SlideService.getSlidesByPresentationId(
+          presentationId
+        );
+
+        if (slideRes.success === true) {
+          setSlideList(slideRes.data);
+        }
+
+        const codeRes = await PresentationService.getCodePresentation(
+          presentationId
+        );
+        if (codeRes.success === true) {
+          setCode(codeRes.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    const newSlide = slideList.find((slide) => slide.id === Number(slideId));
+    setCurrentSlide(newSlide);
+
     socket.on("PARTICIPANT_MOVE_TO_SLIDE", (newSlideId) => {
+      const newSlide = slideList.find(
+        (slide) => slide.id === Number(newSlideId)
+      );
+      setCurrentSlide(newSlide);
       navigate(`/presentation/${presentationId}/${newSlideId}/participating`);
     });
     socket.on("PARTICIPANT_END_PRESENT", () => {
-      alert("End presentation.");
+      // alert("End presentation.");
     });
-  }, []);
+  }, [slideList]);
+
   return (
     <DefaultLayout>
       <Box className="presentation-participant-view__container">
         <Box className="presentation-participant-view__content">
-          <VotingSlideParticipantView
-            question={currentSlide.question}
-            data={currentSlide.data}
-          />
+          {(() => {
+            if (currentSlide?.typeId === 1) {
+              return (
+                <VotingSlideParticipantView
+                  question={currentSlide?.content.question}
+                  data={currentSlide?.content.options}
+                  code={code}
+                />
+              );
+            } else if (currentSlide?.typeId === 2) {
+              return (
+                <HeadingSlideParticipant
+                  question={currentSlide?.content.heading}
+                  subHeading={currentSlide?.content.subHeading}
+                />
+              );
+            } else {
+              return (
+                <ParagraphSlideParticipant
+                  question={currentSlide?.content.heading}
+                  paragraph={currentSlide?.content.paragraph}
+                />
+              );
+            }
+          })()}
         </Box>
         <img src={Gradient4} alt="deco gradient" className="deco-img-4" />
       </Box>

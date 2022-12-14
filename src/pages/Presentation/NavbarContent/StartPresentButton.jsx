@@ -25,9 +25,9 @@ const StartPresentButton = () => {
         socket.emit("HOST_START_PRESENT", {
           code: res.data,
           presentationId,
-          slideId,
+          slideId: 1,
         });
-        navigate("presenting");
+        navigate("../1/presenting");
       }
     } catch (err) {
       console.log(err);
