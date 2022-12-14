@@ -1,6 +1,9 @@
-import SearchIcon from "@mui/icons-material/Search";
 import { InputBase } from "@mui/material";
+
+import SearchIcon from "@mui/icons-material/Search";
+
 import { alpha, styled } from "@mui/system";
+import PropTypes from "prop-types";
 
 const StyledSearch = styled("div")(({ theme }) => ({
   position: "relative",
@@ -46,7 +49,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const SearchField = () => {
+const SearchField = ({ handleChange }) => {
   return (
     <StyledSearch sx={{ mr: 2 }} className="search-field">
       <StyledSearchIconWrapper>
@@ -55,9 +58,18 @@ const SearchField = () => {
       <StyledInputBase
         placeholder="search..."
         inputProps={{ "aria-label": "search" }}
+        onChange={handleChange}
       />
     </StyledSearch>
   );
+};
+
+SearchField.propTypes = {
+  handleChange: PropTypes.func,
+};
+
+SearchField.defaultProps = {
+  handleChange: () => {},
 };
 
 export { SearchField };

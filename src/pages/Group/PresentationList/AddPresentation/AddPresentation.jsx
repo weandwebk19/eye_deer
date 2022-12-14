@@ -37,8 +37,10 @@ const AddPresentation = () => {
         setMessageFromServer(res.message);
         setIsError(false);
         const newSlideRes = await SlideService.createNewSlide({
-          slideName: "Slide 1",
+          slideName: `Slide 1`,
           presentationId: res.data?.id,
+          index: 1,
+          typeId: 1,
         });
 
         if (newSlideRes.success === true) {

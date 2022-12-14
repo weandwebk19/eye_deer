@@ -15,51 +15,26 @@ import AddPresentationSlide from "../AddPresentationSlide";
 import "../styles.scss";
 import { PresentationPreviewThumb } from "./PresentationPreviewThumb";
 
-// const mockSlides = [
-//   {
-//     id: 1,
-//     type: 1,
-//   },
-//   {
-//     id: 2,
-//     type: 2,
-//   },
-//   {
-//     id: 3,
-//     type: 3,
-//   },
-//   {
-//     id: 4,
-//     type: 1,
-//   },
-// ];
-
 const PresentationPreviewList = ({
   slideList,
   currentSlide,
   handleChangeSlideList,
   handleChangeCurrentSlide,
 }) => {
+  const params = useParams();
+  const presentationId = params.id;
+
   const { id, slideid } = useParams();
 
   const [activeIndex, setActiveIndex] = useState(0);
+  useEffect(() => {});
 
-  const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   if (window.performance) {
-  //     if (performance.navigation.type === 1) {
-  //       dispatch(resetState());
-  //     }
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const slideList = await SlideService.getSlidesByPresentationId(id);
-  //     console.log(slideList);
-  //   })();
-  // }, []);
+  const handleDeleteSlide = (slide) => {
+    // console.log("successfully deleting", slideId);
+    const index = slideList.indexOf(slide);
+    slideList.splice(index, 1);
+    handleChangeSlideList(slideList);
+  };
 
   return (
     <>
@@ -68,7 +43,10 @@ const PresentationPreviewList = ({
         sx={{ position: "sticky", top: 0, zIndex: 1, mb: 2 }}
       >
         <FormDialog content="+ new slide" title="Add slide" variant="primary">
-          <AddPresentationSlide />
+          <AddPresentationSlide
+            slideList={slideList}
+            handleChangeSlideList={handleChangeSlideList}
+          />
         </FormDialog>
       </Box>
       <ol>
@@ -76,17 +54,17 @@ const PresentationPreviewList = ({
           return (
             <Box
               className={`preview-box ${
-                activeIndex === slide.index && "preview-box--active"
+                activeIndex === slide?.index && "preview-box--active"
               }`}
-              key={slide.id}
+              key={slide?.slideId}
               onClick={() => {
-                setActiveIndex(slide.index);
+                setActiveIndex(slide?.index);
                 // dispatch(clickSlide(slide.type));
               }}
             >
               <PresentationPreviewThumb
-                variant={slide.type}
-                index={slide.index}
+                slide={slide}
+                handleDeleteSlide={handleDeleteSlide}
               />
             </Box>
           );

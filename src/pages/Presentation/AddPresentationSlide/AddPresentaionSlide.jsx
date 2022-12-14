@@ -1,74 +1,89 @@
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { Grid, Stack, Switch, Typography } from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
+import { Grid, Typography } from "@mui/material";
 import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
 
-import { Box } from "@mui/system";
-import pictureDefault from "assets/imgs/pictureDefault.png";
-import { clickSlide } from "redux/actions/presentation";
-import GroupService from "services/groupService";
+import PropTypes from "prop-types";
 import SlideService from "services/slideService";
 
-import { StyledButton } from "components/Button/StyledButton";
-import { SimpleCard } from "components/Card";
+import { OptionCard } from "components/Card";
 import { StyledPaper } from "components/Paper";
-import { InstantMessage } from "components/Popup";
-import { StyledInputField } from "components/TextField";
 
-const AddPresentationSlide = () => {
-  //
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const currentUser = useSelector((state) => state.auth.user);
+const AddPresentationSlide = ({ slideList, handleChangeSlideList }) => {
+  const [currentSlideList, setCurrentSlideList] = useState(slideList);
+  const params = useParams();
+  const presentationId = params.id;
 
-  //
-  const [open, setOpen] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const onSubmit = async () => {
-    const slideInfo = { slideName: "", presentationId: 1 };
+  const handleCreateNewSlide = async (typeId) => {
+    const nextIndex = slideList.length + 1;
+    const slideInfo = {
+      slideName: "",
+      presentationId,
+      index: nextIndex,
+      typeId,
+    };
     const res = await SlideService.createNewSlide(slideInfo);
-    console.log(res);
+
+    if (res.success) {
+      console.log(1);
+      slideList.push(res.data);
+      handleChangeSlideList(slideList);
+    }
   };
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const slideList = await SlideService.getSlidesByPresentationId(
+  //       presentationId
+  //     );
+  //     setCurrentSlideList(slideList);
+  //     console.log(1);
+  //   })();
+  // }, []);
 
   return (
     <StyledPaper>
-      <form onSubmit={onSubmit}>
+      <form>
         <DialogContent sx={{ p: 1 }}>
           <Typography>question types.</Typography>
           <Grid container spacing={2} columns={{ xs: 2, sm: 3, md: 9, lg: 9 }}>
             <Grid item xs={1} sm={3} md={3} lg={3}>
-              <SimpleCard name="multiple choice" handleClick={onSubmit} />
+              <OptionCard
+                name="multiple choice"
+                handleClick={() => handleCreateNewSlide(1)}
+              />
             </Grid>
           </Grid>
           <Typography>contain slides.</Typography>
           <Grid container spacing={2} columns={{ xs: 2, sm: 3, md: 9, lg: 9 }}>
             <Grid item xs={1} sm={3} md={3} lg={3}>
-              <SimpleCard name="heading" handleClick={onSubmit} />
+              <OptionCard
+                name="heading"
+                handleClick={() => handleCreateNewSlide(2)}
+              />
             </Grid>
             <Grid item xs={1} sm={3} md={3} lg={3}>
-              <SimpleCard name="paragraph" handleClick={onSubmit} />
+              <OptionCard
+                name="paragraph"
+                handleClick={() => handleCreateNewSlide(3)}
+              />
             </Grid>
           </Grid>
         </DialogContent>
-        {/* <DialogActions>
-          <StyledButton fullWidth type="submit">
-            Add
-          </StyledButton>
-        </DialogActions> */}
       </form>
     </StyledPaper>
   );
+};
+
+AddPresentationSlide.propTypes = {
+  slideList: PropTypes.arrayOf(PropTypes.object),
+  handleChangeSlideList: PropTypes.func,
+};
+
+AddPresentationSlide.defaultProps = {
+  slideList: [{}],
+  handleChangeSlideList: () => {},
 };
 
 export default AddPresentationSlide;

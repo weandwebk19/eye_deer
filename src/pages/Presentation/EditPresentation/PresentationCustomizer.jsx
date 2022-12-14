@@ -97,9 +97,9 @@ const PresentationCustomizer = ({
   // const [slideStyle, setSlideStyle] = useState();
   // const currentSlide = slideList.find((o) => o.slideid === Number(slideid));
 
-  useEffect(() => {
-    setSelectedStyle(currentSlide?.typeId);
-  }, [slideid]);
+  // useEffect(() => {
+  //   setSelectedStyle(currentSlide?.typeId);
+  // }, [slideid]);
 
   const handleChangeStyleSelection = (e) => {
     setSelectedStyle(e.target.value);
