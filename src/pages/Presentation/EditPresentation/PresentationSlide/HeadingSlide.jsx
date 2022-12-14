@@ -1,11 +1,11 @@
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 
 import Star1 from "assets/imgs/star-1.svg";
 import PropTypes from "prop-types";
 
 import { StyledHeadingTypography } from "components/Typography";
 
-const HeadingSlide = ({ question }) => {
+const HeadingSlide = ({ question, subHeading }) => {
   return (
     <Box
       sx={{
@@ -33,6 +33,7 @@ const HeadingSlide = ({ question }) => {
         <StyledHeadingTypography sx={{ fontSize: "3rem !important" }}>
           {question}
         </StyledHeadingTypography>
+        <Typography variant="h5">{subHeading}</Typography>
       </Stack>
     </Box>
   );
@@ -40,9 +41,11 @@ const HeadingSlide = ({ question }) => {
 
 HeadingSlide.propTypes = {
   question: PropTypes.string,
+  subHeading: PropTypes.string,
 };
 
 HeadingSlide.defaultProps = {
   question: "",
+  subHeading: "",
 };
 export default HeadingSlide;

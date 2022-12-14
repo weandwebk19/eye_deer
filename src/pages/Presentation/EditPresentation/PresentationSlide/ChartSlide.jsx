@@ -12,7 +12,7 @@ import {
 
 import { StyledHeadingTypography } from "components/Typography";
 
-const ChartSlide = ({ question, data }) => {
+const ChartSlide = ({ question, options }) => {
   return (
     <Box sx={{ width: "100%", height: "100%" }}>
       <StyledHeadingTypography
@@ -22,37 +22,49 @@ const ChartSlide = ({ question, data }) => {
       >
         {question}
       </StyledHeadingTypography>
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          width={300}
-          height={300}
-          data={data}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="vote" fill="#297373" />
-        </BarChart>
-      </ResponsiveContainer>
+      {(() => {
+        if (options.length !== 0)
+          return (
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                width={300}
+                height={300}
+                data={options}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="content" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="vote" fill="#297373" />
+              </BarChart>
+            </ResponsiveContainer>
+          );
+        else {
+          return (
+            <StyledHeadingTypography variant="h4" sx={{ textAlign: "center" }}>
+              there's nothing here to show
+            </StyledHeadingTypography>
+          );
+        }
+      })()}
     </Box>
   );
 };
 
 ChartSlide.propTypes = {
   question: PropTypes.string,
-  data: PropTypes.arrayOf(PropTypes.object),
+  options: PropTypes.arrayOf(PropTypes.object),
 };
 
 ChartSlide.defaultProps = {
   question: "",
-  data: [],
+  options: [],
 };
 
 export default ChartSlide;

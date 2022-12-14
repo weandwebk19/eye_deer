@@ -108,7 +108,7 @@ const PresentationPreviewThumb = ({ slide, handleDeleteSlide }) => {
             }}
           >
             {(() => {
-              if (slide?.type === "Multiple Choice")
+              if (slide?.typeId === 1)
                 return (
                   <>
                     <BarChartIcon />
@@ -116,11 +116,11 @@ const PresentationPreviewThumb = ({ slide, handleDeleteSlide }) => {
                       variant="caption"
                       className="presentation-thumb__caption"
                     >
-                      multiple choice
+                      {slide?.type}
                     </Typography>
                   </>
                 );
-              else if (slide?.type === "Heading")
+              else if (slide?.typeId === 2)
                 return (
                   <>
                     <TitleIcon />
@@ -129,11 +129,11 @@ const PresentationPreviewThumb = ({ slide, handleDeleteSlide }) => {
                       className="presentation-thumb__caption"
                     >
                       {" "}
-                      title heading
+                      {slide?.type}
                     </Typography>
                   </>
                 );
-              else if (slide?.type === "Paragraph")
+              else if (slide?.typeId === 3)
                 return (
                   <>
                     <FormatAlignLeftIcon />
@@ -142,7 +142,7 @@ const PresentationPreviewThumb = ({ slide, handleDeleteSlide }) => {
                       className="presentation-thumb__caption"
                     >
                       {" "}
-                      paragraph
+                      {slide?.type}
                     </Typography>
                   </>
                 );
