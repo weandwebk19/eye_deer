@@ -93,20 +93,20 @@ const data2 = [
 
 const slideList = [
   {
-    slideid: 1,
+    id: 1,
     type: 1,
     question: "chart here",
     data: data1,
     content: <ChartSlide question="chart here" data={data1} />,
   },
   {
-    slideid: 2,
+    id: 2,
     type: 2,
     question: "heading here",
     content: <HeadingSlide question="heading here" />,
   },
   {
-    slideid: 3,
+    id: 3,
     type: 3,
     question: "paragraph here",
     paragraph: "lorem ipsum",
@@ -115,7 +115,7 @@ const slideList = [
     ),
   },
   {
-    slideid: 4,
+    id: 4,
     type: 1,
     question: "chart here",
     data: data2,
@@ -126,13 +126,24 @@ const slideList = [
 const PresenatationPresenterView = () => {
   const { slideid, id } = useParams();
   const socket = React.useContext(SocketContext);
-  const currentSlide = slideList.find((o) => o.slideid === Number(slideid));
+  const currentSlide = slideList.find((o) => o.id === Number(slideid));
+  // const [currentSlide, setCurrentSlide] = React.useState();
   const [code, setCode] = React.useState();
 
   React.useEffect(() => {
     (async () => {
-      const code = await PresentationService.getCodePresentation(id);
-      setCode(code);
+      try {
+        const codeRes = await PresentationService.getCodePresentation(id);
+        if (codeRes.success === true) {
+          setCode(codeRes.data);
+        }
+        // const slideRes = await PresentationService.getSlidePresentation(id);
+        // if (slideRes.success === true) {
+        //   setCurrentSlide(slideRes.data);
+        // }
+      } catch (err) {
+        console.log(err);
+      }
     })();
   }, []);
 
@@ -157,7 +168,10 @@ const PresenatationPresenterView = () => {
           </Box>
         </Typography>
       </Box>
-      <PresentationPresenterMenu />
+      <PresentationPresenterMenu
+        currentSlide={currentSlide}
+        slideList={slideList}
+      />
       <Box className="presentation-presenter-view__content">
         {currentSlide.content}
       </Box>

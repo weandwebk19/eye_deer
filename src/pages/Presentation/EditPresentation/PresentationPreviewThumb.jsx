@@ -17,18 +17,18 @@ import { StyledButton } from "components/Button";
 
 import "../styles.scss";
 
-const slideTypeMapper = (typeid) => {
-  switch (typeid) {
-    case 1:
-      return "multiple-choice";
-    case 2:
-      return "heading";
-    case 3:
-      return "paragraph";
-    default:
-      return "multiple-choice";
-  }
-};
+// const slideTypeMapper = (typeid) => {
+//   switch (typeid) {
+//     case 1:
+//       return "multiple-choice";
+//     case 2:
+//       return "heading";
+//     case 3:
+//       return "paragraph";
+//     default:
+//       return "multiple-choice";
+//   }
+// };
 
 const PresentationPreviewThumb = ({ variant, index }) => {
   const navigate = useNavigate();
@@ -80,7 +80,7 @@ const PresentationPreviewThumb = ({ variant, index }) => {
             }}
           >
             {(() => {
-              if (slideTypeMapper(variant) === "multiple-choice")
+              if (variant === "Multiple Choice")
                 return (
                   <>
                     <BarChartIcon />
@@ -88,11 +88,11 @@ const PresentationPreviewThumb = ({ variant, index }) => {
                       variant="caption"
                       className="presentation-thumb__caption"
                     >
-                      multiple choice
+                      {variant}
                     </Typography>
                   </>
                 );
-              else if (slideTypeMapper(variant) === "heading")
+              else if (variant === "Heading")
                 return (
                   <>
                     <TitleIcon />
@@ -101,11 +101,11 @@ const PresentationPreviewThumb = ({ variant, index }) => {
                       className="presentation-thumb__caption"
                     >
                       {" "}
-                      title heading
+                      {variant}
                     </Typography>
                   </>
                 );
-              else if (slideTypeMapper(variant) === "paragraph")
+              else if (variant === "Paragraph")
                 return (
                   <>
                     <FormatAlignLeftIcon />
@@ -114,7 +114,7 @@ const PresentationPreviewThumb = ({ variant, index }) => {
                       className="presentation-thumb__caption"
                     >
                       {" "}
-                      paragraph
+                      {variant}
                     </Typography>
                   </>
                 );

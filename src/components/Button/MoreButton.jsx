@@ -57,7 +57,7 @@ const MoreButton = ({ menulist }) => {
                 menuitem.onClick();
               }}
             >
-              {menuitem.name}
+              {menuitem.children}
             </MenuItem>
           );
         })}
