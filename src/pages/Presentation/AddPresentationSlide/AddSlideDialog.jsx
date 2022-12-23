@@ -1,13 +1,10 @@
 import { useState } from "react";
 
-import { Grid, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import Box from "@mui/material/Box";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import Typography from "@mui/material/Typography";
 
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -23,7 +20,7 @@ const StyledDialogContent = styled(DialogContent)(
 `
 );
 
-const FormDialog = ({ content, title, children, variant, size }) => {
+const AddSlideDialog = ({ content, title, children, variant }) => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -50,7 +47,7 @@ const FormDialog = ({ content, title, children, variant, size }) => {
         );
       })()}
 
-      <Dialog open={open} onClose={handleClose} maxWidth={size} fullWidth>
+      <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
         <DialogTitle sx={{ px: 4 }}>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <StyledHeadingTypography variant="h5">
@@ -61,25 +58,23 @@ const FormDialog = ({ content, title, children, variant, size }) => {
             </IconButton>
           </Box>
         </DialogTitle>
-        {children}
+        <Box onClick={handleClose}>{children}</Box>
       </Dialog>
     </div>
   );
 };
 
-FormDialog.propTypes = {
+AddSlideDialog.propTypes = {
   content: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   title: PropTypes.string,
   children: PropTypes.node.isRequired,
   variant: PropTypes.string,
-  size: PropTypes.string,
 };
 
-FormDialog.defaultProps = {
+AddSlideDialog.defaultProps = {
   content: "",
   title: "",
   variant: "",
-  size: "md",
 };
 
-export { StyledDialogContent, FormDialog };
+export { StyledDialogContent, AddSlideDialog };

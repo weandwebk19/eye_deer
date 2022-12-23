@@ -9,120 +9,10 @@ import SlideService from "services/slideService";
 
 import { StyledPaper } from "components/Paper";
 
-import ChartSlide from "./EditPresentation/PresentationSlide/ChartSlide";
-import HeadingSlide from "./EditPresentation/PresentationSlide/HeadingSlide";
-import ParagraphSlide from "./EditPresentation/PresentationSlide/ParagraphSlide";
+import ChartSlide from "../EditPresentation/PresentationSlide/ChartSlide";
+import HeadingSlide from "../EditPresentation/PresentationSlide/HeadingSlide";
+import ParagraphSlide from "../EditPresentation/PresentationSlide/ParagraphSlide";
 import PresentationPresenterMenu from "./PresentationPresenterMenu";
-
-// const data = [
-//   {
-//     name: "option 1",
-//     vote: 15,
-//   },
-//   {
-//     name: "option 2",
-//     vote: 25,
-//   },
-//   {
-//     name: "option 3",
-//     vote: 2,
-//   },
-//   {
-//     name: "option 4",
-//     vote: 10,
-//   },
-//   {
-//     name: "option 5",
-//     vote: 11,
-//   },
-//   {
-//     name: "option 6",
-//     vote: 32,
-//   },
-// ];
-
-// const data1 = [
-//   {
-//     id: 1,
-//     name: "option 1",
-//     vote: 15,
-//   },
-//   {
-//     id: 2,
-//     name: "option 2",
-//     vote: 25,
-//   },
-//   {
-//     id: 3,
-//     name: "option 3",
-//     vote: 2,
-//   },
-//   {
-//     id: 3,
-//     name: "option 4",
-//     vote: 10,
-//   },
-//   {
-//     id: 4,
-//     name: "option 5",
-//     vote: 11,
-//   },
-//   {
-//     id: 5,
-//     name: "option 6",
-//     vote: 32,
-//   },
-// ];
-
-// const data2 = [
-//   {
-//     id: 1,
-//     name: "mi xao",
-//     vote: 15,
-//   },
-//   {
-//     id: 2,
-//     name: "com ga xoi mo",
-//     vote: 25,
-//   },
-//   {
-//     id: 3,
-//     name: "nhin doi",
-//     vote: 2,
-//   },
-// ];
-
-// const slideList = [
-//   {
-//     id: 1,
-//     type: 1,
-//     question: "chart here",
-//     data: data1,
-//     content: <ChartSlide question="chart here" data={data1} />,
-//   },
-//   {
-//     id: 2,
-//     type: 2,
-//     question: "heading here",
-//     content: <HeadingSlide question="heading here" />,
-//   },
-//   {
-//     id: 3,
-//     type: 3,
-//     question: "paragraph here",
-//     paragraph: "lorem ipsum",
-//     content: (
-//       <ParagraphSlide question="paragraph here" paragraph="lorem ipsum" />
-//     ),
-//   },
-//   {
-//     id: 4,
-//     type: 1,
-//     question: "chart here",
-//     data: data2,
-//     content: <ChartSlide question="chart here" data={data2} />,
-//   },
-// ];
 
 const PresenatationPresenterView = () => {
   const params = useParams();
@@ -274,7 +164,7 @@ const PresenatationPresenterView = () => {
             return (
               <ChartSlide
                 question={currentSlide?.content.question}
-                data={currentSlide?.content.options}
+                options={currentSlide?.content.options}
               />
             );
           } else if (currentSlide?.typeId === 2) {

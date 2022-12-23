@@ -12,6 +12,7 @@ import { StyledButton } from "components/Button";
 import { FormDialog } from "components/Dialog";
 
 import AddPresentationSlide from "../AddPresentationSlide";
+import { AddSlideDialog } from "../AddPresentationSlide/AddSlideDialog";
 import "../styles.scss";
 import { PresentationPreviewThumb } from "./PresentationPreviewThumb";
 
@@ -21,9 +22,65 @@ const PresentationPreviewList = ({
   handleChangeSlideList,
   handleChangeCurrentSlide,
 }) => {
+  const params = useParams();
+  const presentationId = params.id;
+
   const { id, slideid } = useParams();
 
-  const [activeIndex, setActiveIndex] = useState(0);
+  // useEffect(() => {
+  //   handleChangeSlideList(slideList);
+  // }, []);
+
+  // useEffect(() => {
+  //   handleChangeCurrentSlide(slideList[0]);
+  // });
+
+  const handleCreateNewSlide = async (typeId) => {
+    const nextIndex = slideList.length + 1;
+    let slideInfo = {
+      slideName: "",
+      presentationId,
+      index: nextIndex,
+      typeId,
+    };
+
+    if (typeId === 2) {
+      slideInfo = {
+        ...slideInfo,
+        type: "Heading",
+        content: {
+          heading: "your heading",
+          subHeading: "your sub heading here",
+        },
+      };
+    } else if (typeId === 3) {
+      slideInfo = {
+        ...slideInfo,
+        type: "Paragraph",
+        content: { heading: "your heading", paragraph: "your paragraph here" },
+      };
+    } else {
+      slideInfo = {
+        ...slideInfo,
+        type: "Multiple Choice",
+        content: { question: "your question", options: [] },
+      };
+    }
+    console.log(slideInfo);
+    const res = await SlideService.createNewSlide(slideInfo);
+
+    const currentSlideList = await SlideService.getSlidesByPresentationId(
+      presentationId
+    );
+    handleChangeSlideList(currentSlideList.data);
+  };
+
+  const handleDeleteSlide = (slide) => {
+    // console.log("successfully deleting", slideId);
+    const index = slideList.indexOf(slide);
+    slideList.splice(index, 1);
+    handleChangeSlideList(slideList);
+  };
 
   return (
     <>
@@ -31,26 +88,33 @@ const PresentationPreviewList = ({
         className="presentation-preview-list__add-button"
         sx={{ position: "sticky", top: 0, zIndex: 1, mb: 2 }}
       >
-        <FormDialog content="+ new slide" title="Add slide" variant="primary">
-          <AddPresentationSlide />
-        </FormDialog>
+        <AddSlideDialog
+          content="+ new slide"
+          title="Add slide"
+          variant="primary"
+        >
+          <AddPresentationSlide
+            // slideList={slideList}
+            handleCreateNewSlide={handleCreateNewSlide}
+          />
+        </AddSlideDialog>
       </Box>
       <ol>
         {slideList.map((slide, i) => {
           return (
             <Box
               className={`preview-box ${
-                activeIndex === slide.index && "preview-box--active"
+                currentSlide?.index === slide?.index && "preview-box--active"
               }`}
-              key={slide.id}
+              key={slide?.id}
               onClick={() => {
-                setActiveIndex(slide.index);
+                handleChangeCurrentSlide(slide);
                 // dispatch(clickSlide(slide.type));
               }}
             >
               <PresentationPreviewThumb
-                variant={slide.type}
-                index={slide.index}
+                slide={slide}
+                handleDeleteSlide={handleDeleteSlide}
               />
             </Box>
           );

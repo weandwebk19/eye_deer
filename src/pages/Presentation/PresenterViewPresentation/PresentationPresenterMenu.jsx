@@ -17,6 +17,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import CloseIcon from "@mui/icons-material/Close";
+import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import QuestionAnswerOutlinedIcon from "@mui/icons-material/QuestionAnswerOutlined";
@@ -34,6 +35,8 @@ import ChatBox from "components/ChatBox/ChatBox";
 import { FormDialog } from "components/Dialog";
 import { BasicModal } from "components/Modal";
 import { StyledHeadingTypography } from "components/Typography";
+
+import TemporaryDrawer from "./QuestionBox";
 
 // const actions = [
 //   { icon: <ZoomInMapIcon />, name: "Zoom in", handleClick:()=>{} },
@@ -303,6 +306,34 @@ const PresentationPresenterMenu = ({
                   variant={null}
                 >
                   <ChatBox />
+                </FormDialog>
+              );
+            })()}
+            {(() => {
+              const content = (
+                <Badge
+                  badgeContent={999}
+                  color="primary"
+                  overlap="circular"
+                  max={999}
+                >
+                  <IconButton>
+                    <ContactSupportIcon
+                      color="action"
+                      sx={{ height: 24, width: 24 }}
+                    />
+                  </IconButton>
+                </Badge>
+              );
+              return (
+                <FormDialog
+                  FormDialog
+                  content={content}
+                  title="question box"
+                  variant={null}
+                  size="xl"
+                >
+                  <TemporaryDrawer />
                 </FormDialog>
               );
             })()}

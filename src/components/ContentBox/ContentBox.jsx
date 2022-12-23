@@ -1,5 +1,3 @@
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Box,
   CardContent,
@@ -7,6 +5,9 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import PropTypes from "prop-types";
 
@@ -65,7 +66,7 @@ const ContentBox = ({
                       <MoreButton menulist={menulist} />
                     </Box>
                     <Typography variant="h5" noWrap>
-                      presentation {index}
+                      presentation {index + 1}
                     </Typography>
                     <Typography variant="h6" noWrap>
                       {name}

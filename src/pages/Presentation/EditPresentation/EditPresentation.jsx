@@ -14,7 +14,6 @@ import PresentationPreviewList from "./PresentationPreviewList";
 const EditPresentation = () => {
   const params = useParams();
   const presentationId = params.id;
-  const slideId = params.slideid;
   const [slideList, setSlideList] = useState([]);
   const [currentSlide, setCurrentSlide] = useState();
 

@@ -14,37 +14,21 @@ import {
 
 import { StyledHeadingTypography } from "components/Typography";
 
-const ChartSlide = ({ question, data }) => {
-  // console.log(data);
-  const [chart, setChart] = useState(
-    <ResponsiveContainer width="100%" height="100%">
-      <BarChart
-        width={300}
-        height={300}
-        data={data}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
+const ChartSlide = ({ question, options }) => {
+  return (
+    <Box sx={{ width: "100%", height: "100%" }}>
+      <StyledHeadingTypography
+        variant="h3"
+        sx={{ textAlign: "center" }}
+        gutterBottom
       >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="content" />
-        <YAxis />
-        <Tooltip />
-        <Bar dataKey="vote" fill="#297373" />
-      </BarChart>
-    </ResponsiveContainer>
-  );
-
-  useEffect(() => {
-    setChart(
+        {question}
+      </StyledHeadingTypography>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           width={300}
           height={300}
-          data={data}
+          data={options}
           margin={{
             top: 5,
             right: 30,
@@ -59,31 +43,18 @@ const ChartSlide = ({ question, data }) => {
           <Bar dataKey="vote" fill="#297373" />
         </BarChart>
       </ResponsiveContainer>
-    );
-  }, [data]);
-
-  return (
-    <Box sx={{ width: "100%", height: "100%" }}>
-      <StyledHeadingTypography
-        variant="h3"
-        sx={{ textAlign: "center" }}
-        gutterBottom
-      >
-        {question}
-      </StyledHeadingTypography>
-      {chart}
     </Box>
   );
 };
 
 ChartSlide.propTypes = {
   question: PropTypes.string,
-  data: PropTypes.arrayOf(PropTypes.object),
+  options: PropTypes.arrayOf(PropTypes.object),
 };
 
 ChartSlide.defaultProps = {
   question: "",
-  data: [],
+  options: [],
 };
 
 export default ChartSlide;

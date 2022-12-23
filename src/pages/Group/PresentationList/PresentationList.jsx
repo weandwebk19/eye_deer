@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-
-import GroupService from "services/groupService";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   Avatar,
@@ -16,6 +14,7 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 import Star1 from "assets/imgs/star-1.svg";
 import PropTypes from "prop-types";
+import GroupService from "services/groupService";
 
 import { StyledButton } from "components/Button";
 import { ContentBox } from "components/ContentBox";
@@ -27,6 +26,7 @@ import AddPresentation from "./AddPresentation";
 import RemovePresentation from "./RemovePresentation";
 
 const PresentationList = ({ name, picture, contentChips }) => {
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const params = useParams();
   const [presentationList, setPresentationList] = useState([]);
@@ -42,30 +42,25 @@ const PresentationList = ({ name, picture, contentChips }) => {
 
   const handleRemovePresentation = (isRemove) => {
     setRemovePresentation(isRemove);
-  }
+  };
 
   const createRemovePresentationButton = (props) => {
-    const removePresentationButton = 
-    <FormDialog
-      content="remove"
-      title="Remove Presentation"
-    >
-      <RemovePresentation {...props}/>
-    </FormDialog>
+    const removePresentationButton = (
+      <FormDialog content="remove" title="Remove Presentation">
+        <RemovePresentation {...props} />
+      </FormDialog>
+    );
     return removePresentationButton;
-  }
-    
+  };
 
-const createSettingPresentationButton = (props) => {
-  const settingPresentationButton = 
-  <FormDialog
-    content="setting presentation"
-    title="Setting Presentation"
-  >
-      set up later
-  </FormDialog>
-  return settingPresentationButton;
-}
+  const createSettingPresentationButton = (props) => {
+    const settingPresentationButton = (
+      <FormDialog content="setting presentation" title="Setting Presentation">
+        set up later
+      </FormDialog>
+    );
+    return settingPresentationButton;
+  };
   const menulist = (props) => {
     return [
       {
@@ -80,20 +75,20 @@ const createSettingPresentationButton = (props) => {
         children: createRemovePresentationButton(props),
         onClick: () => {},
       },
-  ];
-}
+    ];
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     // call api to get presentation list of this group
-    (async ()=>{
+    (async () => {
       const groupId = params.id;
       const data = await GroupService.getPresentationList(groupId);
-      
+
       setPresentationList(data);
       setRemovePresentation(false);
-      
+
       console.log(data);
-    })()
+    })();
   }, [removePresentation]);
 
   // data to ui test
@@ -203,7 +198,11 @@ const createSettingPresentationButton = (props) => {
             mb: 2,
           }}
         >
-          <SearchField />
+          <SearchField
+            handleChange={(e) => {
+              setSearch(e.target.value);
+            }}
+          />
           <Box
             className="button-group"
             sx={{
@@ -219,27 +218,37 @@ const createSettingPresentationButton = (props) => {
             </FormDialog>
           </Box>
         </Box>
-        {presentationList.map((card, i) => {
-          return (
-            <Box className="dashboard-quiz" key={card.id}>
-              <ContentBox
-                name={card.name}
-                index={i}
-                contentChips={(({ quizzes, code}) => ({
-                  quizzes, code,
-                }))(card)}
-                handleClick={() => {
-                  navigate(`/presentation/${card.id}/1/edit`);
-                  console.log(navigate);
-                }}
-                handleChange={() => {
-                  console.log(`${card.i} handle change`);
-                }}
-                menulist={menulist({presentationId: card.id, handleRemovePresentation})}
-              />
-            </Box>
-          );
-        })}
+        {presentationList
+          .filter((presentation) => {
+            return search.toLowerCase() === ""
+              ? presentation
+              : presentation.name.toLowerCase().includes(search);
+          })
+          .map((presentation, i) => {
+            return (
+              <Box className="dashboard-quiz" key={presentation.id}>
+                <ContentBox
+                  name={presentation.name}
+                  index={i}
+                  contentChips={(({ slides, code }) => ({
+                    slides,
+                    code,
+                  }))(presentation)}
+                  handleClick={() => {
+                    navigate(`/presentation/${presentation.id}/1/edit`);
+                    console.log(navigate);
+                  }}
+                  handleChange={() => {
+                    console.log(`${presentation.i + 1} handle change`);
+                  }}
+                  menulist={menulist({
+                    presentationId: presentation.id,
+                    handleRemovePresentation,
+                  })}
+                />
+              </Box>
+            );
+          })}
       </Box>
     </Box>
   );

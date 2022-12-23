@@ -1,13 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 
 import Gradient4 from "assets/imgs/gradient-4.png";
 import { SocketContext } from "context/socket";
 import { DefaultLayout } from "layouts";
 import PresentationService from "services/presentationService";
 import SlideService from "services/slideService";
+
+import { StyledButton } from "components/Button";
 
 import HeadingSlideParticipant from "./HeadingSlideParticipant";
 import ParagraphSlideParticipant from "./ParagraphSlideParticipant";
@@ -92,6 +94,10 @@ const PresenatationParticipantView = () => {
               );
             }
           })()}
+          <Stack spacing={2} sx={{ mt: 4 }}>
+            <StyledButton>open Q&A</StyledButton>
+            <StyledButton>enter chat box</StyledButton>
+          </Stack>
         </Box>
         <img src={Gradient4} alt="deco gradient" className="deco-img-4" />
       </Box>

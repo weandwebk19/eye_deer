@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { Box, MenuItem, Stack, Typography } from "@mui/material";
 
 import PropTypes from "prop-types";
+import { typeMapper } from "utils";
 
 import { StyledButton } from "components/Button";
 import { StyledSelectField } from "components/SelectBox/StyledSelectField";
@@ -97,21 +98,26 @@ const PresentationCustomizer = ({
   // const [slideStyle, setSlideStyle] = useState();
   // const currentSlide = slideList.find((o) => o.slideid === Number(slideid));
 
-  useEffect(() => {
-    setSelectedStyle(currentSlide?.typeId);
-  }, [slideid]);
+  // useEffect(() => {
+  //   setSelectedStyle(currentSlide?.typeId);
+  // }, [slideid]);
 
   const handleChangeStyleSelection = (e) => {
     setSelectedStyle(e.target.value);
     // console.log(e.target.value);
     const index = slideList.indexOf(currentSlide);
-    const newSlide = { ...currentSlide, typeId: e.target.value };
+    const newSlide = {
+      ...currentSlide,
+      typeId: e.target.value,
+      type: typeMapper(e.target.value),
+    };
     slideList[index] = newSlide;
     handleChangeCurrentSlide(newSlide);
     handleChangeSlideList(slideList);
+    console.log(newSlide);
   };
 
-  const handleChangeQuestion = (e) => {
+  const handleBlurQuestion = (e) => {
     let newSlide;
     if (currentSlide.typeId === 1) {
       newSlide = {
@@ -188,6 +194,27 @@ const PresentationCustomizer = ({
     handleChangeSlideList(slideList);
   };
 
+  const handleAddOption = (currentSlide) => {
+    const newOptions = {
+      content: "",
+      vote: 0,
+    };
+
+    currentSlide.content.options.push(newOptions);
+
+    const newSlide = {
+      ...currentSlide,
+      content: {
+        ...currentSlide.content,
+      },
+    };
+
+    const index = slideList.indexOf(newSlide);
+    slideList[index] = newSlide;
+    handleChangeCurrentSlide(newSlide);
+    console.log(newSlide);
+  };
+
   return (
     <Box>
       <Typography>slide style.</Typography>
@@ -213,7 +240,7 @@ const PresentationCustomizer = ({
                 // key={`${currentSlide?.typeId} ${currentSlide?.contentId} ${currentSlide?.content.heading}`}
                 label="heading"
                 defaultValue={currentSlide?.content.heading}
-                onChange={handleChangeQuestion}
+                onBlur={handleBlurQuestion}
               />
               <Typography>Sub heading</Typography>
               <StyledInputField
@@ -232,7 +259,7 @@ const PresentationCustomizer = ({
                 // key={`${currentSlide?.typeId} ${currentSlide?.contentId} ${currentSlide?.content.heading}`}
                 label="heading"
                 defaultValue={currentSlide?.content.heading}
-                onChange={handleChangeQuestion}
+                onBlur={handleBlurQuestion}
               />
               <Typography>paragraph</Typography>
               <StyledInputField
@@ -248,25 +275,27 @@ const PresentationCustomizer = ({
             <Stack spacing={2}>
               <Typography>your question</Typography>
               <StyledInputField
-                key={`${currentSlide?.typeId} ${currentSlide?.contentId} ${currentSlide?.content.question}`}
-                label="multiple choice"
+                key={`${currentSlide?.typeId} ${currentSlide?.contentId} `}
+                label="question"
                 defaultValue={currentSlide?.content.question}
-                onChange={handleChangeQuestion}
+                onBlur={handleBlurQuestion}
               />
               <Typography>options</Typography>
               {currentSlide?.content.options.map((option, i) => {
                 return (
                   <StyledInputField
-                    key={`${currentSlide?.id} ${option.id} ${option.id} ${option.content} `}
+                    key={`${currentSlide?.id} ${option.id} `}
                     label={`option ${i + 1}`}
                     defaultValue={option.content}
-                    // onChange={(e) => {
-                    //   handleChangeOption(e, i);
-                    // }}
+                    onChange={(e) => {
+                      handleChangeOption(e, i);
+                    }}
                   />
                 );
               })}
-              <StyledButton>+ option</StyledButton>
+              <StyledButton onClick={() => handleAddOption(currentSlide)}>
+                + option
+              </StyledButton>
             </Stack>
           );
         }

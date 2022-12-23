@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Grid, Stack } from "@mui/material";
@@ -10,6 +10,7 @@ import { OptionCard } from "components/Card";
 import { StyledHeadingTypography } from "components/Typography";
 
 const VotingSlideParticipantView = ({ question, data, code }) => {
+  const [isVote, setIsVote] = useState(false);
   const params = useParams();
   const presentationId = params.id;
   const slideId = params.slideid;
@@ -23,6 +24,7 @@ const VotingSlideParticipantView = ({ question, data, code }) => {
       optionId,
       code,
     });
+    setIsVote(true);
   };
   return (
     <Stack spacing={4}>
@@ -34,25 +36,38 @@ const VotingSlideParticipantView = ({ question, data, code }) => {
       >
         {question}
       </StyledHeadingTypography>
-      <Grid
-        container
-        spacing={2}
-        columns={{ xs: 4, sm: 4, md: 12, lg: 12 }}
-        sx={{ width: "calc(100% - 16px)" }}
-      >
-        {data.map((option) => {
+      {(() => {
+        if (isVote) {
           return (
-            <Grid item xs={4} sm={2} md={6} lg={6} key={option.id}>
-              <OptionCard
-                name={option.content}
-                handleClick={(e) => {
-                  handleVoting(e, option.id);
-                }}
-              />
+            <StyledHeadingTypography variant="h4" sx={{ textAlign: "center" }}>
+              you have voted, please wait for the presenter to show the next
+              slide.
+            </StyledHeadingTypography>
+          );
+        } else {
+          return (
+            <Grid
+              container
+              spacing={2}
+              columns={{ xs: 4, sm: 4, md: 12, lg: 12 }}
+              sx={{ width: "calc(100% - 16px)" }}
+            >
+              {data.map((option) => {
+                return (
+                  <Grid item xs={4} sm={2} md={6} lg={6} key={option.id}>
+                    <OptionCard
+                      name={option.content}
+                      handleClick={(e) => {
+                        handleVoting(e, option.id);
+                      }}
+                    />
+                  </Grid>
+                );
+              })}
             </Grid>
           );
-        })}
-      </Grid>
+        }
+      })()}
     </Stack>
   );
 };
