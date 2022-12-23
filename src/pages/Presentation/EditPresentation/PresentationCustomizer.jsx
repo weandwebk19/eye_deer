@@ -117,7 +117,7 @@ const PresentationCustomizer = ({
     console.log(newSlide);
   };
 
-  const handleChangeQuestion = (e) => {
+  const handleBlurQuestion = (e) => {
     let newSlide;
     if (currentSlide.typeId === 1) {
       newSlide = {
@@ -240,7 +240,7 @@ const PresentationCustomizer = ({
                 // key={`${currentSlide?.typeId} ${currentSlide?.contentId} ${currentSlide?.content.heading}`}
                 label="heading"
                 defaultValue={currentSlide?.content.heading}
-                onChange={handleChangeQuestion}
+                onBlur={handleBlurQuestion}
               />
               <Typography>Sub heading</Typography>
               <StyledInputField
@@ -259,7 +259,7 @@ const PresentationCustomizer = ({
                 // key={`${currentSlide?.typeId} ${currentSlide?.contentId} ${currentSlide?.content.heading}`}
                 label="heading"
                 defaultValue={currentSlide?.content.heading}
-                onChange={handleChangeQuestion}
+                onBlur={handleBlurQuestion}
               />
               <Typography>paragraph</Typography>
               <StyledInputField
@@ -276,9 +276,9 @@ const PresentationCustomizer = ({
               <Typography>your question</Typography>
               <StyledInputField
                 key={`${currentSlide?.typeId} ${currentSlide?.contentId} `}
-                label="multiple choice"
+                label="question"
                 defaultValue={currentSlide?.content.question}
-                onChange={handleChangeQuestion}
+                onBlur={handleBlurQuestion}
               />
               <Typography>options</Typography>
               {currentSlide?.content.options.map((option, i) => {
@@ -295,15 +295,6 @@ const PresentationCustomizer = ({
               })}
               <StyledButton onClick={() => handleAddOption(currentSlide)}>
                 + option
-              </StyledButton>
-              <StyledButton
-                onClick={() => {
-                  console.log("-----------------------------");
-                  console.log("Sending data to database...");
-                  console.log(slideList);
-                }}
-              >
-                save changes
               </StyledButton>
             </Stack>
           );

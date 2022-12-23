@@ -4,6 +4,7 @@ const axios = createAxiosJWT();
 
 const createNewSlide = async (slide) => {
   try {
+    console.log(slide);
     const res = await axios.post(`slides/create`, slide);
 
     return res.data;

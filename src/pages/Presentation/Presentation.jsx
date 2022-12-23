@@ -2,8 +2,8 @@ import { Route, Routes } from "react-router-dom";
 
 import EditPresentation from "./EditPresentation";
 import PresentationSlide from "./EditPresentation/PresentationSlide";
-import PresenatationParticipantView from "./ParticipantViewPresentation/PresentationParticipantView";
-import PresenatationPresenterView from "./PresentationPresenterView";
+import PresenatationParticipantView from "./ParticipantViewPresentation";
+import PresenatationPresenterView from "./PresenterViewPresentation";
 
 const Presentation = () => {
   return (

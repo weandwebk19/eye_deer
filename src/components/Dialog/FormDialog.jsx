@@ -23,7 +23,7 @@ const StyledDialogContent = styled(DialogContent)(
 `
 );
 
-const FormDialog = ({ content, title, children, variant }) => {
+const FormDialog = ({ content, title, children, variant, size }) => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -50,7 +50,7 @@ const FormDialog = ({ content, title, children, variant }) => {
         );
       })()}
 
-      <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+      <Dialog open={open} onClose={handleClose} maxWidth={size} fullWidth>
         <DialogTitle sx={{ px: 4 }}>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <StyledHeadingTypography variant="h5">
@@ -72,12 +72,14 @@ FormDialog.propTypes = {
   title: PropTypes.string,
   children: PropTypes.node.isRequired,
   variant: PropTypes.string,
+  size: PropTypes.string,
 };
 
 FormDialog.defaultProps = {
   content: "",
   title: "",
   variant: "",
+  size: "md",
 };
 
 export { StyledDialogContent, FormDialog };

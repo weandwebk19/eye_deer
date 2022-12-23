@@ -58,24 +58,32 @@ const PresentationPreviewThumb = ({ slide, handleDeleteSlide }) => {
         }}
       >
         <Box sx={{ display: "flex", flexDirection: "column", mr: 1 }}>
-          <Tooltip title="Duplicate" placement="right">
-            <StyledButton variant="simple" s>
+          <Tooltip
+            key={`duplicate-${slide.id}`}
+            title="Duplicate"
+            placement="right"
+          >
+            <StyledButton variant="simple">
               <ContentCopyIcon sx={{ height: "14px" }} />
             </StyledButton>
           </Tooltip>
-          <Tooltip title="Hide" placement="right">
+          <Tooltip key={`hide-${slide.id}`} title="Hide" placement="right">
             <StyledButton variant="simple">
               <VisibilityOffOutlinedIcon sx={{ height: "14px" }} />
             </StyledButton>
           </Tooltip>
-          <Tooltip title="Reset" placement="right">
+          <Tooltip key={`reset-${slide.id}`} title="Reset" placement="right">
             <StyledButton variant="simple">
               <RefreshIcon sx={{ height: "14px" }} />
             </StyledButton>
           </Tooltip>
           {(() => {
             const content = (
-              <Tooltip title="Delete" placement="right">
+              <Tooltip
+                key={`delete-${slide.id}`}
+                title="Delete"
+                placement="right"
+              >
                 <StyledButton variant="simple">
                   <DeleteOutlineOutlinedIcon sx={{ height: "14px" }} />
                 </StyledButton>

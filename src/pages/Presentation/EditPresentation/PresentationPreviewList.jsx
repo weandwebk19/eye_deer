@@ -29,12 +29,13 @@ const PresentationPreviewList = ({
 
   // useEffect(() => {
   //   handleChangeSlideList(slideList);
-  // }, [slideList]);
+  // }, []);
+
   // useEffect(() => {
   //   handleChangeCurrentSlide(slideList[0]);
   // });
 
-  const handleCreateNewSlide = (typeId) => {
+  const handleCreateNewSlide = async (typeId) => {
     const nextIndex = slideList.length + 1;
     let slideInfo = {
       slideName: "",
@@ -65,11 +66,13 @@ const PresentationPreviewList = ({
         content: { question: "your question", options: [] },
       };
     }
-    // const res = await SlideService.createNewSlide(slideInfo);
+    console.log(slideInfo);
+    const res = await SlideService.createNewSlide(slideInfo);
 
-    slideList.push(slideInfo);
-    handleChangeSlideList(slideList);
-    console.log(slideList);
+    const currentSlideList = await SlideService.getSlidesByPresentationId(
+      presentationId
+    );
+    handleChangeSlideList(currentSlideList.data);
   };
 
   const handleDeleteSlide = (slide) => {
@@ -103,7 +106,7 @@ const PresentationPreviewList = ({
               className={`preview-box ${
                 currentSlide?.index === slide?.index && "preview-box--active"
               }`}
-              key={slide?.slideId}
+              key={slide?.id}
               onClick={() => {
                 handleChangeCurrentSlide(slide);
                 // dispatch(clickSlide(slide.type));

@@ -230,8 +230,8 @@ const PresentationList = ({ name, picture, contentChips }) => {
                 <ContentBox
                   name={presentation.name}
                   index={i}
-                  contentChips={(({ quizzes, code }) => ({
-                    quizzes,
+                  contentChips={(({ slides, code }) => ({
+                    slides,
                     code,
                   }))(presentation)}
                   handleClick={() => {

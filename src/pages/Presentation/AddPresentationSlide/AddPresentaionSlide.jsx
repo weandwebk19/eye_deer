@@ -5,6 +5,7 @@ import { Grid, Typography } from "@mui/material";
 import DialogContent from "@mui/material/DialogContent";
 
 import PropTypes from "prop-types";
+import PresentationService from "services/presentationService";
 import SlideService from "services/slideService";
 
 import { OptionCard } from "components/Card";
@@ -15,23 +16,22 @@ const AddPresentationSlide = ({
   handleCreateNewSlide,
   // handleChangeSlideList,
 }) => {
+  // const [currentSlideList, setCurrentSlideList] = useState([]);
   const params = useParams();
   const presentationId = params.id;
 
-  // const handleCreateNewSlide = (typeId) => {
-  //   const nextIndex = slideList.length + 1;
+  // const handleCreateNewSlide = async (typeId) => {
+  //   const nextIndex = (await currentSlideList.data.length) + 1;
   //   const slideInfo = {
   //     slideName: "",
   //     presentationId,
   //     index: nextIndex,
   //     typeId,
   //   };
-  //   // const res = await SlideService.createNewSlide(slideInfo);
-
-  //   console.log(1);
-  //   slideList.push(slideInfo);
-  //   handleChangeSlideList(slideList);
-  //   console.log(slideList);
+  //   const res = await SlideService.createNewSlide(slideInfo);
+  //   console.log(res);
+  //   // slideList.push(slideInfo);
+  //   // handleChangeSlideList(slideList);
   // };
 
   // useEffect(() => {
@@ -40,7 +40,6 @@ const AddPresentationSlide = ({
   //       presentationId
   //     );
   //     setCurrentSlideList(slideList);
-  //     console.log(1);
   //   })();
   // }, []);
 

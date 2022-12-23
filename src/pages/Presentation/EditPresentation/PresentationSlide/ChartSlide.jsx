@@ -15,8 +15,6 @@ import {
 import { StyledHeadingTypography } from "components/Typography";
 
 const ChartSlide = ({ question, options }) => {
-  console.log(options);
-
   return (
     <Box sx={{ width: "100%", height: "100%" }}>
       <StyledHeadingTypography
