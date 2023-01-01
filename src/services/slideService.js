@@ -67,10 +67,109 @@ const increaseVote = async (presentationId, slideId, optionId, newVote) => {
   }
 };
 
+const updateCurrentSlide = async (slide) => {
+  try {
+    const res = await axios.put(`slides/${slide?.id}/update`, {
+      slide,
+    });
+
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
+const createNewOption = async (slide, optionSimple) => {
+  try {
+    const option = {
+      ...optionSimple,
+      contentId: slide.contentId,
+    };
+    const res = await axios.post(`slides/${slide.id}/option/create`, {
+      option,
+    });
+
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
+const changeSlideType = async (slide) => {
+  try {
+    const res = await axios.put(
+      `slides/${slide?.id}/content/${slide.contentId}/type/${slide.typeId}/update`,
+      {
+        slide,
+      }
+    );
+
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
+const deleteSlideType = async (slide) => {
+  try {
+    const res = await axios.delete(
+      `slides/${slide?.id}/content/${slide.contentId}/delete`
+    );
+
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
 const SlideService = {
   createNewSlide,
   getSlidesByPresentationId,
   increaseVote,
+  updateCurrentSlide,
+  createNewOption,
+  changeSlideType,
+  deleteSlideType,
 };
 
 export default SlideService;
