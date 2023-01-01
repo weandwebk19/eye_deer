@@ -7,7 +7,7 @@ import { StyledPaper } from "components/Paper";
 import { InstantMessage } from "components/Popup";
 import PropTypes from 'prop-types';
 
-const RemovePresentation = (props) => {
+const RemovePresentationInGroup = (props) => {
 
   // state of ui after add member
   const [isError, setIsError] = useState("");
@@ -16,14 +16,14 @@ const RemovePresentation = (props) => {
   const handleClick = async () => {
     try {
       // call api to remove presentation
-      const {presentationId, handleRemovePresentation} = props;
-      const res = await PresentationService.removePresentation(presentationId);
+      const {groupId, presentationId, handleRemovePresentationInGroup} = props;
+      const res = await PresentationService.removePresentationInGroup(groupId, presentationId);
 
       // handle res
       if (res.success === true) {
         setMessageFromServer(res.message);
         setIsError(false);
-        handleRemovePresentation(true);
+        handleRemovePresentationInGroup(true);
       } else {
         setMessageFromServer(res.message);
         setIsError(true);
@@ -45,7 +45,7 @@ const RemovePresentation = (props) => {
   return (
     <StyledPaper sx={{ top: 0 }}>
       <DialogContent sx={{ p: 1 }}>
-        All slides in this presentation will be removed.
+        This presentation will be removed from this group.
         Are you sure?
       </DialogContent>
       <DialogActions>
@@ -67,14 +67,16 @@ const RemovePresentation = (props) => {
   );
 };
 
-RemovePresentation.propTypes = {
+RemovePresentationInGroup.propTypes = {
+  groupId: PropTypes.number,
   presentationId: PropTypes.number,
-  handleRemovePresentation: PropTypes.func,
+  handleRemovePresentationInGroup: PropTypes.func,
 };
 
-RemovePresentation.defaultProps = {
+RemovePresentationInGroup.defaultProps = {
+  groupId: null,
   presentationId: null,
-  handleRemovePresentation: ()=>{},
+  handleRemovePresentationInGroup: ()=>{},
 }
 
-export default RemovePresentation;
+export default RemovePresentationInGroup;

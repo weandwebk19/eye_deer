@@ -23,14 +23,15 @@ import { SearchField } from "components/TextField";
 
 import "../styles.scss";
 import AddPresentation from "./AddPresentation";
-import RemovePresentation from "./RemovePresentation";
+import RemovePresentationInGroup from "./RemovePresentationInGroup";
 
 const PresentationList = ({ name, picture, contentChips }) => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const params = useParams();
+  const groupId = params.id;
   const [presentationList, setPresentationList] = useState([]);
-  const [removePresentation, setRemovePresentation] = useState(false);
+  const [removePresentationInGroup, setRemovePresentationInGroup] = useState(false);
 
   const handleGroupNavigate = () => {
     navigate("/group");
@@ -40,14 +41,14 @@ const PresentationList = ({ name, picture, contentChips }) => {
     navigate("./members");
   };
 
-  const handleRemovePresentation = (isRemove) => {
-    setRemovePresentation(isRemove);
+  const handleRemovePresentationInGroup = (isRemove) => {
+    setRemovePresentationInGroup(isRemove);
   };
 
   const createRemovePresentationButton = (props) => {
     const removePresentationButton = (
       <FormDialog content="remove" title="Remove Presentation">
-        <RemovePresentation {...props} />
+        <RemovePresentationInGroup {...props} />
       </FormDialog>
     );
     return removePresentationButton;
@@ -81,15 +82,14 @@ const PresentationList = ({ name, picture, contentChips }) => {
   useEffect(() => {
     // call api to get presentation list of this group
     (async () => {
-      const groupId = params.id;
       const data = await GroupService.getPresentationList(groupId);
 
       setPresentationList(data);
-      setRemovePresentation(false);
+      setRemovePresentationInGroup(false);
 
       console.log(data);
     })();
-  }, [removePresentation]);
+  }, [removePresentationInGroup]);
 
   // data to ui test
   const mockupData = {
@@ -242,8 +242,9 @@ const PresentationList = ({ name, picture, contentChips }) => {
                     console.log(`${presentation.i + 1} handle change`);
                   }}
                   menulist={menulist({
+                    groupId,
                     presentationId: presentation.id,
-                    handleRemovePresentation,
+                    handleRemovePresentationInGroup,
                   })}
                 />
               </Box>

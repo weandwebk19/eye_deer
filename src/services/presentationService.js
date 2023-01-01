@@ -40,11 +40,12 @@ const getCodePresentation = async (presentationId) => {
   }
 };
 
-const removePresentation = async (presentationId) => {
+const removePresentationInGroup = async (groupId, presentationId) => {
   try {
     const res = await axios({
       method: "post",
-      url: `/presentations/${presentationId}/remove`,
+      url: `/presentations/removeInGroup`,
+      data: {groupId, presentationId},
       headers: {
         "Content-Type": "application/json",
         // "x-access-token": `Bearer ${accessToken}`,
@@ -69,7 +70,7 @@ const removePresentation = async (presentationId) => {
 const PresentationService = {
   createNewPresentation,
   getCodePresentation,
-  removePresentation,
+  removePresentationInGroup,
 };
 
 export default PresentationService;
