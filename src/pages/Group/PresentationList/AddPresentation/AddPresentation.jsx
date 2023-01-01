@@ -32,6 +32,7 @@ const AddPresentation = () => {
     try {
       data.groupId = groupId;
       const res = await PresentationService.createNewPresentation(data);
+      
       // handle res
       if (res.success === true) {
         setMessageFromServer(res.message);
@@ -41,6 +42,8 @@ const AddPresentation = () => {
           presentationId: res.data?.id,
           index: 1,
           typeId: 1,
+          type: "Multiple Choice",
+          content: { question: "your question", options: [] },
         });
 
         if (newSlideRes.success === true) {
