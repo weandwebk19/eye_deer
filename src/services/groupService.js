@@ -342,6 +342,32 @@ const getPresentationList = async (groupId) => {
   }
 };
 
+const getRoleInGroup = async (groupId) => {
+  try {
+    const res = await axios({
+      method: "get",
+      url: `/groups/${groupId}/role`,
+      headers: {
+        "Content-Type": "application/json",
+        // "x-access-token": `Bearer ${accessToken}`,
+      },
+    });
+
+    return res.data.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
 const GroupService = {
   getOwnedGroups,
   getGroupById,
@@ -357,6 +383,7 @@ const GroupService = {
   assignCoOwner,
   kickOutMember,
   getPresentationList,
+  getRoleInGroup,
 };
 
 export default GroupService;

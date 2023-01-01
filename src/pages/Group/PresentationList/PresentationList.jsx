@@ -20,6 +20,7 @@ import { StyledButton } from "components/Button";
 import { ContentBox } from "components/ContentBox";
 import { FormDialog } from "components/Dialog";
 import { SearchField } from "components/TextField";
+import { useSelector } from "react-redux";
 
 import "../styles.scss";
 import AddPresentation from "./AddPresentation";
@@ -32,6 +33,8 @@ const PresentationList = ({ name, picture, contentChips }) => {
   const groupId = params.id;
   const [presentationList, setPresentationList] = useState([]);
   const [removePresentationInGroup, setRemovePresentationInGroup] = useState(false);
+  const roleType = useSelector(state => state.role.roleType);
+  console.log(roleType);
 
   const handleGroupNavigate = () => {
     navigate("/group");
@@ -209,6 +212,8 @@ const PresentationList = ({ name, picture, contentChips }) => {
               display: "flex",
             }}
           >
+          { (roleType !== 3)
+            &&
             <FormDialog
               content="+ new presentation"
               title="Create new presentation"
@@ -216,6 +221,7 @@ const PresentationList = ({ name, picture, contentChips }) => {
             >
               <AddPresentation />
             </FormDialog>
+          }
           </Box>
         </Box>
         {presentationList
@@ -241,11 +247,16 @@ const PresentationList = ({ name, picture, contentChips }) => {
                   handleChange={() => {
                     console.log(`${presentation.i + 1} handle change`);
                   }}
-                  menulist={menulist({
-                    groupId,
-                    presentationId: presentation.id,
-                    handleRemovePresentationInGroup,
-                  })}
+
+                  menulist={
+                    roleType == 1
+                    ? menulist({
+                        groupId,
+                        presentationId: presentation.id,
+                        handleRemovePresentationInGroup,
+                      },)
+                    : []
+                  }
                 />
               </Box>
             );
