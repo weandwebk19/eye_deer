@@ -34,6 +34,15 @@ const EditPresentation = () => {
 
   const handleChangeCurrentSlide = (slide) => {
     setCurrentSlide(slide);
+    (async () => {
+      const res = await SlideService.updateCurrentSlide(slide);
+
+      if (res.success === true) {
+        // setSlideList(res.data);
+        // setCurrentSlide(res.data);
+        // console.log(res.data);
+      }
+    })();
   };
 
   return (
@@ -60,6 +69,7 @@ const EditPresentation = () => {
         <PresentationCustomizer
           slideList={slideList}
           currentSlide={currentSlide}
+          setCurrentSlide={setCurrentSlide}
           handleChangeSlideList={handleChangeSlideList}
           handleChangeCurrentSlide={handleChangeCurrentSlide}
         />

@@ -26,16 +26,13 @@ const PrivateRoute = ({ children }) => {
   // const { isLoading, error, data } = useLoggedIn();
   // if (isLoading) return "Loading...";
   // if (error) return `An error has occurred: ${error.message}`;
-  console.log(isLoggedIn);
-  if (isLoggedIn === undefined) {
-    return children;
-  } else if (isLoggedIn === false) {
+  // console.log(isLoggedIn);
+  if (isLoggedIn === false) {
     return <Navigate to="/login" />;
   } else if (isVerify === false) {
     return <Navigate to="/confirmation/require" />;
-  } else {
-    return children;
   }
+  return children;
 };
 PrivateRoute.propTypes = {
   children: PropTypes.node.isRequired,
