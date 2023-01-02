@@ -5,29 +5,57 @@ import { Grid } from "@mui/material";
 import PresentationService from "services/presentationService";
 
 import StyledTabs from "components/Tabs/StyledTabs";
+import { FormDialog } from "components/Dialog";
 
 import PresentationTabContent from "./PresentationTabContent";
 import presentationDefaultPicture from "../../../assets/imgs/bg-img-3.jpg";
+import RemovePresentation from "../RemovePresentation";
 
 const PresentationTabs = () => {
-  const menuListOfOwner = [
-    {
-      id: 1,
-      children: "presentation settings",
-      onClick: () => {
-        console.log("presentation settings");
-      },
-    },
-    {
-      id: 2,
-      children: "remove",
-      onClick: () => {
-        console.log("remove");
-      },
-    },
-  ];
+  const [removePresentation, setRemovePresentation] = useState(false);
 
-  const menuListOfCoOwner = [];
+  const createRemovePresentationButton = (props) => {
+    const removePresentationButton = (
+      <FormDialog content="remove" title="Remove Presentation">
+        <RemovePresentation {...props} />
+      </FormDialog>
+    );
+    return removePresentationButton;
+  };
+
+  const createSettingPresentationButton = (props) => {
+    const settingPresentationButton = (
+      <FormDialog content="setting" title="Setting Presentation">
+        setting presentation
+      </FormDialog>
+    );
+    return settingPresentationButton;
+  };
+
+  const menuListOfOwner = (props) => {
+    return [
+      {
+        id: 1,
+        children: createSettingPresentationButton(props),
+        onClick: () => {
+          console.log("presentation settings");
+        },
+      },
+      {
+        id: 2,
+        children: createRemovePresentationButton(props),
+        onClick: () => {},
+      },
+    ];
+  };
+
+  const menuListOfCoOwner = (props) => {
+    return [];
+  };
+
+  const handleRemovePresentation = () => {
+    setRemovePresentation(true);
+  }
 
   const [tabElements, setTabElements] = useState([]);
   const dispatch = useDispatch();
@@ -45,7 +73,10 @@ const PresentationTabs = () => {
               code: presentation.code,
               slides: presentation.slides
             }))(presentation)}
-            menulist={menuList}
+            menulist={menuList({
+              presentationId: presentation.id,
+              handleRemovePresentation,
+            })}
           />
         </Grid>
       );
@@ -58,6 +89,7 @@ const PresentationTabs = () => {
         const myPresentations = await PresentationService.getMyPresentations();
         const myCoPresentations = await PresentationService.getMyCoPresentations();
         console.log(myPresentations, myCoPresentations);
+        setRemovePresentation(false);
 
         const newTabElements = [];
         newTabElements.push({
@@ -74,7 +106,7 @@ const PresentationTabs = () => {
         console.log(e);
       }
     })();
-  }, []);
+  }, [removePresentation]);
 
   return <StyledTabs tabElements={tabElements} />;
 };

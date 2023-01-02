@@ -67,6 +67,33 @@ const removePresentationInGroup = async (groupId, presentationId) => {
   }
 }
 
+const removePresentation = async (presentationId) => {
+  try {
+    const res = await axios({
+      method: "post",
+      url: `/presentations/remove`,
+      data: {presentationId},
+      headers: {
+        "Content-Type": "application/json",
+        // "x-access-token": `Bearer ${accessToken}`,
+      },
+    });
+
+    return res.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+}
+
 const getMyPresentations = async () => {
   try {
     const res = await axios({
@@ -150,6 +177,7 @@ const PresentationService = {
   createNewPresentation,
   getCodePresentation,
   removePresentationInGroup,
+  removePresentation,
   getMyPresentations,
   getMyCoPresentations,
   findPresentationsByName,
