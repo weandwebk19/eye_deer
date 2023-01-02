@@ -63,7 +63,7 @@ const ContentBox = ({
                           );
                         })}
                       </Box>
-                      <MoreButton menulist={menulist} />
+                      {menulist.length != 0 && <MoreButton menulist={menulist} />}
                     </Box>
                     <Typography variant="h5" noWrap>
                       presentation {index + 1}

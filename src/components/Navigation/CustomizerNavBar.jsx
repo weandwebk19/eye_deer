@@ -51,7 +51,7 @@ const CustomizerNavBar = ({ left, middle, right }) => {
             <IconButton
               sx={{ mr: 2 }}
               onClick={() => {
-                navigate("/group");
+                navigate(-1);
               }}
             >
               <ArrowBackIcon />

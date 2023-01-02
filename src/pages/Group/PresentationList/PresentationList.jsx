@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
@@ -16,21 +17,24 @@ import Star1 from "assets/imgs/star-1.svg";
 import PropTypes from "prop-types";
 import GroupService from "services/groupService";
 
-import { StyledButton } from "components/Button";
 import { ContentBox } from "components/ContentBox";
 import { FormDialog } from "components/Dialog";
 import { SearchField } from "components/TextField";
 
 import "../styles.scss";
 import AddPresentation from "./AddPresentation";
-import RemovePresentation from "./RemovePresentation";
+import RemovePresentationInGroup from "./RemovePresentationInGroup";
 
 const PresentationList = ({ name, picture, contentChips }) => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const params = useParams();
+  const groupId = params.id;
   const [presentationList, setPresentationList] = useState([]);
-  const [removePresentation, setRemovePresentation] = useState(false);
+  const [removePresentationInGroup, setRemovePresentationInGroup] =
+    useState(false);
+  const roleType = useSelector((state) => state.role.roleType);
+  console.log(roleType);
 
   const handleGroupNavigate = () => {
     navigate("/group");
@@ -40,14 +44,14 @@ const PresentationList = ({ name, picture, contentChips }) => {
     navigate("./members");
   };
 
-  const handleRemovePresentation = (isRemove) => {
-    setRemovePresentation(isRemove);
+  const handleRemovePresentationInGroup = (isRemove) => {
+    setRemovePresentationInGroup(isRemove);
   };
 
   const createRemovePresentationButton = (props) => {
     const removePresentationButton = (
       <FormDialog content="remove" title="Remove Presentation">
-        <RemovePresentation {...props} />
+        <RemovePresentationInGroup {...props} />
       </FormDialog>
     );
     return removePresentationButton;
@@ -81,15 +85,14 @@ const PresentationList = ({ name, picture, contentChips }) => {
   useEffect(() => {
     // call api to get presentation list of this group
     (async () => {
-      const groupId = params.id;
       const data = await GroupService.getPresentationList(groupId);
 
       setPresentationList(data);
-      setRemovePresentation(false);
+      setRemovePresentationInGroup(false);
 
       console.log(data);
     })();
-  }, [removePresentation]);
+  }, [removePresentationInGroup]);
 
   // data to ui test
   const mockupData = {
@@ -209,13 +212,15 @@ const PresentationList = ({ name, picture, contentChips }) => {
               display: "flex",
             }}
           >
-            <FormDialog
-              content="+ new presentation"
-              title="Create new presentation"
-              variant="primary"
-            >
-              <AddPresentation />
-            </FormDialog>
+            {roleType !== 3 && (
+              <FormDialog
+                content="+ new presentation"
+                title="Create new presentation"
+                variant="primary"
+              >
+                <AddPresentation />
+              </FormDialog>
+            )}
           </Box>
         </Box>
         {presentationList
@@ -241,10 +246,15 @@ const PresentationList = ({ name, picture, contentChips }) => {
                   handleChange={() => {
                     console.log(`${presentation.i + 1} handle change`);
                   }}
-                  menulist={menulist({
-                    presentationId: presentation.id,
-                    handleRemovePresentation,
-                  })}
+                  menulist={
+                    roleType == 1
+                      ? menulist({
+                          groupId,
+                          presentationId: presentation.id,
+                          handleRemovePresentationInGroup,
+                        })
+                      : []
+                  }
                 />
               </Box>
             );

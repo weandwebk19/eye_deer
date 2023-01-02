@@ -51,7 +51,6 @@ const PresentationPreviewList = ({
         content: { question: "your question", options: [] },
       };
     }
-    console.log(slideInfo);
     const res = await SlideService.createNewSlide(slideInfo);
 
     const currentSlideList = await SlideService.getSlidesByPresentationId(
@@ -61,11 +60,12 @@ const PresentationPreviewList = ({
   };
 
   const handleDeleteSlide = async (slideId) => {
-    const res = await SlideService.removeSlide(slideId);
-    const currentSlideList = await SlideService.getSlidesByPresentationId(
-      slideId
-    );
-    handleChangeSlideList(currentSlideList.data);
+    const currentSlide = slideList.find((slide) => slide.id === slideId);
+    const index = slideList.indexOf(currentSlide);
+    slideList.splice(index, 1);
+    handleChangeSlideList(slideList);
+
+    await SlideService.removeSlide(slideId);
   };
 
   return (

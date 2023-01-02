@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Outlet, useParams } from "react-router-dom";
 
+import { Box } from "@mui/system";
 import { FluidLayout } from "layouts";
 import SlideService from "services/slideService";
 
@@ -16,6 +18,7 @@ const EditPresentation = () => {
   const presentationId = params.id;
   const [slideList, setSlideList] = useState([]);
   const [currentSlide, setCurrentSlide] = useState();
+  const roleType = useSelector((state) => state.role.roleType);
 
   useEffect(() => {
     (async () => {
@@ -34,6 +37,15 @@ const EditPresentation = () => {
 
   const handleChangeCurrentSlide = (slide) => {
     setCurrentSlide(slide);
+    (async () => {
+      const res = await SlideService.updateCurrentSlide(slide);
+
+      if (res.success === true) {
+        // setSlideList(res.data);
+        // setCurrentSlide(res.data);
+        // console.log(res.data);
+      }
+    })();
   };
 
   return (
@@ -57,12 +69,19 @@ const EditPresentation = () => {
             handleChangeCurrentSlide,
           }}
         />
-        <PresentationCustomizer
-          slideList={slideList}
-          currentSlide={currentSlide}
-          handleChangeSlideList={handleChangeSlideList}
-          handleChangeCurrentSlide={handleChangeCurrentSlide}
-        />
+        {roleType != 3 ? (
+          <Box sx={{ width: "20vw" }}>
+            <PresentationCustomizer
+              slideList={slideList}
+              currentSlide={currentSlide}
+              setCurrentSlide={setCurrentSlide}
+              handleChangeSlideList={handleChangeSlideList}
+              handleChangeCurrentSlide={handleChangeCurrentSlide}
+            />
+          </Box>
+        ) : (
+          <Box sx={{ width: "10vw" }} />
+        )}
       </FluidLayout>
     </>
   );
