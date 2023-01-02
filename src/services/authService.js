@@ -137,6 +137,39 @@ const isLoggedIn = async () => {
   }
 };
 
+const anonymousLogin = async (user) => {
+  try {
+    const res = await axios.post("auth/user/anonymous/login", { user });
+
+    if (res.status === 200) {
+      TokenService.setUser(res.data);
+      return {
+        success: true,
+        message: "successfully login! 🤗",
+        user: res.data,
+      };
+    } else {
+      return {
+        success: false,
+        message: res.message,
+      };
+    }
+  } catch (err) {
+    console.log(err);
+
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
 const AuthService = {
   register,
   login,
@@ -144,6 +177,7 @@ const AuthService = {
   logout,
   getCurrentUser,
   isLoggedIn,
+  anonymousLogin,
 };
 
 export default AuthService;

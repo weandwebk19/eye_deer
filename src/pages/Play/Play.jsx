@@ -1,12 +1,14 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 import { Box, DialogActions, DialogContent } from "@mui/material";
 
 import { SocketContext } from "context/socket";
+import { anonymousLogin } from "redux/actions/auth";
 import TokenService from "services/tokenService";
+import { v4 as uuidv4 } from "uuid";
 
 import { StyledButton } from "components/Button";
 import { FormDialog } from "components/Dialog";
@@ -27,34 +29,63 @@ const Play = () => {
   } = useForm({ reValidateMode: "onChange" });
   const [isError, setIsError] = useState("");
   const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const currentUser = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
   const socket = useContext(SocketContext);
   const user = currentUser?.user;
+
   // const userId = currentUser?.user.id;
 
   const handleJoinPresent = useCallback((data) => {
-    if (data.firstName) {
-      data.user = { firstName: data.firstName };
-    } else if (user) {
-      data.user = user;
+    // if (data.firstName) {
+    //   data.user = { firstName: data.firstName };
+    // } else if (user) {
+    //   data.user = user;
+    // }
+
+    if (user) {
+      socket.emit("CLIENT_SEND_JOIN_PRESENTATION", { ...data, user });
+    } else {
+      const anonymousUser = { firstName: data.firstName, id: uuidv4() };
+      // TokenService.setUser(anonymousUser);
+      (async () => {
+        try {
+          const res = await dispatch(anonymousLogin(anonymousUser));
+          if (res.success === true) {
+            setMessage(res.message);
+            setIsError(false);
+            socket.emit("CLIENT_SEND_JOIN_PRESENTATION", {
+              ...data,
+              user: anonymousUser,
+            });
+          } else {
+            setMessage(res.message);
+            setIsError(true);
+          }
+        } catch (err) {
+          setIsError(true);
+          setMessage(err.message);
+        }
+      })();
     }
     // console.log("data", data);
 
-    socket.emit("CLIENT_SEND_JOIN_PRESENTATION", data);
-    socket.on("SERVER_SEND_JOIN_SUCCESS", (data, presentation) => {
-      console.log("data", data);
-      const presentationParse = JSON.parse(presentation);
-      console.log("presentation", presentationParse);
-      navigate(
-        `/presentation/${presentationParse?.presentationId}/${presentationParse?.slideId}/participating`
-      );
-    });
-    socket.on("SERVER_SEND_JOIN_FAIL", () => {
-      setMessage(`Code ${data.code} could not be found. Please try again.`);
-      setIsError(true);
-    });
+    // socket.emit("CLIENT_SEND_JOIN_PRESENTATION", data);
+    // socket.on("SERVER_SEND_JOIN_SUCCESS", (data, presentation) => {
+    //   console.log("data", data);
+    //   // const presentationParse = JSON.parse(presentation);
+    //   console.log("presentation", presentation);
+    //   navigate(
+    //     `/presentation/${presentation?.presentationId}/${presentation?.slideId}/participating`
+    //   );
+    // });
+    // socket.on("SERVER_SEND_JOIN_FAIL", () => {
+    //   // setMessage(`Code ${data.code} could not be found. Please try again.`);
+    //   setMessage("You cannot connect to this presentation on this time.");
+    //   setIsError(true);
+    // });
   }, []);
 
   const handleWithNameSubmit = (data) => {
@@ -65,6 +96,24 @@ const Play = () => {
   const handleNameInputChange = (e) => {
     console.log(e.target.value);
   };
+
+  useEffect(() => {
+    (async () => {
+      socket.on("SERVER_SEND_JOIN_SUCCESS", (data, presentation) => {
+        console.log("data", data);
+        // const presentationParse = JSON.parse(presentation);
+        console.log("presentation", presentation);
+        navigate(
+          `/presentation/${presentation?.presentationId}/${presentation?.slideId}/participating`
+        );
+      });
+      socket.on("SERVER_SEND_JOIN_FAIL", () => {
+        // setMessage(`Code ${data.code} could not be found. Please try again.`);
+        setMessage("You cannot connect to this presentation on this time.");
+        setIsError(true);
+      });
+    })();
+  });
 
   useEffect(() => {
     if (isError) {

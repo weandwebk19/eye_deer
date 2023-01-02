@@ -1,4 +1,5 @@
 import { FLayout } from "layouts";
+import PresenatationParticipantView from "pages/Presentation/ParticipantViewPresentation/PresentationParticipantView";
 
 import Confirmation from "../pages/Auth/confirmation";
 import Login from "../pages/Auth/login";

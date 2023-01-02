@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import {
   Avatar,
@@ -251,7 +251,7 @@ const PresentationList = ({ name, picture, contentChips }) => {
                     code,
                   }))(presentation)}
                   handleClick={() => {
-                    navigate(`/presentation/${presentation.id}/1/edit`);
+                    navigate(`./presentation/${presentation.id}/1/edit`);
                     console.log(navigate);
                   }}
                   handleChange={() => {

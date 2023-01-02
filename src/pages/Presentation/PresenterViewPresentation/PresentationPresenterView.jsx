@@ -18,6 +18,7 @@ const PresenatationPresenterView = () => {
   const params = useParams();
   const presentationId = params.id;
   const slideId = params.slideid;
+  const { groupId } = params;
   const socket = useContext(SocketContext);
   const [slideList, setSlideList] = useState([]);
   const [currentSlide, setCurrentSlide] = useState();
@@ -26,47 +27,6 @@ const PresenatationPresenterView = () => {
   const [code, setCode] = useState();
 
   useEffect(() => {
-    // socket.on("SERVER_SEND_INCREASE_VOTE", (data) => {
-    //   const { presentationId, slideId, optionId } = data;
-    //   if (slideList && currentSlide) {
-    //     const slide = slideList.find((e) => e.id === Number(slideId));
-    //     const option = slide?.content.options.find(
-    //       (e) => e.id === Number(optionId)
-    //     );
-    //     if (option) {
-    //       // console.log("option", option);
-
-    //       const newVote = option.vote + 1;
-    //       (async () => {
-    //         const voteRes = await SlideService.increaseVote(
-    //           presentationId,
-    //           slideId,
-    //           optionId,
-    //           newVote
-    //         );
-    //         if (voteRes.success === true) {
-    //           const newOption = {
-    //             ...option,
-    //             vote: newVote,
-    //           };
-    //           const indexOption = currentSlide.content.options.indexOf(option);
-    //           const newOptions = currentSlide.content.options;
-    //           newOptions.splice(indexOption, 1, newOption);
-    //           const newCurrentSlide = {
-    //             ...currentSlide,
-    //             content: {
-    //               ...currentSlide.content,
-    //               options: newOptions,
-    //             },
-    //           };
-
-    //           setCurrentSlide(newCurrentSlide);
-    //         }
-    //       })();
-    //     }
-    //   }
-    // });
-
     (async () => {
       try {
         const slideRes = await SlideService.getSlidesByPresentationId(
@@ -84,6 +44,15 @@ const PresenatationPresenterView = () => {
         if (codeRes.success === true) {
           setCode(codeRes.data);
         }
+
+        if (codeRes.success === true) {
+          socket.emit("HOST_START_PRESENT", {
+            code: codeRes.data,
+            presentationId,
+            slideId: 1,
+            groupId,
+          });
+        }
       } catch (err) {
         console.log(err);
       }
@@ -97,6 +66,7 @@ const PresenatationPresenterView = () => {
       const option = slide?.content.options.find(
         (e) => e.id === Number(optionId)
       );
+      // console.log("data", data);
       // console.log("option", option);
 
       if (option) {

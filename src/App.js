@@ -8,7 +8,7 @@ import PrivateRoute from "routes/PrivateRoute";
 
 import "./App.scss";
 import { SocketContext, socket } from "./context/socket";
-import { privateRoutes, publicRoutes } from "./routes";
+import { playRoutes, privateRoutes, publicRoutes } from "./routes";
 import { appTheme } from "./themes/theme";
 
 const App = () => {
