@@ -23,6 +23,7 @@ import { SearchField } from "components/TextField";
 
 import "../styles.scss";
 import AddPresentation from "./AddPresentation";
+import AddAlreadyPresentation from "./AddAlreadyPresentation";
 import RemovePresentationInGroup from "./RemovePresentationInGroup";
 
 const PresentationList = ({ name, picture, contentChips }) => {
@@ -210,8 +211,18 @@ const PresentationList = ({ name, picture, contentChips }) => {
             className="button-group"
             sx={{
               display: "flex",
+              gap: "24px"
             }}
           >
+            {roleType !== 3 && (
+              <FormDialog
+                content="+ already presentation"
+                title="Add already presentation"
+                variant="secondary"
+              >
+                <AddAlreadyPresentation />
+              </FormDialog>
+            )}
             {roleType !== 3 && (
               <FormDialog
                 content="+ new presentation"

@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { Box } from "@mui/material";
 
@@ -19,6 +20,7 @@ const PresentationPreviewList = ({
 }) => {
   const params = useParams();
   const presentationId = params.id;
+  const roleType = useSelector((state) => (state.role.roleType));
 
   const handleCreateNewSlide = async (typeId) => {
     const nextIndex = slideList.length + 1;
@@ -74,14 +76,16 @@ const PresentationPreviewList = ({
         className="presentation-preview-list__add-button"
         sx={{ position: "sticky", top: 0, zIndex: 1, mb: 2 }}
       >
-        <FormDialog
+        {roleType != 3 &&
+        (<FormDialog
           content="+ new slide"
           title="Add slide"
           variant="primary"
           selfClose={true}
         >
           <AddPresentationSlide handleCreateNewSlide={handleCreateNewSlide} />
-        </FormDialog>
+        </FormDialog>)
+        }
       </Box>
       <ol>
         {slideList.map((slide, i) => {
