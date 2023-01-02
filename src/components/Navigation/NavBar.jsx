@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
   Box,
@@ -13,6 +12,9 @@ import {
   Toolbar,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
+
+import MenuIcon from "@mui/icons-material/Menu";
+
 import { styled } from "@mui/system";
 
 import { AvatarButton } from "../Button";
@@ -194,8 +196,8 @@ const NavBar = () => {
 
             <Box sx={{ flexGrow: 0 }}>
               <AvatarButton
-                picture={user.picture}
-                fullname={`${user.firstName} ${user.lastName}`}
+                picture={user?.picture}
+                fullname={`${user?.firstName} ${user?.lastName}`}
               />
             </Box>
           </Toolbar>

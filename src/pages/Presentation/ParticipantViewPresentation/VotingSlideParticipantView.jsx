@@ -1,10 +1,12 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { Grid, Stack } from "@mui/material";
 
 import { SocketContext } from "context/socket";
 import PropTypes from "prop-types";
+import PresentationService from "services/presentationService";
 
 import { OptionCard } from "components/Card";
 import { StyledHeadingTypography } from "components/Typography";
@@ -15,6 +17,9 @@ const VotingSlideParticipantView = ({ question, data, code }) => {
   const presentationId = params.id;
   const slideId = params.slideid;
   const socket = useContext(SocketContext);
+  const currentUser = useSelector((state) => state.auth.user);
+  const user = currentUser?.user;
+
   const handleVoting = (e, optionId) => {
     // console.log(e);
     // console.log(optionId);
@@ -23,9 +28,27 @@ const VotingSlideParticipantView = ({ question, data, code }) => {
       slideId,
       optionId,
       code,
+      userId: user.id,
     });
     setIsVote(true);
   };
+
+  useEffect(() => {
+    (async () => {
+      // Hanlde check is voted
+      const votedRes = await PresentationService.getUserIsVoted(
+        presentationId,
+        slideId,
+        user.id
+      );
+      console.log("votedRes", votedRes);
+
+      if (votedRes.success === true) {
+        setIsVote(votedRes.data);
+      }
+    })();
+  }, []);
+
   return (
     <Stack spacing={4}>
       <StyledHeadingTypography

@@ -167,3 +167,42 @@ export const refreshToken = (accessToken) => (dispatch) => {
     payload: accessToken,
   });
 };
+
+export const anonymousLogin = (user) => (dispatch) => {
+  return AuthService.anonymousLogin(user).then(
+    (data) => {
+      if (data.success === true) {
+        dispatch({
+          type: LOGIN_SUCCESS,
+          payload: { user: data.user },
+        });
+
+        dispatch({
+          type: SET_MESSAGE,
+          payload: data.message,
+        });
+
+        return Promise.resolve(data);
+      }
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      dispatch({
+        type: LOGIN_FAIL,
+      });
+
+      dispatch({
+        type: SET_MESSAGE,
+        payload: message,
+      });
+
+      return Promise.reject(error);
+    }
+  );
+};

@@ -45,7 +45,7 @@ const removePresentationInGroup = async (groupId, presentationId) => {
     const res = await axios({
       method: "post",
       url: `/presentations/removeInGroup`,
-      data: {groupId, presentationId},
+      data: { groupId, presentationId },
       headers: {
         "Content-Type": "application/json",
         // "x-access-token": `Bearer ${accessToken}`,
@@ -65,12 +65,34 @@ const removePresentationInGroup = async (groupId, presentationId) => {
       message: err.message,
     };
   }
-}
+};
+
+const getUserIsVoted = async (presentationId, slideId, userId) => {
+  try {
+    const res = await axios.get(
+      `presentations/${presentationId}/slides/${slideId}/users/${userId}/voted`
+    );
+
+    return res.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
 
 const PresentationService = {
   createNewPresentation,
   getCodePresentation,
   removePresentationInGroup,
+  getUserIsVoted,
 };
 
 export default PresentationService;
