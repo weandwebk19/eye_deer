@@ -126,7 +126,7 @@ const ContentBox = ({
                         <MoreVertIcon />
                       </IconButton> */}
 
-                      <MoreButton menulist={menulist} />
+                      {menulist.length != 0 && <MoreButton menulist={menulist} />}
                     </Box>
                   </Box>
                   <Box

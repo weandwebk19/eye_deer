@@ -9,6 +9,7 @@ import Home from "../pages/Home";
 import Play from "../pages/Play";
 import Presentation from "../pages/Presentation";
 import Profile from "../pages/User/Profile";
+import PresentationManagement from "../pages/PresentationManagement";
 
 // public Routes
 const publicRoutes = [
@@ -23,6 +24,7 @@ const privateRoutes = [
   { path: "/group/*", component: Group },
   { path: "/presentation/*", component: Presentation },
   { path: "/profile/*", component: Profile },
+  { path: "/presentation-management/*", component: PresentationManagement },
 ];
 
 export { publicRoutes, privateRoutes };
