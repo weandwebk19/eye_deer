@@ -55,8 +55,8 @@ const PresentationList = ({ name, picture, contentChips }) => {
 
   const createSettingPresentationButton = (props) => {
     const settingPresentationButton = (
-      <FormDialog content="setting presentation" title="Setting Presentation">
-        set up later
+      <FormDialog content="setting" title="Setting Presentation">
+        rename change visability
       </FormDialog>
     );
     return settingPresentationButton;
@@ -255,12 +255,13 @@ const PresentationList = ({ name, picture, contentChips }) => {
 };
 
 PresentationList.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   picture: PropTypes.string,
   contentChips: PropTypes.objectOf(PropTypes.number),
 };
 
 PresentationList.defaultProps = {
+  name: "",
   picture: null,
   contentChips: null,
 };

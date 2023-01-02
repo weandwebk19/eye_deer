@@ -2,7 +2,15 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 
-import { DialogActions, DialogContent } from "@mui/material";
+import {
+  Box,
+  DialogActions,
+  DialogContent,
+  FormControlLabel,
+  FormGroup,
+  Switch,
+  Typography,
+} from "@mui/material";
 
 import GroupService from "services/groupService";
 import PresentationService from "services/presentationService";
@@ -27,6 +35,7 @@ const AddPresentation = () => {
   // state of ui after add member
   const [isError, setIsError] = useState("");
   const [messageFromServer, setMessageFromServer] = useState("");
+  const [isPublic, setIsPublic] = useState(true);
 
   const onSubmit = async (data) => {
     try {
@@ -90,7 +99,36 @@ const AddPresentation = () => {
           ) : null}
         </DialogContent>
         <DialogActions>
-          <StyledButton type="submit">Create presentation</StyledButton>
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Typography>visible for</Typography>
+              <FormGroup sx={{ ml: 1 }}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      defaultChecked
+                      onClick={() => setIsPublic(!isPublic)}
+                    />
+                  }
+                  label={isPublic ? "public" : "private"}
+                />
+              </FormGroup>
+            </Box>
+
+            <StyledButton type="submit">Create presentation</StyledButton>
+          </Box>
         </DialogActions>
         {(() => {
           if (isError === false) {

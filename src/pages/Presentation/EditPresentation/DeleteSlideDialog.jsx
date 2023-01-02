@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 
 import { StyledButton } from "components/Button";
 import { StyledPaper } from "components/Paper";
-import { InstantMessage } from "components/Popup";
 
 const DeleteSlideDialog = ({ handleDeleteSlide }) => {
   return (
@@ -21,22 +20,11 @@ const DeleteSlideDialog = ({ handleDeleteSlide }) => {
           </StyledButton>
         </Stack>
       </DialogContent>
-      {/* {(() => {
-        if (isError === false) {
-          return (
-            <InstantMessage variant="success" message={messageFromServer} />
-          );
-        } else if (isError === true) {
-          return <InstantMessage variant="error" message={messageFromServer} />;
-        }
-        return "";
-      })()} */}
     </StyledPaper>
   );
 };
 
 DeleteSlideDialog.propTypes = {
-  // slideId: PropTypes.number.isRequired,
   handleDeleteSlide: PropTypes.func.isRequired,
 };
 

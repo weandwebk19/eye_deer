@@ -36,12 +36,6 @@ const HomeFirstSection = () => {
           limited amount of time to answer.
         </Typography>
       </Box>
-
-      <Box
-        sx={{ width: "100%", display: "flex", flexDirection: "row-reverse" }}
-      >
-        <StyledButton variant="secondary">getting started</StyledButton>
-      </Box>
     </Box>
   );
 };

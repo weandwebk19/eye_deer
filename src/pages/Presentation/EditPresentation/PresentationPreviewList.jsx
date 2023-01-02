@@ -1,18 +1,13 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 
 import PropTypes from "prop-types";
-import { clickSlide, resetState } from "redux/actions/presentation";
 import SlideService from "services/slideService";
 
-import { StyledButton } from "components/Button";
 import { FormDialog } from "components/Dialog";
 
 import AddPresentationSlide from "../AddPresentationSlide";
-import { AddSlideDialog } from "../AddPresentationSlide/AddSlideDialog";
 import "../styles.scss";
 import { PresentationPreviewThumb } from "./PresentationPreviewThumb";
 
@@ -24,16 +19,6 @@ const PresentationPreviewList = ({
 }) => {
   const params = useParams();
   const presentationId = params.id;
-
-  const { id, slideid } = useParams();
-
-  // useEffect(() => {
-  //   handleChangeSlideList(slideList);
-  // }, []);
-
-  // useEffect(() => {
-  //   handleChangeCurrentSlide(slideList[0]);
-  // });
 
   const handleCreateNewSlide = async (typeId) => {
     const nextIndex = slideList.length + 1;
@@ -75,11 +60,12 @@ const PresentationPreviewList = ({
     handleChangeSlideList(currentSlideList.data);
   };
 
-  const handleDeleteSlide = (slide) => {
-    // console.log("successfully deleting", slideId);
-    const index = slideList.indexOf(slide);
-    slideList.splice(index, 1);
-    handleChangeSlideList(slideList);
+  const handleDeleteSlide = async (slideId) => {
+    const res = await SlideService.removeSlide(slideId);
+    const currentSlideList = await SlideService.getSlidesByPresentationId(
+      slideId
+    );
+    handleChangeSlideList(currentSlideList.data);
   };
 
   return (
@@ -88,31 +74,29 @@ const PresentationPreviewList = ({
         className="presentation-preview-list__add-button"
         sx={{ position: "sticky", top: 0, zIndex: 1, mb: 2 }}
       >
-        <AddSlideDialog
+        <FormDialog
           content="+ new slide"
           title="Add slide"
           variant="primary"
+          selfClose={true}
         >
-          <AddPresentationSlide
-            // slideList={slideList}
-            handleCreateNewSlide={handleCreateNewSlide}
-          />
-        </AddSlideDialog>
+          <AddPresentationSlide handleCreateNewSlide={handleCreateNewSlide} />
+        </FormDialog>
       </Box>
       <ol>
         {slideList.map((slide, i) => {
           return (
             <Box
               className={`preview-box ${
-                currentSlide?.index === slide?.index && "preview-box--active"
+                currentSlide?.id === slide?.id && "preview-box--active"
               }`}
               key={slide?.id}
               onClick={() => {
                 handleChangeCurrentSlide(slide);
-                // dispatch(clickSlide(slide.type));
               }}
             >
               <PresentationPreviewThumb
+                index={i + 1}
                 slide={slide}
                 handleDeleteSlide={handleDeleteSlide}
               />

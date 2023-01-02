@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { Box, Grid, Typography } from "@mui/material";
 
 import useSize from "@react-hook/size";
+import AddPresentation from "pages/Group/PresentationList/AddPresentation";
 import PropTypes from "prop-types";
 
 import { AvatarButton, StyledButton } from "components/Button";
 import { CarpetCard } from "components/Card";
+import { FormDialog } from "components/Dialog";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 
 const HomeLastSection = ({ fullname, user }) => {
@@ -124,7 +126,24 @@ const HomeLastSection = ({ fullname, user }) => {
               </StyledButton>
             </Grid>
             <Grid item xs={1} sm={1} md={1} lg={1}>
-              <StyledButton sx={{ width: "100%" }}>create quizzes</StyledButton>
+              {/* <StyledButton sx={{ width: "100%" }}>
+                create presentation
+              </StyledButton> */}
+              <Box
+                className="button-group"
+                sx={{
+                  width: "100%",
+                }}
+              >
+                <FormDialog
+                  content="+ new presentation"
+                  title="create presentation"
+                  variant="primary"
+                  buttonSize="full"
+                >
+                  <AddPresentation />
+                </FormDialog>
+              </Box>
             </Grid>
           </Grid>
         </Box>
