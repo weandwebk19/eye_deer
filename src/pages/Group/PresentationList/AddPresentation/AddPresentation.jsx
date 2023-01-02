@@ -39,7 +39,7 @@ const AddPresentation = () => {
 
   const onSubmit = async (data) => {
     try {
-      data.groupId = groupId;
+      data = {...data, groupId};
       const res = await PresentationService.createNewPresentation(data);
       
       // handle res
