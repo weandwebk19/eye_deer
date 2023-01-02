@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
@@ -16,11 +17,9 @@ import Star1 from "assets/imgs/star-1.svg";
 import PropTypes from "prop-types";
 import GroupService from "services/groupService";
 
-import { StyledButton } from "components/Button";
 import { ContentBox } from "components/ContentBox";
 import { FormDialog } from "components/Dialog";
 import { SearchField } from "components/TextField";
-import { useSelector } from "react-redux";
 
 import "../styles.scss";
 import AddPresentation from "./AddPresentation";
@@ -32,8 +31,9 @@ const PresentationList = ({ name, picture, contentChips }) => {
   const params = useParams();
   const groupId = params.id;
   const [presentationList, setPresentationList] = useState([]);
-  const [removePresentationInGroup, setRemovePresentationInGroup] = useState(false);
-  const roleType = useSelector(state => state.role.roleType);
+  const [removePresentationInGroup, setRemovePresentationInGroup] =
+    useState(false);
+  const roleType = useSelector((state) => state.role.roleType);
   console.log(roleType);
 
   const handleGroupNavigate = () => {
@@ -59,8 +59,8 @@ const PresentationList = ({ name, picture, contentChips }) => {
 
   const createSettingPresentationButton = (props) => {
     const settingPresentationButton = (
-      <FormDialog content="setting presentation" title="Setting Presentation">
-        set up later
+      <FormDialog content="setting" title="Setting Presentation">
+        rename change visability
       </FormDialog>
     );
     return settingPresentationButton;
@@ -212,16 +212,15 @@ const PresentationList = ({ name, picture, contentChips }) => {
               display: "flex",
             }}
           >
-          { (roleType !== 3)
-            &&
-            <FormDialog
-              content="+ new presentation"
-              title="Create new presentation"
-              variant="primary"
-            >
-              <AddPresentation />
-            </FormDialog>
-          }
+            {roleType !== 3 && (
+              <FormDialog
+                content="+ new presentation"
+                title="Create new presentation"
+                variant="primary"
+              >
+                <AddPresentation />
+              </FormDialog>
+            )}
           </Box>
         </Box>
         {presentationList
@@ -247,15 +246,14 @@ const PresentationList = ({ name, picture, contentChips }) => {
                   handleChange={() => {
                     console.log(`${presentation.i + 1} handle change`);
                   }}
-
                   menulist={
                     roleType == 1
-                    ? menulist({
-                        groupId,
-                        presentationId: presentation.id,
-                        handleRemovePresentationInGroup,
-                      },)
-                    : []
+                      ? menulist({
+                          groupId,
+                          presentationId: presentation.id,
+                          handleRemovePresentationInGroup,
+                        })
+                      : []
                   }
                 />
               </Box>
@@ -267,12 +265,13 @@ const PresentationList = ({ name, picture, contentChips }) => {
 };
 
 PresentationList.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   picture: PropTypes.string,
   contentChips: PropTypes.objectOf(PropTypes.number),
 };
 
 PresentationList.defaultProps = {
+  name: "",
   picture: null,
   contentChips: null,
 };

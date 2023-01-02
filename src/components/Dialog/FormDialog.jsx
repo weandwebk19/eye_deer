@@ -23,7 +23,15 @@ const StyledDialogContent = styled(DialogContent)(
 `
 );
 
-const FormDialog = ({ content, title, children, variant, size }) => {
+const FormDialog = ({
+  content,
+  title,
+  children,
+  variant,
+  buttonSize,
+  dialogSize,
+  selfClose,
+}) => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -39,7 +47,11 @@ const FormDialog = ({ content, title, children, variant, size }) => {
       {(() => {
         if (typeof content === "string")
           return (
-            <StyledButton variant={variant} onClick={handleOpen}>
+            <StyledButton
+              variant={variant}
+              onClick={handleOpen}
+              sx={buttonSize === "full" ? { width: "100%" } : {}}
+            >
               {content}
             </StyledButton>
           );
@@ -50,7 +62,7 @@ const FormDialog = ({ content, title, children, variant, size }) => {
         );
       })()}
 
-      <Dialog open={open} onClose={handleClose} maxWidth={size} fullWidth>
+      <Dialog open={open} onClose={handleClose} maxWidth={dialogSize} fullWidth>
         <DialogTitle sx={{ px: 4 }}>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <StyledHeadingTypography variant="h5">
@@ -61,7 +73,11 @@ const FormDialog = ({ content, title, children, variant, size }) => {
             </IconButton>
           </Box>
         </DialogTitle>
-        {children}
+        {selfClose ? (
+          <Box onClick={handleClose}>{children}</Box>
+        ) : (
+          <Box>{children}</Box>
+        )}
       </Dialog>
     </div>
   );
@@ -72,14 +88,18 @@ FormDialog.propTypes = {
   title: PropTypes.string,
   children: PropTypes.node.isRequired,
   variant: PropTypes.string,
-  size: PropTypes.string,
+  buttonSize: PropTypes.string,
+  dialogSize: PropTypes.string,
+  selfClose: PropTypes.bool,
 };
 
 FormDialog.defaultProps = {
   content: "",
   title: "",
   variant: "",
-  size: "md",
+  buttonSize: "",
+  dialogSize: "md",
+  selfClose: false,
 };
 
 export { StyledDialogContent, FormDialog };

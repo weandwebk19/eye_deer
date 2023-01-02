@@ -621,7 +621,11 @@ const MemberList = ({ name }) => {
 };
 
 MemberList.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
+};
+
+MemberList.defaultProps = {
+  name: "",
 };
 
 export default MemberList;

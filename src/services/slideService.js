@@ -4,9 +4,8 @@ const axios = createAxiosJWT();
 
 const createNewSlide = async (slide) => {
   try {
-    console.log(slide);
     const res = await axios.post(`slides/create`, slide);
-
+    console.log(res);
     return res.data;
   } catch (err) {
     if (err.response !== undefined) {
@@ -54,6 +53,24 @@ const increaseVote = async (presentationId, slideId, optionId, newVote) => {
     return res.data;
   } catch (err) {
     console.log(err);
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
+const removeSlide = async (slideId) => {
+  try {
+    const res = await axios.delete(`/slides/${slideId}/delete`);
+    return res.data;
+  } catch (err) {
     if (err.response !== undefined) {
       return {
         success: false,
@@ -166,6 +183,7 @@ const SlideService = {
   createNewSlide,
   getSlidesByPresentationId,
   increaseVote,
+  removeSlide,
   updateCurrentSlide,
   createNewOption,
   changeSlideType,

@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Outlet, useParams } from "react-router-dom";
 
+import { Box } from "@mui/system";
 import { FluidLayout } from "layouts";
 import SlideService from "services/slideService";
 
 import { CustomizerNavBar } from "components/Navigation";
-import { Box } from "@mui/system";
 
 import EditNamePresentation from "../NavbarContent/EditNamePresentation";
 import StartPresentButton from "../NavbarContent/StartPresentButton";
@@ -18,7 +18,7 @@ const EditPresentation = () => {
   const presentationId = params.id;
   const [slideList, setSlideList] = useState([]);
   const [currentSlide, setCurrentSlide] = useState();
-  const roleType = useSelector(state => state.role.roleType);
+  const roleType = useSelector((state) => state.role.roleType);
 
   useEffect(() => {
     (async () => {
@@ -69,9 +69,8 @@ const EditPresentation = () => {
             handleChangeCurrentSlide,
           }}
         />
-        {roleType != 3
-          ?
-          <Box sx={{width: "20vw"}}>
+        {roleType != 3 ? (
+          <Box sx={{ width: "20vw" }}>
             <PresentationCustomizer
               slideList={slideList}
               currentSlide={currentSlide}
@@ -80,9 +79,9 @@ const EditPresentation = () => {
               handleChangeCurrentSlide={handleChangeCurrentSlide}
             />
           </Box>
-          :
-          <Box sx={{width: "10vw"}}/>
-        }
+        ) : (
+          <Box sx={{ width: "10vw" }} />
+        )}
       </FluidLayout>
     </>
   );

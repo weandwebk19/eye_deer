@@ -331,7 +331,7 @@ const PresentationPresenterMenu = ({
                   content={content}
                   title="question box"
                   variant={null}
-                  size="xl"
+                  dialogSize="xl"
                 >
                   <TemporaryDrawer />
                 </FormDialog>

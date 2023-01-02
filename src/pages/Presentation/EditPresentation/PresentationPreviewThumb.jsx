@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { Box, Paper, Tooltip, Typography } from "@mui/material";
 
@@ -32,9 +32,7 @@ import DeleteSlideDialog from "./DeleteSlideDialog";
 //   }
 // };,
 
-const PresentationPreviewThumb = ({ slide, handleDeleteSlide }) => {
-  // const { slideid } = useParams();
-  // const currentSlide = slideList.find((o) => o.slideid === Number(slideid));
+const PresentationPreviewThumb = ({ index, slide, handleDeleteSlide }) => {
   const navigate = useNavigate();
   return (
     <Paper
@@ -46,7 +44,7 @@ const PresentationPreviewThumb = ({ slide, handleDeleteSlide }) => {
         overflow: "visible",
       }}
       onClick={() => {
-        navigate(`../${slide?.index}/edit`);
+        navigate(`../${slide?.id}/edit`);
       }}
     >
       <PlayArrowIcon id="preview-box__indicator" />
@@ -93,18 +91,19 @@ const PresentationPreviewThumb = ({ slide, handleDeleteSlide }) => {
               <FormDialog
                 FormDialog
                 content={content}
-                title={`delete slide ${slide?.index}`}
+                title={`delete slide ${index}`}
                 variant={null}
+                selfClose={true}
               >
                 <DeleteSlideDialog
-                  handleDeleteSlide={() => handleDeleteSlide(slide)}
+                  handleDeleteSlide={() => handleDeleteSlide(slide?.id)}
                 />
               </FormDialog>
             );
           })()}
         </Box>
         <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-          <Typography>{slide?.index}.</Typography>
+          <Typography>{index}.</Typography>
           <Paper
             sx={{
               width: "100%",
@@ -163,6 +162,7 @@ const PresentationPreviewThumb = ({ slide, handleDeleteSlide }) => {
 };
 
 PresentationPreviewThumb.propTypes = {
+  index: PropTypes.number,
   slide: PropTypes.object,
   handleDeleteSlide: PropTypes.func,
   // iscurrent: PropTypes.bool.isRequired,
@@ -171,6 +171,7 @@ PresentationPreviewThumb.propTypes = {
 };
 
 PresentationPreviewThumb.defaultProps = {
+  index: 0,
   slide: {},
   handleDeleteSlide: () => {},
 };
