@@ -205,7 +205,14 @@ const VisitCard = ({ variant, user, menulist, handleClick }) => {
                     {(() => {
                       if (variant === "no-morebutton") {
                         return "";
-                      } else return <MoreButton menulist={menulist} />;
+                      } 
+                      else if(menulist.length == 0){
+                        return "";
+                      } 
+                      else
+                      {
+                        return <MoreButton menulist={menulist} />;
+                      }
                     })()}
                   </CardContent>
                 </CardActionArea>

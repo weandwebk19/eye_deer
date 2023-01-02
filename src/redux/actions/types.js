@@ -11,3 +11,5 @@ export const REFRESH_TOKEN = "REFRESH_TOKEN";
 
 export const CLICK_SLIDE = "presentationSlideList/clickSlide";
 export const RESET_STATE = "presentationSlideList/resetState";
+
+export const SET_ROLE = "SET_ROLE";

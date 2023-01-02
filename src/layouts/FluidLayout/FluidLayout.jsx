@@ -58,8 +58,8 @@ const FluidLayout = ({ children }) => {
             item
             xs={4}
             sm={8}
-            md={7}
-            lg={7}
+            md
+            lg
             id="fluid-layout__main"
             p={3}
             sx={{
@@ -78,8 +78,8 @@ const FluidLayout = ({ children }) => {
             item
             xs={4}
             sm={8}
-            md={3}
-            lg={3}
+            md="auto"
+            lg="auto"
             id="fluid-layout__right"
             p={3}
             sx={{

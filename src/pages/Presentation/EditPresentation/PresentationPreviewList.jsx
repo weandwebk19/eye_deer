@@ -24,6 +24,7 @@ const PresentationPreviewList = ({
 }) => {
   const params = useParams();
   const presentationId = params.id;
+  const roleType = useSelector(state => state.role.roleType);
 
   const { id, slideid } = useParams();
 
@@ -88,6 +89,7 @@ const PresentationPreviewList = ({
         className="presentation-preview-list__add-button"
         sx={{ position: "sticky", top: 0, zIndex: 1, mb: 2 }}
       >
+        {roleType != 3 &&
         <AddSlideDialog
           content="+ new slide"
           title="Add slide"
@@ -98,6 +100,7 @@ const PresentationPreviewList = ({
             handleCreateNewSlide={handleCreateNewSlide}
           />
         </AddSlideDialog>
+        }
       </Box>
       <ol>
         {slideList.map((slide, i) => {
