@@ -12,11 +12,11 @@ const RemovePresentation = (props) => {
   // state of ui after add member
   const [isError, setIsError] = useState("");
   const [messageFromServer, setMessageFromServer] = useState("");
+  const {presentationId, handleRemovePresentation} = props;
 
   const handleClick = async () => {
     try {
       // call api to remove presentation
-      const {groupId, presentationId, handleRemovePresentation} = props;
       const res = await PresentationService.removePresentation(presentationId);
 
       // handle res
@@ -68,14 +68,11 @@ const RemovePresentation = (props) => {
 };
 
 RemovePresentation.propTypes = {
-  groupId: PropTypes.number,
-  presentationId: PropTypes.number,
+  presentationId: PropTypes.number.isRequired,
   handleRemovePresentation: PropTypes.func,
 };
 
 RemovePresentation.defaultProps = {
-  groupId: null,
-  presentationId: null,
   handleRemovePresentation: ()=>{},
 }
 
