@@ -27,7 +27,7 @@ import { StyledPaper } from "components/Paper";
 import { InstantMessage } from "components/Popup";
 import { StyledInputField } from "components/TextField";
 
-const AddPresentation = () => {
+const AddAlreadyPresentation = () => {
   const navigate = useNavigate();
   const params = useParams();
   const groupId = params.id;
@@ -193,4 +193,4 @@ const AddPresentation = () => {
   );
 };
 
-export default AddPresentation;
+export default AddAlreadyPresentation;
