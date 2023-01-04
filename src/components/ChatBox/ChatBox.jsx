@@ -1,62 +1,120 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import { Box } from "@mui/material";
 
+import { SocketContext } from "context/socket";
 import PropTypes from "prop-types";
 
+import { StyledButton } from "components/Button";
 import { StyledInputField } from "components/TextField";
 
 import ChatMsg from "./ChatMsg";
 import "./styles.scss";
 
-const ChatBox = ({ data }) => (
-  <Box p={4}>
-    <Box className="chat-box">
-      <ChatMsg
-        avatar=""
-        AvatarProps={{ name: "19120671 - Le Nguyen Nhat Tho" }}
-        messages={[
-          "Hi Tho Le, How r u today?",
-          "Did you train yesterday",
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Volutpat lacus laoreet non curabitur gravida.",
-        ]}
-      />
-      <ChatMsg
-        side="right"
-        messages={[
-          "Great! What's about you?",
-          "Of course I did. Speaking of which check this out",
-        ]}
-      />
-      <ChatMsg
-        avatar=""
-        AvatarProps={{ name: "191⠿⠿6⠿⠿ - ⠿⠿ Nguyen ⠿⠿⠿ Giang" }}
-        messages={["Im good.", "See u later."]}
-      />
-      <ChatMsg
-        side="right"
-        messages={[
-          "Great! What's about you?",
-          "Of course I did. Speaking of which check this out",
-        ]}
-      />
+const ChatBox = ({ chatMessages, setChatMessages, code }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const [inputValue, setInputValue] = useState();
+
+  const params = useParams();
+  const socket = useContext(SocketContext);
+  const presentationId = params.id;
+  const currentUser = useSelector((state) => state.auth.user);
+  const user = currentUser?.user;
+
+  useEffect(() => {
+    // socket.on("SERVER_SEND_CHAT_MESSAGE", (chatMessage) => {
+    //   const newChatMessages = chatMessages.concat(chatMessage);
+    //   setChatMessages(newChatMessages);
+    // });
+  });
+
+  const handleSendMessage = (messageFormData) => {
+    socket.emit("PARTICIPANT_SEND_MESSAGE", {
+      userId: user.id,
+      presentationId,
+      content: messageFormData.message,
+      code,
+    });
+    setInputValue("");
+  };
+
+  return (
+    <Box p={4}>
+      <form onSubmit={handleSubmit(handleSendMessage)}>
+        <Box className="chat-box">
+          {chatMessages.map((msg) => {
+            const side = msg.userId === user.id ? "right" : "left";
+            return (
+              <ChatMsg
+                key={`${msg.userId} ${msg.createdAt}`}
+                side={side}
+                avatar={msg.avatar}
+                AvatarProps={{ name: msg.name }}
+                messages={msg.messages}
+              />
+            );
+          })}
+
+          {/* <ChatMsg
+          side="right"
+          messages={[
+            "Great! What's about you?",
+            "Of course I did. Speaking of which check this out",
+          ]}
+        />
+        <ChatMsg
+          avatar=""
+          AvatarProps={{ name: "191⠿⠿6⠿⠿ - ⠿⠿ Nguyen ⠿⠿⠿ Giang" }}
+          messages={["Im good.", "See u later."]}
+        />
+        <ChatMsg
+          side="right"
+          messages={[
+            "Great! What's about you?",
+            "Of course I did. Speaking of which check this out",
+          ]}
+        /> */}
+        </Box>
+        <StyledInputField
+          value={inputValue}
+          sx={{ mt: 2 }}
+          id="outlined-basic-email"
+          label="Type Something"
+          customvariant="light"
+          fullWidth
+          {...register("message", {
+            required: "require",
+            minLength: 1,
+            onChange: (e) => setInputValue(e.target.value),
+          })}
+        />
+        {errors.name ? (
+          <div className="error-message-validate">{errors.name.message}</div>
+        ) : null}
+        <StyledButton type="submit">Send</StyledButton>
+      </form>
     </Box>
-    <StyledInputField
-      sx={{ mt: 2 }}
-      id="outlined-basic-email"
-      label="Type Something"
-      customvariant="light"
-      fullWidth
-    />
-  </Box>
-);
+  );
+};
 
 ChatBox.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object),
+  chatMessages: PropTypes.arrayOf(PropTypes.object),
+  setChatMessages: PropTypes.func,
+  code: PropTypes.string,
 };
 
 ChatBox.defaultProps = {
-  data: [],
+  chatMessages: [],
+  setChatMessages: () => {},
+  code: "",
 };
 
 export default ChatBox;

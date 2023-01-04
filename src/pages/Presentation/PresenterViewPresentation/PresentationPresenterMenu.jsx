@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
@@ -34,6 +35,7 @@ import PresentationService from "services/presentationService";
 import ChatBox from "components/ChatBox/ChatBox";
 import { FormDialog } from "components/Dialog";
 import { BasicModal } from "components/Modal";
+import PositionedSnackbar from "components/Popup/PositionedSnackbar";
 import { StyledHeadingTypography } from "components/Typography";
 
 import TemporaryDrawer from "./QuestionBox";
@@ -54,11 +56,15 @@ const PresentationPresenterMenu = ({
   const params = useParams();
   const slideId = params.slideid;
   const presentationId = params.id;
+  const currentUser = useSelector((state) => state.auth.user);
+  const user = currentUser?.user;
   // const currentSlide = slideList.find((slide) => slide.id === Number(slideId));
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [votingReset, setVotingReset] = useState(false);
   const [isLock, setIsLock] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [chatMessages, setChatMessages] = useState([]);
+  const [popupMessages, setPopupMessages] = useState([]);
   const open = Boolean(anchorEl);
   const socket = useContext(SocketContext);
   const [code, setCode] = useState();
@@ -110,10 +116,41 @@ const PresentationPresenterMenu = ({
         if (res.success === true) {
           setCode(res.data);
         }
+
+        const chatMessagesRes = await PresentationService.getChatMessages(
+          presentationId
+        );
+        console.log(chatMessagesRes);
+        if (chatMessagesRes.success === true) {
+          setChatMessages(chatMessagesRes.data);
+        }
       } catch (err) {
         console.log(err);
       }
     })();
+
+    // handle receive messages
+    socket.on("SERVER_SEND_CHAT_MESSAGE", (chatMessage) => {
+      setChatMessages((prevChatMessages) => {
+        if (
+          prevChatMessages.length > 0 &&
+          prevChatMessages[prevChatMessages.length - 1].createdAt !==
+            chatMessage.createdAt
+        ) {
+          return prevChatMessages.concat(chatMessage);
+        } else return prevChatMessages;
+      });
+
+      if (chatMessage.userId !== user.id) {
+        setPopupMessages((prevChatMessages) => {
+          return prevChatMessages.concat(
+            <PositionedSnackbar
+              message={`${chatMessage.name}: ${chatMessage.content}`}
+            />
+          );
+        });
+      }
+    });
   }, []);
 
   const handleToggleLock = () => {
@@ -287,7 +324,7 @@ const PresentationPresenterMenu = ({
             {(() => {
               const content = (
                 <Badge
-                  badgeContent={999}
+                  badgeContent={chatMessages.length}
                   color="primary"
                   overlap="circular"
                   max={999}
@@ -307,7 +344,11 @@ const PresentationPresenterMenu = ({
                   title="chat box"
                   variant={null}
                 >
-                  <ChatBox />
+                  <ChatBox
+                    chatMessages={chatMessages}
+                    setChatMessages={setChatMessages}
+                    code={code}
+                  />
                 </FormDialog>
               );
             })()}
@@ -363,6 +404,7 @@ const PresentationPresenterMenu = ({
           draggable="false"
         />
       </Box>
+      {popupMessages.map((message) => message)}
     </>
   );
 };
