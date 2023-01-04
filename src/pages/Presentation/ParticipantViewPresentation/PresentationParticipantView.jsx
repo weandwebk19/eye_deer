@@ -11,6 +11,9 @@ import PresentationService from "services/presentationService";
 import SlideService from "services/slideService";
 
 import { StyledButton } from "components/Button";
+import ChatBox from "components/ChatBox/ChatBox";
+import { FormDialog } from "components/Dialog";
+import PositionedSnackbar from "components/Popup/PositionedSnackbar";
 
 import HeadingSlideParticipant from "./HeadingSlideParticipant";
 import ParagraphSlideParticipant from "./ParagraphSlideParticipant";
@@ -23,6 +26,8 @@ const PresenatationParticipantView = () => {
   // const currentSlide = slideList.find((o) => o.id === Number(slideId));
   const [slideList, setSlideList] = useState([]);
   const [currentSlide, setCurrentSlide] = useState();
+  const [chatMessages, setChatMessages] = useState([]);
+  const [popupMessages, setPopupMessages] = useState([]);
   const [code, setCode] = useState();
   const socket = useContext(SocketContext);
   const navigate = useNavigate();
@@ -47,6 +52,13 @@ const PresenatationParticipantView = () => {
           setCode(codeRes.data);
         }
 
+        const chatMessagesRes = await PresentationService.getChatMessages(
+          presentationId
+        );
+        if (chatMessagesRes.success === true) {
+          setChatMessages(chatMessagesRes.data);
+        }
+
         // handle join present
         socket.emit("CLIENT_SEND_JOIN_PRESENTATION", {
           code: codeRes.data,
@@ -60,24 +72,32 @@ const PresenatationParticipantView = () => {
             `/presentation/${presentation?.presentationId}/${presentation?.slideId}/participating`
           );
         });
+
+        // handle receive messages
+        socket.on("SERVER_SEND_CHAT_MESSAGE", (chatMessage) => {
+          setChatMessages((prevChatMessages) => {
+            if (
+              prevChatMessages.length > 0 &&
+              prevChatMessages[prevChatMessages.length - 1].createdAt !==
+                chatMessage.createdAt
+            ) {
+              return prevChatMessages.concat(chatMessage);
+            } else return prevChatMessages;
+          });
+
+          if (chatMessage.userId !== user.id) {
+            setPopupMessages((prevChatMessages) => {
+              return prevChatMessages.concat(
+                <PositionedSnackbar
+                  message={`${chatMessage.name}: ${chatMessage.content}`}
+                />
+              );
+            });
+          }
+        });
       } catch (err) {
         console.log(err);
       }
-    })();
-  }, []);
-
-  // handle join present
-  useEffect(() => {
-    (async () => {
-      // socket.emit("CLIENT_SEND_JOIN_PRESENTATION", user);
-      // socket.on("SERVER_SEND_JOIN_SUCCESS", (user, presentation) => {
-      //   console.log("user", user);
-      //   // const presentationParse = JSON.parse(presentation);
-      //   console.log("presentation", presentation);
-      //   navigate(
-      //     `/presentation/${presentation?.presentationId}/${presentation?.slideId}/participating`
-      //   );
-      // });
     })();
   }, []);
 
@@ -128,11 +148,25 @@ const PresenatationParticipantView = () => {
           })()}
           <Stack spacing={2} sx={{ mt: 4 }}>
             <StyledButton>open Q&A</StyledButton>
-            <StyledButton>enter chat box</StyledButton>
+            {/* <StyledButton>enter chat box</StyledButton> */}
+            <FormDialog
+              FormDialog
+              content="enter chat box"
+              title="chat box"
+              variant="secondary"
+              buttonSize="full"
+            >
+              <ChatBox
+                chatMessages={chatMessages}
+                setChatMessages={setChatMessages}
+                code={code}
+              />
+            </FormDialog>
           </Stack>
         </Box>
         <img src={Gradient4} alt="deco gradient" className="deco-img-4" />
       </Box>
+      {popupMessages.map((message) => message)}
     </DefaultLayout>
   );
 };

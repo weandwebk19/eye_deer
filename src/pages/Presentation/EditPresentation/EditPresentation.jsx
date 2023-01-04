@@ -55,12 +55,7 @@ const EditPresentation = () => {
     <>
       <CustomizerNavBar
         left={<EditNamePresentation />}
-        right={
-          <StartPresentButton
-            slideList={slideList}
-            currentSlide={currentSlide}
-          />
-        }
+        right={<StartPresentButton slideStart={slideList[0]} />}
         handleBack={handleBack}
       />
       <FluidLayout>
@@ -78,7 +73,7 @@ const EditPresentation = () => {
             handleChangeCurrentSlide,
           }}
         />
-        {roleType != 3 ? (
+        {roleType !== 3 ? (
           <Box sx={{ width: "20vw" }}>
             <PresentationCustomizer
               slideList={slideList}

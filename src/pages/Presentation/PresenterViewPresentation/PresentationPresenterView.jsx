@@ -49,7 +49,7 @@ const PresenatationPresenterView = () => {
           socket.emit("HOST_START_PRESENT", {
             code: codeRes.data,
             presentationId,
-            slideId: 1,
+            slideId,
             groupId,
           });
         }
