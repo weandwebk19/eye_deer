@@ -10,9 +10,11 @@ import { FormDialog } from "components/Dialog";
 import PresentationTabContent from "./PresentationTabContent";
 import presentationDefaultPicture from "../../../assets/imgs/bg-img-3.jpg";
 import RemovePresentation from "../RemovePresentation";
+import SettingPresentation from "../SettingPresentation";
 
 const PresentationTabs = () => {
   const [removePresentation, setRemovePresentation] = useState(false);
+  const [settingPresentation, setSettingPresentation] = useState(false);
 
   const createRemovePresentationButton = (props) => {
     const removePresentationButton = (
@@ -26,7 +28,7 @@ const PresentationTabs = () => {
   const createSettingPresentationButton = (props) => {
     const settingPresentationButton = (
       <FormDialog content="setting" title="Setting Presentation">
-        setting presentation
+        <SettingPresentation {...props}/>
       </FormDialog>
     );
     return settingPresentationButton;
@@ -37,9 +39,7 @@ const PresentationTabs = () => {
       {
         id: 1,
         children: createSettingPresentationButton(props),
-        onClick: () => {
-          console.log("presentation settings");
-        },
+        onClick: () => {},
       },
       {
         id: 2,
@@ -57,6 +57,10 @@ const PresentationTabs = () => {
     setRemovePresentation(true);
   }
 
+  const handleSettingPresentation = () => {
+    setSettingPresentation(true);
+  }
+
   const [tabElements, setTabElements] = useState([]);
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.user);
@@ -71,11 +75,13 @@ const PresentationTabs = () => {
             picture={presentationDefaultPicture}
             contentChips={(() => ({
               code: presentation.code,
-              slides: presentation.slides
+              slides: presentation.slides,
+              status: presentation.status == 1 ? "public" : "private"
             }))(presentation)}
             menulist={menuList({
               presentationId: presentation.id,
               handleRemovePresentation,
+              handleSettingPresentation,
             })}
           />
         </Grid>
@@ -89,7 +95,9 @@ const PresentationTabs = () => {
         const myPresentations = await PresentationService.getMyPresentations();
         const myCoPresentations = await PresentationService.getMyCoPresentations();
         console.log(myPresentations, myCoPresentations);
+        
         setRemovePresentation(false);
+        setSettingPresentation(false);
 
         const newTabElements = [];
         newTabElements.push({
@@ -106,7 +114,7 @@ const PresentationTabs = () => {
         console.log(e);
       }
     })();
-  }, [removePresentation]);
+  }, [removePresentation, settingPresentation]);
 
   return <StyledTabs tabElements={tabElements} />;
 };

@@ -10,14 +10,19 @@ const getOwnedGroups = async () => {
 
   try {
     const res = await axios.get(`users/${id}/groups/owned`);
-    if (res.status === 200) {
-      return res.data;
+    
+    return res.data.data.groups;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
     }
-    return [];
-  } catch (error) {
-    console.log(error);
-
-    return error;
+    return {
+      success: false,
+      message: err.message,
+    };
   }
 };
 
@@ -396,6 +401,33 @@ const addPresentationToGroup = async (groupId, presentationId) => {
   }
 };
 
+const removeGroup = async (groupId) => {
+  try {
+    const res = await axios({
+      method: "post",
+      url: `/groups/${groupId}/remove`,
+      data: {groupId},
+      headers: {
+        "Content-Type": "application/json",
+        // "x-access-token": `Bearer ${accessToken}`,
+      },
+    });
+
+    return res.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
 const GroupService = {
   getOwnedGroups,
   getGroupById,
@@ -412,7 +444,8 @@ const GroupService = {
   kickOutMember,
   getPresentationList,
   getRoleInGroup,
-  addPresentationToGroup
+  addPresentationToGroup,
+  removeGroup,
 };
 
 export default GroupService;

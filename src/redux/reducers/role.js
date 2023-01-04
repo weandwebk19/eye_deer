@@ -1,7 +1,7 @@
 import { SET_ROLE } from "../actions/types";
 
 const initialState = {
-  roleType: 3
+  roleType: 1
 };
 
 // eslint-disable-next-line default-param-last

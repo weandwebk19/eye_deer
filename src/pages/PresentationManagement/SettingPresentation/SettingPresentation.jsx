@@ -21,52 +21,46 @@ import { StyledButton } from "components/Button";
 import { StyledPaper } from "components/Paper";
 import { InstantMessage } from "components/Popup";
 import { StyledInputField } from "components/TextField";
+import PropTypes from 'prop-types';
 
-const AddPresentation = () => {
+const SettingPresentation = (props) => {
   const {
     register,
     handleSubmit,
+    watch,
+    reset,
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
   const params = useParams();
-  const groupId = params.id;
 
-  // state of ui after add member
+  // state of ui after save setting
   const [isError, setIsError] = useState("");
   const [messageFromServer, setMessageFromServer] = useState("");
   const [isPublic, setIsPublic] = useState(true);
+  const [presentation, setPresentation] = useState(null);
+  const [disableSaveButton, setDisableSavaButton] = useState(true);
+  const {presentationId, handleSettingPresentation} = props;
 
   const onSubmit = async (data) => {
     try {
       data = {
-        ...data, 
-        groupId,
+        ...data,
         status: +isPublic,  
+        presentationId,
       };
-      const res = await PresentationService.createNewPresentation(data);
+      const res = await PresentationService.updatePresentation(data);
       
       // handle res
       if (res.success === true) {
         setMessageFromServer(res.message);
         setIsError(false);
-        const newSlideRes = await SlideService.createNewSlide({
-          slideName: `Slide 1`,
-          presentationId: res.data?.id,
-          index: 1,
-          typeId: 1,
-          type: "Multiple Choice",
-          content: { question: "your question", options: [] },
-        });
 
-        if (newSlideRes.success === true) {
-          navigate(
-            `/presentation/${res.data?.id}/${newSlideRes.data?.id}/edit`
-          );
-        } else {
-          setMessageFromServer(newSlideRes.message);
-          setIsError(true);
-        }
+        // update ui
+        handleSettingPresentation();
+        const newPresentation = {...presentation, name: watch("presentationName"), status: isPublic};
+        setPresentation(newPresentation);
+        setDisableSavaButton(true);
       } else {
         setMessageFromServer(res.message);
         setIsError(true);
@@ -77,6 +71,20 @@ const AddPresentation = () => {
     }
   };
 
+  // get presentation info when setting
+  useEffect(() => {
+    (async () => {
+      const presentation = await PresentationService.findPresentationById(presentationId);
+      setPresentation(presentation);
+
+      // update ui
+      setIsPublic(presentation.status);
+      reset({
+        presentationName: presentation.name,
+      })
+    })()
+  }, [])
+
   useEffect(() => {
     if (isError) {
       setTimeout(() => {
@@ -84,6 +92,30 @@ const AddPresentation = () => {
       }, 5000);
     }
   }, [isError]);
+
+  const isDisableSaveButton = (name, newName, status, newStatus) => {
+    if(name == newName && status == newStatus){
+      return true;
+    }
+
+    return false;
+  }
+
+  const handleIsPublic = () => {
+    // set new public
+    setIsPublic(!isPublic);
+
+    // update save button
+    const newName = watch('presentationName');
+    const disable = isDisableSaveButton(presentation.name, newName, presentation.status, !isPublic);
+    setDisableSavaButton(disable);
+  }
+
+  const handleInputChange = () => {
+    const newName = watch('presentationName');
+    const disable = isDisableSaveButton(presentation.name, newName, presentation.status, isPublic);
+    setDisableSavaButton(disable);
+  }
 
   return (
     <StyledPaper sx={{ top: 0 }}>
@@ -97,12 +129,16 @@ const AddPresentation = () => {
             label="Presentation name"
             name="presentationName"
             autoComplete="presentation-name"
+            InputLabelProps={{
+              shrink: true,
+            }}
             {...register("presentationName", {
               required: "required",
+              onChange: handleInputChange
             })}
           />
-          {errors.name ? (
-            <div className="error-message-validate">{errors.name.message}</div>
+          {errors.presentationName ? (
+            <div className="error-message-validate">{errors.presentationName.message}</div>
           ) : null}
         </DialogContent>
         <DialogActions>
@@ -126,7 +162,7 @@ const AddPresentation = () => {
                   control={
                     <Switch
                       defaultChecked
-                      onClick={() => setIsPublic(!isPublic)}
+                      onClick={handleIsPublic}
                     />
                   }
                   label={isPublic ? "public" : "private"}
@@ -134,7 +170,13 @@ const AddPresentation = () => {
               </FormGroup>
             </Box>
 
-            <StyledButton type="submit">Create presentation</StyledButton>
+            <StyledButton 
+              type="submit" 
+              disabled={disableSaveButton}
+              variant="secondary"
+            >
+              save change
+            </StyledButton>
           </Box>
         </DialogActions>
         {(() => {
@@ -154,4 +196,13 @@ const AddPresentation = () => {
   );
 };
 
-export default AddPresentation;
+SettingPresentation.propTypes = {
+  presentationId: PropTypes.number.isRequired,
+  handleSettingPresentation: PropTypes.func,
+};
+
+SettingPresentation.defaultProps = {
+  handleSettingPresentation: ()=>{},
+}
+
+export default SettingPresentation;
