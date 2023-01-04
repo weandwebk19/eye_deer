@@ -36,7 +36,7 @@ import { FormDialog } from "components/Dialog";
 import { BasicModal } from "components/Modal";
 import { StyledHeadingTypography } from "components/Typography";
 
-import TemporaryDrawer from "./QuestionBox";
+import QuestionBox from "./QuestionBox";
 
 // const actions = [
 //   { icon: <ZoomInMapIcon />, name: "Zoom in", handleClick:()=>{} },
@@ -333,7 +333,7 @@ const PresentationPresenterMenu = ({
                   variant={null}
                   dialogSize="xl"
                 >
-                  <TemporaryDrawer />
+                  <QuestionBox />
                 </FormDialog>
               );
             })()}

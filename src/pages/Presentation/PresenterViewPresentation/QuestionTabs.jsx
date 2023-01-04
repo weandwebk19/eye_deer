@@ -96,7 +96,7 @@ const QuestionTabs = () => {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Stack>
+        <Stack sx={{ overflowY: "scroll !important", height: "520px" }}>
           {questions
             .filter((question) => question.isAnswered === false)
             .map((question) => {
@@ -114,7 +114,7 @@ const QuestionTabs = () => {
         </Stack>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Stack>
+        <Stack sx={{ overflowY: "scroll !important" }}>
           {questions
             .filter((question) => question.isAnswered === true)
             .map((question) => {

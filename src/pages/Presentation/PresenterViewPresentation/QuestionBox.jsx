@@ -13,13 +13,17 @@ import QuestionTabs from "./QuestionTabs";
 
 const QuestionBox = () => {
   return (
-    <Box p={4}>
+    <Box p={4} sx={{ overflowY: "hidden" }}>
       <Grid container spacing={2} columns={{ xs: 4, sm: 4, md: 12, lg: 12 }}>
-        <Grid item xs={4} sm={2} md={5} lg={3}>
+        <Grid item xs={4} sm={2} md={5} lg={3} sx={{ height: "600px" }}>
           <QuestionTabs />
         </Grid>
         <Grid item xs={4} sm={2} md={7} lg={9}>
-          <Box sx={{ textAlign: "center" }}>
+          <Box
+            sx={{
+              textAlign: "center",
+            }}
+          >
             <Typography>1/1</Typography>
             <Typography>Asked on Slide 1</Typography>
             <StyledHeadingTypography variant="h2">

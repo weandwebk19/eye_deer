@@ -134,19 +134,19 @@ const EnhancedTableHead = (props) => {
   return (
     <TableHead>
       <TableRow>
-        {type == 1 &&
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              "aria-label": "select all desserts",
-            }}
-          />
-        </TableCell>
-        }
+        {type == 1 && (
+          <TableCell padding="checkbox">
+            <Checkbox
+              color="primary"
+              indeterminate={numSelected > 0 && numSelected < rowCount}
+              checked={rowCount > 0 && numSelected === rowCount}
+              onChange={onSelectAllClick}
+              inputProps={{
+                "aria-label": "select all desserts",
+              }}
+            />
+          </TableCell>
+        )}
         <TableCell>avatar</TableCell>
 
         {headCells
@@ -173,8 +173,7 @@ const EnhancedTableHead = (props) => {
               </TableSortLabel>
             </TableCell>
           ))}
-        {type == 1 && 
-        <TableCell>action</TableCell>}
+        {type == 1 && <TableCell>action</TableCell>}
       </TableRow>
     </TableHead>
   );
@@ -293,7 +292,7 @@ const MemberList = ({ name }) => {
   const [rows, setRows] = useState([]);
   const [owner, setOwner] = useState();
   const [coOwners, setCoOwners] = useState([]);
-  const roleType = useSelector(state => state.role.roleType);
+  const roleType = useSelector((state) => state.role.roleType);
   const type = roleType == 1 ? 1 : 2; // type 1: can edit, type 2: not edit
 
   useEffect(() => {
@@ -425,22 +424,29 @@ const MemberList = ({ name }) => {
           owner.
         </StyledHeadingTypography>
         <VisitCard variant="special" user={owner} />
-        {coOwners.length != 0 &&
+        {coOwners.length != 0 && (
           <div>
             <StyledHeadingTypography variant="h5" gutterBottom sx={{ mt: 4 }}>
               co-owner.
             </StyledHeadingTypography>
-            <Grid spacing={2} container columns={{ xs: 4, sm: 4, md: 12, lg: 12 }}>
+            <Grid
+              spacing={2}
+              container
+              columns={{ xs: 4, sm: 4, md: 12, lg: 12 }}
+            >
               {coOwners.map((coOwner, index) => {
                 return (
                   <Grid item xs={4} sm={2} md={6} lg={4} key={coOwner.id}>
-                    <VisitCard user={coOwner} menulist={type == 1 ? menuCoOwners[index] : []} />
+                    <VisitCard
+                      user={coOwner}
+                      menulist={type == 1 ? menuCoOwners[index] : []}
+                    />
                   </Grid>
                 );
               })}
             </Grid>
           </div>
-        }
+        )}
       </Box>
       <Box
         sx={{
@@ -451,39 +457,39 @@ const MemberList = ({ name }) => {
         }}
       >
         <SearchField />
-        {type == 1 &&
-        <Box sx={{ display: "flex" }} className="button-group">
-          <Box mr={2}>
-            <FormDialog
-              content="+ add member"
-              title="Add member"
-              variant="secondary"
-            >
-              <AddMember />
-            </FormDialog>
-          </Box>
-          <BasicModal
-            title="Invitation link"
-            content="generate invitation link"
-            variant="primary"
-          >
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography className="text-limit">
-                {generateInvitationLink()}
-              </Typography>
-              <Tooltip title="Copy link">
-                <IconButton
-                  sx={{ marginLeft: 2 }}
-                  aria-label="delete"
-                  size="small"
-                >
-                  <ContentCopyIcon fontSize="inherit" />
-                </IconButton>
-              </Tooltip>
+        {type == 1 && (
+          <Box sx={{ display: "flex" }} className="button-group">
+            <Box mr={2}>
+              <FormDialog
+                content="+ add member"
+                title="Add member"
+                variant="secondary"
+              >
+                <AddMember />
+              </FormDialog>
             </Box>
-          </BasicModal>
-        </Box>
-        }
+            <BasicModal
+              title="Invitation link"
+              content="generate invitation link"
+              variant="primary"
+            >
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Typography className="text-limit">
+                  {generateInvitationLink()}
+                </Typography>
+                <Tooltip title="Copy link">
+                  <IconButton
+                    sx={{ marginLeft: 2 }}
+                    aria-label="delete"
+                    size="small"
+                  >
+                    <ContentCopyIcon fontSize="inherit" />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </BasicModal>
+          </Box>
+        )}
       </Box>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
@@ -514,7 +520,11 @@ const MemberList = ({ name }) => {
                   return (
                     <TableRow
                       hover
-                      onClick={type == 1 ? (event) => handleClick(event, row.username) : null}
+                      onClick={
+                        type == 1
+                          ? (event) => handleClick(event, row.username)
+                          : null
+                      }
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -525,17 +535,17 @@ const MemberList = ({ name }) => {
                       }}
                       onMouseLeave={() => setShowActionId(-1)}
                     >
-                      {type == 1 &&
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell>
-                      }
+                      {type == 1 && (
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            color="primary"
+                            checked={isItemSelected}
+                            inputProps={{
+                              "aria-labelledby": labelId,
+                            }}
+                          />
+                        </TableCell>
+                      )}
                       <TableCell
                         component="th"
                         id={labelId}
@@ -551,36 +561,37 @@ const MemberList = ({ name }) => {
                           }}
                         />
                       </TableCell>
-                      <TableCell>{row.fullname}</TableCell>
+                      <TableCell>{`${row.firstName} ${row.lastName} `}</TableCell>
                       <TableCell>{row.email}</TableCell>
                       <TableCell>{row.username}</TableCell>
 
-                      {type == 1 && <TableCell>
-                        {(() => {
-                          if (row.username === showActionId) {
-                            const content = (
-                              <IconButton
-                                id={`edit-${row.username}`}
-                                component="button"
-                                variant="body2"
-                              >
-                                <EditIcon />
-                              </IconButton>
-                            );
-                            return (
-                              <FormDialog
-                                FormDialog
-                                content={content}
-                                title="Edit member"
-                                variant={null}
-                              >
-                                <EditContentDialog userId={row.id} />
-                              </FormDialog>
-                            );
-                          }
-                        })()}
-                      </TableCell>
-                      }
+                      {type == 1 && (
+                        <TableCell>
+                          {(() => {
+                            if (row.username === showActionId) {
+                              const content = (
+                                <IconButton
+                                  id={`edit-${row.username}`}
+                                  component="button"
+                                  variant="body2"
+                                >
+                                  <EditIcon />
+                                </IconButton>
+                              );
+                              return (
+                                <FormDialog
+                                  FormDialog
+                                  content={content}
+                                  title="Edit member"
+                                  variant={null}
+                                >
+                                  <EditContentDialog userId={row.id} />
+                                </FormDialog>
+                              );
+                            }
+                          })()}
+                        </TableCell>
+                      )}
                     </TableRow>
                   );
                 })}
