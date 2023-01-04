@@ -58,6 +58,10 @@ const HomeLastSection = ({ fullname, user }) => {
     navigate("../group");
   };
 
+  const handleNavigatePresentation = () => {
+    navigate("/presentation-management")
+  }
+
   return (
     <Grid
       container
@@ -135,14 +139,13 @@ const HomeLastSection = ({ fullname, user }) => {
                   width: "100%",
                 }}
               >
-                <FormDialog
-                  content="+ new presentation"
-                  title="create presentation"
-                  variant="primary"
-                  buttonSize="full"
+                <StyledButton
+                sx={{ width: "100%" }}
+                variant="primary"
+                onClick={handleNavigatePresentation}
                 >
-                  <AddPresentation />
-                </FormDialog>
+                  presentation
+                </StyledButton>
               </Box>
             </Grid>
           </Grid>
