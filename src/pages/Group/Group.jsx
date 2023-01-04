@@ -1,9 +1,9 @@
 import { Outlet, Route, Routes } from "react-router-dom";
 
+import PresentationPage from "../Presentation";
 import GroupList from "./GroupList";
 import Invite from "./Invite";
 import Join from "./Join";
-import Member from "./Member";
 import MemberList from "./Member/MemberList";
 import Presentation from "./PresentationList";
 import PresentationList from "./PresentationList/PresentationList";
@@ -18,6 +18,7 @@ const Group = () => {
         <Route path="members" element={<MemberList />} />
         <Route path="join" element={<Join />} />
       </Route>
+      <Route path="/:groupId/presentation/*" element={<PresentationPage />} />
     </Routes>
   );
 };

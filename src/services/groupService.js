@@ -368,6 +368,34 @@ const getRoleInGroup = async (groupId) => {
   }
 };
 
+const addPresentationToGroup = async (groupId, presentationId) => {
+  try {
+    const res = await axios({
+      method: "post",
+      url: `/groups/${groupId}/add-presentation`,
+      data: {groupId, presentationId},
+      headers: {
+        "Content-Type": "application/json",
+        // "x-access-token": `Bearer ${accessToken}`,
+      },
+    });
+
+    console.log(res.data)
+    return res.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
 const GroupService = {
   getOwnedGroups,
   getGroupById,
@@ -384,6 +412,7 @@ const GroupService = {
   kickOutMember,
   getPresentationList,
   getRoleInGroup,
+  addPresentationToGroup
 };
 
 export default GroupService;

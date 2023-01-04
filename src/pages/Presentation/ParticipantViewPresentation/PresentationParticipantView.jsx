@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Box, Stack } from "@mui/material";
@@ -25,6 +26,8 @@ const PresenatationParticipantView = () => {
   const [code, setCode] = useState();
   const socket = useContext(SocketContext);
   const navigate = useNavigate();
+  const currentUser = useSelector((state) => state.auth.user);
+  const user = currentUser?.user;
 
   useEffect(() => {
     (async () => {
@@ -43,9 +46,38 @@ const PresenatationParticipantView = () => {
         if (codeRes.success === true) {
           setCode(codeRes.data);
         }
+
+        // handle join present
+        socket.emit("CLIENT_SEND_JOIN_PRESENTATION", {
+          code: codeRes.data,
+          user,
+        });
+        socket.on("SERVER_SEND_JOIN_SUCCESS", (user, presentation) => {
+          // console.log("user", user);
+          // const presentationParse = JSON.parse(presentation);
+          // console.log("presentation", presentation);
+          navigate(
+            `/presentation/${presentation?.presentationId}/${presentation?.slideId}/participating`
+          );
+        });
       } catch (err) {
         console.log(err);
       }
+    })();
+  }, []);
+
+  // handle join present
+  useEffect(() => {
+    (async () => {
+      // socket.emit("CLIENT_SEND_JOIN_PRESENTATION", user);
+      // socket.on("SERVER_SEND_JOIN_SUCCESS", (user, presentation) => {
+      //   console.log("user", user);
+      //   // const presentationParse = JSON.parse(presentation);
+      //   console.log("presentation", presentation);
+      //   navigate(
+      //     `/presentation/${presentation?.presentationId}/${presentation?.slideId}/participating`
+      //   );
+      // });
     })();
   }, []);
 

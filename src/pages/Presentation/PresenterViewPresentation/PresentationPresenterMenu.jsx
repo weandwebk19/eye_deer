@@ -130,7 +130,8 @@ const PresentationPresenterMenu = ({
         slideId: newSlide.id,
       });
       setCurrentSlide(newSlide);
-      navigate(`/presentation/${presentationId}/${newSlide.id}/presenting`);
+      // navigate(`/presentation/${presentationId}/${newSlide.id}/presenting`);
+      navigate(`../../${newSlide.id}/presenting`);
     }
   };
 
@@ -144,7 +145,8 @@ const PresentationPresenterMenu = ({
         slideId: newSlide.id,
       });
       setCurrentSlide(newSlide);
-      navigate(`/presentation/${presentationId}/${newSlide.id}/presenting`);
+      // navigate(`/presentation/${presentationId}/${newSlide.id}/presenting`);
+      navigate(`../../${newSlide.id}/presenting`);
     }
   };
 

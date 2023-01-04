@@ -10,7 +10,12 @@ import {
   FormGroup,
   Switch,
   Typography,
+  Grid,
+  Checkbox,
+  Radio,
+  RadioGroup
 } from "@mui/material";
+import { ContentBox } from "components/ContentBox";
 
 import GroupService from "services/groupService";
 import PresentationService from "services/presentationService";
@@ -23,11 +28,6 @@ import { InstantMessage } from "components/Popup";
 import { StyledInputField } from "components/TextField";
 
 const AddPresentation = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
   const navigate = useNavigate();
   const params = useParams();
   const groupId = params.id;
@@ -36,42 +36,43 @@ const AddPresentation = () => {
   const [isError, setIsError] = useState("");
   const [messageFromServer, setMessageFromServer] = useState("");
   const [isPublic, setIsPublic] = useState(true);
+  const [presentations, setPresentations] = useState([]);
+  const [selectedPresentation, setSelectedPresentation] = useState(null);
+  const [stateCheckbox, setStateCheckbox] = useState([]);
 
-  const onSubmit = async (data) => {
-    try {
-      data = {...data, groupId};
-      const res = await PresentationService.createNewPresentation(data);
-      
-      // handle res
-      if (res.success === true) {
-        setMessageFromServer(res.message);
-        setIsError(false);
-        const newSlideRes = await SlideService.createNewSlide({
-          slideName: `Slide 1`,
-          presentationId: res.data?.id,
-          index: 1,
-          typeId: 1,
-          type: "Multiple Choice",
-          content: { question: "your question", options: [] },
-        });
+  const handleAddPresentation = async () => {
+    try{
+    if(!selectedPresentation){return;}
 
-        if (newSlideRes.success === true) {
-          navigate(
-            `/presentation/${res.data?.id}/${newSlideRes.data?.id}/edit`
-          );
-        } else {
-          setMessageFromServer(newSlideRes.message);
-          setIsError(true);
-        }
-      } else {
-        setMessageFromServer(res.message);
-        setIsError(true);
-      }
+    // call api
+    const res = await GroupService.addPresentationToGroup(groupId, selectedPresentation);
+
+    // handle res
+    if (res.success === true) {
+      setMessageFromServer(res.message);
+      setIsError(false);
+      navigate(0);
+    } else {
+      setMessageFromServer(res.message);
+      setIsError(true);
+    } 
     } catch (err) {
       setMessageFromServer(err.message);
       setIsError(true);
     }
-  };
+  }
+
+  const handleFindPresentations = async (e) => {
+    const namePresentation = e.target.value;
+    
+    // call api to search
+    const presentations = await PresentationService.findPresentationsByName(namePresentation);
+    console.log(presentations);
+
+    const newStateCheckbox = new Array(presentations.length).fill(false);
+    setStateCheckbox(newStateCheckbox);
+    setPresentations(presentations);
+  }
 
   useEffect(() => {
     if (isError) {
@@ -83,7 +84,6 @@ const AddPresentation = () => {
 
   return (
     <StyledPaper sx={{ top: 0 }}>
-      <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent sx={{ p: 1 }}>
           <StyledInputField
             variant="outlined"
@@ -93,13 +93,52 @@ const AddPresentation = () => {
             label="Presentation name"
             name="presentationName"
             autoComplete="presentation-name"
-            {...register("presentationName", {
-              required: "required",
-            })}
+            onChange={handleFindPresentations}
           />
-          {errors.name ? (
-            <div className="error-message-validate">{errors.name.message}</div>
-          ) : null}
+          <Grid 
+            container 
+            spacing={3}
+            p={3}
+          >
+            {presentations.map((presentation, index) => {
+              return (
+                <Grid
+                  item
+                  xs={12}
+                  key={presentation.id}
+                  container
+                >
+                  <Grid
+                    item
+                    xs={11}
+                  >
+                    <ContentBox
+                    name={presentation.name}
+                    index={index}
+                    contentChips={(({ slides, code }) => ({
+                      slides,
+                      code,
+                    }))(presentation)}
+                    handleClick={() => {
+                      setSelectedPresentation(presentation.id);
+
+                      const newStateCheckbox = new Array(stateCheckbox.length).fill(false);
+                      newStateCheckbox[index] = true;
+                      setStateCheckbox(newStateCheckbox);
+                    }}
+                  />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={1}
+                    sx={{display:"flex", justifyContent: "center", alignItems: "center"}}
+                  >
+                    {stateCheckbox[index] && <Checkbox disabled checked/>}
+                  </Grid>
+                </Grid>
+              )
+            })}
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Box
@@ -110,6 +149,7 @@ const AddPresentation = () => {
               alignItems: "center",
             }}
           >
+            
             <Box
               sx={{
                 display: "flex",
@@ -130,7 +170,11 @@ const AddPresentation = () => {
               </FormGroup>
             </Box>
 
-            <StyledButton type="submit">Create presentation</StyledButton>
+            <StyledButton 
+              onClick={handleAddPresentation}
+            >
+              Add presentation
+            </StyledButton>
           </Box>
         </DialogActions>
         {(() => {
@@ -145,7 +189,6 @@ const AddPresentation = () => {
           }
           return "";
         })()}
-      </form>
     </StyledPaper>
   );
 };
