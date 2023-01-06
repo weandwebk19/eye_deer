@@ -38,9 +38,10 @@ const ChatBox = ({ chatMessages, setChatMessages, code }) => {
 
   const handleSendMessage = (messageFormData) => {
     socket.emit("PARTICIPANT_SEND_MESSAGE", {
-      userId: user.id,
+      user,
       presentationId,
       content: messageFormData.message,
+      createdAt: new Date(),
       code,
     });
     setInputValue("");
@@ -51,14 +52,18 @@ const ChatBox = ({ chatMessages, setChatMessages, code }) => {
       <form onSubmit={handleSubmit(handleSendMessage)}>
         <Box className="chat-box">
           {chatMessages.map((msg) => {
-            const side = msg.userId === user.id ? "right" : "left";
+            const side = msg.user.id === user.id ? "right" : "left";
             return (
               <ChatMsg
-                key={`${msg.userId} ${msg.createdAt}`}
+                key={`${msg.user.id} ${msg.createdAt}`}
                 side={side}
-                avatar={msg.avatar}
-                AvatarProps={{ name: msg.name }}
-                messages={msg.messages}
+                avatar={msg.user.picture}
+                AvatarProps={{
+                  name: `${msg.user.firstName ?? ""} ${
+                    msg.user.lastName ?? ""
+                  }`,
+                }}
+                messages={[msg.content]}
               />
             );
           })}

@@ -73,23 +73,31 @@ const PresenatationParticipantView = () => {
           );
         });
 
+        // handle get list messages from server when client didmount
+        socket.emit("CLIENT_GET_LIST_MESSAGES", { code, presentationId });
+        socket.on("SERVER_SEND_LIST_MESSAGES", (listMessages) => {
+          setChatMessages(listMessages);
+        });
+
         // handle receive messages
-        socket.on("SERVER_SEND_CHAT_MESSAGE", (chatMessage) => {
+        socket.on("SERVER_SEND_CHAT_MESSAGE", (chatInfo) => {
           setChatMessages((prevChatMessages) => {
             if (
-              prevChatMessages.length > 0 &&
+              prevChatMessages.length === 0 ||
               prevChatMessages[prevChatMessages.length - 1].createdAt !==
-                chatMessage.createdAt
+                chatInfo.createdAt
             ) {
-              return prevChatMessages.concat(chatMessage);
+              return prevChatMessages.concat(chatInfo);
             } else return prevChatMessages;
           });
 
-          if (chatMessage.userId !== user.id) {
+          if (chatInfo.user?.id !== user.id) {
             setPopupMessages((prevChatMessages) => {
               return prevChatMessages.concat(
                 <PositionedSnackbar
-                  message={`${chatMessage.name}: ${chatMessage.content}`}
+                  message={`${chatInfo.user.firstName ?? ""} ${
+                    chatInfo.user.lastName ?? ""
+                  }: ${chatInfo.content}`}
                 />
               );
             });

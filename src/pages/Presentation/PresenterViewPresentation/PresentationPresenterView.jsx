@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { Box, Typography } from "@mui/material";
@@ -25,6 +26,7 @@ const PresenatationPresenterView = () => {
   // const currentSlide = slideList.find((o) => o.id === Number(slideid));
   // const [currentSlide, setCurrentSlide] = useState();
   const [code, setCode] = useState();
+  const user = useSelector((state) => state.auth.user?.user);
 
   useEffect(() => {
     (async () => {
@@ -51,6 +53,7 @@ const PresenatationPresenterView = () => {
             presentationId,
             slideId,
             groupId,
+            user,
           });
         }
       } catch (err) {

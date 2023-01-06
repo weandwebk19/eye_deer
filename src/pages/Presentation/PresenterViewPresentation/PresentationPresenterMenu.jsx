@@ -34,10 +34,12 @@ import PresentationService from "services/presentationService";
 
 import ChatBox from "components/ChatBox/ChatBox";
 import { FormDialog } from "components/Dialog";
+import VirtualizedList from "components/List/FolderList";
 import { BasicModal } from "components/Modal";
 import PositionedSnackbar from "components/Popup/PositionedSnackbar";
 import { StyledHeadingTypography } from "components/Typography";
 
+import PresenterViewParticipantsList from "./PresenterViewParticipantsList";
 import TemporaryDrawer from "./QuestionBox";
 
 // const actions = [
@@ -65,6 +67,7 @@ const PresentationPresenterMenu = ({
   const [anchorEl, setAnchorEl] = useState(null);
   const [chatMessages, setChatMessages] = useState([]);
   const [popupMessages, setPopupMessages] = useState([]);
+  const [listParticipants, setListParticipants] = useState([{ ...user }]);
   const open = Boolean(anchorEl);
   const socket = useContext(SocketContext);
   const [code, setCode] = useState();
@@ -120,7 +123,7 @@ const PresentationPresenterMenu = ({
         const chatMessagesRes = await PresentationService.getChatMessages(
           presentationId
         );
-        console.log(chatMessagesRes);
+        // console.log(chatMessagesRes);
         if (chatMessagesRes.success === true) {
           setChatMessages(chatMessagesRes.data);
         }
@@ -129,27 +132,44 @@ const PresentationPresenterMenu = ({
       }
     })();
 
+    // handle get list messages from server when client didmount
+    socket.emit("CLIENT_GET_LIST_MESSAGES", { code, presentationId });
+    socket.on("SERVER_SEND_LIST_MESSAGES", (listMessages) => {
+      setChatMessages(listMessages);
+    });
+
     // handle receive messages
-    socket.on("SERVER_SEND_CHAT_MESSAGE", (chatMessage) => {
+    socket.on("SERVER_SEND_CHAT_MESSAGE", (chatInfo) => {
       setChatMessages((prevChatMessages) => {
         if (
-          prevChatMessages.length > 0 &&
+          prevChatMessages.length === 0 ||
           prevChatMessages[prevChatMessages.length - 1].createdAt !==
-            chatMessage.createdAt
+            chatInfo.createdAt
         ) {
-          return prevChatMessages.concat(chatMessage);
+          return prevChatMessages.concat(chatInfo);
         } else return prevChatMessages;
       });
 
-      if (chatMessage.userId !== user.id) {
+      if (chatInfo.user?.id !== user.id) {
         setPopupMessages((prevChatMessages) => {
           return prevChatMessages.concat(
             <PositionedSnackbar
-              message={`${chatMessage.name}: ${chatMessage.content}`}
+              message={`${chatInfo.user.firstName ?? ""} ${
+                chatInfo.user.lastName ?? ""
+              }: ${chatInfo.content}`}
             />
           );
         });
       }
+    });
+
+    // handle get list participants from server when client didmount
+    socket.emit("CLIENT_GET_LIST_PARTICIPANTS", { code, presentationId });
+
+    // handle receive participants list
+    socket.on("SERVER_SEND_LIST_PARTICIPANTS", (participants) => {
+      // console.log("participants", participants);
+      setListParticipants(participants);
     });
   }, []);
 
@@ -199,7 +219,7 @@ const PresentationPresenterMenu = ({
               sx={{ mt: 2, ml: 2 }}
               onClick={() => {
                 navigate("../edit");
-                socket.emit("HOST_END_PRESENT", code);
+                socket.emit("HOST_END_PRESENT", { code, presentationId });
               }}
             >
               <CloseIcon />
@@ -380,19 +400,36 @@ const PresentationPresenterMenu = ({
                 </FormDialog>
               );
             })()}
-            <Badge
-              badgeContent={999}
-              color="primary"
-              overlap="circular"
-              max={999}
-            >
-              <IconButton>
-                <AccountCircleIcon
-                  color="action"
-                  sx={{ height: 24, width: 24 }}
-                />
-              </IconButton>
-            </Badge>
+            {(() => {
+              const content = (
+                <Badge
+                  badgeContent={listParticipants.length}
+                  color="primary"
+                  overlap="circular"
+                  max={999}
+                >
+                  <IconButton>
+                    <AccountCircleIcon
+                      color="action"
+                      sx={{ height: 24, width: 24 }}
+                    />
+                  </IconButton>
+                </Badge>
+              );
+              return (
+                <FormDialog
+                  FormDialog
+                  content={content}
+                  title="paticipants list"
+                  variant={null}
+                  dialogSize="xl"
+                >
+                  <PresenterViewParticipantsList
+                    listParticipants={listParticipants}
+                  />
+                </FormDialog>
+              );
+            })()}
           </Stack>
         </Box>
       </Box>
