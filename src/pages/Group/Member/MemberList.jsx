@@ -183,6 +183,11 @@ const MemberList = ({ name }) => {
               container
               columns={{ xs: 4, sm: 4, md: 12, lg: 12 }}
             >
+            <Grid
+              spacing={2}
+              container
+              columns={{ xs: 4, sm: 4, md: 12, lg: 12 }}
+            >
               {coOwners.map((coOwner, index) => {
                 return (
                   <Grid item xs={4} sm={2} md={6} lg={4} key={coOwner.id}>

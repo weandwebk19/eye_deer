@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 import { AvatarButton, StyledButton } from "components/Button";
 import { CarpetCard } from "components/Card";
 import { FormDialog } from "components/Dialog";
+import { SnackBox } from "components/SnackBox";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 
 const HomeLastSection = ({ fullname, user }) => {
@@ -59,8 +60,8 @@ const HomeLastSection = ({ fullname, user }) => {
   };
 
   const handleNavigatePresentation = () => {
-    navigate("/presentation-management")
-  }
+    navigate("/presentation-management");
+  };
 
   return (
     <Grid
@@ -140,9 +141,9 @@ const HomeLastSection = ({ fullname, user }) => {
                 }}
               >
                 <StyledButton
-                sx={{ width: "100%" }}
-                variant="primary"
-                onClick={handleNavigatePresentation}
+                  sx={{ width: "100%" }}
+                  variant="primary"
+                  onClick={handleNavigatePresentation}
                 >
                   presentation
                 </StyledButton>

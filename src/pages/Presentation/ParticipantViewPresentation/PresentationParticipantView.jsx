@@ -6,6 +6,7 @@ import { Box, Stack } from "@mui/material";
 
 import Gradient4 from "assets/imgs/gradient-4.png";
 import { SocketContext } from "context/socket";
+import { set } from "date-fns";
 import { DefaultLayout } from "layouts";
 import PresentationService from "services/presentationService";
 import SlideService from "services/slideService";
@@ -13,10 +14,12 @@ import SlideService from "services/slideService";
 import { StyledButton } from "components/Button";
 import ChatBox from "components/ChatBox/ChatBox";
 import { FormDialog } from "components/Dialog";
+import StyledDrawer from "components/Drawer/Drawer";
 import PositionedSnackbar from "components/Popup/PositionedSnackbar";
 
 import HeadingSlideParticipant from "./HeadingSlideParticipant";
 import ParagraphSlideParticipant from "./ParagraphSlideParticipant";
+import ParticipantQuestionBox from "./ParticipantQuestionBox";
 import VotingSlideParticipantView from "./VotingSlideParticipantView";
 
 const PresenatationParticipantView = () => {
@@ -26,6 +29,7 @@ const PresenatationParticipantView = () => {
   // const currentSlide = slideList.find((o) => o.id === Number(slideId));
   const [slideList, setSlideList] = useState([]);
   const [currentSlide, setCurrentSlide] = useState();
+  const [chatQuestions, setChatQuestions] = useState([]);
   const [chatMessages, setChatMessages] = useState([]);
   const [popupMessages, setPopupMessages] = useState([]);
   const [code, setCode] = useState();
@@ -52,6 +56,16 @@ const PresenatationParticipantView = () => {
           setCode(codeRes.data);
         }
 
+        // const chatQuestionsRes = await PresentationService.getChatQuestions(
+        //   presentationId
+        // );
+        // if (chatQuestionsRes.success === true) {
+        //   setChatQuestions(
+        //     chatQuestionsRes.data.filter(
+        //       (question) => question.isAnswered === 0
+        //     )
+        //   );
+        // }
         const chatMessagesRes = await PresentationService.getChatMessages(
           presentationId
         );
@@ -103,11 +117,71 @@ const PresenatationParticipantView = () => {
             });
           }
         });
+        // handle get list questions from server when client didmount
+        socket.emit("CLIENT_GET_LIST_QUESTIONS", { code, presentationId });
+        socket.on("SERVER_SEND_LIST_QUESTIONS", (listQuestions) => {
+          setChatQuestions(
+            listQuestions.filter((question) => question.isAnswered === false)
+          );
+        });
+
+        // handle receive questions
+        socket.on("SERVER_SEND_CHAT_QUESTION", (questionInfo) => {
+          setChatQuestions((prevChatQuestions) => {
+            if (
+              prevChatQuestions.length === 0 ||
+              prevChatQuestions[prevChatQuestions.length - 1].id !==
+                questionInfo.id
+            ) {
+              return prevChatQuestions.concat(questionInfo);
+            } else return prevChatQuestions;
+          });
+        });
       } catch (err) {
         console.log(err);
       }
     })();
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      // socket.emit("CLIENT_SEND_JOIN_PRESENTATION", user);
+      // socket.on("SERVER_SEND_JOIN_SUCCESS", (user, presentation) => {
+      //   console.log("user", user);
+      //   // const presentationParse = JSON.parse(presentation);
+      //   console.log("presentation", presentation);
+      //   navigate(
+      //     `/presentation/${presentation?.presentationId}/${presentation?.slideId}/participating`
+      //   );
+      // });
+      // handle host mark participant's question as answered
+      socket.on("PARTICIPANT_QUESTION_ANSWERED", (listQuestions) => {
+        setChatQuestions(
+          listQuestions.filter((question) => question.isAnswered === false)
+        );
+      });
+
+      // handle host restore participant's question
+      socket.on("PARTICIPANT_QUESTION_RESTORED", (listQuestions) => {
+        setChatQuestions(
+          listQuestions.filter((question) => question.isAnswered === false)
+        );
+      });
+
+      // handle participant upvote
+      socket.on("SERVER_SEND_UPVOTE_QUESTION", (listQuestions) => {
+        setChatQuestions(
+          listQuestions.filter((question) => question.isAnswered === false)
+        );
+      });
+
+      socket.on("SERVER_SEND_UNUPVOTE_QUESTION", (listQuestions) => {
+        setChatQuestions(
+          listQuestions.filter((question) => question.isAnswered === false)
+        );
+      });
+    })();
+  }, [chatQuestions]);
 
   useEffect(() => {
     const newSlide = slideList.find((slide) => slide.id === Number(slideId));
@@ -124,6 +198,10 @@ const PresenatationParticipantView = () => {
       // alert("End presentation.");
     });
   }, [slideList]);
+
+  const handleChangeChatQuestions = (chatQuestions) => {
+    setChatQuestions(chatQuestions);
+  };
 
   return (
     <DefaultLayout>
@@ -155,8 +233,13 @@ const PresenatationParticipantView = () => {
             }
           })()}
           <Stack spacing={2} sx={{ mt: 4 }}>
-            <StyledButton>open Q&A</StyledButton>
-            {/* <StyledButton>enter chat box</StyledButton> */}
+            <StyledDrawer buttonContent="open Q&A">
+              <ParticipantQuestionBox
+                chatQuestions={chatQuestions}
+                code={code}
+                handleChangeChatQuestions={handleChangeChatQuestions}
+              />
+            </StyledDrawer>
             <FormDialog
               FormDialog
               content="enter chat box"
