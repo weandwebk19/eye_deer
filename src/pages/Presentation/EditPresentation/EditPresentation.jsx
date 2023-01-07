@@ -55,12 +55,7 @@ const EditPresentation = () => {
     <>
       <CustomizerNavBar
         left={<EditNamePresentation />}
-        right={
-          <StartPresentButton
-            slideList={slideList}
-            currentSlide={currentSlide}
-          />
-        }
+        right={<StartPresentButton slideStart={slideList[0]} />}
         handleBack={handleBack}
       />
       <FluidLayout>

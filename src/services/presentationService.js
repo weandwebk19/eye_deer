@@ -93,7 +93,7 @@ const removePresentation = async (presentationId) => {
     const res = await axios({
       method: "post",
       url: `/presentations/remove`,
-      data: {presentationId},
+      data: { presentationId },
       headers: {
         "Content-Type": "application/json",
         // "x-access-token": `Bearer ${accessToken}`,
@@ -113,7 +113,7 @@ const removePresentation = async (presentationId) => {
       message: err.message,
     };
   }
-}
+};
 
 const getMyPresentations = async () => {
   try {
@@ -139,7 +139,7 @@ const getMyPresentations = async () => {
       message: err.message,
     };
   }
-}
+};
 
 const getMyCoPresentations = async () => {
   try {
@@ -165,14 +165,14 @@ const getMyCoPresentations = async () => {
       message: err.message,
     };
   }
-}
+};
 
 const findPresentationsByName = async (namePresentation) => {
   try {
     const res = await axios({
       method: "post",
       url: `/presentations/find-by-name`,
-      data: {namePresentation},
+      data: { namePresentation },
       headers: {
         "Content-Type": "application/json",
         // "x-access-token": `Bearer ${accessToken}`,
@@ -192,7 +192,28 @@ const findPresentationsByName = async (namePresentation) => {
       message: err.message,
     };
   }
-}
+};
+
+const getChatQuestions = async (presentationId) => {
+  try {
+    const res = await axios.get(
+      `presentations/${presentationId}/chat/questions`
+    );
+
+    return res.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
 
 const PresentationService = {
   createNewPresentation,
@@ -203,6 +224,7 @@ const PresentationService = {
   getMyPresentations,
   getMyCoPresentations,
   findPresentationsByName,
+  getChatQuestions,
 };
 
 export default PresentationService;

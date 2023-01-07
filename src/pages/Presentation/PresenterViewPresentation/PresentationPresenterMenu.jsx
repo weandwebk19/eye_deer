@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
@@ -54,6 +55,8 @@ const PresentationPresenterMenu = ({
   const params = useParams();
   const slideId = params.slideid;
   const presentationId = params.id;
+  const currentUser = useSelector((state) => state.auth.user);
+  const user = currentUser?.user;
   // const currentSlide = slideList.find((slide) => slide.id === Number(slideId));
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [votingReset, setVotingReset] = useState(false);
@@ -61,6 +64,7 @@ const PresentationPresenterMenu = ({
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const socket = useContext(SocketContext);
+  const [chatQuestions, setChatQuestions] = useState([]);
   const [code, setCode] = useState();
   const navigate = useNavigate();
 
@@ -109,6 +113,14 @@ const PresentationPresenterMenu = ({
         );
         if (res.success === true) {
           setCode(res.data);
+        }
+
+        const chatQuestionsRes = await PresentationService.getChatQuestions(
+          presentationId
+        );
+        console.log(chatQuestionsRes);
+        if (chatQuestionsRes.success === true) {
+          setChatQuestions(chatQuestionsRes.data);
         }
       } catch (err) {
         console.log(err);
@@ -314,7 +326,7 @@ const PresentationPresenterMenu = ({
             {(() => {
               const content = (
                 <Badge
-                  badgeContent={999}
+                  badgeContent={chatQuestions.length}
                   color="primary"
                   overlap="circular"
                   max={999}
@@ -335,7 +347,11 @@ const PresentationPresenterMenu = ({
                   variant={null}
                   dialogSize="xl"
                 >
-                  <QuestionBox />
+                  <QuestionBox
+                    chatQuestions={chatQuestions}
+                    setChatQuestions={setChatQuestions}
+                    code={code}
+                  />
                 </FormDialog>
               );
             })()}

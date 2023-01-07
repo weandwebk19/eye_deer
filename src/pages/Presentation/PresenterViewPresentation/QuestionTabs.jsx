@@ -1,14 +1,13 @@
-import * as React from "react";
+import { useContext, useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
-import { Stack } from "@mui/material";
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
-import Tabs from "@mui/material/Tabs";
-import Typography from "@mui/material/Typography";
+import { Box, Stack, Tab, Tabs } from "@mui/material";
 
+import { SocketContext } from "context/socket";
 import PropTypes from "prop-types";
 
-import QuestionContent from "./QuestionContent";
+import QuestionThumb from "./QuestionThumb";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -43,32 +42,43 @@ function a11yProps(index) {
   };
 }
 
-const questions = [
-  {
-    id: 1,
-    content: "proffesor, what if æ gets hacked?",
-    upvote: 2,
-    isAnswered: false,
-  },
-  {
-    id: 2,
-    content: "sm's water tastes like water",
-    upvote: 2,
-    isAnswered: false,
-  },
-  {
-    id: 3,
-    content: "kim hyunjin barks jeon heejin awwwwwwwwwwwwww",
-    upvote: 56,
-    isAnswered: true,
-  },
-];
-
-const QuestionTabs = () => {
-  const [value, setValue] = React.useState(0);
+const QuestionTabs = ({
+  questionList,
+  currentQuestion,
+  setCurrentQuestion,
+  onSwitchTab,
+  code,
+}) => {
+  const params = useParams();
+  const presentationId = params.id;
+  const slideId = params.slideid;
+  const socket = useContext(SocketContext);
+  const currentUser = useSelector((state) => state.auth.user);
+  const user = currentUser?.user;
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleMarkAsAnsweredClick = (e, questionId) => {
+    socket.emit("HOST_MARK_AS_ANSWERED", {
+      presentationId,
+      slideId,
+      questionId,
+      code,
+      userId: user.id,
+    });
+  };
+
+  const handleRestoreQuestionClick = (e, questionId) => {
+    socket.emit("HOST_RESTORE_QUESTION", {
+      presentationId,
+      slideId,
+      questionId,
+      code,
+      userId: user.id,
+    });
   };
 
   return (
@@ -77,55 +87,73 @@ const QuestionTabs = () => {
         <Tabs
           value={value}
           onChange={handleChange}
-          aria-label="basic tabs example"
+          aria-label="question box tabs"
         >
           <Tab
             label={`questions (${
-              questions.filter((question) => question.isAnswered === false)
+              questionList.filter((question) => question.isAnswered === 0)
                 .length
             })`}
             {...a11yProps(0)}
+            onClick={onSwitchTab}
           />
           <Tab
             label={`answered (${
-              questions.filter((question) => question.isAnswered === true)
+              questionList.filter((question) => question.isAnswered === 1)
                 .length
             })`}
             {...a11yProps(1)}
+            onClick={onSwitchTab}
           />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Stack sx={{ overflowY: "scroll !important", height: "520px" }}>
-          {questions
-            .filter((question) => question.isAnswered === false)
+        <Stack
+          spacing={1}
+          sx={{ overflowY: "scroll !important", height: "520px" }}
+          className="hide-scrollbar"
+        >
+          {questionList
+            .filter((question) => question.isAnswered === 0)
             .map((question) => {
               return (
-                <QuestionContent
+                <QuestionThumb
                   key={question.id}
-                  name={question.content}
+                  question={question}
                   handleClick={() => {
-                    console.log("marked as answered");
+                    setCurrentQuestion(question);
                   }}
                   actionContent="mark as answered"
+                  handleActionClick={(e) => {
+                    handleMarkAsAnsweredClick(e, question.id);
+                  }}
+                  isActive={currentQuestion?.id === question?.id}
                 />
               );
             })}
         </Stack>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Stack sx={{ overflowY: "scroll !important" }}>
-          {questions
-            .filter((question) => question.isAnswered === true)
+        <Stack
+          spacing={1}
+          sx={{ overflowY: "scroll !important", height: "520px" }}
+          className="hide-scrollbar"
+        >
+          {questionList
+            .filter((question) => question.isAnswered === 1)
             .map((question) => {
               return (
-                <QuestionContent
-                  key={question.id}
-                  name={question.content}
+                <QuestionThumb
+                  key={question?.id}
+                  question={question}
                   handleClick={() => {
-                    console.log("restore question");
+                    setCurrentQuestion(question);
                   }}
                   actionContent="restore question"
+                  handleActionClick={(e) => {
+                    handleRestoreQuestionClick(e, question.id);
+                  }}
+                  isActive={currentQuestion?.id === question?.id}
                 />
               );
             })}
@@ -133,6 +161,14 @@ const QuestionTabs = () => {
       </TabPanel>
     </Box>
   );
+};
+
+QuestionTabs.propTypes = {
+  questionList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  currentQuestion: PropTypes.object.isRequired,
+  setCurrentQuestion: PropTypes.func.isRequired,
+  onSwitchTab: PropTypes.func.isRequired,
+  code: PropTypes.string.isRequired,
 };
 
 export default QuestionTabs;
