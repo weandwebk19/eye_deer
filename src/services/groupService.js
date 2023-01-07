@@ -10,14 +10,19 @@ const getOwnedGroups = async () => {
 
   try {
     const res = await axios.get(`users/${id}/groups/owned`);
-    if (res.status === 200) {
-      return res.data;
+    
+    return res.data.data.groups;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
     }
-    return [];
-  } catch (error) {
-    console.log(error);
-
-    return error;
+    return {
+      success: false,
+      message: err.message,
+    };
   }
 };
 
@@ -342,6 +347,87 @@ const getPresentationList = async (groupId) => {
   }
 };
 
+const getRoleInGroup = async (groupId) => {
+  try {
+    const res = await axios({
+      method: "get",
+      url: `/groups/${groupId}/role`,
+      headers: {
+        "Content-Type": "application/json",
+        // "x-access-token": `Bearer ${accessToken}`,
+      },
+    });
+
+    return res.data.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
+const addPresentationToGroup = async (groupId, presentationId) => {
+  try {
+    const res = await axios({
+      method: "post",
+      url: `/groups/${groupId}/add-presentation`,
+      data: {groupId, presentationId},
+      headers: {
+        "Content-Type": "application/json",
+        // "x-access-token": `Bearer ${accessToken}`,
+      },
+    });
+
+    console.log(res.data)
+    return res.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
+const removeGroup = async (groupId) => {
+  try {
+    const res = await axios({
+      method: "post",
+      url: `/groups/${groupId}/remove`,
+      data: {groupId},
+      headers: {
+        "Content-Type": "application/json",
+        // "x-access-token": `Bearer ${accessToken}`,
+      },
+    });
+
+    return res.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
 const GroupService = {
   getOwnedGroups,
   getGroupById,
@@ -357,6 +443,9 @@ const GroupService = {
   assignCoOwner,
   kickOutMember,
   getPresentationList,
+  getRoleInGroup,
+  addPresentationToGroup,
+  removeGroup,
 };
 
 export default GroupService;

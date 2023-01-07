@@ -152,10 +152,7 @@ const OptionCard = ({ name, picture, handleClick }) => {
             backgroundImage: { picture },
           }}
         >
-          <Typography variant="h6">
-            {name}Lorem Ipsum is simply dummy text of the printing and
-            typesetting industry
-          </Typography>
+          <Typography variant="h6">{name}</Typography>
         </CardContent>
       </StyledCardActionArea>
     </StyledCard>

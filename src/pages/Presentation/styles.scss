@@ -115,3 +115,22 @@
   z-index: -1;
   width: 100%;
 }
+
+.question-content-box {
+  background-color: $white-light !important;
+  border: 1px solid $white-dark;
+  border-bottom: none;
+  &--active {
+    background-color: $black !important;
+    color: $white !important;
+    border: 1px solid $white-dark;
+    border-bottom: none;
+  }
+}
+
+.action-content-box {
+  cursor: pointer;
+  background-color: $white-light !important;
+  border: 1px solid $white-dark;
+  text-align: center;
+}

@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
@@ -17,6 +18,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import CloseIcon from "@mui/icons-material/Close";
+import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import QuestionAnswerOutlinedIcon from "@mui/icons-material/QuestionAnswerOutlined";
@@ -32,8 +34,13 @@ import PresentationService from "services/presentationService";
 
 import ChatBox from "components/ChatBox/ChatBox";
 import { FormDialog } from "components/Dialog";
+import VirtualizedList from "components/List/FolderList";
 import { BasicModal } from "components/Modal";
+import PositionedSnackbar from "components/Popup/PositionedSnackbar";
 import { StyledHeadingTypography } from "components/Typography";
+
+import PresenterViewParticipantsList from "./PresenterViewParticipantsList";
+import QuestionBox from "./QuestionBox";
 
 // const actions = [
 //   { icon: <ZoomInMapIcon />, name: "Zoom in", handleClick:()=>{} },
@@ -42,16 +49,28 @@ import { StyledHeadingTypography } from "components/Typography";
 //   { icon: <TimerOutlinedIcon />, name: "Start countdown" },
 // ];
 
-const PresentationPresenterMenu = ({ currentSlide, slideList }) => {
+const PresentationPresenterMenu = ({
+  slideList,
+  currentSlide,
+  setSlideList,
+  setCurrentSlide,
+}) => {
   const params = useParams();
   const slideId = params.slideid;
   const presentationId = params.id;
+  const currentUser = useSelector((state) => state.auth.user);
+  const user = currentUser?.user;
+  // const currentSlide = slideList.find((slide) => slide.id === Number(slideId));
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [votingReset, setVotingReset] = useState(false);
   const [isLock, setIsLock] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [chatMessages, setChatMessages] = useState([]);
+  const [popupMessages, setPopupMessages] = useState([]);
+  const [listParticipants, setListParticipants] = useState([{ ...user }]);
   const open = Boolean(anchorEl);
   const socket = useContext(SocketContext);
+  const [chatQuestions, setChatQuestions] = useState([]);
   const [code, setCode] = useState();
   const navigate = useNavigate();
 
@@ -101,10 +120,76 @@ const PresentationPresenterMenu = ({ currentSlide, slideList }) => {
         if (res.success === true) {
           setCode(res.data);
         }
+
+        const chatMessagesRes = await PresentationService.getChatMessages(
+          presentationId
+        );
+        // console.log(chatMessagesRes);
+        if (chatMessagesRes.success === true) {
+          setChatMessages(chatMessagesRes.data);
+        }
+        // handle get list questions from server when client didmount
+        socket.emit("CLIENT_GET_LIST_QUESTIONS", { code, presentationId });
+        socket.on("SERVER_SEND_LIST_QUESTIONS", (listQuestions) => {
+          setChatQuestions(listQuestions);
+        });
+
+        // handle receive questions
+        socket.on("SERVER_SEND_CHAT_QUESTION", (questionInfo) => {
+          setChatQuestions((prevChatQuestions) => {
+            if (
+              prevChatQuestions.length === 0 ||
+              prevChatQuestions[prevChatQuestions.length - 1].id !==
+                questionInfo.id
+            ) {
+              return prevChatQuestions.concat(questionInfo);
+            } else return prevChatQuestions;
+          });
+        });
       } catch (err) {
         console.log(err);
       }
     })();
+
+    // handle get list messages from server when client didmount
+    socket.emit("CLIENT_GET_LIST_MESSAGES", { code, presentationId });
+    socket.on("SERVER_SEND_LIST_MESSAGES", (listMessages) => {
+      setChatMessages(listMessages);
+    });
+
+    // handle receive messages
+    socket.on("SERVER_SEND_CHAT_MESSAGE", (chatInfo) => {
+      setChatMessages((prevChatMessages) => {
+        if (
+          prevChatMessages.length === 0 ||
+          prevChatMessages[prevChatMessages.length - 1].createdAt !==
+            chatInfo.createdAt
+        ) {
+          return prevChatMessages.concat(chatInfo);
+        } else return prevChatMessages;
+      });
+
+      if (chatInfo.user?.id !== user.id) {
+        setPopupMessages((prevChatMessages) => {
+          return prevChatMessages.concat(
+            <PositionedSnackbar
+              message={`${chatInfo.user.firstName ?? ""} ${
+                chatInfo.user.lastName ?? ""
+              }: ${chatInfo.content}`}
+            />
+          );
+        });
+      }
+    });
+
+    // handle get list participants from server when client didmount
+    socket.emit("CLIENT_GET_LIST_PARTICIPANTS", { code, presentationId });
+
+    // handle receive participants list
+    socket.on("SERVER_SEND_LIST_PARTICIPANTS", (participants) => {
+      // console.log("participants", participants);
+      setListParticipants(participants);
+    });
   }, []);
 
   const handleToggleLock = () => {
@@ -114,26 +199,30 @@ const PresentationPresenterMenu = ({ currentSlide, slideList }) => {
   const handleNextSlide = (e) => {
     const newIndex = slideList.indexOf(currentSlide) + 1;
     if (newIndex >= 0 && newIndex < slideList.length) {
-      const newSlideId = slideList[newIndex].id;
+      const newSlide = slideList[newIndex];
       socket.emit("HOST_MOVE_TO_SLIDE", {
         code,
         presentationId,
-        slideId: newSlideId,
+        slideId: newSlide.id,
       });
-      navigate(`/presentation/${presentationId}/${newSlideId}/presenting`);
+      setCurrentSlide(newSlide);
+      // navigate(`/presentation/${presentationId}/${newSlide.id}/presenting`);
+      navigate(`../../${newSlide.id}/presenting`);
     }
   };
 
   const handlePrevSlide = (e) => {
     const newIndex = slideList.indexOf(currentSlide) - 1;
     if (newIndex >= 0 && newIndex < slideList.length) {
-      const newSlideId = slideList[newIndex].id;
+      const newSlide = slideList[newIndex];
       socket.emit("HOST_MOVE_TO_SLIDE", {
         code,
         presentationId,
-        slideId: newSlideId,
+        slideId: newSlide.id,
       });
-      navigate(`/presentation/${presentationId}/${newSlideId}/presenting`);
+      setCurrentSlide(newSlide);
+      // navigate(`/presentation/${presentationId}/${newSlide.id}/presenting`);
+      navigate(`../../${newSlide.id}/presenting`);
     }
   };
 
@@ -149,7 +238,7 @@ const PresentationPresenterMenu = ({ currentSlide, slideList }) => {
               sx={{ mt: 2, ml: 2 }}
               onClick={() => {
                 navigate("../edit");
-                socket.emit("HOST_END_PRESENT", code);
+                socket.emit("HOST_END_PRESENT", { code, presentationId });
               }}
             >
               <CloseIcon />
@@ -274,7 +363,7 @@ const PresentationPresenterMenu = ({ currentSlide, slideList }) => {
             {(() => {
               const content = (
                 <Badge
-                  badgeContent={999}
+                  badgeContent={chatMessages.length}
                   color="primary"
                   overlap="circular"
                   max={999}
@@ -294,23 +383,76 @@ const PresentationPresenterMenu = ({ currentSlide, slideList }) => {
                   title="chat box"
                   variant={null}
                 >
-                  <ChatBox />
+                  <ChatBox
+                    chatMessages={chatMessages}
+                    setChatMessages={setChatMessages}
+                    code={code}
+                  />
                 </FormDialog>
               );
             })()}
-            <Badge
-              badgeContent={999}
-              color="primary"
-              overlap="circular"
-              max={999}
-            >
-              <IconButton>
-                <AccountCircleIcon
-                  color="action"
-                  sx={{ height: 24, width: 24 }}
-                />
-              </IconButton>
-            </Badge>
+            {(() => {
+              const content = (
+                <Badge
+                  badgeContent={chatQuestions.length}
+                  color="primary"
+                  overlap="circular"
+                  max={999}
+                >
+                  <IconButton>
+                    <ContactSupportIcon
+                      color="action"
+                      sx={{ height: 24, width: 24 }}
+                    />
+                  </IconButton>
+                </Badge>
+              );
+              return (
+                <FormDialog
+                  FormDialog
+                  content={content}
+                  title="question box"
+                  variant={null}
+                  dialogSize="xl"
+                >
+                  <QuestionBox
+                    chatQuestions={chatQuestions}
+                    setChatQuestions={setChatQuestions}
+                    code={code}
+                  />
+                </FormDialog>
+              );
+            })()}
+            {(() => {
+              const content = (
+                <Badge
+                  badgeContent={listParticipants.length}
+                  color="primary"
+                  overlap="circular"
+                  max={999}
+                >
+                  <IconButton>
+                    <AccountCircleIcon
+                      color="action"
+                      sx={{ height: 24, width: 24 }}
+                    />
+                  </IconButton>
+                </Badge>
+              );
+              return (
+                <FormDialog
+                  FormDialog
+                  content={content}
+                  title="paticipants list"
+                  variant={null}
+                  dialogSize="xl"
+                >
+                  <PresenterViewParticipantsList
+                    listParticipants={listParticipants}
+                  />
+                </FormDialog>
+              );
+            })()}
           </Stack>
         </Box>
       </Box>
@@ -322,11 +464,19 @@ const PresentationPresenterMenu = ({ currentSlide, slideList }) => {
           draggable="false"
         />
       </Box>
+      {popupMessages.map((message) => message)}
     </>
   );
 };
 PresentationPresenterMenu.propTypes = {
   currentSlide: PropTypes.object.isRequired,
   slideList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setSlideList: PropTypes.func,
+  setCurrentSlide: PropTypes.func,
+};
+
+PresentationPresenterMenu.defaultProps = {
+  setSlideList: () => {},
+  setCurrentSlide: () => {},
 };
 export default PresentationPresenterMenu;

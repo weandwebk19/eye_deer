@@ -33,9 +33,7 @@ const HeadingSlide = ({ question, subHeading }) => {
         <StyledHeadingTypography sx={{ fontSize: "3rem !important" }}>
           {question}
         </StyledHeadingTypography>
-        <Typography sx={{ fontSize: "1rem !important" }}>
-          {subHeading}
-        </Typography>
+        <Typography variant="h5">{subHeading}</Typography>
       </Stack>
     </Box>
   );

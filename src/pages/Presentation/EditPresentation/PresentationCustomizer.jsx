@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { Box, MenuItem, Stack, Typography } from "@mui/material";
 
 import PropTypes from "prop-types";
+import SlideService from "services/slideService";
+import { typeMapper } from "utils";
 
 import { StyledButton } from "components/Button";
 import { StyledSelectField } from "components/SelectBox/StyledSelectField";
@@ -89,29 +91,40 @@ import { StyledInputField } from "components/TextField";
 const PresentationCustomizer = ({
   slideList,
   currentSlide,
+  setCurrentSlide,
   handleChangeSlideList,
   handleChangeCurrentSlide,
 }) => {
   const { slideid } = useParams();
-  const [selectedStyle, setSelectedStyle] = useState(1);
+  const [selectedStyle, setSelectedStyle] = useState(currentSlide?.typeId ?? 1);
   // const [slideStyle, setSlideStyle] = useState();
   // const currentSlide = slideList.find((o) => o.slideid === Number(slideid));
 
-  useEffect(() => {
-    setSelectedStyle(currentSlide?.typeId);
-  }, [slideid]);
+  // useEffect(() => {
+  //   setSelectedStyle(currentSlide?.typeId);
+  // }, [slideid]);
 
-  const handleChangeStyleSelection = (e) => {
+  const handleChangeStyleSelection = async (e) => {
     setSelectedStyle(e.target.value);
     // console.log(e.target.value);
+
     const index = slideList.indexOf(currentSlide);
-    const newSlide = { ...currentSlide, typeId: e.target.value };
+    const newSlide = {
+      ...currentSlide,
+      typeId: e.target.value,
+      type: typeMapper(e.target.value),
+    };
     slideList[index] = newSlide;
-    handleChangeCurrentSlide(newSlide);
+    const deleteSlideTypeRes = await SlideService.deleteSlideType(currentSlide);
+    // console.log("deleteSlideTypeRes", deleteSlideTypeRes);
+
+    const updateSlideTypeRes = await SlideService.changeSlideType(newSlide);
+    console.log("updateSlideTypeRes", updateSlideTypeRes);
+    setCurrentSlide(updateSlideTypeRes.data);
     handleChangeSlideList(slideList);
   };
 
-  const handleChangeQuestion = (e) => {
+  const handleBlurQuestion = (e) => {
     let newSlide;
     if (currentSlide.typeId === 1) {
       newSlide = {
@@ -163,7 +176,7 @@ const PresentationCustomizer = ({
   };
 
   const handleChangeOption = (e, indexOption) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     // currentSlide.content.options[indexOption] = {
     //   ...currentSlide.content.options[indexOption],
     //   content: e.target.value,
@@ -188,12 +201,40 @@ const PresentationCustomizer = ({
     handleChangeSlideList(slideList);
   };
 
+  const handleAddOption = async (currentSlide) => {
+    const newOptions = {
+      content: "",
+      vote: 0,
+    };
+
+    const optionRes = await SlideService.createNewOption(
+      currentSlide,
+      newOptions
+    );
+    console.log("optionRes", optionRes);
+    if (optionRes.success === true && optionRes.data) {
+      currentSlide.content.options.push(optionRes.data);
+
+      const newSlide = {
+        ...currentSlide,
+        content: {
+          ...currentSlide.content,
+        },
+      };
+
+      const index = slideList.indexOf(newSlide);
+      slideList[index] = newSlide;
+      handleChangeCurrentSlide(newSlide);
+      // console.log("newSlide", newSlide);
+    }
+  };
+
   return (
     <Box>
       <Typography>slide style.</Typography>
       <StyledSelectField
-        defaultValue={currentSlide?.typeId ?? null}
-        value={selectedStyle}
+        defaultValue={currentSlide?.typeId ?? 1}
+        value={currentSlide?.typeId ?? 1}
         key={`${currentSlide?.id}-type`}
         labelId="type-select-input-label"
         id="type-select"
@@ -210,14 +251,14 @@ const PresentationCustomizer = ({
             <Stack spacing={2}>
               <Typography>heading</Typography>
               <StyledInputField
-                // key={`${currentSlide?.typeId} ${currentSlide?.contentId} ${currentSlide?.content.heading}`}
+                key={`${currentSlide?.id} ${currentSlide?.typeId} ${currentSlide?.contentId} heading`}
                 label="heading"
                 defaultValue={currentSlide?.content.heading}
-                onChange={handleChangeQuestion}
+                onBlur={handleBlurQuestion}
               />
               <Typography>Sub heading</Typography>
               <StyledInputField
-                // key={`${currentSlide?.typeId} ${currentSlide?.contentId} ${currentSlide?.content.heading}`}
+                key={`${currentSlide?.id} ${currentSlide?.typeId} ${currentSlide?.contentId} subHeading`}
                 label="Sub heading"
                 defaultValue={currentSlide?.content.subHeading}
                 onChange={handleChangeSubQuestion}
@@ -229,14 +270,14 @@ const PresentationCustomizer = ({
             <Stack spacing={2}>
               <Typography>heading</Typography>
               <StyledInputField
-                // key={`${currentSlide?.typeId} ${currentSlide?.contentId} ${currentSlide?.content.heading}`}
+                key={`${currentSlide?.id} ${currentSlide?.typeId} ${currentSlide?.contentId} headingParagraph}`}
                 label="heading"
                 defaultValue={currentSlide?.content.heading}
-                onChange={handleChangeQuestion}
+                onBlur={handleBlurQuestion}
               />
               <Typography>paragraph</Typography>
               <StyledInputField
-                // key={`${currentSlide?.typeId} ${currentSlide?.contentId} ${currentSlide?.content.paragraph}`}
+                key={`${currentSlide?.id} ${currentSlide?.typeId} ${currentSlide?.contentId} paragraph`}
                 label="paragraph"
                 defaultValue={currentSlide?.content.paragraph}
                 onChange={handleChangeSubQuestion}
@@ -248,25 +289,27 @@ const PresentationCustomizer = ({
             <Stack spacing={2}>
               <Typography>your question</Typography>
               <StyledInputField
-                key={`${currentSlide?.typeId} ${currentSlide?.contentId} ${currentSlide?.content.question}`}
-                label="multiple choice"
+                key={`${currentSlide?.id} ${currentSlide?.typeId} ${currentSlide?.contentId} question`}
+                label="question"
                 defaultValue={currentSlide?.content.question}
-                onChange={handleChangeQuestion}
+                onBlur={handleBlurQuestion}
               />
               <Typography>options</Typography>
-              {currentSlide?.content.options.map((option, i) => {
+              {currentSlide?.content.options?.map((option, i) => {
                 return (
                   <StyledInputField
-                    key={`${currentSlide?.id} ${option.id} ${option.id} ${option.content} `}
+                    key={`${currentSlide?.id} ${option.id} `}
                     label={`option ${i + 1}`}
                     defaultValue={option.content}
-                    // onChange={(e) => {
-                    //   handleChangeOption(e, i);
-                    // }}
+                    onChange={(e) => {
+                      handleChangeOption(e, i);
+                    }}
                   />
                 );
               })}
-              <StyledButton>+ option</StyledButton>
+              <StyledButton onClick={() => handleAddOption(currentSlide)}>
+                + option
+              </StyledButton>
             </Stack>
           );
         }
@@ -278,6 +321,7 @@ const PresentationCustomizer = ({
 PresentationCustomizer.propTypes = {
   slideList: PropTypes.arrayOf(PropTypes.object),
   currentSlide: PropTypes.object,
+  setCurrentSlide: PropTypes.func,
   handleChangeSlideList: PropTypes.func,
   handleChangeCurrentSlide: PropTypes.func,
 };
@@ -285,6 +329,7 @@ PresentationCustomizer.propTypes = {
 PresentationCustomizer.defaultProps = {
   slideList: [],
   currentSlide: null,
+  setCurrentSlide: () => {},
   handleChangeSlideList: () => {},
   handleChangeCurrentSlide: () => {},
 };

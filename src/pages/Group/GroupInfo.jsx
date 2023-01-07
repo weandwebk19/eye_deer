@@ -27,6 +27,7 @@ const GroupInfo = () => {
   const [createdAt, setCreatedAt] = useState("");
   const [updatedAt, setUpdatedAt] = useState("");
   const groupId = params.id;
+  const roleType = useSelector(state => state.role.roleType);
 
   useEffect(() => {
     (async () => {
@@ -44,9 +45,11 @@ const GroupInfo = () => {
   return (
     <Box id="side-area--fixed">
       <Box>
+        { roleType == 1 &&
         <StyledButton variant="secondary" sx={{ width: "100%" }}>
           group settings
         </StyledButton>
+        }
         <Box
           component="img"
           sx={{

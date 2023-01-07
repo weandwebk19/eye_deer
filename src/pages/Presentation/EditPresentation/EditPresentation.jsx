@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { Outlet, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 
+import { Box } from "@mui/system";
 import { FluidLayout } from "layouts";
 import SlideService from "services/slideService";
 
@@ -14,9 +16,10 @@ import PresentationPreviewList from "./PresentationPreviewList";
 const EditPresentation = () => {
   const params = useParams();
   const presentationId = params.id;
-  const slideId = params.slideid;
   const [slideList, setSlideList] = useState([]);
   const [currentSlide, setCurrentSlide] = useState();
+  const roleType = useSelector((state) => state.role.roleType);
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -35,13 +38,25 @@ const EditPresentation = () => {
 
   const handleChangeCurrentSlide = (slide) => {
     setCurrentSlide(slide);
+    (async () => {
+      await SlideService.updateCurrentSlide(slide);
+    })();
+  };
+
+  const handleBack = () => {
+    if (params.groupId) {
+      navigate(`/group/${params.groupId}`);
+    } else {
+      navigate(`/home`);
+    }
   };
 
   return (
     <>
       <CustomizerNavBar
         left={<EditNamePresentation />}
-        right={<StartPresentButton />}
+        right={<StartPresentButton slideStart={slideList[0]} />}
+        handleBack={handleBack}
       />
       <FluidLayout>
         <PresentationPreviewList
@@ -58,12 +73,19 @@ const EditPresentation = () => {
             handleChangeCurrentSlide,
           }}
         />
-        <PresentationCustomizer
-          slideList={slideList}
-          currentSlide={currentSlide}
-          handleChangeSlideList={handleChangeSlideList}
-          handleChangeCurrentSlide={handleChangeCurrentSlide}
-        />
+        {roleType !== 3 ? (
+          <Box sx={{ width: "20vw" }}>
+            <PresentationCustomizer
+              slideList={slideList}
+              currentSlide={currentSlide}
+              setCurrentSlide={setCurrentSlide}
+              handleChangeSlideList={handleChangeSlideList}
+              handleChangeCurrentSlide={handleChangeCurrentSlide}
+            />
+          </Box>
+        ) : (
+          <Box sx={{ width: "10vw" }} />
+        )}
       </FluidLayout>
     </>
   );

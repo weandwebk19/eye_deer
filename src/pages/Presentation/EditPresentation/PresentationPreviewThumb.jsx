@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Paper, Tooltip, Typography } from "@mui/material";
 
 import BarChartIcon from "@mui/icons-material/BarChart";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -14,8 +14,10 @@ import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined
 import PropTypes from "prop-types";
 
 import { StyledButton } from "components/Button";
+import { FormDialog } from "components/Dialog";
 
 import "../styles.scss";
+import DeleteSlideDialog from "./DeleteSlideDialog";
 
 // const slideTypeMapper = (typeid) => {
 //   switch (typeid) {
@@ -28,9 +30,9 @@ import "../styles.scss";
 //     default:
 //       return "multiple-choice";
 //   }
-// };
+// };,
 
-const PresentationPreviewThumb = ({ variant, index }) => {
+const PresentationPreviewThumb = ({ index, slide, handleDeleteSlide }) => {
   const navigate = useNavigate();
   return (
     <Paper
@@ -42,7 +44,7 @@ const PresentationPreviewThumb = ({ variant, index }) => {
         overflow: "visible",
       }}
       onClick={() => {
-        navigate(`../${index}/edit`);
+        navigate(`../${slide?.id}/edit`);
       }}
     >
       <PlayArrowIcon id="preview-box__indicator" />
@@ -54,18 +56,51 @@ const PresentationPreviewThumb = ({ variant, index }) => {
         }}
       >
         <Box sx={{ display: "flex", flexDirection: "column", mr: 1 }}>
-          <StyledButton variant="simple" s>
-            <ContentCopyIcon sx={{ height: "14px" }} />
-          </StyledButton>
-          <StyledButton variant="simple">
-            <VisibilityOffOutlinedIcon sx={{ height: "14px" }} />
-          </StyledButton>
-          <StyledButton variant="simple">
-            <RefreshIcon sx={{ height: "14px" }} />
-          </StyledButton>
-          <StyledButton variant="simple">
-            <DeleteOutlineOutlinedIcon sx={{ height: "14px" }} />
-          </StyledButton>
+          <Tooltip
+            key={`duplicate-${slide.id}`}
+            title="Duplicate"
+            placement="right"
+          >
+            <StyledButton variant="simple">
+              <ContentCopyIcon sx={{ height: "14px" }} />
+            </StyledButton>
+          </Tooltip>
+          <Tooltip key={`hide-${slide.id}`} title="Hide" placement="right">
+            <StyledButton variant="simple">
+              <VisibilityOffOutlinedIcon sx={{ height: "14px" }} />
+            </StyledButton>
+          </Tooltip>
+          <Tooltip key={`reset-${slide.id}`} title="Reset" placement="right">
+            <StyledButton variant="simple">
+              <RefreshIcon sx={{ height: "14px" }} />
+            </StyledButton>
+          </Tooltip>
+          {(() => {
+            const content = (
+              <Tooltip
+                key={`delete-${slide.id}`}
+                title="Delete"
+                placement="right"
+              >
+                <StyledButton variant="simple">
+                  <DeleteOutlineOutlinedIcon sx={{ height: "14px" }} />
+                </StyledButton>
+              </Tooltip>
+            );
+            return (
+              <FormDialog
+                FormDialog
+                content={content}
+                title={`delete slide ${index}`}
+                variant={null}
+                selfClose={true}
+              >
+                <DeleteSlideDialog
+                  handleDeleteSlide={() => handleDeleteSlide(slide?.id)}
+                />
+              </FormDialog>
+            );
+          })()}
         </Box>
         <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
           <Typography>{index}.</Typography>
@@ -80,7 +115,7 @@ const PresentationPreviewThumb = ({ variant, index }) => {
             }}
           >
             {(() => {
-              if (variant === "Multiple Choice")
+              if (slide?.typeId === 1)
                 return (
                   <>
                     <BarChartIcon />
@@ -88,11 +123,11 @@ const PresentationPreviewThumb = ({ variant, index }) => {
                       variant="caption"
                       className="presentation-thumb__caption"
                     >
-                      {variant}
+                      {slide?.type}
                     </Typography>
                   </>
                 );
-              else if (variant === "Heading")
+              else if (slide?.typeId === 2)
                 return (
                   <>
                     <TitleIcon />
@@ -101,11 +136,11 @@ const PresentationPreviewThumb = ({ variant, index }) => {
                       className="presentation-thumb__caption"
                     >
                       {" "}
-                      {variant}
+                      {slide?.type}
                     </Typography>
                   </>
                 );
-              else if (variant === "Paragraph")
+              else if (slide?.typeId === 3)
                 return (
                   <>
                     <FormatAlignLeftIcon />
@@ -114,7 +149,7 @@ const PresentationPreviewThumb = ({ variant, index }) => {
                       className="presentation-thumb__caption"
                     >
                       {" "}
-                      {variant}
+                      {slide?.type}
                     </Typography>
                   </>
                 );
@@ -127,15 +162,18 @@ const PresentationPreviewThumb = ({ variant, index }) => {
 };
 
 PresentationPreviewThumb.propTypes = {
-  variant: PropTypes.number,
-  index: PropTypes.number.isRequired,
+  index: PropTypes.number,
+  slide: PropTypes.object,
+  handleDeleteSlide: PropTypes.func,
   // iscurrent: PropTypes.bool.isRequired,
   // handleClick: PropTypes.func.isRequired,
   // menulist: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 PresentationPreviewThumb.defaultProps = {
-  variant: 1,
+  index: 0,
+  slide: {},
+  handleDeleteSlide: () => {},
 };
 
 export { PresentationPreviewThumb };

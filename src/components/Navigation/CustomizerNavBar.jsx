@@ -37,7 +37,7 @@ const StyledToolbar = styled(Toolbar)(() => ({
   flexDirection: "row-reverse",
 }));
 
-const CustomizerNavBar = ({ left, middle, right }) => {
+const CustomizerNavBar = ({ left, middle, right, handleBack }) => {
   // const { user } = useSelector((state) => state.auth.user);
   const currentUser = useSelector((state) => state.auth.user);
   const user = currentUser?.user;
@@ -50,9 +50,12 @@ const CustomizerNavBar = ({ left, middle, right }) => {
           <Toolbar disableGutters>
             <IconButton
               sx={{ mr: 2 }}
-              onClick={() => {
-                navigate("/group");
-              }}
+              onClick={
+                handleBack ||
+                (() => {
+                  navigate(-1);
+                })
+              }
             >
               <ArrowBackIcon />
             </IconButton>
@@ -87,12 +90,14 @@ CustomizerNavBar.propTypes = {
   left: PropTypes.node,
   middle: PropTypes.node,
   right: PropTypes.node,
+  handleBack: PropTypes.func,
 };
 
 CustomizerNavBar.defaultProps = {
   left: null,
   middle: null,
   right: null,
+  handleBack: null,
 };
 
 export { CustomizerNavBar };

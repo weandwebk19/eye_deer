@@ -7,32 +7,66 @@ import { Grid } from "@mui/material";
 import GroupService from "services/groupService";
 
 import StyledTabs from "components/Tabs/StyledTabs";
+import { FormDialog } from "components/Dialog";
 
 import GroupTabContent from "./GroupTabContent";
+import RemoveGroup from "./RemoveGroup";
 
 const GroupTabs = () => {
-  const menulist = [
-    {
-      id: 1,
-      children: "group settings",
-      onClick: () => {
-        console.log("group settings");
+  const [removeGroup, setRemoveGroup] = useState(false);
+  const [settingGroup, setSettingGroup] = useState(false);
+
+  const createRemoveGroupButton = (props) => {
+    const removeGroupButton = (
+      <FormDialog content="remove" title="Remove Group">
+        <RemoveGroup {...props} />
+      </FormDialog>
+    );
+    return removeGroupButton;
+  };
+
+  const createSettingGroupButton = (props) => {
+    const settingGroupButton = (
+      <FormDialog content="setting" title="Setting Group">
+        {/* <SettingGroup {...props}/> */}
+        setup later
+      </FormDialog>
+    );
+    return settingGroupButton;
+  };
+
+  const menuListOfOwner = (props) => {
+    return [
+      {
+        id: 1,
+        children: createSettingGroupButton(props),
+        onClick: () => {},
       },
-    },
-    {
-      id: 2,
-      children: "remove",
-      onClick: () => {
-        console.log("remove");
+      {
+        id: 2,
+        children: createRemoveGroupButton(props),
+        onClick: () => {},
       },
-    },
-  ];
+    ];
+  };
+
+  const menuListOfMember = (props) => {
+    return [];
+  };
+
+  const handleRemoveGroup = () => {
+    setRemoveGroup(true);
+  }
+
+  const handleSettingGroup = () => {
+    setSettingGroup(true);
+  }
 
   const [tabElements, setTabElements] = useState([]);
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.user);
 
-  const getContents = (groups) => {
+  const getContents = (groups, menuList) => {
     return groups.map((group) => {
       return (
         <Grid item xs={4} sm={4} md={6} lg={4} key={group.id}>
@@ -44,7 +78,11 @@ const GroupTabs = () => {
             contentChips={(() => ({
               members: group.totalMembers,
             }))(group)}
-            menulist={menulist}
+            menulist={menuList({
+              groupId: group.id,
+              handleRemoveGroup,
+              handleSettingGroup
+            })}
           />
         </Grid>
       );
@@ -56,22 +94,25 @@ const GroupTabs = () => {
       try {
         const ownedGroups = await GroupService.getOwnedGroups();
         const joinedGroups = await GroupService.getJoinedGroups();
+
         const newTabElements = [];
         newTabElements.push({
           title: "my groups",
-          content: getContents(ownedGroups),
+          content: getContents(ownedGroups, menuListOfOwner),
         });
         newTabElements.push({
           title: "joined groups",
-          content: getContents(joinedGroups),
+          content: getContents(joinedGroups, menuListOfMember),
         });
 
+        setRemoveGroup(false);
+        setSettingGroup(false);
         setTabElements(newTabElements);
       } catch (e) {
         console.log(e);
       }
     })();
-  }, []);
+  }, [removeGroup, settingGroup]);
 
   return <StyledTabs tabElements={tabElements} />;
 };

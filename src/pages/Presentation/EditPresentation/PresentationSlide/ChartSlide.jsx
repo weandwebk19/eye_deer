@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import { Box } from "@mui/system";
 import PropTypes from "prop-types";
 import {
@@ -12,7 +14,8 @@ import {
 
 import { StyledHeadingTypography } from "components/Typography";
 
-const ChartSlide = ({ question, data }) => {
+const ChartSlide = ({ question, options }) => {
+  // console.log(question);
   return (
     <Box sx={{ width: "100%", height: "100%" }}>
       <StyledHeadingTypography
@@ -26,7 +29,7 @@ const ChartSlide = ({ question, data }) => {
         <BarChart
           width={300}
           height={300}
-          data={data}
+          data={options}
           margin={{
             top: 5,
             right: 30,
@@ -47,12 +50,12 @@ const ChartSlide = ({ question, data }) => {
 
 ChartSlide.propTypes = {
   question: PropTypes.string,
-  data: PropTypes.arrayOf(PropTypes.object),
+  options: PropTypes.arrayOf(PropTypes.object),
 };
 
 ChartSlide.defaultProps = {
   question: "",
-  data: [],
+  options: [],
 };
 
 export default ChartSlide;

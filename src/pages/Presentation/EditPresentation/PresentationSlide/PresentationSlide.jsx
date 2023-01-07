@@ -124,7 +124,7 @@ const PresentationSlide = () => {
             return (
               <ChartSlide
                 question={currentSlide?.content.question}
-                data={currentSlide?.content.options}
+                options={currentSlide?.content.options}
               />
             );
           } else if (currentSlide?.typeId === 2) {

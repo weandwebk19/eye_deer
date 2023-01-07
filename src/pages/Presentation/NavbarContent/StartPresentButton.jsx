@@ -1,36 +1,20 @@
-import { useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import PlayCircleFilledWhiteOutlinedIcon from "@mui/icons-material/PlayCircleFilledWhiteOutlined";
 
 import { Box } from "@mui/system";
 import { SocketContext } from "context/socket";
+import PropTypes from "prop-types";
 import PresentationService from "services/presentationService";
 
 import { StyledButton } from "components/Button";
-import { StyledInputField } from "components/TextField";
 
-const StartPresentButton = () => {
-  const params = useParams();
+const StartPresentButton = ({ slideStart }) => {
   const navigate = useNavigate();
-  const presentationId = params?.id;
-  const slideId = params?.slideid;
 
-  const socket = useContext(SocketContext);
-  const handleStartPresent = async () => {
-    try {
-      const res = await PresentationService.getCodePresentation(presentationId);
-      console.log("code", res);
-      if (res.success === true) {
-        socket.emit("HOST_START_PRESENT", {
-          code: res.data,
-          presentationId,
-          slideId,
-        });
-        navigate("presenting");
-      }
-    } catch (err) {
-      console.log(err);
+  const handleStartPresent = (e) => {
+    if (slideStart.id) {
+      navigate(`../${slideStart.id}/presenting`);
     }
   };
   return (
@@ -50,6 +34,14 @@ const StartPresentButton = () => {
       </StyledButton>
     </Box>
   );
+};
+
+StartPresentButton.propTypes = {
+  slideStart: PropTypes.object,
+};
+
+StartPresentButton.defaultProps = {
+  slideStart: null,
 };
 
 export default StartPresentButton;

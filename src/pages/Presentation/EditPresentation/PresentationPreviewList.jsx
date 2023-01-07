@@ -1,14 +1,11 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 
 import PropTypes from "prop-types";
-import { clickSlide, resetState } from "redux/actions/presentation";
 import SlideService from "services/slideService";
 
-import { StyledButton } from "components/Button";
 import { FormDialog } from "components/Dialog";
 
 import AddPresentationSlide from "../AddPresentationSlide";
@@ -21,9 +18,57 @@ const PresentationPreviewList = ({
   handleChangeSlideList,
   handleChangeCurrentSlide,
 }) => {
-  const { id, slideid } = useParams();
+  const params = useParams();
+  const presentationId = params.id;
+  const roleType = useSelector((state) => (state.role.roleType));
 
-  const [activeIndex, setActiveIndex] = useState(0);
+  const handleCreateNewSlide = async (typeId) => {
+    const nextIndex = slideList.length + 1;
+    let slideInfo = {
+      slideName: "",
+      presentationId,
+      index: nextIndex,
+      typeId,
+    };
+
+    if (typeId === 2) {
+      slideInfo = {
+        ...slideInfo,
+        type: "Heading",
+        content: {
+          heading: "your heading",
+          subHeading: "your sub heading here",
+        },
+      };
+    } else if (typeId === 3) {
+      slideInfo = {
+        ...slideInfo,
+        type: "Paragraph",
+        content: { heading: "your heading", paragraph: "your paragraph here" },
+      };
+    } else {
+      slideInfo = {
+        ...slideInfo,
+        type: "Multiple Choice",
+        content: { question: "your question", options: [] },
+      };
+    }
+    const res = await SlideService.createNewSlide(slideInfo);
+
+    const currentSlideList = await SlideService.getSlidesByPresentationId(
+      presentationId
+    );
+    handleChangeSlideList(currentSlideList.data);
+  };
+
+  const handleDeleteSlide = async (slideId) => {
+    const currentSlide = slideList.find((slide) => slide.id === slideId);
+    const index = slideList.indexOf(currentSlide);
+    slideList.splice(index, 1);
+    handleChangeSlideList(slideList);
+
+    await SlideService.removeSlide(slideId);
+  };
 
   return (
     <>
@@ -31,26 +76,33 @@ const PresentationPreviewList = ({
         className="presentation-preview-list__add-button"
         sx={{ position: "sticky", top: 0, zIndex: 1, mb: 2 }}
       >
-        <FormDialog content="+ new slide" title="Add slide" variant="primary">
-          <AddPresentationSlide />
-        </FormDialog>
+        {roleType != 3 &&
+        (<FormDialog
+          content="+ new slide"
+          title="Add slide"
+          variant="primary"
+          selfClose={true}
+        >
+          <AddPresentationSlide handleCreateNewSlide={handleCreateNewSlide} />
+        </FormDialog>)
+        }
       </Box>
       <ol>
         {slideList.map((slide, i) => {
           return (
             <Box
               className={`preview-box ${
-                activeIndex === slide.index && "preview-box--active"
+                currentSlide?.id === slide?.id && "preview-box--active"
               }`}
-              key={slide.id}
+              key={slide?.id}
               onClick={() => {
-                setActiveIndex(slide.index);
-                // dispatch(clickSlide(slide.type));
+                handleChangeCurrentSlide(slide);
               }}
             >
               <PresentationPreviewThumb
-                variant={slide.type}
-                index={slide.index}
+                index={i + 1}
+                slide={slide}
+                handleDeleteSlide={handleDeleteSlide}
               />
             </Box>
           );
