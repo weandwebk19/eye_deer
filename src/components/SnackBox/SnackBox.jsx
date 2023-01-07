@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -10,18 +10,69 @@ import {
   Typography,
 } from "@mui/material";
 
+import { SocketContext } from "context/socket";
 import PropTypes from "prop-types";
+import PresentationService from "services/presentationService";
 
 import { StyledButton } from "components/Button";
+import { InstantMessage } from "components/Popup";
 
 import { StyledSnackbar } from "./StyledSnackbar";
 
-const SnackBox = ({ presenter, name }) => {
+const SnackBox = ({ presenter, presentationId, slideId, code, groupId }) => {
   const [open, setOpen] = useState(true);
+  const [isError, setIsError] = useState("");
+  const [message, setMessage] = useState("");
+  const [presentation, setPresentation] = useState();
   const navigate = useNavigate();
+  const socket = useContext(SocketContext);
+
+  useEffect(() => {
+    (async () => {
+      const presentationRes = await PresentationService.findPresentationById(
+        presentationId
+      );
+      if (presentationRes) {
+        setPresentation(presentationRes);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      socket.on("SERVER_SEND_JOIN_SUCCESS", (data, presentation) => {
+        console.log("data", data);
+        // const presentationParse = JSON.parse(presentation);
+        console.log("presentation", presentation);
+        navigate(
+          `/presentation/${presentation?.presentationId}/${presentation?.slideId}/participating`
+        );
+      });
+      socket.on("SERVER_SEND_JOIN_FAIL", () => {
+        // setMessage(`Code ${data.code} could not be found. Please try again.`);
+        setMessage("You cannot connect to this presentation on this time.");
+        setIsError(true);
+      });
+    })();
+  });
+
+  useEffect(() => {
+    if (isError) {
+      setTimeout(() => {
+        setIsError("");
+      }, 5000);
+    }
+  }, [isError]);
 
   const handleAccept = () => {
-    navigate("/presentation/1/1/participating");
+    socket.emit("CLIENT_SEND_JOIN_PRESENTATION", {
+      presentationId,
+      slideId,
+      code,
+      groupId,
+      user: presenter,
+    });
+    setOpen(false);
   };
 
   const handleClose = (event, reason) => {
@@ -37,14 +88,14 @@ const SnackBox = ({ presenter, name }) => {
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography component="div" variant="h5">
-            {name}
+            {presentation?.name}
           </Typography>
           <Typography
             variant="subtitle1"
             color="text.secondary"
             component="div"
           >
-            {presenter}
+            {`${presenter.firstName ?? ""} ${presenter.lastName ?? ""}`}
           </Typography>
         </CardContent>
         <Stack
@@ -72,6 +123,13 @@ const SnackBox = ({ presenter, name }) => {
         image="https://res.cloudinary.com/dbaulxzoc/image/upload/v1669543514/WeAndWeb/bg-img-4_ujohe5.jpg"
         alt="Live from space album cover"
       />
+      {(() => {
+        if (isError === false) {
+          return <InstantMessage variant="success" message={message} />;
+        } else if (isError === true) {
+          return <InstantMessage variant="error" message={message} />;
+        }
+      })()}
     </Card>
   );
   return (
@@ -86,13 +144,19 @@ const SnackBox = ({ presenter, name }) => {
 };
 
 SnackBox.propTypes = {
-  presenter: PropTypes.string,
-  name: PropTypes.string,
+  presenter: PropTypes.object,
+  presentationId: PropTypes.number,
+  slideId: PropTypes.number,
+  code: PropTypes.string,
+  groupId: PropTypes.number,
 };
 
 SnackBox.defaultProps = {
   presenter: "",
-  name: "",
+  presentationId: 0,
+  slideId: 0,
+  code: "",
+  groupId: 0,
 };
 
 export { SnackBox };

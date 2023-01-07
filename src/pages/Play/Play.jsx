@@ -88,15 +88,6 @@ const Play = () => {
     // });
   }, []);
 
-  const handleWithNameSubmit = (data) => {
-    console.log(data);
-    socket.emit("CLIENT_SEND_JOIN_PRESENTATION", data);
-  };
-
-  const handleNameInputChange = (e) => {
-    console.log(e.target.value);
-  };
-
   useEffect(() => {
     (async () => {
       socket.on("SERVER_SEND_JOIN_SUCCESS", (data, presentation) => {

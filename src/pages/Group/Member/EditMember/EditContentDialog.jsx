@@ -8,8 +8,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Box } from "@mui/system";
 
+import { Box } from "@mui/system";
 import pictureDefault from "assets/imgs/pictureDefault.png";
 import PropTypes from "prop-types";
 import GroupService from "services/groupService";
@@ -18,9 +18,13 @@ import { StyledButton } from "components/Button/StyledButton";
 import { StyledPaper } from "components/Paper";
 import { InstantMessage } from "components/Popup";
 
-const EditContentDialog = ({ userId }) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+const EditContentDialog = ({
+  userId,
+  index,
+  members,
+  setMembers,
+  setCoOwners,
+}) => {
   const currentUser = useSelector((state) => state.auth.user);
   const params = useParams();
   const groupId = params.id;
@@ -34,6 +38,10 @@ const EditContentDialog = ({ userId }) => {
 
     // handle res
     if (res.success === true) {
+      setMembers((prevMembers) => {
+        const newMembers = prevMembers.splice(index, 1);
+        return newMembers;
+      });
       setMessageFromServer(res.message);
       setIsError(false);
     } else {
@@ -47,6 +55,16 @@ const EditContentDialog = ({ userId }) => {
 
     // handle res
     if (res.success === true) {
+      setCoOwners((prevCoOwners) => {
+        const newCoOwners = prevCoOwners.concat(members[index]);
+        return newCoOwners;
+      });
+
+      setMembers((prevMembers) => {
+        const newMembers = prevMembers.splice(index, 1);
+        return newMembers;
+      });
+
       setMessageFromServer(res.message);
       setIsError(false);
     } else {
@@ -95,5 +113,17 @@ const EditContentDialog = ({ userId }) => {
 
 EditContentDialog.propTypes = {
   userId: PropTypes.string.isRequired,
+  index: PropTypes.number,
+  members: PropTypes.arrayOf(PropTypes.object),
+  setMembers: PropTypes.func,
+  setCoOwners: PropTypes.func,
 };
+
+EditContentDialog.defaultProps = {
+  index: 0,
+  members: [],
+  setMembers: () => {},
+  setCoOwners: () => {},
+};
+
 export default EditContentDialog;
