@@ -31,22 +31,6 @@ const ParticipantQuestionContent = ({ question }) => {
     setIsUpvoted(question?.upvote.includes(user?.id));
   }, []);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       socket.on("SERVER_SEND_UPVOTE_QUESTION", (data) => {
-  //         console.log(data);
-  //       });
-
-  //       socket.on("SERVER_SEND_UNUPVOTE_QUESTION", (data) => {
-  //         console.log(data);
-  //       });
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   })();
-  // }, [question]);
-
   const handleUpvoteToggle = async (e, userAsked, questionId) => {
     if (isUpvoted) {
       socket.emit("PARTICIPANT_SEND_UNUPVOTE", {
