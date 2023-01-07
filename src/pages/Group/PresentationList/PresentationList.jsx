@@ -22,6 +22,7 @@ import { FormDialog } from "components/Dialog";
 import { SearchField } from "components/TextField";
 
 import "../styles.scss";
+import SettingPresentation from "pages/PresentationManagement/SettingPresentation";
 import AddPresentation from "./AddPresentation";
 import AddAlreadyPresentation from "./AddAlreadyPresentation";
 import RemovePresentationInGroup from "./RemovePresentationInGroup";
@@ -32,8 +33,8 @@ const PresentationList = ({ name, picture, contentChips }) => {
   const params = useParams();
   const groupId = params.id;
   const [presentationList, setPresentationList] = useState([]);
-  const [removePresentationInGroup, setRemovePresentationInGroup] =
-    useState(false);
+  const [removePresentationInGroup, setRemovePresentationInGroup] = useState(false);
+  const [settingPresentation, setSettingPresentation] = useState(false);
   const roleType = useSelector((state) => state.role.roleType);
   console.log(roleType);
 
@@ -45,9 +46,13 @@ const PresentationList = ({ name, picture, contentChips }) => {
     navigate("./members");
   };
 
-  const handleRemovePresentationInGroup = (isRemove) => {
-    setRemovePresentationInGroup(isRemove);
+  const handleRemovePresentationInGroup = () => {
+    setRemovePresentationInGroup(true);
   };
+
+  const handleSettingPresentation = () => {
+    setSettingPresentation(true);
+  }
 
   const createRemovePresentationButton = (props) => {
     const removePresentationButton = (
@@ -61,7 +66,7 @@ const PresentationList = ({ name, picture, contentChips }) => {
   const createSettingPresentationButton = (props) => {
     const settingPresentationButton = (
       <FormDialog content="setting" title="Setting Presentation">
-        rename change visability
+        <SettingPresentation {...props}/>
       </FormDialog>
     );
     return settingPresentationButton;
@@ -71,9 +76,7 @@ const PresentationList = ({ name, picture, contentChips }) => {
       {
         id: 1,
         children: createSettingPresentationButton(props),
-        onClick: () => {
-          console.log("presentation settings");
-        },
+        onClick: () => {},
       },
       {
         id: 2,
@@ -90,10 +93,11 @@ const PresentationList = ({ name, picture, contentChips }) => {
 
       setPresentationList(data);
       setRemovePresentationInGroup(false);
+      setSettingPresentation(false);
 
       console.log(data);
     })();
-  }, [removePresentationInGroup]);
+  }, [removePresentationInGroup, settingPresentation]);
 
   // data to ui test
   const mockupData = {
@@ -246,9 +250,10 @@ const PresentationList = ({ name, picture, contentChips }) => {
                 <ContentBox
                   name={presentation.name}
                   index={i}
-                  contentChips={(({ slides, code }) => ({
+                  contentChips={(({ slides, code, status }) => ({
                     slides,
                     code,
+                    status: status == 0 ? "private" :  "public"
                   }))(presentation)}
                   handleClick={() => {
                     navigate(`./presentation/${presentation.id}/1/edit`);
@@ -263,6 +268,7 @@ const PresentationList = ({ name, picture, contentChips }) => {
                           groupId,
                           presentationId: presentation.id,
                           handleRemovePresentationInGroup,
+                          handleSettingPresentation,
                         })
                       : []
                   }

@@ -23,7 +23,7 @@ const RemovePresentationInGroup = (props) => {
       if (res.success === true) {
         setMessageFromServer(res.message);
         setIsError(false);
-        handleRemovePresentationInGroup(true);
+        handleRemovePresentationInGroup();
       } else {
         setMessageFromServer(res.message);
         setIsError(true);
