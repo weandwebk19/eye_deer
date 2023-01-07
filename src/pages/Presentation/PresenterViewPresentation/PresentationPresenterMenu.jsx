@@ -34,9 +34,12 @@ import PresentationService from "services/presentationService";
 
 import ChatBox from "components/ChatBox/ChatBox";
 import { FormDialog } from "components/Dialog";
+import VirtualizedList from "components/List/FolderList";
 import { BasicModal } from "components/Modal";
+import PositionedSnackbar from "components/Popup/PositionedSnackbar";
 import { StyledHeadingTypography } from "components/Typography";
 
+import PresenterViewParticipantsList from "./PresenterViewParticipantsList";
 import QuestionBox from "./QuestionBox";
 
 // const actions = [
@@ -62,6 +65,9 @@ const PresentationPresenterMenu = ({
   const [votingReset, setVotingReset] = useState(false);
   const [isLock, setIsLock] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [chatMessages, setChatMessages] = useState([]);
+  const [popupMessages, setPopupMessages] = useState([]);
+  const [listParticipants, setListParticipants] = useState([{ ...user }]);
   const open = Boolean(anchorEl);
   const socket = useContext(SocketContext);
   const [chatQuestions, setChatQuestions] = useState([]);
@@ -115,6 +121,13 @@ const PresentationPresenterMenu = ({
           setCode(res.data);
         }
 
+        const chatMessagesRes = await PresentationService.getChatMessages(
+          presentationId
+        );
+        // console.log(chatMessagesRes);
+        if (chatMessagesRes.success === true) {
+          setChatMessages(chatMessagesRes.data);
+        }
         // handle get list questions from server when client didmount
         socket.emit("CLIENT_GET_LIST_QUESTIONS", { code, presentationId });
         socket.on("SERVER_SEND_LIST_QUESTIONS", (listQuestions) => {
@@ -137,6 +150,46 @@ const PresentationPresenterMenu = ({
         console.log(err);
       }
     })();
+
+    // handle get list messages from server when client didmount
+    socket.emit("CLIENT_GET_LIST_MESSAGES", { code, presentationId });
+    socket.on("SERVER_SEND_LIST_MESSAGES", (listMessages) => {
+      setChatMessages(listMessages);
+    });
+
+    // handle receive messages
+    socket.on("SERVER_SEND_CHAT_MESSAGE", (chatInfo) => {
+      setChatMessages((prevChatMessages) => {
+        if (
+          prevChatMessages.length === 0 ||
+          prevChatMessages[prevChatMessages.length - 1].createdAt !==
+            chatInfo.createdAt
+        ) {
+          return prevChatMessages.concat(chatInfo);
+        } else return prevChatMessages;
+      });
+
+      if (chatInfo.user?.id !== user.id) {
+        setPopupMessages((prevChatMessages) => {
+          return prevChatMessages.concat(
+            <PositionedSnackbar
+              message={`${chatInfo.user.firstName ?? ""} ${
+                chatInfo.user.lastName ?? ""
+              }: ${chatInfo.content}`}
+            />
+          );
+        });
+      }
+    });
+
+    // handle get list participants from server when client didmount
+    socket.emit("CLIENT_GET_LIST_PARTICIPANTS", { code, presentationId });
+
+    // handle receive participants list
+    socket.on("SERVER_SEND_LIST_PARTICIPANTS", (participants) => {
+      // console.log("participants", participants);
+      setListParticipants(participants);
+    });
   }, []);
 
   const handleToggleLock = () => {
@@ -185,7 +238,7 @@ const PresentationPresenterMenu = ({
               sx={{ mt: 2, ml: 2 }}
               onClick={() => {
                 navigate("../edit");
-                socket.emit("HOST_END_PRESENT", code);
+                socket.emit("HOST_END_PRESENT", { code, presentationId });
               }}
             >
               <CloseIcon />
@@ -310,7 +363,7 @@ const PresentationPresenterMenu = ({
             {(() => {
               const content = (
                 <Badge
-                  badgeContent={999}
+                  badgeContent={chatMessages.length}
                   color="primary"
                   overlap="circular"
                   max={999}
@@ -330,7 +383,11 @@ const PresentationPresenterMenu = ({
                   title="chat box"
                   variant={null}
                 >
-                  <ChatBox />
+                  <ChatBox
+                    chatMessages={chatMessages}
+                    setChatMessages={setChatMessages}
+                    code={code}
+                  />
                 </FormDialog>
               );
             })()}
@@ -366,19 +423,36 @@ const PresentationPresenterMenu = ({
                 </FormDialog>
               );
             })()}
-            <Badge
-              badgeContent={999}
-              color="primary"
-              overlap="circular"
-              max={999}
-            >
-              <IconButton>
-                <AccountCircleIcon
-                  color="action"
-                  sx={{ height: 24, width: 24 }}
-                />
-              </IconButton>
-            </Badge>
+            {(() => {
+              const content = (
+                <Badge
+                  badgeContent={listParticipants.length}
+                  color="primary"
+                  overlap="circular"
+                  max={999}
+                >
+                  <IconButton>
+                    <AccountCircleIcon
+                      color="action"
+                      sx={{ height: 24, width: 24 }}
+                    />
+                  </IconButton>
+                </Badge>
+              );
+              return (
+                <FormDialog
+                  FormDialog
+                  content={content}
+                  title="paticipants list"
+                  variant={null}
+                  dialogSize="xl"
+                >
+                  <PresenterViewParticipantsList
+                    listParticipants={listParticipants}
+                  />
+                </FormDialog>
+              );
+            })()}
           </Stack>
         </Box>
       </Box>
@@ -390,6 +464,7 @@ const PresentationPresenterMenu = ({
           draggable="false"
         />
       </Box>
+      {popupMessages.map((message) => message)}
     </>
   );
 };

@@ -4,26 +4,26 @@ import { Box, Typography } from "@mui/material";
 
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 
-import { SocketContext } from "context/socket";
+// import { SocketContext } from "context/socket";
 import PropTypes from "prop-types";
 
-import { StyledButton } from "components/Button";
+// import { StyledButton } from "components/Button";
 import { StyledHeadingTypography } from "components/Typography";
 
 const QuestionContent = ({ chatQuestions, currentQuestion }) => {
-  const socket = useContext(SocketContext);
+  // const socket = useContext(SocketContext);
 
-  const handleActionClick = (isAnswered) => {
-    if (isAnswered) {
-      socket.emit("HOST_RESTORE_QUESTION", {
-        questionId: currentQuestion.id,
-      });
-    } else {
-      socket.emit("HOST_MARK_AS_ANSWERED", {
-        questionId: currentQuestion.id,
-      });
-    }
-  };
+  // const handleActionClick = (isAnswered) => {
+  //   if (isAnswered) {
+  //     socket.emit("HOST_RESTORE_QUESTION", {
+  //       questionId: currentQuestion.id,
+  //     });
+  //   } else {
+  //     socket.emit("HOST_MARK_AS_ANSWERED", {
+  //       questionId: currentQuestion.id,
+  //     });
+  //   }
+  // };
 
   return (
     <Box
@@ -42,14 +42,14 @@ const QuestionContent = ({ chatQuestions, currentQuestion }) => {
         </Typography>
         <ThumbUpAltOutlinedIcon fontSize="small" />
       </Box>
-      <StyledButton
+      {/* <StyledButton
         onClick={() => handleActionClick(currentQuestion?.isAnswered)}
         variant="secondary"
       >
         {currentQuestion?.isAnswered === 1
           ? "restore question"
           : "mark as answered"}
-      </StyledButton>
+      </StyledButton> */}
     </Box>
   );
 };

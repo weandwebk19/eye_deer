@@ -214,9 +214,84 @@ const getChatQuestions = async (presentationId) => {
     };
   }
 };
+const getChatMessages = async (presentationId) => {
+  try {
+    const res = await axios.get(
+      `presentations/${presentationId}/chat/messages`
+    );
+
+    return res.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
+const findPresentationById = async (presentationId) => {
+  try {
+    const res = await axios({
+      method: "post",
+      url: `/presentations/find-by-id`,
+      data: { presentationId },
+      headers: {
+        "Content-Type": "application/json",
+        // "x-access-token": `Bearer ${accessToken}`,
+      },
+    });
+
+    return res.data.data.presentation;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
+const updatePresentation = async (data) => {
+  try {
+    const res = await axios({
+      method: "post",
+      url: `/presentations/update`,
+      data,
+      headers: {
+        "Content-Type": "application/json",
+        // "x-access-token": `Bearer ${accessToken}`,
+      },
+    });
+
+    return res.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
 
 const PresentationService = {
   createNewPresentation,
+  updatePresentation,
   getCodePresentation,
   removePresentationInGroup,
   getUserIsVoted,
@@ -225,6 +300,8 @@ const PresentationService = {
   getMyCoPresentations,
   findPresentationsByName,
   getChatQuestions,
+  getChatMessages,
+  findPresentationById,
 };
 
 export default PresentationService;

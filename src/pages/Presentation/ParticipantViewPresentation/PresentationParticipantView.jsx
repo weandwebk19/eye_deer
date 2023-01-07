@@ -12,8 +12,10 @@ import PresentationService from "services/presentationService";
 import SlideService from "services/slideService";
 
 import { StyledButton } from "components/Button";
+import ChatBox from "components/ChatBox/ChatBox";
 import { FormDialog } from "components/Dialog";
 import StyledDrawer from "components/Drawer/Drawer";
+import PositionedSnackbar from "components/Popup/PositionedSnackbar";
 
 import HeadingSlideParticipant from "./HeadingSlideParticipant";
 import ParagraphSlideParticipant from "./ParagraphSlideParticipant";
@@ -28,6 +30,8 @@ const PresenatationParticipantView = () => {
   const [slideList, setSlideList] = useState([]);
   const [currentSlide, setCurrentSlide] = useState();
   const [chatQuestions, setChatQuestions] = useState([]);
+  const [chatMessages, setChatMessages] = useState([]);
+  const [popupMessages, setPopupMessages] = useState([]);
   const [code, setCode] = useState();
   const socket = useContext(SocketContext);
   const navigate = useNavigate();
@@ -62,6 +66,12 @@ const PresenatationParticipantView = () => {
         //     )
         //   );
         // }
+        const chatMessagesRes = await PresentationService.getChatMessages(
+          presentationId
+        );
+        if (chatMessagesRes.success === true) {
+          setChatMessages(chatMessagesRes.data);
+        }
 
         // handle join present
         socket.emit("CLIENT_SEND_JOIN_PRESENTATION", {
@@ -77,6 +87,36 @@ const PresenatationParticipantView = () => {
           );
         });
 
+        // handle get list messages from server when client didmount
+        socket.emit("CLIENT_GET_LIST_MESSAGES", { code, presentationId });
+        socket.on("SERVER_SEND_LIST_MESSAGES", (listMessages) => {
+          setChatMessages(listMessages);
+        });
+
+        // handle receive messages
+        socket.on("SERVER_SEND_CHAT_MESSAGE", (chatInfo) => {
+          setChatMessages((prevChatMessages) => {
+            if (
+              prevChatMessages.length === 0 ||
+              prevChatMessages[prevChatMessages.length - 1].createdAt !==
+                chatInfo.createdAt
+            ) {
+              return prevChatMessages.concat(chatInfo);
+            } else return prevChatMessages;
+          });
+
+          if (chatInfo.user?.id !== user.id) {
+            setPopupMessages((prevChatMessages) => {
+              return prevChatMessages.concat(
+                <PositionedSnackbar
+                  message={`${chatInfo.user.firstName ?? ""} ${
+                    chatInfo.user.lastName ?? ""
+                  }: ${chatInfo.content}`}
+                />
+              );
+            });
+          }
+        });
         // handle get list questions from server when client didmount
         socket.emit("CLIENT_GET_LIST_QUESTIONS", { code, presentationId });
         socket.on("SERVER_SEND_LIST_QUESTIONS", (listQuestions) => {
@@ -200,11 +240,24 @@ const PresenatationParticipantView = () => {
                 handleChangeChatQuestions={handleChangeChatQuestions}
               />
             </StyledDrawer>
-            <StyledButton>enter chat box</StyledButton>
+            <FormDialog
+              FormDialog
+              content="enter chat box"
+              title="chat box"
+              variant="secondary"
+              buttonSize="full"
+            >
+              <ChatBox
+                chatMessages={chatMessages}
+                setChatMessages={setChatMessages}
+                code={code}
+              />
+            </FormDialog>
           </Stack>
         </Box>
         <img src={Gradient4} alt="deco gradient" className="deco-img-4" />
       </Box>
+      {popupMessages.map((message) => message)}
     </DefaultLayout>
   );
 };

@@ -6,24 +6,23 @@ import { StyledButton } from "components/Button";
 import { StyledPaper } from "components/Paper";
 import { InstantMessage } from "components/Popup";
 import PropTypes from 'prop-types';
+import GroupService from "services/groupService";
 
-const RemovePresentation = (props) => {
-
-  // state of ui after add member
+const RemoveGroup = (props) => {
   const [isError, setIsError] = useState("");
   const [messageFromServer, setMessageFromServer] = useState("");
-  const {presentationId, handleRemovePresentation} = props;
+  const {groupId, handleRemoveGroup} = props;
 
   const handleClick = async () => {
     try {
-      // call api to remove presentation
-      const res = await PresentationService.removePresentation(presentationId);
+      // call api to remove group
+      const res = await GroupService.removeGroup(groupId);
 
       // handle res
       if (res.success === true) {
         setMessageFromServer(res.message);
         setIsError(false);
-        handleRemovePresentation(true);
+        handleRemoveGroup(true);
       } else {
         setMessageFromServer(res.message);
         setIsError(true);
@@ -45,11 +44,11 @@ const RemovePresentation = (props) => {
   return (
     <StyledPaper sx={{ top: 0 }}>
       <DialogContent sx={{ p: 1 }}>
-        This presentation will be removed, all slides will be removed.
+        Group will be removed.
         Are you sure?
       </DialogContent>
       <DialogActions>
-        <StyledButton onClick={handleClick}>remove presentation</StyledButton>
+        <StyledButton onClick={handleClick}>remove group</StyledButton>
       </DialogActions>
       {(() => {
         if (isError === false) {
@@ -67,13 +66,13 @@ const RemovePresentation = (props) => {
   );
 };
 
-RemovePresentation.propTypes = {
-  presentationId: PropTypes.number.isRequired,
-  handleRemovePresentation: PropTypes.func,
+RemoveGroup.propTypes = {
+  groupId: PropTypes.number.isRequired,
+  handleRemoveGroup: PropTypes.func,
 };
 
-RemovePresentation.defaultProps = {
-  handleRemovePresentation: ()=>{},
+RemoveGroup.defaultProps = {
+  handleRemoveGroup: ()=>{},
 }
 
-export default RemovePresentation;
+export default RemoveGroup;

@@ -73,7 +73,7 @@ const EditPresentation = () => {
             handleChangeCurrentSlide,
           }}
         />
-        {roleType != 3 ? (
+        {roleType !== 3 ? (
           <Box sx={{ width: "20vw" }}>
             <PresentationCustomizer
               slideList={slideList}
