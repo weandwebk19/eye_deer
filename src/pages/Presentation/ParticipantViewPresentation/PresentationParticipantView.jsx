@@ -52,16 +52,16 @@ const PresenatationParticipantView = () => {
           setCode(codeRes.data);
         }
 
-        const chatQuestionsRes = await PresentationService.getChatQuestions(
-          presentationId
-        );
-        if (chatQuestionsRes.success === true) {
-          setChatQuestions(
-            chatQuestionsRes.data.filter(
-              (question) => question.isAnswered === 0
-            )
-          );
-        }
+        // const chatQuestionsRes = await PresentationService.getChatQuestions(
+        //   presentationId
+        // );
+        // if (chatQuestionsRes.success === true) {
+        //   setChatQuestions(
+        //     chatQuestionsRes.data.filter(
+        //       (question) => question.isAnswered === 0
+        //     )
+        //   );
+        // }
 
         // handle join present
         socket.emit("CLIENT_SEND_JOIN_PRESENTATION", {
@@ -80,22 +80,22 @@ const PresenatationParticipantView = () => {
         // handle get list questions from server when client didmount
         socket.emit("CLIENT_GET_LIST_QUESTIONS", { code, presentationId });
         socket.on("SERVER_SEND_LIST_QUESTIONS", (listQuestions) => {
-          setChatQuestions(listQuestions);
+          setChatQuestions(
+            listQuestions.filter((question) => question.isAnswered === false)
+          );
         });
 
         // handle receive questions
         socket.on("SERVER_SEND_CHAT_QUESTION", (questionInfo) => {
-          console.log(code);
-          console.log(questionInfo);
-          // setChatQuestions((prevChatQuestions) => {
-          //   if (
-          //     prevChatQuestions.length === 0 ||
-          //     prevChatQuestions[prevChatQuestions.length - 1].createdAt !==
-          //       questionInfo.createdAt
-          //   ) {
-          //     return prevChatQuestions.concat(questionInfo);
-          //   } else return prevChatQuestions;
-          // });
+          setChatQuestions((prevChatQuestions) => {
+            if (
+              prevChatQuestions.length === 0 ||
+              prevChatQuestions[prevChatQuestions.length - 1].id !==
+                questionInfo.id
+            ) {
+              return prevChatQuestions.concat(questionInfo);
+            } else return prevChatQuestions;
+          });
         });
       } catch (err) {
         console.log(err);
@@ -103,7 +103,6 @@ const PresenatationParticipantView = () => {
     })();
   }, []);
 
-  // handle join present
   useEffect(() => {
     (async () => {
       // socket.emit("CLIENT_SEND_JOIN_PRESENTATION", user);
@@ -115,8 +114,34 @@ const PresenatationParticipantView = () => {
       //     `/presentation/${presentation?.presentationId}/${presentation?.slideId}/participating`
       //   );
       // });
+      // handle host mark participant's question as answered
+      socket.on("PARTICIPANT_QUESTION_ANSWERED", (listQuestions) => {
+        setChatQuestions(
+          listQuestions.filter((question) => question.isAnswered === false)
+        );
+      });
+
+      // handle host restore participant's question
+      socket.on("PARTICIPANT_QUESTION_RESTORED", (listQuestions) => {
+        setChatQuestions(
+          listQuestions.filter((question) => question.isAnswered === false)
+        );
+      });
+
+      // handle participant upvote
+      socket.on("SERVER_SEND_UPVOTE_QUESTION", (listQuestions) => {
+        setChatQuestions(
+          listQuestions.filter((question) => question.isAnswered === false)
+        );
+      });
+
+      socket.on("SERVER_SEND_UNUPVOTE_QUESTION", (listQuestions) => {
+        setChatQuestions(
+          listQuestions.filter((question) => question.isAnswered === false)
+        );
+      });
     })();
-  }, []);
+  }, [chatQuestions]);
 
   useEffect(() => {
     const newSlide = slideList.find((slide) => slide.id === Number(slideId));
@@ -133,22 +158,6 @@ const PresenatationParticipantView = () => {
       // alert("End presentation.");
     });
   }, [slideList]);
-
-  // useEffect(() => {
-  //   // handle receive questions
-  //   socket.on("SERVER_SEND_CHAT_QUESTION", (chatInfo) => {
-  //     setChat
-  //   });
-
-  //   // // handle question is marked as answered by host
-  //   // socket.on("PARTICIPANT_QUESTION_ANSWERED", (data) => {
-  //   //   const questionIndex = chatQuestions.findIndex(
-  //   //     (question) => question.id === data.questionId
-  //   //   );
-  //   //   chatQuestions.splice(questionIndex, 1);
-  //   //   handleChangeChatQuestions(chatQuestions);
-  //   // });
-  // }, [chatQuestions]);
 
   const handleChangeChatQuestions = (chatQuestions) => {
     setChatQuestions(chatQuestions);

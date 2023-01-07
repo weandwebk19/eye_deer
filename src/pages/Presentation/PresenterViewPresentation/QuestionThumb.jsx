@@ -16,7 +16,7 @@ const QuestionThumb = ({
 }) => {
   return (
     <Box>
-      <Tooltip title={question.content} followCursor>
+      <Tooltip title={question?.content} followCursor>
         <StyledContentBox
           variant="brick"
           className={`question-content-box${isActive ? "--active" : ""}`}
@@ -24,11 +24,11 @@ const QuestionThumb = ({
           <StyledCardActionArea onClick={handleClick}>
             <CardContent>
               <Typography variant="body2" noWrap>
-                <b>{question.content}</b>
+                <b>{question?.content}</b>
               </Typography>
               <Box sx={{ display: "flex", justifyContent: "center", mr: 2 }}>
                 <Typography variant="h6" sx={{ mr: 0.5 }}>
-                  {question.upvote}
+                  {question?.upvote.length}
                 </Typography>
                 <ThumbUpAltOutlinedIcon fontSize="small" />
               </Box>

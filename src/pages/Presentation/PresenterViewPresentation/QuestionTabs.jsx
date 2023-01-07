@@ -91,7 +91,7 @@ const QuestionTabs = ({
         >
           <Tab
             label={`questions (${
-              questionList.filter((question) => question.isAnswered === 0)
+              questionList.filter((question) => question.isAnswered === false)
                 .length
             })`}
             {...a11yProps(0)}
@@ -99,7 +99,7 @@ const QuestionTabs = ({
           />
           <Tab
             label={`answered (${
-              questionList.filter((question) => question.isAnswered === 1)
+              questionList.filter((question) => question.isAnswered === true)
                 .length
             })`}
             {...a11yProps(1)}
@@ -114,7 +114,7 @@ const QuestionTabs = ({
           className="hide-scrollbar"
         >
           {questionList
-            .filter((question) => question.isAnswered === 0)
+            .filter((question) => question.isAnswered === false)
             .map((question) => {
               return (
                 <QuestionThumb
@@ -140,7 +140,7 @@ const QuestionTabs = ({
           className="hide-scrollbar"
         >
           {questionList
-            .filter((question) => question.isAnswered === 1)
+            .filter((question) => question.isAnswered === true)
             .map((question) => {
               return (
                 <QuestionThumb

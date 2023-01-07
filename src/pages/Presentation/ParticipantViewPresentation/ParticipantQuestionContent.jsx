@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import {
   Box,
@@ -13,20 +14,55 @@ import {
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 
+import { SocketContext } from "context/socket";
 import PropTypes from "prop-types";
 
 const ParticipantQuestionContent = ({ question }) => {
+  const params = useParams();
+  const presentationId = params.id;
+
+  const socket = useContext(SocketContext);
   const [isUpvoted, setIsUpvoted] = useState(false);
 
   const currentUser = useSelector((state) => state.auth.user);
   const user = currentUser?.user;
 
-  const handleUpvoteToggle = (e, userAsked) => {
-    const questionClicked = e.target.dataset.buttonkey;
+  useEffect(() => {
+    setIsUpvoted(question?.upvote.includes(user?.id));
+  }, []);
 
-    if (!isUpvoted && userAsked === questionClicked) {
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       socket.on("SERVER_SEND_UPVOTE_QUESTION", (data) => {
+  //         console.log(data);
+  //       });
+
+  //       socket.on("SERVER_SEND_UNUPVOTE_QUESTION", (data) => {
+  //         console.log(data);
+  //       });
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   })();
+  // }, [question]);
+
+  const handleUpvoteToggle = async (e, userAsked, questionId) => {
+    if (isUpvoted) {
+      socket.emit("PARTICIPANT_SEND_UNUPVOTE", {
+        code: 123456,
+        presentationId,
+        questionId,
+        userId: user.id,
+      });
       setIsUpvoted(!isUpvoted);
     } else {
+      socket.emit("PARTICIPANT_SEND_UPVOTE", {
+        code: 123456,
+        presentationId,
+        questionId,
+        userId: user.id,
+      });
       setIsUpvoted(!isUpvoted);
     }
   };
@@ -52,24 +88,28 @@ const ParticipantQuestionContent = ({ question }) => {
           )}
         </Box>
         <Stack direction="row" sx={{ alignItems: "center" }}>
-          <Typography sx={{ mr: 1 }}>{question.upvote}</Typography>
+          <Typography sx={{ mr: 1 }}>{question?.upvote.length}</Typography>
           {!isUpvoted ? (
             <Tooltip title="upvote">
               <IconButton
-                onClick={(e) => handleUpvoteToggle(e, question?.userId)}
+                onClick={(e) =>
+                  handleUpvoteToggle(e, question?.userId, question?.id)
+                }
                 disabled={question?.userId === user?.id}
               >
-                <ThumbUpOffAltIcon data-buttonkey={question?.id} />
+                <ThumbUpOffAltIcon data-buttonkey={question?.userId} />
               </IconButton>
             </Tooltip>
           ) : (
             <Tooltip title="unupvote">
               <IconButton
-                onClick={(e) => handleUpvoteToggle(e, question?.userId)}
+                onClick={(e) =>
+                  handleUpvoteToggle(e, question?.userId, question?.id)
+                }
                 color="secondary"
                 sx={{ backgroundColor: "#297373" }}
               >
-                <ThumbUpAltIcon data-buttonkey={question?.id} />
+                <ThumbUpAltIcon data-buttonkey={question?.userId} />
               </IconButton>
             </Tooltip>
           )}

@@ -10,6 +10,7 @@ import ContactSupportOutlinedIcon from "@mui/icons-material/ContactSupportOutlin
 
 import { SocketContext } from "context/socket";
 import PropTypes from "prop-types";
+import { v4 as uuidv4 } from "uuid";
 
 import { StyledButton } from "components/Button";
 import { StyledInputField } from "components/TextField";
@@ -36,28 +37,18 @@ const ParticipantQuestionBox = ({
 
   const [inputValue, setInputValue] = useState("");
 
-  const handleSendQuestion = (messageFormData) => {
+  const handleSendQuestion = (questionFormData) => {
     socket.emit("PARTICIPANT_SEND_QUESTION", {
+      id: uuidv4(),
       userId: user.id,
       presentationId,
-      content: messageFormData.question,
-      upvote: 0,
+      content: questionFormData.question,
+      upvote: [],
       isAnswered: false,
       code,
     });
     setInputValue("");
   };
-
-  useEffect(() => {
-    // handle question is marked as answered by host
-    socket.on("PARTICIPANT_QUESTION_ANSWERED", (data) => {
-      const questionIndex = chatQuestions.findIndex(
-        (question) => question.id === data.questionId
-      );
-      chatQuestions.splice(questionIndex, 1);
-      handleChangeChatQuestions(chatQuestions);
-    });
-  }, []);
 
   return (
     <Stack sx={{ p: 4 }}>

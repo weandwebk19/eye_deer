@@ -115,13 +115,24 @@ const PresentationPresenterMenu = ({
           setCode(res.data);
         }
 
-        const chatQuestionsRes = await PresentationService.getChatQuestions(
-          presentationId
-        );
-        console.log(chatQuestionsRes);
-        if (chatQuestionsRes.success === true) {
-          setChatQuestions(chatQuestionsRes.data);
-        }
+        // handle get list questions from server when client didmount
+        socket.emit("CLIENT_GET_LIST_QUESTIONS", { code, presentationId });
+        socket.on("SERVER_SEND_LIST_QUESTIONS", (listQuestions) => {
+          setChatQuestions(listQuestions);
+        });
+
+        // handle receive questions
+        socket.on("SERVER_SEND_CHAT_QUESTION", (questionInfo) => {
+          setChatQuestions((prevChatQuestions) => {
+            if (
+              prevChatQuestions.length === 0 ||
+              prevChatQuestions[prevChatQuestions.length - 1].id !==
+                questionInfo.id
+            ) {
+              return prevChatQuestions.concat(questionInfo);
+            } else return prevChatQuestions;
+          });
+        });
       } catch (err) {
         console.log(err);
       }

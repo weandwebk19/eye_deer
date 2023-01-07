@@ -38,7 +38,7 @@ const QuestionContent = ({ chatQuestions, currentQuestion }) => {
       </StyledHeadingTypography>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Typography variant="h6" sx={{ mr: 0.5 }}>
-          {currentQuestion?.upvote}
+          {currentQuestion?.upvote.length}
         </Typography>
         <ThumbUpAltOutlinedIcon fontSize="small" />
       </Box>
