@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import { Box } from "@mui/material";
 
@@ -17,10 +17,11 @@ const PresentationPreviewList = ({
   currentSlide,
   handleChangeSlideList,
   handleChangeCurrentSlide,
+  handleChangeCurrentSlideWOUpdating,
 }) => {
   const params = useParams();
   const presentationId = params.id;
-  const roleType = useSelector((state) => (state.role.roleType));
+  const roleType = useSelector((state) => state.role.roleType);
 
   const handleCreateNewSlide = async (typeId) => {
     const nextIndex = slideList.length + 1;
@@ -76,16 +77,16 @@ const PresentationPreviewList = ({
         className="presentation-preview-list__add-button"
         sx={{ position: "sticky", top: 0, zIndex: 1, mb: 2 }}
       >
-        {roleType != 3 &&
-        (<FormDialog
-          content="+ new slide"
-          title="Add slide"
-          variant="primary"
-          selfClose={true}
-        >
-          <AddPresentationSlide handleCreateNewSlide={handleCreateNewSlide} />
-        </FormDialog>)
-        }
+        {roleType != 3 && (
+          <FormDialog
+            content="+ new slide"
+            title="Add slide"
+            variant="primary"
+            selfClose={true}
+          >
+            <AddPresentationSlide handleCreateNewSlide={handleCreateNewSlide} />
+          </FormDialog>
+        )}
       </Box>
       <ol>
         {slideList.map((slide, i) => {
@@ -96,7 +97,7 @@ const PresentationPreviewList = ({
               }`}
               key={slide?.id}
               onClick={() => {
-                handleChangeCurrentSlide(slide);
+                handleChangeCurrentSlideWOUpdating(slide);
               }}
             >
               <PresentationPreviewThumb
@@ -117,6 +118,7 @@ PresentationPreviewList.propTypes = {
   currentSlide: PropTypes.object,
   handleChangeSlideList: PropTypes.func,
   handleChangeCurrentSlide: PropTypes.func,
+  handleChangeCurrentSlideWOUpdating: PropTypes.func,
 };
 
 PresentationPreviewList.defaultProps = {
@@ -124,6 +126,7 @@ PresentationPreviewList.defaultProps = {
   currentSlide: null,
   handleChangeSlideList: () => {},
   handleChangeCurrentSlide: () => {},
+  handleChangeCurrentSlideWOUpdating: () => {},
 };
 
 export default PresentationPreviewList;
