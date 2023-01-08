@@ -1,45 +1,61 @@
-import { Box, CardContent, Tooltip, Typography } from "@mui/material";
+import { useContext } from "react";
 
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import { Box, Typography } from "@mui/material";
 
+import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
+
+// import { SocketContext } from "context/socket";
 import PropTypes from "prop-types";
 
-import { StyledCardActionArea } from "components/Card";
-import { StyledContentBox } from "components/ContentBox/StyledContentBox";
+// import { StyledButton } from "components/Button";
+import { StyledHeadingTypography } from "components/Typography";
 
-const QuestionContent = ({ name, actionContent, handleClick }) => {
+const QuestionContent = ({
+  chatQuestions,
+  currentQuestion,
+  currentSlideIndex,
+}) => {
   return (
-    <Tooltip title={name} followCursor>
-      <StyledContentBox variant="brick" className="presentation-content-box">
-        <StyledCardActionArea onClick={handleClick}>
-          <CardContent>
-            <Box sx={{ display: "flex", justifyContent: "center", mr: 2 }}>
-              <Typography variant="h6" sx={{ mr: 0.5 }}>
-                1
-              </Typography>
-              <ThumbUpIcon fontSize="small" />
-            </Box>
-            <Typography variant="body2" noWrap>
-              {name}
-            </Typography>
-            <Typography variant="caption" noWrap>
-              {actionContent}
-            </Typography>
-          </CardContent>
-        </StyledCardActionArea>
-      </StyledContentBox>
-    </Tooltip>
+    <Box
+      sx={{
+        textAlign: "center",
+      }}
+    >
+      <Typography>{`${chatQuestions.indexOf(currentQuestion) + 1}/${
+        chatQuestions.length
+      }`}</Typography>
+      <Typography>{`Asked on Slide ${currentSlideIndex + 1}`}</Typography>
+      <StyledHeadingTypography variant="h2">
+        {currentQuestion?.content}
+      </StyledHeadingTypography>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Typography variant="h6" sx={{ mr: 0.5 }}>
+          {currentQuestion?.upvote.length}
+        </Typography>
+        <ThumbUpAltOutlinedIcon fontSize="small" />
+      </Box>
+      {/* <StyledButton
+        onClick={() => handleActionClick(currentQuestion?.isAnswered)}
+        variant="secondary"
+      >
+        {currentQuestion?.isAnswered === 1
+          ? "restore question"
+          : "mark as answered"}
+      </StyledButton> */}
+    </Box>
   );
 };
 
 QuestionContent.propTypes = {
-  name: PropTypes.string.isRequired,
-  handleClick: PropTypes.func.isRequired,
-  actionContent: PropTypes.string,
+  // actionContent: PropTypes.string.isRequired,
+  // handleActionClick: PropTypes.func.isRequired,
+  chatQuestions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  currentQuestion: PropTypes.object.isRequired,
+  currentSlideIndex: PropTypes.number,
 };
 
 QuestionContent.defaultProps = {
-  actionContent: "",
+  currentSlideIndex: 0,
 };
 
 export default QuestionContent;

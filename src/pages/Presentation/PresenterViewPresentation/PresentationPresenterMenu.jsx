@@ -40,7 +40,7 @@ import PositionedSnackbar from "components/Popup/PositionedSnackbar";
 import { StyledHeadingTypography } from "components/Typography";
 
 import PresenterViewParticipantsList from "./PresenterViewParticipantsList";
-import TemporaryDrawer from "./QuestionBox";
+import QuestionBox from "./QuestionBox";
 
 // const actions = [
 //   { icon: <ZoomInMapIcon />, name: "Zoom in", handleClick:()=>{} },
@@ -70,7 +70,9 @@ const PresentationPresenterMenu = ({
   const [listParticipants, setListParticipants] = useState([{ ...user }]);
   const open = Boolean(anchorEl);
   const socket = useContext(SocketContext);
+  const [chatQuestions, setChatQuestions] = useState([]);
   const [code, setCode] = useState();
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const navigate = useNavigate();
 
   const handleClick = (event) => {
@@ -127,6 +129,24 @@ const PresentationPresenterMenu = ({
         if (chatMessagesRes.success === true) {
           setChatMessages(chatMessagesRes.data);
         }
+        // handle get list questions from server when client didmount
+        socket.emit("CLIENT_GET_LIST_QUESTIONS", { code, presentationId });
+        socket.on("SERVER_SEND_LIST_QUESTIONS", (listQuestions) => {
+          setChatQuestions(listQuestions);
+        });
+
+        // handle receive questions
+        socket.on("SERVER_SEND_CHAT_QUESTION", (questionInfo) => {
+          setChatQuestions((prevChatQuestions) => {
+            if (
+              prevChatQuestions.length === 0 ||
+              prevChatQuestions[prevChatQuestions.length - 1].id !==
+                questionInfo.id
+            ) {
+              return prevChatQuestions.concat(questionInfo);
+            } else return prevChatQuestions;
+          });
+        });
       } catch (err) {
         console.log(err);
       }
@@ -170,6 +190,19 @@ const PresentationPresenterMenu = ({
     socket.on("SERVER_SEND_LIST_PARTICIPANTS", (participants) => {
       // console.log("participants", participants);
       setListParticipants(participants);
+    });
+
+    // handle participant upvote
+    socket.on("SERVER_SEND_UPVOTE_QUESTION", (listQuestions) => {
+      setChatQuestions(
+        listQuestions.filter((question) => question.isAnswered === false)
+      );
+    });
+
+    socket.on("SERVER_SEND_UNUPVOTE_QUESTION", (listQuestions) => {
+      setChatQuestions(
+        listQuestions.filter((question) => question.isAnswered === false)
+      );
     });
   }, []);
 
@@ -375,7 +408,7 @@ const PresentationPresenterMenu = ({
             {(() => {
               const content = (
                 <Badge
-                  badgeContent={999}
+                  badgeContent={chatQuestions.length}
                   color="primary"
                   overlap="circular"
                   max={999}
@@ -396,7 +429,12 @@ const PresentationPresenterMenu = ({
                   variant={null}
                   dialogSize="xl"
                 >
-                  <TemporaryDrawer />
+                  <QuestionBox
+                    currentSlideIndex={slideList.indexOf(currentSlide)}
+                    chatQuestions={chatQuestions}
+                    setChatQuestions={setChatQuestions}
+                    code={code}
+                  />
                 </FormDialog>
               );
             })()}

@@ -194,6 +194,26 @@ const findPresentationsByName = async (namePresentation) => {
   }
 };
 
+const getChatQuestions = async (presentationId) => {
+  try {
+    const res = await axios.get(
+      `presentations/${presentationId}/chat/questions`
+    );
+
+    return res.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
 const getChatMessages = async (presentationId) => {
   try {
     const res = await axios.get(
@@ -279,6 +299,7 @@ const PresentationService = {
   getMyPresentations,
   getMyCoPresentations,
   findPresentationsByName,
+  getChatQuestions,
   getChatMessages,
   findPresentationById,
 };

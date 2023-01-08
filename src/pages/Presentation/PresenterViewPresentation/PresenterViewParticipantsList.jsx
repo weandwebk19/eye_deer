@@ -1,11 +1,12 @@
 import { useSelector } from "react-redux";
 
-import { Avatar, ListItemAvatar } from "@mui/material";
+import { Avatar, ListItemAvatar, Stack, Typography } from "@mui/material";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 
 import ImageIcon from "@mui/icons-material/Image";
+import KeyIcon from "@mui/icons-material/Key";
 
 import PropTypes from "prop-types";
 
@@ -34,7 +35,16 @@ const PresenterViewParticipantsList = ({ listParticipants }) => {
             primary={`${participant.firstName ?? ""} ${
               participant.lastName ?? ""
             }`}
-            secondary={participant.id === user.id ? "Host" : "Paticipant"}
+            secondary={
+              participant.id === user.id ? (
+                <Stack direction="row">
+                  <Typography>Host &nbsp;</Typography>
+                  <KeyIcon />
+                </Stack>
+              ) : (
+                "Paticipant"
+              )
+            }
           />
         </ListItem>
       );

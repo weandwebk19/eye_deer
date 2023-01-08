@@ -3,7 +3,9 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { Box } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
+
+import SendIcon from "@mui/icons-material/Send";
 
 import { SocketContext } from "context/socket";
 import PropTypes from "prop-types";
@@ -88,23 +90,26 @@ const ChatBox = ({ chatMessages, setChatMessages, code }) => {
           ]}
         /> */}
         </Box>
-        <StyledInputField
-          value={inputValue}
-          sx={{ mt: 2 }}
-          id="outlined-basic-email"
-          label="Type Something"
-          customvariant="light"
-          fullWidth
-          {...register("message", {
-            required: "require",
-            minLength: 1,
-            onChange: (e) => setInputValue(e.target.value),
-          })}
-        />
-        {errors.name ? (
-          <div className="error-message-validate">{errors.name.message}</div>
-        ) : null}
-        <StyledButton type="submit">Send</StyledButton>
+        <Stack direction="row">
+          <StyledInputField
+            value={inputValue}
+            id="outlined-basic-email"
+            placeholder="what's in your mind?..."
+            customvariant="light"
+            fullWidth
+            {...register("message", {
+              required: "require",
+              minLength: 1,
+              onChange: (e) => setInputValue(e.target.value),
+            })}
+          />
+          {errors.name ? (
+            <div className="error-message-validate">{errors.name.message}</div>
+          ) : null}
+          <StyledButton type="submit" sx={{ px: 2 }}>
+            <SendIcon />
+          </StyledButton>
+        </Stack>
       </form>
     </Box>
   );
