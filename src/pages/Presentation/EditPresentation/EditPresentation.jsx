@@ -36,11 +36,18 @@ const EditPresentation = () => {
     setSlideList(slideList);
   };
 
-  const handleChangeCurrentSlide = (slide) => {
+  const handleChangeCurrentSlide = async (slide) => {
     setCurrentSlide(slide);
-    (async () => {
-      await SlideService.updateCurrentSlide(slide);
-    })();
+    await SlideService.updateCurrentSlide(slide);
+  };
+
+  const handleChangeCurrentSlideWOUpdating = async (slide) => {
+    setCurrentSlide(slide);
+    const res = await SlideService.getSlidesByPresentationId(presentationId);
+
+    if (res.success === true) {
+      setSlideList(res.data);
+    }
   };
 
   const handleBack = () => {
@@ -64,6 +71,9 @@ const EditPresentation = () => {
           currentSlide={currentSlide}
           handleChangeSlideList={handleChangeSlideList}
           handleChangeCurrentSlide={handleChangeCurrentSlide}
+          handleChangeCurrentSlideWOUpdating={
+            handleChangeCurrentSlideWOUpdating
+          }
         />
         <Outlet
           context={{
