@@ -13,7 +13,12 @@ import PropTypes from "prop-types";
 import QuestionContent from "./QuestionContent";
 import QuestionTabs from "./QuestionTabs";
 
-const QuestionBox = ({ chatQuestions, setChatQuestions, code }) => {
+const QuestionBox = ({
+  chatQuestions,
+  setChatQuestions,
+  code,
+  currentSlideIndex,
+}) => {
   const [isAnsweredQuestionState, setIsAnsweredQuestionState] = useState(false);
   const [answeredQuestionList, setAnsweredQuestionList] = useState([]);
   const [yetAnswerQuestionList, setYetAnswerQuestionList] = useState([]);
@@ -129,6 +134,7 @@ const QuestionBox = ({ chatQuestions, setChatQuestions, code }) => {
                 <QuestionContent
                   chatQuestions={chatQuestions}
                   currentQuestion={currentQuestion}
+                  currentSlideIndex={currentSlideIndex}
                 />
               </Box>
             </Grow>
@@ -150,12 +156,14 @@ QuestionBox.propTypes = {
   chatQuestions: PropTypes.arrayOf(PropTypes.object),
   setChatQuestions: PropTypes.func,
   code: PropTypes.string,
+  currentSlideIndex: PropTypes.number,
 };
 
 QuestionBox.defaultProps = {
   chatQuestions: [],
   setChatQuestions: () => {},
   code: "",
+  currentSlideIndex: 0,
 };
 
 export default QuestionBox;

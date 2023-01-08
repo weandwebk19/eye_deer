@@ -10,29 +10,21 @@ import PropTypes from "prop-types";
 // import { StyledButton } from "components/Button";
 import { StyledHeadingTypography } from "components/Typography";
 
-const QuestionContent = ({ chatQuestions, currentQuestion }) => {
-  // const socket = useContext(SocketContext);
-
-  // const handleActionClick = (isAnswered) => {
-  //   if (isAnswered) {
-  //     socket.emit("HOST_RESTORE_QUESTION", {
-  //       questionId: currentQuestion.id,
-  //     });
-  //   } else {
-  //     socket.emit("HOST_MARK_AS_ANSWERED", {
-  //       questionId: currentQuestion.id,
-  //     });
-  //   }
-  // };
-
+const QuestionContent = ({
+  chatQuestions,
+  currentQuestion,
+  currentSlideIndex,
+}) => {
   return (
     <Box
       sx={{
         textAlign: "center",
       }}
     >
-      <Typography>1/1</Typography>
-      <Typography>Asked on Slide 1</Typography>
+      <Typography>{`${chatQuestions.indexOf(currentQuestion) + 1}/${
+        chatQuestions.length
+      }`}</Typography>
+      <Typography>{`Asked on Slide ${currentSlideIndex + 1}`}</Typography>
       <StyledHeadingTypography variant="h2">
         {currentQuestion?.content}
       </StyledHeadingTypography>
@@ -59,6 +51,11 @@ QuestionContent.propTypes = {
   // handleActionClick: PropTypes.func.isRequired,
   chatQuestions: PropTypes.arrayOf(PropTypes.object).isRequired,
   currentQuestion: PropTypes.object.isRequired,
+  currentSlideIndex: PropTypes.number,
+};
+
+QuestionContent.defaultProps = {
+  currentSlideIndex: 0,
 };
 
 export default QuestionContent;

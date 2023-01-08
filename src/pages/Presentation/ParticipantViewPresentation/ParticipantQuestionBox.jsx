@@ -63,7 +63,7 @@ const ParticipantQuestionBox = ({
 
       <Box sx={{ maxHeight: "400px", overflowY: "scroll !important", pr: 4 }}>
         {chatQuestions.map((question) => {
-          return <ParticipantQuestionContent question={question} />;
+          return <ParticipantQuestionContent question={question} code={code} />;
         })}
       </Box>
 
