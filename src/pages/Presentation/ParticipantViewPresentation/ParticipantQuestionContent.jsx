@@ -17,7 +17,7 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import { SocketContext } from "context/socket";
 import PropTypes from "prop-types";
 
-const ParticipantQuestionContent = ({ question }) => {
+const ParticipantQuestionContent = ({ question, code }) => {
   const params = useParams();
   const presentationId = params.id;
 
@@ -34,7 +34,7 @@ const ParticipantQuestionContent = ({ question }) => {
   const handleUpvoteToggle = async (e, userAsked, questionId) => {
     if (isUpvoted) {
       socket.emit("PARTICIPANT_SEND_UNUPVOTE", {
-        code: 123456,
+        code,
         presentationId,
         questionId,
         userId: user.id,
@@ -42,7 +42,7 @@ const ParticipantQuestionContent = ({ question }) => {
       setIsUpvoted(!isUpvoted);
     } else {
       socket.emit("PARTICIPANT_SEND_UPVOTE", {
-        code: 123456,
+        code,
         presentationId,
         questionId,
         userId: user.id,
@@ -106,6 +106,11 @@ const ParticipantQuestionContent = ({ question }) => {
 
 ParticipantQuestionContent.propTypes = {
   question: PropTypes.object.isRequired,
+  code: PropTypes.string,
+};
+
+ParticipantQuestionContent.defaultProps = {
+  code: "",
 };
 
 export default ParticipantQuestionContent;

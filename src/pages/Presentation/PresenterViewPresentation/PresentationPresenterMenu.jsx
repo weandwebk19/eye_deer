@@ -72,6 +72,7 @@ const PresentationPresenterMenu = ({
   const socket = useContext(SocketContext);
   const [chatQuestions, setChatQuestions] = useState([]);
   const [code, setCode] = useState();
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const navigate = useNavigate();
 
   const handleClick = (event) => {
@@ -189,6 +190,19 @@ const PresentationPresenterMenu = ({
     socket.on("SERVER_SEND_LIST_PARTICIPANTS", (participants) => {
       // console.log("participants", participants);
       setListParticipants(participants);
+    });
+
+    // handle participant upvote
+    socket.on("SERVER_SEND_UPVOTE_QUESTION", (listQuestions) => {
+      setChatQuestions(
+        listQuestions.filter((question) => question.isAnswered === false)
+      );
+    });
+
+    socket.on("SERVER_SEND_UNUPVOTE_QUESTION", (listQuestions) => {
+      setChatQuestions(
+        listQuestions.filter((question) => question.isAnswered === false)
+      );
     });
   }, []);
 
@@ -416,6 +430,7 @@ const PresentationPresenterMenu = ({
                   dialogSize="xl"
                 >
                   <QuestionBox
+                    currentSlideIndex={slideList.indexOf(currentSlide)}
                     chatQuestions={chatQuestions}
                     setChatQuestions={setChatQuestions}
                     code={code}
