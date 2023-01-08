@@ -39,7 +39,7 @@ const EditContentDialog = ({
     // handle res
     if (res.success === true) {
       setMembers((prevMembers) => {
-        const newMembers = prevMembers.splice(index, 1);
+        const newMembers = prevMembers.filter((member) => member.id !== userId);
         return newMembers;
       });
       setMessageFromServer(res.message);
@@ -61,7 +61,7 @@ const EditContentDialog = ({
       });
 
       setMembers((prevMembers) => {
-        const newMembers = prevMembers.splice(index, 1);
+        const newMembers = prevMembers.filter((member) => member.id !== userId);
         return newMembers;
       });
 

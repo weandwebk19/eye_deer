@@ -28,7 +28,7 @@ const AddMember = () => {
   const groupId = params.id;
 
   // state of ui after add member
-  const [isError, setIsError] = useState("");
+  const [isError, setIsError] = useState();
   const [messageFromServer, setMessageFromServer] = useState("");
 
   const onSubmit = async () => {
@@ -78,7 +78,7 @@ const AddMember = () => {
   };
 
   return (
-    <StyledPaper sx={{ top: 0 }}>
+    <StyledPaper sx={{ top: 0, bottom: 0 }}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent sx={{ p: 1 }}>
           <StyledInputField

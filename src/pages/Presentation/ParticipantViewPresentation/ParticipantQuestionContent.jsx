@@ -34,7 +34,7 @@ const ParticipantQuestionContent = ({ question }) => {
   const handleUpvoteToggle = async (e, userAsked, questionId) => {
     if (isUpvoted) {
       socket.emit("PARTICIPANT_SEND_UNUPVOTE", {
-        code: 123456,
+        code: "123456",
         presentationId,
         questionId,
         userId: user.id,
@@ -42,7 +42,7 @@ const ParticipantQuestionContent = ({ question }) => {
       setIsUpvoted(!isUpvoted);
     } else {
       socket.emit("PARTICIPANT_SEND_UPVOTE", {
-        code: 123456,
+        code: "123456",
         presentationId,
         questionId,
         userId: user.id,
