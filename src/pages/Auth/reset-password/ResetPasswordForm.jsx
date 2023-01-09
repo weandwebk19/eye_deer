@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   Box,
@@ -20,29 +20,34 @@ import { StyledPaper } from "components/Paper";
 import { InstantMessage } from "components/Popup";
 import { StyledInputField } from "components/TextField/StyledInputField";
 import { StyledHeadingTypography } from "components/Typography";
+import UserService from "services/userService";
 
-import GoogleAuthButton from "./GoogleAuthButton";
-
-const LoginForm = () => {
+const ResetPasswordForm = () => {
   const [isError, setIsError] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const params = useParams();
+  const {token} = params;
 
   const {
     register,
+    watch,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
     try {
-      const res = await dispatch(login(data));
+      // call api to reset password
+      const {password} = data;
+      const res = await UserService.resetPassword(token, password);
+
+      // handle res
       if (res.success === true) {
         setMessage(res.message);
         setIsError(false);
-        setTimeout(() => {
-          navigate("/home");
-        }, 1000);
+        setTimeout(()=>{
+          navigate("/login");
+        }, 1000)
       } else {
         setMessage(res.message);
         setIsError(true);
@@ -87,7 +92,7 @@ const LoginForm = () => {
           }}
         >
           <StyledHeadingTypography variant="h3" gutterBottom>
-            log in.
+            reset password.
           </StyledHeadingTypography>
           <Box
             component="form"
@@ -102,41 +107,33 @@ const LoginForm = () => {
                   customvariant="light"
                   required
                   fullWidth
-                  id="username"
-                  label="username"
-                  name="username"
-                  autoComplete="username"
-                  {...register("username", {
+                  id="password"
+                  label="new-password"
+                  name="password"
+                  type="password"
+                  autoComplete="password"
+                  {...register("password", {
                     required: "required",
-                    // validate: (value) => value !== "admin" || "nice try!",
+                    pattern: {
+                      value:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/i,
+                      message: `password must be 8-16 characters, at least one uppercase letter, one lowercase letter, one number and one special character`,
+                    },
                   })}
                 />
-                {errors.username ? (
-                  <>
-                    {errors.username.type === "required" && (
-                      <div
-                        style={{
-                          color: "darkred",
-                          fontSize: "0.88rem",
-                          position: "absolute",
-                        }}
-                      >
-                        {errors.username.message}
-                      </div>
-                    )}
-                    {/* {errors.username.type === "validate" && (
-                      <div
-                        style={{
-                          color: "darkred",
-                          fontSize: "0.88rem",
-                          position: "absolute",
-                        }}
-                      >
-                        {errors.username.message}
-                      </div>
-                    )} */}
-                  </>
-                ) : null}
+                <Grid item>
+                  {errors.password ? (
+                    <div
+                      style={{
+                        color: "darkred",
+                        fontSize: "0.88rem",
+                        marginTop: "5px",
+                      }}
+                    >
+                      {errors.password.message}
+                    </div>
+                  ) : null}
+                </Grid>
               </Grid>
               <Grid item xs={12}>
                 <StyledInputField
@@ -145,34 +142,31 @@ const LoginForm = () => {
                   customvariant="light"
                   required
                   fullWidth
-                  name="password"
-                  label="password"
+                  name="confirmPassword"
+                  label="confirm-password"
                   type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  {...register("password", {
-                    required: "required",
+                  id="confirmPassword"
+                  {...register("confirmPassword", {
+                    required: true,
+                    validate: (value) => {
+                      if (watch("password") !== value) {
+                        return "passwords do not match";
+                      }
+                    },
                   })}
                 />
-                <Grid container justifyContent="space-between">
-                  <Grid item>
-                    {errors.password ? (
-                      <div
-                        style={{
-                          color: "darkred",
-                          fontSize: "0.88rem",
-                          position: "absolute",
-                        }}
-                      >
-                        {errors.password.message}
-                      </div>
-                    ) : null}
-                  </Grid>
-                  <Grid item>
-                    <Link href="/reset-password" variant="body2">
-                      forgot password?
-                    </Link>
-                  </Grid>
+                <Grid item>
+                {errors.confirmPassword ? (
+                  <div
+                    style={{
+                      color: "darkred",
+                      fontSize: "0.88rem",
+                      marginTop: "5px",
+                    }}
+                  >
+                    {errors.confirmPassword.message}
+                  </div>
+                ) : null}
                 </Grid>
               </Grid>
             </Grid>
@@ -182,12 +176,8 @@ const LoginForm = () => {
               variant="primary"
               sx={{ mt: 6 }}
             >
-              Log In
+              reset password
             </StyledButton>
-            <Typography sx={{ mt: 4, mb: 4, textAlign: "center" }}>
-              or
-            </Typography>
-            <GoogleAuthButton />
             <Grid
               container
               justifyContent="flex-end"
@@ -195,8 +185,8 @@ const LoginForm = () => {
               sx={{ mt: 6 }}
             >
               <Grid item>
-                <Link href="/register" variant="body2">
-                  don't have an account? <b>sign up</b>
+                <Link href="/login" variant="body2">
+                  have you already an account? <b>log in</b>
                 </Link>
               </Grid>
             </Grid>
@@ -216,4 +206,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default ResetPasswordForm;

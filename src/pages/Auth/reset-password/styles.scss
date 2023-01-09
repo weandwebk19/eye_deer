@@ -1,0 +1,36 @@
+@import "../../../sassStyles/global";
+@import "../../../sassStyles/variables";
+@import "../../../sassStyles/mixins";
+
+.deco-img-61,
+.deco-img-62 {
+  position: absolute;
+  z-index: -1;
+  @include desktop {
+    width: 1280px;
+  }
+  @include tablet {
+    width: 700px;
+  }
+  @include mobile {
+    width: 600px;
+  }
+}
+
+.deco-img-61 {
+  bottom: -40%;
+  right: -20%;
+}
+
+.deco-img-62 {
+  top: -40%;
+  left: -20%;
+}
+
+.g-signin {
+  width: 100% !important;
+}
+
+.g-signin > div {
+  margin: 0 auto !important;
+}

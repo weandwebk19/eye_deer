@@ -82,11 +82,67 @@ const updateProfileUser = async (userInfo) => {
   }
 };
 
+const generateResetPasswordLink = async (email) => {
+  try {
+    const res = await axios({
+      method: "post",
+      url: `/auth/reset-password/generate-link`,
+      data: {email},
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return res.data;
+  } catch (err) {
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
+const resetPassword = async (token, password) => {
+  try {
+    const res = await axios({
+      method: "post",
+      url: `/auth/reset-password/reset`,
+      data: {token, password},
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    console.log(err.response.data.message)
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
 const UserService = {
   getSearchUsers,
   getUserByUsername,
   getVerifyStatus,
   updateProfileUser,
+  generateResetPasswordLink,
+  resetPassword,
 };
 
 export default UserService;
