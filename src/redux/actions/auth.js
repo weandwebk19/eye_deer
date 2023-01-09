@@ -62,6 +62,17 @@ export const login = (user) => (dispatch) => {
 
         return Promise.resolve(data);
       }
+      
+      dispatch({
+        type: LOGIN_FAIL,
+      });
+
+      dispatch({
+        type: SET_MESSAGE,
+        payload: data.message,
+      });
+
+      return Promise.reject(data);
     },
     (error) => {
       const message =
