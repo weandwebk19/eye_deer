@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
+import { SocketContext } from "context/socket";
 import PropTypes from "prop-types";
 import AuthService from "services/authService";
 import UserService from "services/userService";
@@ -13,8 +14,14 @@ const PrivateRoute = ({ children }) => {
   // const navigate = useNavigate();
   const [isVerify, setIsVerify] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState();
+  const user = useSelector((state) => state.auth.user?.user);
+  const socket = useContext(SocketContext);
 
   useEffect(() => {
+    if (user) {
+      socket.emit("CLIENT_CONECTED", user);
+    }
+
     (async () => {
       const res = await UserService.getVerifyStatus();
       setIsVerify(res);

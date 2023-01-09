@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -24,6 +24,7 @@ const ChatBox = ({ chatMessages, setChatMessages, code }) => {
   } = useForm();
 
   const [inputValue, setInputValue] = useState();
+  const messagesEndRef = useRef(null);
 
   const params = useParams();
   const socket = useContext(SocketContext);
@@ -32,11 +33,10 @@ const ChatBox = ({ chatMessages, setChatMessages, code }) => {
   const user = currentUser?.user;
 
   useEffect(() => {
-    // socket.on("SERVER_SEND_CHAT_MESSAGE", (chatMessage) => {
-    //   const newChatMessages = chatMessages.concat(chatMessage);
-    //   setChatMessages(newChatMessages);
-    // });
-  });
+    setTimeout(() => {
+      scrollToBottom();
+    }, 0);
+  }, [chatMessages]);
 
   const handleSendMessage = (messageFormData) => {
     socket.emit("PARTICIPANT_SEND_MESSAGE", {
@@ -47,6 +47,10 @@ const ChatBox = ({ chatMessages, setChatMessages, code }) => {
       code,
     });
     setInputValue("");
+  };
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -69,26 +73,7 @@ const ChatBox = ({ chatMessages, setChatMessages, code }) => {
               />
             );
           })}
-
-          {/* <ChatMsg
-          side="right"
-          messages={[
-            "Great! What's about you?",
-            "Of course I did. Speaking of which check this out",
-          ]}
-        />
-        <ChatMsg
-          avatar=""
-          AvatarProps={{ name: "191⠿⠿6⠿⠿ - ⠿⠿ Nguyen ⠿⠿⠿ Giang" }}
-          messages={["Im good.", "See u later."]}
-        />
-        <ChatMsg
-          side="right"
-          messages={[
-            "Great! What's about you?",
-            "Of course I did. Speaking of which check this out",
-          ]}
-        /> */}
+          <Box ref={messagesEndRef} />
         </Box>
         <Stack direction="row">
           <StyledInputField

@@ -119,7 +119,7 @@ const PresentationCustomizer = ({
     // console.log("deleteSlideTypeRes", deleteSlideTypeRes);
 
     const updateSlideTypeRes = await SlideService.changeSlideType(newSlide);
-    console.log("updateSlideTypeRes", updateSlideTypeRes);
+    // console.log("updateSlideTypeRes", updateSlideTypeRes);
     setCurrentSlide(updateSlideTypeRes.data);
     handleChangeSlideList(slideList);
   };
@@ -229,6 +229,11 @@ const PresentationCustomizer = ({
     }
   };
 
+  const handleResetVote = async () => {
+    const resetVoteRes = await SlideService.resetVote(slideid);
+    // console.log("resetVoteRes", resetVoteRes);
+  };
+
   return (
     <Box>
       <Typography>slide style.</Typography>
@@ -309,6 +314,12 @@ const PresentationCustomizer = ({
               })}
               <StyledButton onClick={() => handleAddOption(currentSlide)}>
                 + option
+              </StyledButton>
+              <StyledButton
+                variant="secondary"
+                onClick={() => handleResetVote()}
+              >
+                reset vote
               </StyledButton>
             </Stack>
           );

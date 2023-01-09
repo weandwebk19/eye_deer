@@ -144,6 +144,14 @@ const PresenatationParticipantView = () => {
   }, []);
 
   useEffect(() => {
+    // handle participant upvote
+    socket.on("SERVER_SEND_UPVOTE_QUESTION", (listQuestions) => {
+      console.log("SERVER_SEND_UPVOTE_QUESTION", listQuestions);
+      setChatQuestions(
+        listQuestions.filter((question) => question.isAnswered === false)
+      );
+    });
+
     (async () => {
       // socket.emit("CLIENT_SEND_JOIN_PRESENTATION", user);
       // socket.on("SERVER_SEND_JOIN_SUCCESS", (user, presentation) => {
@@ -168,20 +176,13 @@ const PresenatationParticipantView = () => {
         );
       });
 
-      // handle participant upvote
-      socket.on("SERVER_SEND_UPVOTE_QUESTION", (listQuestions) => {
-        setChatQuestions(
-          listQuestions.filter((question) => question.isAnswered === false)
-        );
-      });
-
       socket.on("SERVER_SEND_UNUPVOTE_QUESTION", (listQuestions) => {
         setChatQuestions(
           listQuestions.filter((question) => question.isAnswered === false)
         );
       });
     })();
-  }, [chatQuestions]);
+  }, []);
 
   useEffect(() => {
     const newSlide = slideList.find((slide) => slide.id === Number(slideId));

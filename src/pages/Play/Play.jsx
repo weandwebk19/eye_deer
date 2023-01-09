@@ -46,6 +46,7 @@ const Play = () => {
     // }
 
     if (user) {
+      socket.emit("CLIENT_CONECTED", user);
       socket.emit("CLIENT_SEND_JOIN_PRESENTATION", { ...data, user });
     } else {
       const anonymousUser = { firstName: data.firstName, id: uuidv4() };

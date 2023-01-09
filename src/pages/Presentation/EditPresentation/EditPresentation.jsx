@@ -61,7 +61,7 @@ const EditPresentation = () => {
   return (
     <>
       <CustomizerNavBar
-        left={<EditNamePresentation />}
+        left={<EditNamePresentation presentationId={presentationId} />}
         right={<StartPresentButton slideStart={slideList[0]} />}
         handleBack={handleBack}
       />

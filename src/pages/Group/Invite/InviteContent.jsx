@@ -16,7 +16,7 @@ const InviteContent = () => {
       const res = await GroupService.addMemberFromToken(params.token);
 
       // noti
-      alert(res.message);
+      // alert(res.message);
 
       //
       if ((res.success = true)) {
@@ -26,7 +26,7 @@ const InviteContent = () => {
         });
       }
     })();
-    console.log("sfsd");
+    // console.log("sfsd");
   }, []);
 
   return <div>Loading!...</div>;

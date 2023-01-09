@@ -179,6 +179,28 @@ const deleteSlideType = async (slide) => {
   }
 };
 
+const resetVote = async (slideId) => {
+  try {
+    const res = await axios.put(`slides/${slideId}/vote/reset`, {
+      slideId,
+    });
+
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
+
 const SlideService = {
   createNewSlide,
   getSlidesByPresentationId,
@@ -188,6 +210,7 @@ const SlideService = {
   createNewOption,
   changeSlideType,
   deleteSlideType,
+  resetVote,
 };
 
 export default SlideService;

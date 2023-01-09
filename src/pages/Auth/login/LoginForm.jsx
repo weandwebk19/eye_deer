@@ -41,7 +41,7 @@ const LoginForm = () => {
         setMessage(res.message);
         setIsError(false);
         setTimeout(() => {
-          navigate("/home");
+          navigate(-2);
         }, 1000);
       } else {
         setMessage(res.message);

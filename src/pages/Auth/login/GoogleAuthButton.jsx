@@ -57,7 +57,7 @@ const GoogleAuthButton = () => {
         navigate("/register");
       }
       if (res.success === true) {
-        navigate(-1);
+        navigate(-2);
       }
     })();
   }
