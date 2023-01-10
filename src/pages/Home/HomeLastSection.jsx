@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import ReactGA from "react-ga";
 import { useNavigate } from "react-router-dom";
 
 import { Box, Grid, Typography } from "@mui/material";
@@ -26,6 +27,10 @@ const HomeLastSection = ({ fullname, user }) => {
     })();
   }, []);
 
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname);
+  }, []);
+
   const navigate = useNavigate();
 
   const dashboardEyeDeerTitle = useRef();
@@ -36,6 +41,10 @@ const HomeLastSection = ({ fullname, user }) => {
   };
 
   const handleNavigatePresentation = () => {
+    ReactGA.event({
+      action: "test action",
+      label: "test label",
+    });
     navigate("/presentation-management");
   };
 

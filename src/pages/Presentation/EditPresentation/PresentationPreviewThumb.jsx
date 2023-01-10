@@ -32,7 +32,12 @@ import DeleteSlideDialog from "./DeleteSlideDialog";
 //   }
 // };,
 
-const PresentationPreviewThumb = ({ index, slide, handleDeleteSlide }) => {
+const PresentationPreviewThumb = ({
+  index,
+  slide,
+  handleDeleteSlide,
+  roleType,
+}) => {
   const navigate = useNavigate();
   return (
     <Paper
@@ -55,53 +60,55 @@ const PresentationPreviewThumb = ({ index, slide, handleDeleteSlide }) => {
           p: 1,
         }}
       >
-        <Box sx={{ display: "flex", flexDirection: "column", mr: 1 }}>
-          <Tooltip
-            key={`duplicate-${slide.id}`}
-            title="Duplicate"
-            placement="right"
-          >
-            <StyledButton variant="simple">
-              <ContentCopyIcon sx={{ height: "14px" }} />
-            </StyledButton>
-          </Tooltip>
-          <Tooltip key={`hide-${slide.id}`} title="Hide" placement="right">
-            <StyledButton variant="simple">
-              <VisibilityOffOutlinedIcon sx={{ height: "14px" }} />
-            </StyledButton>
-          </Tooltip>
-          <Tooltip key={`reset-${slide.id}`} title="Reset" placement="right">
-            <StyledButton variant="simple">
-              <RefreshIcon sx={{ height: "14px" }} />
-            </StyledButton>
-          </Tooltip>
-          {(() => {
-            const content = (
-              <Tooltip
-                key={`delete-${slide.id}`}
-                title="Delete"
-                placement="right"
-              >
-                <StyledButton variant="simple">
-                  <DeleteOutlineOutlinedIcon sx={{ height: "14px" }} />
-                </StyledButton>
-              </Tooltip>
-            );
-            return (
-              <FormDialog
-                FormDialog
-                content={content}
-                title={`delete slide ${index}`}
-                variant={null}
-                selfClose={true}
-              >
-                <DeleteSlideDialog
-                  handleDeleteSlide={() => handleDeleteSlide(slide?.id)}
-                />
-              </FormDialog>
-            );
-          })()}
-        </Box>
+        {roleType !== 3 && (
+          <Box sx={{ display: "flex", flexDirection: "column", mr: 1 }}>
+            <Tooltip
+              key={`duplicate-${slide.id}`}
+              title="Duplicate"
+              placement="right"
+            >
+              <StyledButton variant="simple">
+                <ContentCopyIcon sx={{ height: "14px" }} />
+              </StyledButton>
+            </Tooltip>
+            <Tooltip key={`hide-${slide.id}`} title="Hide" placement="right">
+              <StyledButton variant="simple">
+                <VisibilityOffOutlinedIcon sx={{ height: "14px" }} />
+              </StyledButton>
+            </Tooltip>
+            <Tooltip key={`reset-${slide.id}`} title="Reset" placement="right">
+              <StyledButton variant="simple">
+                <RefreshIcon sx={{ height: "14px" }} />
+              </StyledButton>
+            </Tooltip>
+            {(() => {
+              const content = (
+                <Tooltip
+                  key={`delete-${slide.id}`}
+                  title="Delete"
+                  placement="right"
+                >
+                  <StyledButton variant="simple">
+                    <DeleteOutlineOutlinedIcon sx={{ height: "14px" }} />
+                  </StyledButton>
+                </Tooltip>
+              );
+              return (
+                <FormDialog
+                  FormDialog
+                  content={content}
+                  title={`delete slide ${index}`}
+                  variant={null}
+                  selfClose={true}
+                >
+                  <DeleteSlideDialog
+                    handleDeleteSlide={() => handleDeleteSlide(slide?.id)}
+                  />
+                </FormDialog>
+              );
+            })()}
+          </Box>
+        )}
         <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
           <Typography>{index}.</Typography>
           <Paper
@@ -165,6 +172,7 @@ PresentationPreviewThumb.propTypes = {
   index: PropTypes.number,
   slide: PropTypes.object,
   handleDeleteSlide: PropTypes.func,
+  roleType: PropTypes.number.isRequired,
   // iscurrent: PropTypes.bool.isRequired,
   // handleClick: PropTypes.func.isRequired,
   // menulist: PropTypes.arrayOf(PropTypes.object).isRequired,

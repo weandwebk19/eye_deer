@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -36,6 +36,17 @@ const ParticipantQuestionBox = ({
   } = useForm();
 
   const [inputValue, setInputValue] = useState("");
+  const questionsEndRef = useRef(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      scrollToBottom();
+    }, 0);
+  }, [chatQuestions]);
+
+  const scrollToBottom = () => {
+    questionsEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const handleSendQuestion = (questionFormData) => {
     socket.emit("PARTICIPANT_SEND_QUESTION", {
@@ -65,6 +76,7 @@ const ParticipantQuestionBox = ({
         {chatQuestions.map((question) => {
           return <ParticipantQuestionContent question={question} code={code} />;
         })}
+        <Box ref={questionsEndRef} />
       </Box>
 
       <Box sx={{ mt: 4 }}>
@@ -97,12 +109,13 @@ const ParticipantQuestionBox = ({
 ParticipantQuestionBox.propTypes = {
   chatQuestions: PropTypes.arrayOf(PropTypes.object),
   code: PropTypes.string,
-  handleChangeChatQuestions: PropTypes.func.isRequired,
+  handleChangeChatQuestions: PropTypes.func,
 };
 
 ParticipantQuestionBox.defaultProps = {
   chatQuestions: [],
   code: "",
+  handleChangeChatQuestions: () => {},
 };
 
 export default ParticipantQuestionBox;

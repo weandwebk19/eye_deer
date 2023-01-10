@@ -66,9 +66,8 @@ const PresentationPreviewList = ({
     const currentSlide = slideList.find((slide) => slide.id === slideId);
     const index = slideList.indexOf(currentSlide);
     slideList.splice(index, 1);
-    handleChangeSlideList(slideList);
-
     await SlideService.removeSlide(slideId);
+    handleChangeSlideList(slideList);
   };
 
   return (
@@ -77,7 +76,7 @@ const PresentationPreviewList = ({
         className="presentation-preview-list__add-button"
         sx={{ position: "sticky", top: 0, zIndex: 1, mb: 2 }}
       >
-        {roleType != 3 && (
+        {roleType !== 3 && (
           <FormDialog
             content="+ new slide"
             title="Add slide"
@@ -104,6 +103,7 @@ const PresentationPreviewList = ({
                 index={i + 1}
                 slide={slide}
                 handleDeleteSlide={handleDeleteSlide}
+                roleType={roleType}
               />
             </Box>
           );

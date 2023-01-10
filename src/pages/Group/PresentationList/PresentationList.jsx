@@ -258,7 +258,6 @@ const PresentationList = ({ name, picture, contentChips }) => {
                   }))(presentation)}
                   handleClick={() => {
                     navigate(`./presentation/${presentation.id}/1/edit`);
-                    console.log(navigate);
                   }}
                   handleChange={() => {
                     console.log(`${presentation.i + 1} handle change`);

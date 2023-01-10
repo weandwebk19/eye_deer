@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ReactGA from "react-ga";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { useSelector } from "react-redux";
@@ -11,9 +12,12 @@ import PrivateRoute from "routes/PrivateRoute";
 import { SnackBox } from "components/SnackBox";
 
 import "./App.scss";
+import config from "./config";
 import { SocketContext, socket } from "./context/socket";
 import { privateRoutes, publicRoutes } from "./routes";
 import { appTheme } from "./themes/theme";
+
+ReactGA.initialize(config.TRACKING_ID);
 
 const App = () => {
   const queryClient = new QueryClient();

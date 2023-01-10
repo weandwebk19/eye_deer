@@ -33,6 +33,7 @@ const ChatBox = ({ chatMessages, setChatMessages, code }) => {
   const user = currentUser?.user;
 
   useEffect(() => {
+    console.log(user);
     setTimeout(() => {
       scrollToBottom();
     }, 0);
@@ -58,6 +59,7 @@ const ChatBox = ({ chatMessages, setChatMessages, code }) => {
       <form onSubmit={handleSubmit(handleSendMessage)}>
         <Box className="chat-box">
           {chatMessages.map((msg) => {
+            console.log(msg.user);
             const side = msg.user.id === user.id ? "right" : "left";
             return (
               <ChatMsg

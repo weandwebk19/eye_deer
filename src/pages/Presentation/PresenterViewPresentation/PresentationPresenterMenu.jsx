@@ -146,6 +146,11 @@ const PresentationPresenterMenu = ({
               return prevChatQuestions.concat(questionInfo);
             } else return prevChatQuestions;
           });
+          setPopupMessages((prevChatMessages) => {
+            return prevChatMessages.concat(
+              <PositionedSnackbar message="new question arrived" />
+            );
+          });
         });
       } catch (err) {
         console.log(err);
