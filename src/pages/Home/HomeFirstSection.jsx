@@ -9,8 +9,8 @@ const HomeFirstSection = () => {
       <Box sx={{ flexGrow: 1 }}>
         <StyledHeadingTypography variant="h5">***</StyledHeadingTypography>
         <StyledHeadingTypography variant="h5">
-          eyedeer is a game-based learning platform where folks join, answer
-          questions, and compete against each other.
+          eyedeer is an easy-to-build presentations web application with no
+          installations or downloads required and it's totally free!
         </StyledHeadingTypography>
         <Box
           component="img"
@@ -26,14 +26,14 @@ const HomeFirstSection = () => {
           draggable={false}
         />
         <Typography>
-          it is a super fun and competitive way for those who want to practice
-          and learn content.
+          create an interactive experience letting everyone vote, ask questions,
+          and interact throughout.
           <br />
           <br />
-          Instead of simply answering questions individually, folks are
-          challenged to answer them correctly and as quickly as possible against
-          another opponent. To make it even harder, joined people has only a
-          limited amount of time to answer.
+          interact with your audience using real-time voting.
+          <br />
+          build an immediate connection with your audience and make them a part
+          of your presentation.
         </Typography>
       </Box>
     </Box>

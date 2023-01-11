@@ -230,8 +230,8 @@ const PresentationList = ({ name, picture, contentChips }) => {
           >
             {roleType !== 3 && (
               <FormDialog
-                content="+ already presentation"
-                title="Add already presentation"
+                content="+ public presentation"
+                title="find and add a public presentation"
                 variant="secondary"
               >
                 <AddAlreadyPresentation />
@@ -240,7 +240,7 @@ const PresentationList = ({ name, picture, contentChips }) => {
             {roleType !== 3 && (
               <FormDialog
                 content="+ new presentation"
-                title="Create new presentation"
+                title="create new presentation"
                 variant="primary"
               >
                 <AddPresentation />

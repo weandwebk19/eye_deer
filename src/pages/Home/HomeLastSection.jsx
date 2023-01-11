@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Box, Grid, Typography } from "@mui/material";
@@ -6,49 +6,25 @@ import { Box, Grid, Typography } from "@mui/material";
 import useSize from "@react-hook/size";
 import AddPresentation from "pages/Group/PresentationList/AddPresentation";
 import PropTypes from "prop-types";
+import PresentationService from "services/presentationService";
 
 import { AvatarButton, StyledButton } from "components/Button";
 import { CarpetCard } from "components/Card";
+import { ContentBox } from "components/ContentBox";
 import { FormDialog } from "components/Dialog";
-import { SnackBox } from "components/SnackBox";
 import { StyledHeadingTypography } from "components/Typography/StyledTypography";
 
 const HomeLastSection = ({ fullname, user }) => {
-  const mockupData = {
-    cards: [
-      {
-        id: 1,
-        name: "1. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
-        picture: "",
-        quiz: 11,
-        member: 102,
-      },
-      {
-        id: 2,
+  const [presentations, setPresentations] = useState([]);
 
-        name: "2. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
-        picture: "",
-        quiz: 12,
-        member: 92,
-      },
-      {
-        id: 3,
-
-        name: "3. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
-        picture: "",
-        quiz: 13,
-        member: 122,
-      },
-      {
-        id: 4,
-
-        name: "4. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
-        picture: "",
-        quiz: 14,
-        member: 142,
-      },
-    ],
-  };
+  useEffect(() => {
+    (async () => {
+      const presentations = await PresentationService.getMyPresentations();
+      setPresentations(
+        presentations.filter((presentation) => presentation.status === 1)
+      );
+    })();
+  }, []);
 
   const navigate = useNavigate();
 
@@ -91,8 +67,9 @@ const HomeLastSection = ({ fullname, user }) => {
                 {fullname}
               </StyledHeadingTypography>
               <Typography>
-                join eyedeer. <br />- world’s largest free gamify learning
-                platform.
+                eyedeer. <br />- allows everyone to ask questions, to get
+                clarification or a clearer understanding on subjects resulting
+                in a more fulfilling learning experience.
               </Typography>
             </Box>
             <AvatarButton picture={user?.picture} fullname={fullname} />
@@ -161,7 +138,7 @@ const HomeLastSection = ({ fullname, user }) => {
         sx={{ height: `calc(100% - ${typoHeight}px - 5.60px)` }}
       >
         <Typography variant="h6" gutterBottom ref={dashboardEyeDeerTitle}>
-          my eyedeer(s)
+          my public eyedeer(s)
         </Typography>
         <Box
           id="dashboard-quizzes-list"
@@ -169,16 +146,23 @@ const HomeLastSection = ({ fullname, user }) => {
           // spacing={2}
           sx={{ width: "100%" }}
         >
-          {mockupData.cards.map((card, i) => {
+          {presentations.map((presentation, i) => {
             return (
-              <Box className="dashboard-quiz" key={card.id}>
-                <CarpetCard
-                  name={card.name}
-                  picture={card.picture}
-                  contentChips={(({ quiz, member }) => ({
-                    quiz,
-                    member,
-                  }))(card)}
+              <Box className="dashboard-quiz" key={presentation.id}>
+                <ContentBox
+                  name={presentation.name}
+                  index={i}
+                  contentChips={(({ slides, code, status }) => ({
+                    slides,
+                    code,
+                    status: status == 0 ? "private" : "public",
+                  }))(presentation)}
+                  handleClick={() => {
+                    navigate(`../presentation/${presentation.id}/1/edit`);
+                  }}
+                  handleChange={() => {
+                    console.log(`${presentation.i + 1} handle change`);
+                  }}
                 />
               </Box>
             );

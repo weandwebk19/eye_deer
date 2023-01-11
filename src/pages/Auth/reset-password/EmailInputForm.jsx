@@ -20,14 +20,12 @@ import { StyledPaper } from "components/Paper";
 import { InstantMessage } from "components/Popup";
 import { StyledInputField } from "components/TextField/StyledInputField";
 import { StyledHeadingTypography } from "components/Typography";
+import UserService from "services/userService";
 
-import GoogleAuthButton from "./GoogleAuthButton";
 
-const LoginForm = () => {
+const EmailInputForm = () => {
   const [isError, setIsError] = useState("");
   const [message, setMessage] = useState("");
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const {
     register,
@@ -36,13 +34,13 @@ const LoginForm = () => {
   } = useForm();
   const onSubmit = async (data) => {
     try {
-      const res = await dispatch(login(data));
+      // call api to reset password
+      const res = await UserService.generateResetPasswordLink(data.email);
+      
+      // handle res
       if (res.success === true) {
         setMessage(res.message);
         setIsError(false);
-        setTimeout(() => {
-          navigate("/home");
-        }, 1000);
       } else {
         setMessage(res.message);
         setIsError(true);
@@ -57,7 +55,7 @@ const LoginForm = () => {
     if (isError) {
       setTimeout(() => {
         setIsError("");
-      }, 5000);
+      }, );
     }
   }, [isError]);
 
@@ -87,7 +85,7 @@ const LoginForm = () => {
           }}
         >
           <StyledHeadingTypography variant="h3" gutterBottom>
-            log in.
+            reset password
           </StyledHeadingTypography>
           <Box
             component="form"
@@ -102,78 +100,30 @@ const LoginForm = () => {
                   customvariant="light"
                   required
                   fullWidth
-                  id="username"
-                  label="username"
-                  name="username"
-                  autoComplete="username"
-                  {...register("username", {
+                  id="email"
+                  label="email"
+                  name="email"
+                  autoComplete="email"
+                  {...register("email", {
                     required: "required",
-                    // validate: (value) => value !== "admin" || "nice try!",
+                    pattern: {
+                      value: /^\S+@\S+$/i,
+                      message: "invalid email address",
+                    },
                   })}
                 />
-                {errors.username ? (
-                  <>
-                    {errors.username.type === "required" && (
-                      <div
-                        style={{
-                          color: "darkred",
-                          fontSize: "0.88rem",
-                          position: "absolute",
-                        }}
-                      >
-                        {errors.username.message}
-                      </div>
-                    )}
-                    {/* {errors.username.type === "validate" && (
-                      <div
-                        style={{
-                          color: "darkred",
-                          fontSize: "0.88rem",
-                          position: "absolute",
-                        }}
-                      >
-                        {errors.username.message}
-                      </div>
-                    )} */}
-                  </>
+                {errors.email ? (
+                  <div
+                    style={{
+                      color: "darkred",
+                      fontSize: "0.88rem",
+                      position: "absolute",
+                      marginTop:  "5px",
+                    }}
+                  >
+                    {errors.email.message}
+                  </div>
                 ) : null}
-              </Grid>
-              <Grid item xs={12}>
-                <StyledInputField
-                  sx={{ mt: 2 }}
-                  variant="outlined"
-                  customvariant="light"
-                  required
-                  fullWidth
-                  name="password"
-                  label="password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  {...register("password", {
-                    required: "required",
-                  })}
-                />
-                <Grid container justifyContent="space-between">
-                  <Grid item>
-                    {errors.password ? (
-                      <div
-                        style={{
-                          color: "darkred",
-                          fontSize: "0.88rem",
-                          position: "absolute",
-                        }}
-                      >
-                        {errors.password.message}
-                      </div>
-                    ) : null}
-                  </Grid>
-                  <Grid item>
-                    <Link href="/reset-password" variant="body2">
-                      forgot password?
-                    </Link>
-                  </Grid>
-                </Grid>
               </Grid>
             </Grid>
             <StyledButton
@@ -182,12 +132,8 @@ const LoginForm = () => {
               variant="primary"
               sx={{ mt: 6 }}
             >
-              Log In
+              reset password
             </StyledButton>
-            <Typography sx={{ mt: 4, mb: 4, textAlign: "center" }}>
-              or
-            </Typography>
-            <GoogleAuthButton />
             <Grid
               container
               justifyContent="flex-end"
@@ -195,8 +141,8 @@ const LoginForm = () => {
               sx={{ mt: 6 }}
             >
               <Grid item>
-                <Link href="/register" variant="body2">
-                  don't have an account? <b>sign up</b>
+                <Link href="/login" variant="body2">
+                  have you already an account? <b>log in</b>
                 </Link>
               </Grid>
             </Grid>
@@ -216,4 +162,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default EmailInputForm;

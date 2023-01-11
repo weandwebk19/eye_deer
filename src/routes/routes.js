@@ -4,6 +4,7 @@ import PresenatationParticipantView from "pages/Presentation/ParticipantViewPres
 import Confirmation from "../pages/Auth/confirmation";
 import Login from "../pages/Auth/login";
 import Register from "../pages/Auth/register";
+import ResetPassword from "../pages/Auth/reset-password";
 import Group from "../pages/Group";
 import Home from "../pages/Home";
 import Play from "../pages/Play";
@@ -16,6 +17,7 @@ const publicRoutes = [
   { path: "/", component: Play },
   { path: "/register/*", component: Register },
   { path: "/login/*", component: Login },
+  { path: "/reset-password/*", component: ResetPassword },
   { path: "/confirmation/*", component: Confirmation },
 ];
 // private Routes
