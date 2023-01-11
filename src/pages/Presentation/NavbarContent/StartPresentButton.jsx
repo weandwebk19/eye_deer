@@ -16,12 +16,15 @@ const StartPresentButton = ({ slideStart }) => {
   const [isError, setIsError] = useState("");
   const [message, setMessage] = useState("");
   const socket = useContext(SocketContext);
-  const { groupId } = useParams();
+  const { groupId, id } = useParams();
 
   const handleStartPresent = (e) => {
     if (slideStart.id) {
       if (groupId) {
-        socket.emit("CLIENT_SEND_IS_GROUP_STARTED", groupId);
+        socket.emit("CLIENT_SEND_IS_GROUP_STARTED", {
+          groupId,
+          presentationId: id,
+        });
         socket.on("SERVER_SEND_GROUP_NOT_STARTED", () => {
           navigate(`../${slideStart.id}/presenting`);
         });

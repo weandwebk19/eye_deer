@@ -103,8 +103,8 @@ const PresentationList = ({ name, picture, contentChips }) => {
 
   useEffect(() => {
     // listen start event
-    socket.on("SERVER_SEND_HOST_START_PRESENT", (data) => {
-      const { presentationId } = data;
+    socket.emit("GET_PRESENTATION_PRESENTING_IN_GROUP", groupId);
+    socket.on("SERVER_SEND_PRESENTATION_PRESENTING", (presentationId) => {
       setPresentationStart(presentationId);
     });
   }, []);
