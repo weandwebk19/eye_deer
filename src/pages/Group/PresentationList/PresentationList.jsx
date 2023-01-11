@@ -14,9 +14,11 @@ import {
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 import Star1 from "assets/imgs/star-1.svg";
+import { socket } from "context/socket";
 import SettingPresentation from "pages/PresentationManagement/SettingPresentation";
 import PropTypes from "prop-types";
 import GroupService from "services/groupService";
+import PresentationService from "services/presentationService";
 
 import { ContentBox } from "components/ContentBox";
 import { FormDialog } from "components/Dialog";
@@ -36,8 +38,8 @@ const PresentationList = ({ name, picture, contentChips }) => {
   const [removePresentationInGroup, setRemovePresentationInGroup] =
     useState(false);
   const [settingPresentation, setSettingPresentation] = useState(false);
+  const [presentationStart, setPresentationStart] = useState();
   const roleType = useSelector((state) => state.role.roleType);
-  console.log(roleType);
 
   const handleGroupNavigate = () => {
     navigate("/group");
@@ -100,43 +102,13 @@ const PresentationList = ({ name, picture, contentChips }) => {
     })();
   }, [removePresentationInGroup, settingPresentation]);
 
-  // data to ui test
-  const mockupData = {
-    cards: [
-      {
-        id: 1,
-        index: 1,
-        name: "1. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
-        picture: "",
-        quiz: 11,
-        member: 102,
-      },
-      {
-        id: 2,
-        index: 2,
-        name: "2. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
-        picture: "",
-        quiz: 12,
-        member: 92,
-      },
-      {
-        id: 3,
-        index: 3,
-        name: "3. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
-        picture: "",
-        quiz: 13,
-        member: 122,
-      },
-      {
-        id: 4,
-        index: 4,
-        name: "4. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
-        picture: "",
-        quiz: 14,
-        member: 142,
-      },
-    ],
-  };
+  useEffect(() => {
+    // listen start event
+    socket.emit("GET_PRESENTATION_PRESENTING_IN_GROUP", groupId);
+    socket.on("SERVER_SEND_PRESENTATION_PRESENTING", (presentationId) => {
+      setPresentationStart(presentationId);
+    });
+  }, []);
 
   return (
     <Box>
@@ -251,13 +223,26 @@ const PresentationList = ({ name, picture, contentChips }) => {
                 <ContentBox
                   name={presentation.name}
                   index={i}
-                  contentChips={(({ slides, code, status }) => ({
+                  contentChips={(({ slides, code, status, isPresenting }) => ({
                     slides,
                     code,
                     status: status == 0 ? "private" : "public",
+                    isPresenting:
+                      presentationStart == presentation.id ? "true" : "false",
                   }))(presentation)}
                   handleClick={() => {
-                    navigate(`./presentation/${presentation.id}/1/edit`);
+                    (async () => {
+                      const firstSlideRes =
+                        await PresentationService.getFirstSlide(
+                          presentation.id
+                        );
+                      if (firstSlideRes.success === true) {
+                        const firstSlide = firstSlideRes.data;
+                        navigate(
+                          `./presentation/${presentation.id}/${firstSlide.id}/edit`
+                        );
+                      }
+                    })();
                   }}
                   handleChange={() => {
                     console.log(`${presentation.i + 1} handle change`);

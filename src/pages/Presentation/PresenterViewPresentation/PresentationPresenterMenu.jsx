@@ -58,6 +58,7 @@ const PresentationPresenterMenu = ({
   const params = useParams();
   const slideId = params.slideid;
   const presentationId = params.id;
+  const { groupId } = params;
   const currentUser = useSelector((state) => state.auth.user);
   const user = currentUser?.user;
   // const currentSlide = slideList.find((slide) => slide.id === Number(slideId));
@@ -122,13 +123,13 @@ const PresentationPresenterMenu = ({
           setCode(res.data);
         }
 
-        const chatMessagesRes = await PresentationService.getChatMessages(
-          presentationId
-        );
-        // console.log(chatMessagesRes);
-        if (chatMessagesRes.success === true) {
-          setChatMessages(chatMessagesRes.data);
-        }
+        // const chatMessagesRes = await PresentationService.getChatMessages(
+        //   presentationId
+        // );
+        // if (chatMessagesRes.success === true) {
+        //   setChatMessages(chatMessagesRes.data);
+        // }
+
         // handle get list questions from server when client didmount
         socket.emit("CLIENT_GET_LIST_QUESTIONS", { code, presentationId });
         socket.on("SERVER_SEND_LIST_QUESTIONS", (listQuestions) => {
@@ -257,7 +258,11 @@ const PresentationPresenterMenu = ({
               sx={{ mt: 2, ml: 2 }}
               onClick={() => {
                 navigate("../edit");
-                socket.emit("HOST_END_PRESENT", { code, presentationId });
+                socket.emit("HOST_END_PRESENT", {
+                  code,
+                  presentationId,
+                  groupId,
+                });
               }}
             >
               <CloseIcon />

@@ -214,26 +214,26 @@ const getChatQuestions = async (presentationId) => {
     };
   }
 };
-const getChatMessages = async (presentationId) => {
-  try {
-    const res = await axios.get(
-      `presentations/${presentationId}/chat/messages`
-    );
+// const getChatMessages = async (presentationId) => {
+//   try {
+//     const res = await axios.get(
+//       `presentations/${presentationId}/chat/messages`
+//     );
 
-    return res.data;
-  } catch (err) {
-    if (err.response !== undefined) {
-      return {
-        success: false,
-        message: err.response.data.message,
-      };
-    }
-    return {
-      success: false,
-      message: err.message,
-    };
-  }
-};
+//     return res.data;
+//   } catch (err) {
+//     if (err.response !== undefined) {
+//       return {
+//         success: false,
+//         message: err.response.data.message,
+//       };
+//     }
+//     return {
+//       success: false,
+//       message: err.message,
+//     };
+//   }
+// };
 
 const findPresentationById = async (presentationId) => {
   try {
@@ -289,6 +289,25 @@ const updatePresentation = async (data) => {
   }
 };
 
+const getFirstSlide = async (presentationId) => {
+  try {
+    const res = await axios.get(`presentations/${presentationId}/slides/first`);
+
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    if (err.response !== undefined) {
+      return {
+        success: false,
+        message: err.response.data.message,
+      };
+    }
+    return {
+      success: false,
+      message: err.message,
+    };
+  }
+};
 const PresentationService = {
   createNewPresentation,
   updatePresentation,
@@ -300,8 +319,9 @@ const PresentationService = {
   getMyCoPresentations,
   findPresentationsByName,
   getChatQuestions,
-  getChatMessages,
+  // getChatMessages,
   findPresentationById,
+  getFirstSlide,
 };
 
 export default PresentationService;

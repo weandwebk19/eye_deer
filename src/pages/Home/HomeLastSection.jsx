@@ -167,7 +167,18 @@ const HomeLastSection = ({ fullname, user }) => {
                     status: status == 0 ? "private" : "public",
                   }))(presentation)}
                   handleClick={() => {
-                    navigate(`../presentation/${presentation.id}/1/edit`);
+                    (async () => {
+                      const firstSlideRes =
+                        await PresentationService.getFirstSlide(
+                          presentation.id
+                        );
+                      if (firstSlideRes.success === true) {
+                        const firstSlide = firstSlideRes.data;
+                        navigate(
+                          `/presentation/${presentation.id}/${firstSlide.id}/edit`
+                        );
+                      }
+                    })();
                   }}
                   handleChange={() => {
                     console.log(`${presentation.i + 1} handle change`);
