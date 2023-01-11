@@ -239,7 +239,7 @@ const PresentationList = ({ name, picture, contentChips }) => {
                       if (firstSlideRes.success === true) {
                         const firstSlide = firstSlideRes.data;
                         navigate(
-                          `/presentation/${presentation.id}/${firstSlide.id}/edit`
+                          `./presentation/${presentation.id}/${firstSlide.id}/edit`
                         );
                       }
                     })();
