@@ -14,6 +14,7 @@ import {
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 import Star1 from "assets/imgs/star-1.svg";
+import { socket } from "context/socket";
 import SettingPresentation from "pages/PresentationManagement/SettingPresentation";
 import PropTypes from "prop-types";
 import GroupService from "services/groupService";
@@ -36,8 +37,8 @@ const PresentationList = ({ name, picture, contentChips }) => {
   const [removePresentationInGroup, setRemovePresentationInGroup] =
     useState(false);
   const [settingPresentation, setSettingPresentation] = useState(false);
+  const [presentationStart, setPresentationStart] = useState();
   const roleType = useSelector((state) => state.role.roleType);
-  console.log(roleType);
 
   const handleGroupNavigate = () => {
     navigate("/group");
@@ -99,6 +100,14 @@ const PresentationList = ({ name, picture, contentChips }) => {
       console.log(data);
     })();
   }, [removePresentationInGroup, settingPresentation]);
+
+  useEffect(() => {
+    // listen start event
+    socket.emit("GET_PRESENTATION_PRESENTING_IN_GROUP", groupId);
+    socket.on("SERVER_SEND_PRESENTATION_PRESENTING", (presentationId) => {
+      setPresentationStart(presentationId);
+    });
+  }, []);
 
   // data to ui test
   const mockupData = {
@@ -251,10 +260,12 @@ const PresentationList = ({ name, picture, contentChips }) => {
                 <ContentBox
                   name={presentation.name}
                   index={i}
-                  contentChips={(({ slides, code, status }) => ({
+                  contentChips={(({ slides, code, status, isPresenting }) => ({
                     slides,
                     code,
                     status: status == 0 ? "private" : "public",
+                    isPresenting:
+                      presentationStart == presentation.id ? "true" : "false",
                   }))(presentation)}
                   handleClick={() => {
                     navigate(`./presentation/${presentation.id}/1/edit`);
