@@ -1,3 +1,4 @@
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import PlayCircleFilledWhiteOutlinedIcon from "@mui/icons-material/PlayCircleFilledWhiteOutlined";
@@ -8,15 +9,35 @@ import PropTypes from "prop-types";
 import PresentationService from "services/presentationService";
 
 import { StyledButton } from "components/Button";
+import { InstantMessage } from "components/Popup";
 
 const StartPresentButton = ({ slideStart }) => {
   const navigate = useNavigate();
+  const [isError, setIsError] = useState("");
+  const [message, setMessage] = useState("");
+  const socket = useContext(SocketContext);
+  const { groupId } = useParams();
 
   const handleStartPresent = (e) => {
     if (slideStart.id) {
-      navigate(`../${slideStart.id}/presenting`);
+      if (groupId) {
+        socket.emit("CLIENT_SEND_IS_GROUP_STARTED", groupId);
+        socket.on("SERVER_SEND_GROUP_NOT_STARTED", () => {
+          navigate(`../${slideStart.id}/presenting`);
+        });
+
+        socket.on("SERVER_SEND_GROUP_STARTED", () => {
+          setIsError(true);
+          setMessage(
+            "Group is presentating. You must end that presentation to start."
+          );
+        });
+      } else {
+        navigate(`../${slideStart.id}/presenting`);
+      }
     }
   };
+
   return (
     <Box>
       <StyledButton
@@ -32,16 +53,19 @@ const StartPresentButton = ({ slideStart }) => {
       >
         <PlayCircleFilledWhiteOutlinedIcon />
       </StyledButton>
+      {(() => {
+        if (isError === false) {
+          return <InstantMessage variant="success" message={message} />;
+        } else if (isError === true) {
+          return <InstantMessage variant="error" message={message} />;
+        }
+      })()}
     </Box>
   );
 };
 
 StartPresentButton.propTypes = {
-  slideStart: PropTypes.object,
-};
-
-StartPresentButton.defaultProps = {
-  slideStart: null,
+  slideStart: PropTypes.object.isRequired,
 };
 
 export default StartPresentButton;

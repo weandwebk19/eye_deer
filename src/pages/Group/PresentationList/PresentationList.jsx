@@ -14,6 +14,8 @@ import {
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 import Star1 from "assets/imgs/star-1.svg";
+import { socket } from "context/socket";
+import SettingPresentation from "pages/PresentationManagement/SettingPresentation";
 import PropTypes from "prop-types";
 import GroupService from "services/groupService";
 
@@ -22,9 +24,8 @@ import { FormDialog } from "components/Dialog";
 import { SearchField } from "components/TextField";
 
 import "../styles.scss";
-import SettingPresentation from "pages/PresentationManagement/SettingPresentation";
-import AddPresentation from "./AddPresentation";
 import AddAlreadyPresentation from "./AddAlreadyPresentation";
+import AddPresentation from "./AddPresentation";
 import RemovePresentationInGroup from "./RemovePresentationInGroup";
 
 const PresentationList = ({ name, picture, contentChips }) => {
@@ -33,10 +34,11 @@ const PresentationList = ({ name, picture, contentChips }) => {
   const params = useParams();
   const groupId = params.id;
   const [presentationList, setPresentationList] = useState([]);
-  const [removePresentationInGroup, setRemovePresentationInGroup] = useState(false);
+  const [removePresentationInGroup, setRemovePresentationInGroup] =
+    useState(false);
   const [settingPresentation, setSettingPresentation] = useState(false);
+  const [presentationStart, setPresentationStart] = useState();
   const roleType = useSelector((state) => state.role.roleType);
-  console.log(roleType);
 
   const handleGroupNavigate = () => {
     navigate("/group");
@@ -52,7 +54,7 @@ const PresentationList = ({ name, picture, contentChips }) => {
 
   const handleSettingPresentation = () => {
     setSettingPresentation(true);
-  }
+  };
 
   const createRemovePresentationButton = (props) => {
     const removePresentationButton = (
@@ -66,7 +68,7 @@ const PresentationList = ({ name, picture, contentChips }) => {
   const createSettingPresentationButton = (props) => {
     const settingPresentationButton = (
       <FormDialog content="setting" title="Setting Presentation">
-        <SettingPresentation {...props}/>
+        <SettingPresentation {...props} />
       </FormDialog>
     );
     return settingPresentationButton;
@@ -98,6 +100,14 @@ const PresentationList = ({ name, picture, contentChips }) => {
       console.log(data);
     })();
   }, [removePresentationInGroup, settingPresentation]);
+
+  useEffect(() => {
+    // listen start event
+    socket.on("SERVER_SEND_HOST_START_PRESENT", (data) => {
+      const { presentationId } = data;
+      setPresentationStart(presentationId);
+    });
+  }, []);
 
   // data to ui test
   const mockupData = {
@@ -215,7 +225,7 @@ const PresentationList = ({ name, picture, contentChips }) => {
             className="button-group"
             sx={{
               display: "flex",
-              gap: "24px"
+              gap: "24px",
             }}
           >
             {roleType !== 3 && (
@@ -250,10 +260,12 @@ const PresentationList = ({ name, picture, contentChips }) => {
                 <ContentBox
                   name={presentation.name}
                   index={i}
-                  contentChips={(({ slides, code, status }) => ({
+                  contentChips={(({ slides, code, status, isPresenting }) => ({
                     slides,
                     code,
-                    status: status == 0 ? "private" :  "public"
+                    status: status == 0 ? "private" : "public",
+                    isPresenting:
+                      presentationStart == presentation.id ? "true" : "false",
                   }))(presentation)}
                   handleClick={() => {
                     navigate(`./presentation/${presentation.id}/1/edit`);
