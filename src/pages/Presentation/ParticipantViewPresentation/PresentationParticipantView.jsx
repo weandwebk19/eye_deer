@@ -66,12 +66,13 @@ const PresenatationParticipantView = () => {
         //     )
         //   );
         // }
-        const chatMessagesRes = await PresentationService.getChatMessages(
-          presentationId
-        );
-        if (chatMessagesRes.success === true) {
-          setChatMessages(chatMessagesRes.data);
-        }
+
+        // const chatMessagesRes = await PresentationService.getChatMessages(
+        //   presentationId
+        // );
+        // if (chatMessagesRes.success === true) {
+        //   setChatMessages(chatMessagesRes.data);
+        // }
 
         // handle join present
         socket.emit("CLIENT_SEND_JOIN_PRESENTATION", {

@@ -18,6 +18,7 @@ import { socket } from "context/socket";
 import SettingPresentation from "pages/PresentationManagement/SettingPresentation";
 import PropTypes from "prop-types";
 import GroupService from "services/groupService";
+import PresentationService from "services/presentationService";
 
 import { ContentBox } from "components/ContentBox";
 import { FormDialog } from "components/Dialog";
@@ -108,44 +109,6 @@ const PresentationList = ({ name, picture, contentChips }) => {
       setPresentationStart(presentationId);
     });
   }, []);
-
-  // data to ui test
-  const mockupData = {
-    cards: [
-      {
-        id: 1,
-        index: 1,
-        name: "1. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
-        picture: "",
-        quiz: 11,
-        member: 102,
-      },
-      {
-        id: 2,
-        index: 2,
-        name: "2. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
-        picture: "",
-        quiz: 12,
-        member: 92,
-      },
-      {
-        id: 3,
-        index: 3,
-        name: "3. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
-        picture: "",
-        quiz: 13,
-        member: 122,
-      },
-      {
-        id: 4,
-        index: 4,
-        name: "4. Unnamed card neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur",
-        picture: "",
-        quiz: 14,
-        member: 142,
-      },
-    ],
-  };
 
   return (
     <Box>
@@ -268,8 +231,18 @@ const PresentationList = ({ name, picture, contentChips }) => {
                       presentationStart == presentation.id ? "true" : "false",
                   }))(presentation)}
                   handleClick={() => {
-                    navigate(`./presentation/${presentation.id}/1/edit`);
-                    console.log(navigate);
+                    (async () => {
+                      const firstSlideRes =
+                        await PresentationService.getFirstSlide(
+                          presentation.id
+                        );
+                      if (firstSlideRes.success === true) {
+                        const firstSlide = firstSlideRes.data;
+                        navigate(
+                          `/presentation/${presentation.id}/${firstSlide.id}/edit`
+                        );
+                      }
+                    })();
                   }}
                   handleChange={() => {
                     console.log(`${presentation.i + 1} handle change`);
